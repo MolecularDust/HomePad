@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import Combine
 import ServiceManagement
 import Carbon.HIToolbox
 
@@ -90,7 +91,7 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 480)
         .fixedSize(horizontal: false, vertical: true)
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             hasAccessibility = Permissions.accessibility
             hasScreenRecording = Permissions.screenRecording
         }

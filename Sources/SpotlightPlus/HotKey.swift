@@ -102,9 +102,42 @@ final class HotKeyManager {
         guard handlerRef == nil else { return }
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(GetApplicationEventTarget(), { _, _, _ in
-            DispatchQueue.main.async { HotKeyManager.shared.onPress?() }
+            let manager = HotKeyManager.shared
+            if manager.probing {
+                manager.probeReceived = true       // our own test press: don't open the panel
+            } else {
+                DispatchQueue.main.async { manager.onPress?() }
+            }
             return noErr
         }, 1, &spec, nil, &handlerRef)
+    }
+
+    // MARK: Test press
+
+    fileprivate var probing = false
+    fileprivate var probeReceived = false
+
+    /// Presses the registered shortcut and reports whether it reached us. false means something else handled it
+    /// first (that app will react to the press too); nil means it couldn't be tested (no Accessibility permission).
+    func probe(_ shortcut: Shortcut, completion: @escaping (Bool?) -> Void) {
+        guard Permissions.accessibility else { completion(nil); return }
+        probing = true
+        probeReceived = false
+        var flags = CGEventFlags()
+        if shortcut.modifiers.contains(.command) { flags.insert(.maskCommand) }
+        if shortcut.modifiers.contains(.option) { flags.insert(.maskAlternate) }
+        if shortcut.modifiers.contains(.control) { flags.insert(.maskControl) }
+        if shortcut.modifiers.contains(.shift) { flags.insert(.maskShift) }
+        let source = CGEventSource(stateID: .hidSystemState)
+        for down in [true, false] {
+            let event = CGEvent(keyboardEventSource: source, virtualKey: CGKeyCode(shortcut.keyCode), keyDown: down)
+            event?.flags = flags
+            event?.post(tap: .cghidEventTap)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
+            probing = false
+            completion(probeReceived)
+        }
     }
 }
 
@@ -121,13 +154,26 @@ final class ShortcutStore: ObservableObject {
         registerCurrent(report: true)
     }
 
-    /// Registers the shortcut, then checks whether something else is known to use it.
+    /// Registers the shortcut, then checks whether something else gets it first: macOS's own shortcuts are
+    /// read from the system, anything else by pressing the shortcut and seeing if it reaches us.
     /// `report` shows the explanation dialog (unless the user already dismissed it for this shortcut).
     func registerCurrent(report: Bool = false) {
         let registered = HotKeyManager.shared.register(shortcut)
-        conflict = ShortcutConflict.identify(shortcut) ?? (registered ? nil : .unknown)
-        guard report, let owner = conflict, !ShortcutConflict.isDismissed(shortcut) else { return }
         let current = shortcut
-        DispatchQueue.main.async { ShortcutConflict.report(current, owner: owner) }
+        let wantsReport = report && !ShortcutConflict.isDismissed(current)
+
+        if let owner = ShortcutConflict.systemOwner(of: current) ?? (registered ? nil : .unknown) {
+            conflict = owner
+            if wantsReport { DispatchQueue.main.async { ShortcutConflict.report(current, owner: owner) } }
+            return
+        }
+        conflict = nil
+        guard wantsReport else { return }
+        HotKeyManager.shared.probe(current) { [weak self] received in
+            guard let self, received == false, self.shortcut == current else { return }
+            let owner = ShortcutConflict.appGuess(for: current) ?? .unknown
+            self.conflict = owner
+            ShortcutConflict.report(current, owner: owner)
+        }
     }
 }

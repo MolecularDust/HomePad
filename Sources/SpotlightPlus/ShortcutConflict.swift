@@ -4,8 +4,9 @@ import Carbon.HIToolbox
 /// Works out who else may be using a global shortcut, and tells the user.
 ///
 /// macOS accepts a second registration of the same key combination without an error, and gives apps no way to
-/// ask who owns a shortcut. So this combines what can be known: macOS's own shortcuts (read exactly from the
-/// system preferences) and well-known launcher apps that are running and use the shortcut by default (a best guess).
+/// ask who owns a shortcut. So a clash is only reported when it is shown: either it is one of macOS's own
+/// shortcuts (read exactly from the system preferences), or a test press of the shortcut didn't reach this app.
+/// A running app is named only as a "probably", after a test press has failed.
 enum ShortcutConflict {
     enum Owner: Equatable {
         case system(name: String)
@@ -26,13 +27,8 @@ enum ShortcutConflict {
 
     // MARK: Detection
 
-    /// nil means nothing known uses it.
-    static func identify(_ shortcut: Shortcut) -> Owner? {
-        systemOwner(of: shortcut) ?? appOwner(of: shortcut)
-    }
-
     /// macOS shortcuts that are switched on (ids from the com.apple.symbolichotkeys preference).
-    private static func systemOwner(of shortcut: Shortcut) -> Owner? {
+    static func systemOwner(of shortcut: Shortcut) -> Owner? {
         let names: [Int: String] = [
             60: "Select the previous input source", 61: "Select next source in Input menu",
             64: "Show Spotlight search", 65: "Show Finder search window",
@@ -59,8 +55,9 @@ enum ShortcutConflict {
         return nil
     }
 
-    /// Running apps that are known to claim this shortcut out of the box.
-    private static func appOwner(of shortcut: Shortcut) -> Owner? {
+    /// Only used to put a name to a clash the test press has already proven: a running app that claims this
+    /// shortcut by default. It is never reported on its own.
+    static func appGuess(for shortcut: Shortcut) -> Owner? {
         let option = NSEvent.ModifierFlags.option, command = NSEvent.ModifierFlags.command
         let known: [(app: String, key: Int, mods: NSEvent.ModifierFlags)] = [
             ("Gemini", kVK_Space, option), ("ChatGPT", kVK_Space, option),
@@ -111,11 +108,11 @@ enum ShortcutConflict {
             button("Open Keyboard Settings", openKeyboardSettings)
         case .app(let name, let url):
             alert.messageText = "\(keys) is probably used by \(name)"
-            alert.informativeText = "\(name) is running and uses \(keys) by default, so pressing it may open \(name) instead. macOS doesn't say which app owns a shortcut, so this is a best guess. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
+            alert.informativeText = "A test press of \(keys) didn't reach SpotlightPlus, so another app handles it first. \(name) is running and uses \(keys) by default, so it's the likely one, but macOS doesn't say which app owns a shortcut. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
             button("Open \(name)") { if let url { NSWorkspace.shared.open(url) } }
         case .unknown:
             alert.messageText = "\(keys) may already be in use"
-            alert.informativeText = "Another app seems to be using this shortcut, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
+            alert.informativeText = "A test press of this shortcut didn't reach SpotlightPlus, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
         }
         button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
         alert.addButton(withTitle: "Cancel")
