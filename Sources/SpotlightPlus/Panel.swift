@@ -39,6 +39,7 @@ final class SpotlightPanel: NSPanel {
         hasShadow = true
         hidesOnDeactivate = false
         isReleasedWhenClosed = false
+        isMovableByWindowBackground = true     // drag it by any empty area
 
         let effect = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
         effect.material = .popover

@@ -3,7 +3,10 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-swift build -c release
+# Record the real SDK in the binary. SwiftPM stamps the deployment target (13.0) as the SDK, and macOS then draws
+# the app in its older compatibility look: smaller traffic lights, older window shapes and controls.
+SDK_VERSION="$(xcrun --show-sdk-version)"
+swift build -c release -Xlinker -platform_version -Xlinker macos -Xlinker 13.0 -Xlinker "$SDK_VERSION"
 
 APP="build/SpotlightPlus.app"
 rm -rf "$APP"

@@ -2,6 +2,15 @@ import AppKit
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// Lets a click-and-drag on empty parts of the panel move the window.
+struct WindowDragArea: NSViewRepresentable {
+    final class DragView: NSView {
+        override var mouseDownCanMoveWindow: Bool { true }
+    }
+    func makeNSView(context: Context) -> NSView { DragView() }
+    func updateNSView(_ nsView: NSView, context: Context) {}
+}
+
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -23,6 +32,7 @@ struct SpotlightPlusView: View {
             footer
         }
         .frame(width: panelSize.width, height: panelSize.height)
+        .background(WindowDragArea())
         .onAppear { searchFocused = true }
         .onChange(of: state.focusToken) { _ in
             DispatchQueue.main.async { searchFocused = true }

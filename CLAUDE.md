@@ -46,4 +46,6 @@ Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.
 swift build         # compile only (debug)
 ```
 
+`build_app.sh` stamps the real SDK version into the binary (`-platform_version macos 13.0 <sdk>`); SwiftPM alone records SDK 13.0, which makes macOS draw the app in an older compatibility look (small traffic lights). Check with `otool -l ... | grep -A4 LC_BUILD_VERSION`.
+
 Output is `build/SpotlightPlus.app`; `.build/` and `build/` are git-ignored. To work in Xcode, open `Package.swift`.
