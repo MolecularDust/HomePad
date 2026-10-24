@@ -260,7 +260,7 @@ struct AppTile: View {
             }
             if isRunning {
                 Divider()
-                if let app = RunningApps.shared.app(for: url), WindowCatalog.windowCount(for: app.processIdentifier) > 0 {
+                if let app = RunningApps.shared.app(for: url), WindowCatalog.closableWindowCount(for: app.processIdentifier) > 0 {
                     Button("Close Windows") { Launcher.closeWindows(url) }
                 }
                 Button("Close App") { Launcher.quit(url) }

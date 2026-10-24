@@ -72,10 +72,8 @@ enum WindowCatalog {
               let content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
         else { return [] }
 
-        let wins = content.windows.filter {
-            $0.owningApplication?.processID == pid && $0.windowLayer == 0
-                && $0.frame.width > 80 && $0.frame.height > 60
-        }
+        let real = Set(realWindows(for: pid).map(\.id))
+        let wins = content.windows.filter { $0.owningApplication?.processID == pid && real.contains($0.windowID) }
         var result: [AppWindow] = []
         for w in wins {
             result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w)))
@@ -102,20 +100,43 @@ enum WindowCatalog {
         return axWindows(pid).compactMap { axString($0, kAXTitleAttribute) }.filter { !$0.isEmpty }
     }
 
-    // MARK: Counting and closing windows
+    // MARK: What counts as a window
 
-    /// How many windows an app has open (minimised ones included). Accessibility gives the most accurate count;
-    /// without it the window list is used, which needs no permission.
-    static func windowCount(for pid: pid_t) -> Int {
-        if Permissions.accessibility { return axWindows(pid).count }
+    struct RealWindow {
+        let id: CGWindowID
+        let frame: CGRect
+    }
+
+    /// The windows a person would call windows: visible ones, plus minimised ones. Apps also keep many hidden
+    /// helper windows (DaVinci Resolve has dozens), which are on the window list but never on screen.
+    /// Needs no permission, so it works before Screen Recording or Accessibility are allowed.
+    static func realWindows(for pid: pid_t) -> [RealWindow] {
+        let minimised = axWindows(pid)
+            .filter { axBool($0, kAXMinimizedAttribute) == true }
+            .compactMap(axFrame)
         let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
-        return infos.filter {
-            guard ($0[kCGWindowOwnerPID as String] as? Int32) == pid,
-                  ($0[kCGWindowLayer as String] as? Int) == 0,
-                  let bounds = $0[kCGWindowBounds as String] as? NSDictionary,
-                  let rect = CGRect(dictionaryRepresentation: bounds) else { return false }
-            return rect.width > 80 && rect.height > 60
-        }.count
+        return infos.compactMap { info in
+            guard (info[kCGWindowOwnerPID as String] as? Int32) == pid,
+                  (info[kCGWindowLayer as String] as? Int) == 0,
+                  (info[kCGWindowAlpha as String] as? Double ?? 1) > 0,
+                  let number = info[kCGWindowNumber as String] as? CGWindowID,
+                  let bounds = info[kCGWindowBounds as String] as? NSDictionary,
+                  let rect = CGRect(dictionaryRepresentation: bounds),
+                  rect.width > 80, rect.height > 60 else { return nil }
+            let onScreen = (info[kCGWindowIsOnscreen as String] as? Bool) ?? ((info[kCGWindowIsOnscreen as String] as? Int) == 1)
+            guard onScreen || minimised.contains(where: near(rect)) else { return nil }
+            return RealWindow(id: number, frame: rect)
+        }
+    }
+
+    // MARK: Closing windows
+
+    /// How many windows can really be closed. Closing works by pressing each window's close button through
+    /// Accessibility, and some apps (DaVinci Resolve) draw their own windows and expose no buttons to press.
+    /// Without the Accessibility permission this can't be known, so any visible window counts.
+    static func closableWindowCount(for pid: pid_t) -> Int {
+        guard Permissions.accessibility else { return realWindows(for: pid).count }
+        return axWindows(pid).filter { closeButton(of: $0) != nil }.count
     }
 
     /// Presses the close button of each of the app's windows. Needs the Accessibility permission.
@@ -123,10 +144,14 @@ enum WindowCatalog {
         WindowPreviewController.shared.hideNow()
         guard Permissions.accessibility else { Permissions.requestAccessibility(); return }
         for window in axWindows(app.processIdentifier) {
-            var button: CFTypeRef?
-            AXUIElementCopyAttributeValue(window, kAXCloseButtonAttribute as CFString, &button)
-            if let button { AXUIElementPerformAction(button as! AXUIElement, kAXPressAction as CFString) }
+            if let button = closeButton(of: window) { AXUIElementPerformAction(button, kAXPressAction as CFString) }
         }
+    }
+
+    private static func closeButton(of window: AXUIElement) -> AXUIElement? {
+        var ref: CFTypeRef?
+        AXUIElementCopyAttributeValue(window, kAXCloseButtonAttribute as CFString, &ref)
+        return ref.map { $0 as! AXUIElement }
     }
 
     // MARK: Jumping to a window
@@ -161,6 +186,12 @@ enum WindowCatalog {
         var ref: CFTypeRef?
         AXUIElementCopyAttributeValue(AXUIElementCreateApplication(pid), kAXWindowsAttribute as CFString, &ref)
         return ref as? [AXUIElement] ?? []
+    }
+
+    private static func axBool(_ element: AXUIElement, _ attribute: String) -> Bool? {
+        var ref: CFTypeRef?
+        AXUIElementCopyAttributeValue(element, attribute as CFString, &ref)
+        return ref as? Bool
     }
 
     private static func axString(_ element: AXUIElement, _ attribute: String) -> String? {
