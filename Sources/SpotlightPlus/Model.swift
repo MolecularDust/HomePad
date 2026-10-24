@@ -180,6 +180,14 @@ final class RunningApps: ObservableObject {
 enum Launcher {
     static func open(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
+        // A running app whose windows are all on other Spaces: go to one of them, as the Dock does.
+        if url.isFileURL, let app = RunningApps.shared.app(for: url) {
+            let windows = WindowCatalog.realWindows(for: app.processIdentifier)
+            if let first = windows.first, windows.allSatisfy(\.onOtherSpace) {
+                WindowCatalog.focus(AppWindow(id: first.id, title: "", frame: first.frame, onOtherSpace: true), of: app)
+                return
+            }
+        }
         if url.isFileURL && url.pathExtension == "app" {
             // Launches the app, or brings it forward (and reopens a window) if already running —
             // the same thing clicking a Dock icon does.

@@ -63,6 +63,8 @@ struct AppWindow: Identifiable {
     let title: String
     let frame: CGRect
     var image: NSImage?
+    /// True for a window on a Space other than the one showing now.
+    var onOtherSpace = false
     /// False when Accessibility can't find this window's close button (the cross is then hidden).
     var canClose = true
 }
@@ -76,11 +78,12 @@ enum WindowCatalog {
               let content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
         else { return [] }
 
-        let real = Set(realWindows(for: pid).map(\.id))
-        let wins = content.windows.filter { $0.owningApplication?.processID == pid && real.contains($0.windowID) }
+        let real = Dictionary(uniqueKeysWithValues: realWindows(for: pid).map { ($0.id, $0) })
+        let wins = content.windows.filter { $0.owningApplication?.processID == pid && real[$0.windowID] != nil }
         var result: [AppWindow] = []
         for w in wins {
-            result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w)))
+            result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w),
+                                    onOtherSpace: real[w.windowID]?.onOtherSpace ?? false))
         }
         return result.map { window in
             var w = window
@@ -113,16 +116,19 @@ enum WindowCatalog {
     struct RealWindow {
         let id: CGWindowID
         let frame: CGRect
+        let onOtherSpace: Bool
     }
 
-    /// The windows a person would call windows: visible ones, plus minimised ones. Apps also keep many hidden
-    /// helper windows (DaVinci Resolve has dozens), which are on the window list but never on screen.
+    /// The windows a person would call windows: visible ones, minimised ones, and ones on other Spaces. Apps also
+    /// keep many hidden helper windows (DaVinci Resolve has dozens). Those belong to no Space, which is how
+    /// they're told apart from a real window on another desktop.
     /// Needs no permission, so it works before Screen Recording or Accessibility are allowed.
     static func realWindows(for pid: pid_t) -> [RealWindow] {
         let minimised = axWindows(pid)
             .filter { axBool($0, kAXMinimizedAttribute) == true }
             .compactMap(axFrame)
         let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
+        let activeSpace = SkyLight.activeSpace
         return infos.compactMap { info in
             guard (info[kCGWindowOwnerPID as String] as? Int32) == pid,
                   (info[kCGWindowLayer as String] as? Int) == 0,
@@ -132,8 +138,10 @@ enum WindowCatalog {
                   let rect = CGRect(dictionaryRepresentation: bounds),
                   rect.width > 80, rect.height > 60 else { return nil }
             let onScreen = (info[kCGWindowIsOnscreen as String] as? Bool) ?? ((info[kCGWindowIsOnscreen as String] as? Int) == 1)
-            guard onScreen || minimised.contains(where: near(rect)) else { return nil }
-            return RealWindow(id: number, frame: rect)
+            let spaces = SkyLight.spaces(of: number)
+            let otherSpace = activeSpace.map { active in !spaces.isEmpty && !spaces.contains(active) } ?? false
+            guard onScreen || otherSpace || minimised.contains(where: near(rect)) else { return nil }
+            return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace)
         }
     }
 
@@ -167,6 +175,13 @@ enum WindowCatalog {
     static func focus(_ window: AppWindow, of app: NSRunningApplication) {
         PanelController.shared.hide(restoreFocus: false)
         WindowPreviewController.shared.hideNow()
+        // A window on another Space can't be reached through Accessibility. Activating the app makes macOS
+        // switch to a Space where it has windows; naming the window first points it at this one.
+        if window.onOtherSpace {
+            SkyLight.focus(window: window.id, pid: app.processIdentifier)
+            app.activate(options: [.activateAllWindows])
+            return
+        }
         guard Permissions.accessibility else {
             Permissions.requestAccessibility()
             app.activate(options: [.activateAllWindows])

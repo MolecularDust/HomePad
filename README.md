@@ -31,8 +31,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles
   around, including between categories.
 - **Running apps**: a red bar under an icon means the app is running. Hover a running app to see a thumbnail
-  of each of its windows and click one to jump straight to it, or click the cross in its corner to close just that window (needs Screen Recording and Accessibility;
-  without Screen Recording you get a plain list). Apps that are open but not in a category show in the
+  of each of its windows, on every desktop (Space) and click one to jump straight to it (switching desktops if needed), or click the cross in its corner to close just that window (needs Screen Recording and Accessibility;
+  without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. Apps that are open but not in a category show in the
   **Running** section, which can't be edited (it can be turned off).
 - **Running app menu**: right-click a running app for **Close Windows** (only if it has a window open; needs the Accessibility permission) and **Close App**.
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
