@@ -97,35 +97,36 @@ enum ShortcutConflict {
         let alert = NSAlert()
         alert.alertStyle = .warning
         let keys = shortcut.displayString
-        var openOwner: (() -> Void)?
+        var actions: [() -> Void] = []          // one per button, in order; Cancel has none
+        func button(_ title: String, _ action: @escaping () -> Void) {
+            alert.addButton(withTitle: title)
+            actions.append(action)
+        }
+        let openKeyboardSettings: () -> Void = { NSWorkspace.shared.open(keyboardSettingsURL) }
 
         switch owner {
         case .system(let name):
             alert.messageText = "\(keys) is already used by macOS"
             alert.informativeText = "It's the shortcut for “\(name)”. To use \(keys) here, turn that shortcut off yourself in System Settings → Keyboard → Keyboard Shortcuts. SpotlightPlus won't change your system settings."
-            alert.addButton(withTitle: "Open Keyboard Settings")
-            openOwner = { NSWorkspace.shared.open(keyboardSettingsURL) }
+            button("Open Keyboard Settings", openKeyboardSettings)
         case .app(let name, let url):
             alert.messageText = "\(keys) is probably used by \(name)"
-            alert.informativeText = "\(name) is running and uses \(keys) by default, so pressing it may open \(name) instead. macOS doesn't say which app owns a shortcut, so this is a best guess. To free it, change or turn off the shortcut in \(name)'s own settings."
-            alert.addButton(withTitle: "Open \(name)")
-            openOwner = { if let url { NSWorkspace.shared.open(url) } }
+            alert.informativeText = "\(name) is running and uses \(keys) by default, so pressing it may open \(name) instead. macOS doesn't say which app owns a shortcut, so this is a best guess. You can change or turn off the shortcut in \(name)'s own settings, or look for it in System Settings → Keyboard → Keyboard Shortcuts. SpotlightPlus won't change your system settings."
+            button("Open \(name)") { if let url { NSWorkspace.shared.open(url) } }
+            button("Open Keyboard Settings", openKeyboardSettings)
         case .unknown:
             alert.messageText = "\(keys) may already be in use"
-            alert.informativeText = "Another app seems to be using this shortcut, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut."
+            alert.informativeText = "Another app seems to be using this shortcut, but macOS doesn't say which one. Check System Settings → Keyboard → Keyboard Shortcuts and the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut. SpotlightPlus won't change your system settings."
+            button("Open Keyboard Settings", openKeyboardSettings)
         }
-        alert.addButton(withTitle: "Choose Another Shortcut")
+        button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
         alert.addButton(withTitle: "Cancel")
 
-        let response = alert.runModal()
-        let first = NSApplication.ModalResponse.alertFirstButtonReturn
-        if openOwner != nil {
-            if response == first { openOwner?() }
-            else if response.rawValue == first.rawValue + 1 { AppDelegate.shared?.openSettings() }
-            else { UserDefaults.standard.set(keys, forKey: dismissedKey) }
+        let index = alert.runModal().rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
+        if actions.indices.contains(index) {
+            actions[index]()
         } else {
-            if response == first { AppDelegate.shared?.openSettings() }
-            else { UserDefaults.standard.set(keys, forKey: dismissedKey) }
+            UserDefaults.standard.set(keys, forKey: dismissedKey)
         }
     }
 }

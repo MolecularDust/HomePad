@@ -70,6 +70,23 @@ struct SpotlightPlusView: View {
     }
 }
 
+/// Plain "+ Title" text that turns green under the pointer.
+struct HoverLink: View {
+    let title: String
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: "plus")
+                .font(.system(size: 12))
+                .foregroundStyle(hovering ? Color.green : Color.secondary)
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+    }
+}
+
 // MARK: - Categories + running apps
 
 struct HomeView: View {
@@ -90,16 +107,9 @@ struct HomeView: View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Spacer()
-                Button { Launcher.chooseAppsToPin() } label: {
-                    Label("Add App", systemImage: "plus")
-                }
-                Button { Launcher.addCategory() } label: {
-                    Label("Add Category", systemImage: "plus")
-                }
+                HoverLink(title: "Add App") { Launcher.chooseAppsToPin() }
+                HoverLink(title: "Add Category") { Launcher.addCategory() }
             }
-            .buttonStyle(.plain)
-            .font(.system(size: 12))
-            .foregroundStyle(.secondary)
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
 
