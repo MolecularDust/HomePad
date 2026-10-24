@@ -13,6 +13,9 @@ final class ModalWindow: NSObject, NSWindowDelegate {
         window.contentView = host
         window.setContentSize(host.fittingSize)
         window.title = title
+        // An empty toolbar gives the full-height title bar and traffic lights that regular Mac apps have.
+        window.toolbar = NSToolbar(identifier: "ModalWindow")
+        window.toolbarStyle = .unified
         window.isReleasedWhenClosed = false
         window.level = .modalPanel
         window.delegate = self
