@@ -8,6 +8,7 @@ struct SettingsView: View {
     @ObservedObject private var shortcuts = ShortcutStore.shared
     @AppStorage("columns") private var columns = 6
     @AppStorage("showRunning") private var showRunning = true
+    @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -81,11 +82,17 @@ struct SettingsView: View {
 
             Section("Reset") {
                 Button("Reset to Defaults…") { confirmReset() }
-                Text("Puts the shortcut, double-tap, layout, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
+                Text("Puts the shortcut, double-tap, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 
             Section("General") {
+                Toggle("Show menu-bar icon", isOn: $showMenuBarIcon)
+                    .onChange(of: showMenuBarIcon) { AppDelegate.shared?.setStatusItemVisible($0) }
+                if !showMenuBarIcon {
+                    Text("With the icon hidden, open SpotlightPlus with your shortcut or double-tap, or by launching the app again.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
                 Toggle("Launch at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { on in
                         do {
@@ -121,7 +128,7 @@ struct SettingsView: View {
     private func confirmReset() {
         let alert = NSAlert()
         alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 6 icons per row, shows running apps, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 6 icons per row, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")
         guard alert.runModal() == .alertFirstButtonReturn else { return }
@@ -129,6 +136,7 @@ struct SettingsView: View {
         doubleTap = DoubleTapMonitor.Key.off.rawValue
         columns = 6
         showRunning = true
+        showMenuBarIcon = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }
     }

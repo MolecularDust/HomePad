@@ -26,7 +26,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   first launch. Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click a category name to rename or delete
   it (its apps move to Essentials).
-- **Add apps**: the Add App button, right-click empty space, drag apps in from Finder (press the shortcut
+- **Add apps**: the Add App button (double-click an app in the picker to add it right away), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles
   around, including between categories.
@@ -47,6 +47,7 @@ any time from the menu-bar icon → Setup Guide…
 - **Shortcut**: click the button and press a new combination. To use ⌘Space, first turn off
   Spotlight's shortcut in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.
 - **Shortcut**: record one, choose **None** if you only want the double-tap, or **Reset** it to ⌥Space.
+- **Menu-bar icon**: Settings → General can hide it. Launching the app again opens the panel.
 - **Reset to Defaults**: restores shortcut, double-tap, layout, Dock hiding and launch at login (apps and categories are kept).
 - **Double-tap**: open with Control, Option or Command tapped twice.
 - **Icons per row**, **show running apps**, **re-import from Dock**.

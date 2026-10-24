@@ -160,9 +160,14 @@ private struct AppPickerView: View {
             ScrollView {
                 LazyVGrid(columns: grid, spacing: 6) {
                     ForEach(shown, id: \.self) { url in
-                        PickerTile(url: url, added: store.contains(url), selected: selected.contains(url)) {
-                            if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
-                        }
+                        PickerTile(url: url, added: store.contains(url), selected: selected.contains(url),
+                                   toggle: {
+                                       if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
+                                   },
+                                   pin: {
+                                       selected.remove(url)
+                                       store.add(url, to: category)
+                                   })
                     }
                 }
                 .padding(.horizontal, 24)
@@ -201,6 +206,8 @@ private struct AppPickerView: View {
     private var footer: some View {
         HStack(spacing: 10) {
             Button("Browse…", action: browse)
+            Text("Double-click an app to add it right away")
+                .font(.system(size: 11)).foregroundStyle(.secondary)
             Spacer()
             Button("Cancel", action: close).keyboardShortcut(.cancelAction)
             Button(selected.isEmpty ? "Add" : "Add \(selected.count)", action: add)
@@ -239,6 +246,7 @@ private struct PickerTile: View {
     let added: Bool
     let selected: Bool
     let toggle: () -> Void
+    let pin: () -> Void          // double-click: add straight away
     @State private var hovering = false
 
     var body: some View {
@@ -272,6 +280,7 @@ private struct PickerTile: View {
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .onTapGesture { if !added { toggle() } }
+        .simultaneousGesture(TapGesture(count: 2).onEnded { if !added { pin() } })
         .help(IconCache.name(for: url))
     }
 }

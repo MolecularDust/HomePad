@@ -33,6 +33,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit SpotlightPlus", action: #selector(quit), keyEquivalent: "q").target = self
         statusItem.menu = menu
+        statusItem.isVisible = UserDefaults.standard.object(forKey: "showMenuBarIcon") as? Bool ?? true
+    }
+
+    func setStatusItemVisible(_ visible: Bool) { statusItem.isVisible = visible }
+
+    /// Launching the app again opens the panel, so it can't get lost when the menu-bar icon is hidden.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        PanelController.shared.show()
+        return true
     }
 
     @objc private func openPanel() { PanelController.shared.show() }
