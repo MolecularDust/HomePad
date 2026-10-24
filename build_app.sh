@@ -29,8 +29,13 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 
-# Ad-hoc signature so macOS will run it locally.
-codesign --force --deep --sign - "$APP"
+# Ad-hoc signature so macOS will run it locally. The explicit requirement ties the Accessibility and Screen
+# Recording permissions to the bundle id; the default (a hash of the binary) changes on every build, which
+# leaves System Settings showing "on" for an older build while macOS refuses the new one.
+REQ="$(mktemp)"
+echo 'designated => identifier "local.mike.SpotlightPlus"' > "$REQ"
+codesign --force --deep --sign - -r "$REQ" "$APP"
+rm -f "$REQ"
 
 echo
 echo "Built: $(pwd)/$APP"

@@ -61,6 +61,10 @@ struct SettingsView: View {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
+                if !hasAccessibility || !hasScreenRecording {
+                    Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                    .font(.caption).foregroundStyle(.secondary)
+                }
             }
 
             Section("Dock") {

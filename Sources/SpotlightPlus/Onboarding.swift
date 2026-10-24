@@ -64,6 +64,10 @@ struct OnboardingView: View {
                 }
                 Text("macOS may ask you to reopen SpotlightPlus after you allow Screen Recording.")
                     .font(.caption).foregroundStyle(.secondary)
+                if !hasAccessibility || !hasScreenRecording {
+                    Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
 
             step("2. Choose how to open it") {
