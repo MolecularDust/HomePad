@@ -9,9 +9,19 @@ enum Permissions {
     static var screenRecording: Bool { CGPreflightScreenCaptureAccess() }
     static var accessibility: Bool { AXIsProcessTrusted() }
 
-    static func requestScreenRecording() { _ = CGRequestScreenCaptureAccess() }
+    /// Our panels float above ordinary windows, which would hide the system's permission dialog behind them.
+    private static func clearFloatingWindows() {
+        PanelController.shared.hide(restoreFocus: false)
+        WindowPreviewController.shared.hideNow()
+    }
+
+    static func requestScreenRecording() {
+        clearFloatingWindows()
+        _ = CGRequestScreenCaptureAccess()
+    }
 
     static func requestAccessibility() {
+        clearFloatingWindows()
         _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
     }
 
@@ -143,7 +153,6 @@ final class WindowPreviewController {
     private var overPreview = false
     private var showWork: DispatchWorkItem?
     private var hideWork: DispatchWorkItem?
-    private var requestedAccess = false
     private var generation = 0
 
     private init() {
@@ -228,7 +237,6 @@ final class WindowPreviewController {
         model.loading = !model.needsPermission
         if model.needsPermission {
             model.fallbackTitles = WindowCatalog.titles(for: app.processIdentifier)
-            if !requestedAccess { requestedAccess = true; Permissions.requestScreenRecording() }
         }
         resizeAndPlace(tile: tile)
         panel.orderFrontRegardless()

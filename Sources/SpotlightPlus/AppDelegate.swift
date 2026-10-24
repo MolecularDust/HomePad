@@ -17,6 +17,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DoubleTapMonitor.shared.apply()
 
         setUpStatusItem()
+        if !Onboarding.completed { Onboarding.show() }
     }
 
     // MARK: Menu bar icon
@@ -28,12 +29,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         menu.addItem(withTitle: "Open SpotlightPlus", action: #selector(openPanel), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: ",").target = self
+        menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit SpotlightPlus", action: #selector(quit), keyEquivalent: "q").target = self
         statusItem.menu = menu
     }
 
     @objc private func openPanel() { PanelController.shared.show() }
+    @objc private func openSetupGuide() { Onboarding.show() }
     @objc private func quit() { NSApp.terminate(nil) }
 
     @objc func openSettings() {

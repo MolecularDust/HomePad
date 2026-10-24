@@ -88,16 +88,18 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 8) {
+            HStack(spacing: 16) {
                 Spacer()
                 Button { Launcher.chooseAppsToPin() } label: {
-                    Label("Add App", systemImage: "plus").font(.system(size: 12))
+                    Label("Add App", systemImage: "plus")
                 }
                 Button { Launcher.addCategory() } label: {
-                    Label("Add Category", systemImage: "folder.badge.plus").font(.system(size: 12))
+                    Label("Add Category", systemImage: "plus")
                 }
             }
-            .controlSize(.small)
+            .buttonStyle(.plain)
+            .font(.system(size: 12))
+            .foregroundStyle(.secondary)
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
 

@@ -37,6 +37,11 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close.
 
+## First run
+
+A welcome window asks you to allow Screen Recording and Accessibility and to choose your shortcut. Reopen it
+any time from the menu-bar icon → Setup Guide…
+
 ## Settings
 
 - **Shortcut**: click the button and press a new combination. To use ⌘Space, first turn off
