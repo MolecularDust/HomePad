@@ -15,6 +15,9 @@ enum Onboarding {
             let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish)))
             w.title = "Welcome to SpotlightPlus"
             w.styleMask = [.titled, .closable]
+            // An empty toolbar gives the full-height title bar regular Mac apps have.
+            w.toolbar = NSToolbar(identifier: "OnboardingWindow")
+            w.toolbarStyle = .unified
             w.isReleasedWhenClosed = false
             let c = WindowCloser { UserDefaults.standard.set(true, forKey: doneKey); window = nil; closer = nil }
             w.delegate = c

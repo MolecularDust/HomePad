@@ -45,6 +45,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let window = NSWindow(contentViewController: NSHostingController(rootView: SettingsView()))
             window.title = "SpotlightPlus Settings"
             window.styleMask = [.titled, .closable]
+            // An empty toolbar gives the full-height title bar regular Mac apps have.
+            window.toolbar = NSToolbar(identifier: "SettingsWindow")
+            window.toolbarStyle = .unified
             window.isReleasedWhenClosed = false
             settingsWindow = window
         }
