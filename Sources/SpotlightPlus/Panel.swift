@@ -106,6 +106,22 @@ final class PanelController: NSObject, NSWindowDelegate {
         installKeyMonitor()
     }
 
+    /// Runs a modal dialog while the panel stays on screen behind it (dropped below the dialog's level, and kept
+    /// from auto-hiding when it loses focus). Afterwards the panel takes focus again.
+    @discardableResult
+    func keepVisible<T>(during body: () -> T) -> T {
+        let wasVisible = panel.isVisible
+        let level = panel.level
+        suppressAutoHide = true
+        if wasVisible { panel.level = .floating }
+        WindowPreviewController.shared.hideNow()
+        let result = body()
+        suppressAutoHide = false
+        panel.level = level
+        if wasVisible { panel.makeKeyAndOrderFront(nil) }
+        return result
+    }
+
     /// restoreFocus: give focus back to the app you were in (Esc / hotkey), vs. not (an app was launched).
     func hide(restoreFocus: Bool) {
         guard panel.isVisible, !isHiding else { return }

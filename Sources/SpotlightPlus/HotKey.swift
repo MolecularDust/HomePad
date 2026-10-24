@@ -143,21 +143,37 @@ final class HotKeyManager {
 
 final class ShortcutStore: ObservableObject {
     static let shared = ShortcutStore()
+    private static let noneKey = "hotkeyNone"
     @Published private(set) var shortcut = Shortcut.load()
+    /// True when the user chose no global shortcut (for example because they use double-tap instead).
+    @Published private(set) var isNone = UserDefaults.standard.bool(forKey: noneKey)
     @Published private(set) var conflict: ShortcutConflict.Owner?
 
     /// An explicit choice by the user: always check it, even if they dismissed a warning for it before.
     func update(_ s: Shortcut) {
         shortcut = s
         s.save()
+        isNone = false
+        UserDefaults.standard.set(false, forKey: Self.noneKey)
         ShortcutConflict.forgetDismissal()
         registerCurrent(report: true)
+    }
+
+    func setNone() {
+        isNone = true
+        UserDefaults.standard.set(true, forKey: Self.noneKey)
+        registerCurrent()
     }
 
     /// Registers the shortcut, then checks whether something else gets it first: macOS's own shortcuts are
     /// read from the system, anything else by pressing the shortcut and seeing if it reaches us.
     /// `report` shows the explanation dialog (unless the user already dismissed it for this shortcut).
     func registerCurrent(report: Bool = false) {
+        guard !isNone else {
+            HotKeyManager.shared.unregister()
+            conflict = nil
+            return
+        }
         let registered = HotKeyManager.shared.register(shortcut)
         let current = shortcut
         let wantsReport = report && !ShortcutConflict.isDismissed(current)
@@ -170,7 +186,7 @@ final class ShortcutStore: ObservableObject {
         conflict = nil
         guard wantsReport else { return }
         HotKeyManager.shared.probe(current) { [weak self] received in
-            guard let self, received == false, self.shortcut == current else { return }
+            guard let self, received == false, self.shortcut == current, !self.isNone else { return }
             let owner = ShortcutConflict.appGuess(for: current) ?? .unknown
             self.conflict = owner
             ShortcutConflict.report(current, owner: owner)

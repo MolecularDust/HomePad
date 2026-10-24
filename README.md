@@ -46,6 +46,8 @@ any time from the menu-bar icon → Setup Guide…
 
 - **Shortcut**: click the button and press a new combination. To use ⌘Space, first turn off
   Spotlight's shortcut in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.
+- **Shortcut**: record one, choose **None** if you only want the double-tap, or **Reset** it to ⌥Space.
+- **Reset to Defaults**: restores shortcut, double-tap, layout, Dock hiding and launch at login (apps and categories are kept).
 - **Double-tap**: open with Control, Option or Command tapped twice.
 - **Icons per row**, **show running apps**, **re-import from Dock**.
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
@@ -58,6 +60,7 @@ any time from the menu-bar icon → Setup Guide…
 |---|---|
 | `main.swift`, `AppDelegate.swift` | App startup, menu-bar icon, settings window |
 | `Trigger.swift` | Double-tap-modifier trigger, one-time migration from the old "Start Menu" settings |
+| `Dialogs.swift` | Closable modal windows (new/rename category, Add App picker) shown above the panel |
 | `Windows.swift` | Permissions, window listing and thumbnails (ScreenCaptureKit), hover popup, jump to window (Accessibility) |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`, no permissions needed) |
 | `Panel.swift` | The centered floating window and its keyboard handling |

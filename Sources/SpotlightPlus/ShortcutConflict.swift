@@ -88,7 +88,6 @@ enum ShortcutConflict {
 
     /// Explains the clash and offers to help; Cancel leaves everything as it is and stops asking about this shortcut.
     static func report(_ shortcut: Shortcut, owner: Owner) {
-        PanelController.shared.hide(restoreFocus: false)
         activateSelf()
 
         let alert = NSAlert()
@@ -117,7 +116,7 @@ enum ShortcutConflict {
         button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
         alert.addButton(withTitle: "Cancel")
 
-        let index = alert.runModal().rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
+        let index = PanelController.shared.keepVisible { alert.runModal() }.rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
         if actions.indices.contains(index) {
             actions[index]()
         } else {

@@ -202,65 +202,26 @@ enum Launcher {
         RunningApps.shared.app(for: url)?.terminate()
     }
 
-    /// Hides the panel, runs a modal dialog, then brings the panel back.
-    private static func outsidePanel(_ body: @escaping () -> Void) {
-        let pc = PanelController.shared
-        pc.suppressAutoHide = true
-        pc.hide(restoreFocus: false)
-        DispatchQueue.main.async {
-            activateSelf()
-            body()
-            pc.suppressAutoHide = false
-            pc.show()
-        }
-    }
-
-    /// Shows a file picker for apps to pin into a category (Essentials by default).
+    /// Shows the app picker for a category (Essentials by default). The panel stays visible behind it.
     static func chooseAppsToPin(to category: UUID? = nil) {
-        outsidePanel {
-            let panel = NSOpenPanel()
-            panel.title = "Pin Apps"
-            panel.prompt = "Pin"
-            panel.allowsMultipleSelection = true
-            panel.canChooseDirectories = false
-            panel.allowedContentTypes = [.application]
-            panel.directoryURL = URL(fileURLWithPath: "/Applications")
-            if panel.runModal() == .OK {
-                panel.urls.forEach { CategoryStore.shared.add($0, to: category) }
-            }
-        }
+        DispatchQueue.main.async { AppPicker.show(for: category) }
     }
 
     static func addCategory() {
-        outsidePanel {
-            if let name = promptForText(title: "New category", message: "Name the category, for example Browsers.",
-                                        initial: "", button: "Add") {
+        DispatchQueue.main.async {
+            if let name = TextPrompt.ask(title: "New Category", message: "Name the category, for example Browsers.",
+                                         button: "Add") {
                 CategoryStore.shared.addCategory(named: name)
             }
         }
     }
 
     static func renameCategory(_ category: Category) {
-        outsidePanel {
-            if let name = promptForText(title: "Rename category", message: "", initial: category.name, button: "Rename") {
+        DispatchQueue.main.async {
+            if let name = TextPrompt.ask(title: "Rename Category", initial: category.name, button: "Rename") {
                 CategoryStore.shared.rename(category.id, to: name)
             }
         }
-    }
-
-    private static func promptForText(title: String, message: String, initial: String, button: String) -> String? {
-        let alert = NSAlert()
-        alert.messageText = title
-        alert.informativeText = message
-        alert.addButton(withTitle: button)
-        alert.addButton(withTitle: "Cancel")
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
-        field.stringValue = initial
-        alert.accessoryView = field
-        alert.window.initialFirstResponder = field
-        guard alert.runModal() == .alertFirstButtonReturn else { return nil }
-        let text = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        return text.isEmpty ? nil : text
     }
 }
 

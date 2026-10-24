@@ -22,6 +22,10 @@ struct SettingsView: View {
                     Spacer()
                     ShortcutRecorder()
                 }
+                if shortcuts.isNone && doubleTap == DoubleTapMonitor.Key.off.rawValue {
+                    Text("No shortcut is set. Open SpotlightPlus from the menu-bar icon, or choose a double-tap key below.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
                 if let owner = shortcuts.conflict {
                     Text("That shortcut is already in use by \(owner.summary). Pick a different one.")
                         .font(.caption).foregroundStyle(.red)
@@ -75,6 +79,12 @@ struct SettingsView: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
 
+            Section("Reset") {
+                Button("Reset to Defaults…") { confirmReset() }
+                Text("Puts the shortcut, double-tap, layout, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
             Section("General") {
                 Toggle("Launch at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { on in
@@ -108,6 +118,21 @@ struct SettingsView: View {
         }
     }
 
+    private func confirmReset() {
+        let alert = NSAlert()
+        alert.messageText = "Reset settings to their defaults?"
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 6 icons per row, shows running apps, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.addButton(withTitle: "Reset")
+        alert.addButton(withTitle: "Cancel")
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        shortcuts.update(.default)
+        doubleTap = DoubleTapMonitor.Key.off.rawValue
+        columns = 6
+        showRunning = true
+        if dockHidden { dockHidden = false }
+        if launchAtLogin { launchAtLogin = false }
+    }
+
     private func confirmReimport() {
         let alert = NSAlert()
         alert.messageText = "Replace Essentials with the Dock's apps?"
@@ -129,10 +154,13 @@ struct ShortcutRecorder: View {
     var body: some View {
         HStack(spacing: 6) {
             Button(action: { recording ? stop() : start() }) {
-                Text(recording ? "Press keys…" : store.shortcut.displayString)
+                Text(recording ? "Press keys…" : (store.isNone ? "None" : store.shortcut.displayString))
                     .frame(minWidth: 110)
             }
-            if !recording && store.shortcut != .default {
+            if !recording && !store.isNone {
+                Button("None") { store.setNone() }
+            }
+            if !recording && (store.isNone || store.shortcut != .default) {
                 Button("Reset") { store.update(.default) }
             }
         }

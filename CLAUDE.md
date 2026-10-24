@@ -26,6 +26,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `Trigger.swift` | Double-tap-modifier trigger (global `NSEvent` monitor), `LegacyMigration` from bundle id `local.mike.StartMenu` |
 | `ShortcutConflict.swift` | Detects who else uses the global shortcut (macOS shortcuts exactly, known launcher apps as a guess) and shows the explanation dialog; Carbon registration does NOT fail on clashes |
 | `Onboarding.swift` | First-run welcome window (permissions + shortcut); reopen via menu bar → Setup Guide… |
+| `Dialogs.swift` | `ModalWindow` (titled, closable, runs via `NSApp.runModal`), `TextPrompt`, `AppPicker`; replaces NSAlert/NSOpenPanel so dialogs have a close button |
 | `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |
@@ -33,6 +34,8 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, `CategoryStore` (categories, persisted as JSON), running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
+
+Pop-ups must go through `PanelController.keepVisible` so the panel stays visible behind them.
 
 Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.
 
