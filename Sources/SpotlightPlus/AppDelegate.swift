@@ -13,7 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         _ = PanelController.shared
 
         HotKeyManager.shared.onPress = { PanelController.shared.toggle() }
-        ShortcutStore.shared.registerCurrent()
+        ShortcutStore.shared.registerCurrent(report: true)
         DoubleTapMonitor.shared.apply()
 
         setUpStatusItem()

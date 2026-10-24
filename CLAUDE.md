@@ -24,6 +24,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 |---|---|
 | `main.swift`, `AppDelegate.swift` | App startup, menu-bar icon, settings window |
 | `Trigger.swift` | Double-tap-modifier trigger (global `NSEvent` monitor), `LegacyMigration` from bundle id `local.mike.StartMenu` |
+| `ShortcutConflict.swift` | Detects who else uses the global shortcut (macOS shortcuts exactly, known launcher apps as a guess) and shows the explanation dialog; Carbon registration does NOT fail on clashes |
 | `Onboarding.swift` | First-run welcome window (permissions + shortcut); reopen via menu bar → Setup Guide… |
 | `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |

@@ -72,8 +72,8 @@ struct OnboardingView: View {
                     Spacer()
                     ShortcutRecorder()
                 }
-                if shortcuts.conflict {
-                    Text("That shortcut is already in use by another app. Pick a different one.")
+                if let owner = shortcuts.conflict {
+                    Text("That shortcut is already in use by \(owner.summary). Pick a different one.")
                         .font(.caption).foregroundStyle(.red)
                 }
                 HStack {
@@ -121,11 +121,7 @@ struct OnboardingView: View {
                 Text(detail).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
-            if granted {
-                Label("Allowed", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
-            } else {
-                Button("Allow…", action: request)
-            }
+            PermissionButton(granted: granted, action: request)
         }
     }
 }

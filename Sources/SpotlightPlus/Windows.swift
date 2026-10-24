@@ -16,11 +16,13 @@ enum Permissions {
     }
 
     static func requestScreenRecording() {
+        guard !screenRecording else { return }      // already allowed: never ask again
         clearFloatingWindows()
         _ = CGRequestScreenCaptureAccess()
     }
 
     static func requestAccessibility() {
+        guard !accessibility else { return }        // already allowed: never ask again
         clearFloatingWindows()
         _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
     }
@@ -29,6 +31,26 @@ enum Permissions {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?\(pane)") {
             NSWorkspace.shared.open(url)
         }
+    }
+}
+
+/// Red while the permission is missing or switched off, green once it's on.
+struct PermissionButton: View {
+    let granted: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(granted ? "Allowed" : "Allow…",
+                  systemImage: granted ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Capsule().fill(granted ? Color.green : Color.red))
+        }
+        .buttonStyle(.plain)
+        .disabled(granted)
     }
 }
 

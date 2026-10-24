@@ -111,15 +111,23 @@ final class HotKeyManager {
 final class ShortcutStore: ObservableObject {
     static let shared = ShortcutStore()
     @Published private(set) var shortcut = Shortcut.load()
-    @Published private(set) var conflict = false
+    @Published private(set) var conflict: ShortcutConflict.Owner?
 
+    /// An explicit choice by the user: always check it, even if they dismissed a warning for it before.
     func update(_ s: Shortcut) {
         shortcut = s
         s.save()
-        registerCurrent()
+        ShortcutConflict.forgetDismissal()
+        registerCurrent(report: true)
     }
 
-    func registerCurrent() {
-        conflict = !HotKeyManager.shared.register(shortcut)
+    /// Registers the shortcut, then checks whether something else is known to use it.
+    /// `report` shows the explanation dialog (unless the user already dismissed it for this shortcut).
+    func registerCurrent(report: Bool = false) {
+        let registered = HotKeyManager.shared.register(shortcut)
+        conflict = ShortcutConflict.identify(shortcut) ?? (registered ? nil : .unknown)
+        guard report, let owner = conflict, !ShortcutConflict.isDismissed(shortcut) else { return }
+        let current = shortcut
+        DispatchQueue.main.async { ShortcutConflict.report(current, owner: owner) }
     }
 }
