@@ -111,13 +111,11 @@ enum ShortcutConflict {
             button("Open Keyboard Settings", openKeyboardSettings)
         case .app(let name, let url):
             alert.messageText = "\(keys) is probably used by \(name)"
-            alert.informativeText = "\(name) is running and uses \(keys) by default, so pressing it may open \(name) instead. macOS doesn't say which app owns a shortcut, so this is a best guess. You can change or turn off the shortcut in \(name)'s own settings, or look for it in System Settings → Keyboard → Keyboard Shortcuts. SpotlightPlus won't change your system settings."
+            alert.informativeText = "\(name) is running and uses \(keys) by default, so pressing it may open \(name) instead. macOS doesn't say which app owns a shortcut, so this is a best guess. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
             button("Open \(name)") { if let url { NSWorkspace.shared.open(url) } }
-            button("Open Keyboard Settings", openKeyboardSettings)
         case .unknown:
             alert.messageText = "\(keys) may already be in use"
-            alert.informativeText = "Another app seems to be using this shortcut, but macOS doesn't say which one. Check System Settings → Keyboard → Keyboard Shortcuts and the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut. SpotlightPlus won't change your system settings."
-            button("Open Keyboard Settings", openKeyboardSettings)
+            alert.informativeText = "Another app seems to be using this shortcut, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
         }
         button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
         alert.addButton(withTitle: "Cancel")
