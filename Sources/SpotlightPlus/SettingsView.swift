@@ -9,7 +9,6 @@ struct SettingsView: View {
     @AppStorage("columns") private var columns = 6
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
-    @AppStorage(ClipboardHistory.enabledKey) private var clipboardHistory = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -86,14 +85,6 @@ struct SettingsView: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
 
-            Section("Clipboard history") {
-                Toggle("Remember what I copy", isOn: $clipboardHistory)
-                    .onChange(of: clipboardHistory) { if !$0 { ClipboardHistory.shared.clear() } }
-                Button("Clear clipboard history") { ClipboardHistory.shared.clear() }
-                Text("Text only, for the last 8 hours. Saved on this Mac in a file only you can read, and only while SpotlightPlus is running (turn on Launch at login to keep it recording). Items password managers mark as secret are skipped.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
-
             Section("Reset") {
                 Button("Reset to Defaults…") { confirmReset() }
                 Text("Puts the shortcut, double-tap, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
@@ -152,7 +143,6 @@ struct SettingsView: View {
         columns = 6
         showRunning = true
         showMenuBarIcon = true
-        clipboardHistory = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }
     }

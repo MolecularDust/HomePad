@@ -11,30 +11,18 @@ final class PanelState: ObservableObject {
         didSet {
             guard query != oldValue else { return }
             selection = 0
-            SearchEngine.shared.search(query, scope: scope)
-        }
-    }
-    /// Which filter is on (apps, files, shortcuts, clipboard), or everything.
-    @Published var scope = SearchScope.all {
-        didSet {
-            guard scope != oldValue else { return }
-            selection = 0
-            SearchEngine.shared.search(query, scope: scope)
+            SearchEngine.shared.search(query)
         }
     }
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
 
-    /// Back to the pinned apps: clears the search and any filter.
-    func goHome() {
-        query = ""
-        scope = .all
-    }
+    /// Back to the pinned apps.
+    func goHome() { query = "" }
 
     func reset() {
         query = ""
-        scope = .all
         selection = 0
         draggingItem = nil
         focusToken += 1
@@ -163,16 +151,9 @@ final class PanelController: NSObject, NSWindowDelegate {
             guard let self, event.window === self.panel else { return event }
             let state = PanelState.shared
             let results = SearchEngine.shared.results
-            // ⌘1 to ⌘4: the filters next to the search field.
-            if event.modifierFlags.contains(.command), let scope = SearchScope.forKeyCode(Int(event.keyCode)) {
-                state.scope = state.scope == scope ? .all : scope
-                return nil
-            }
             switch Int(event.keyCode) {
             case kVK_Escape:
-                if !state.query.isEmpty { state.query = "" }
-                else if state.scope != .all { state.scope = .all }
-                else { self.hide(restoreFocus: true) }
+                if state.query.isEmpty { self.hide(restoreFocus: true) } else { state.query = "" }
                 return nil
             case kVK_DownArrow where !results.isEmpty:
                 state.selection = min(state.selection + 1, results.count - 1)
@@ -182,10 +163,6 @@ final class PanelController: NSObject, NSWindowDelegate {
                 return nil
             case kVK_Return, kVK_ANSI_KeypadEnter:
                 guard results.indices.contains(state.selection) else { return event }
-                if let name = results[state.selection].actionName {
-                    Launcher.runShortcut(name)
-                    return nil
-                }
                 if let answer = results[state.selection].copyText {
                     Launcher.copy(answer)
                     self.hide(restoreFocus: true)

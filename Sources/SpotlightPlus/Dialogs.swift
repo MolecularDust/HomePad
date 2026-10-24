@@ -101,16 +101,6 @@ private struct TextPromptView: View {
 // MARK: - Picking apps
 
 enum InstalledApps {
-    private static var store: [URL]?
-
-    /// The list, kept after the first time; `refresh` rebuilds it (apps installed since).
-    static func cached(refresh: Bool = false) -> [URL] {
-        if let store, !refresh { return store }
-        let apps = list()
-        store = apps
-        return apps
-    }
-
     /// Apps in the usual folders, sorted by name.
     static func list() -> [URL] {
         let home = FileManager.default.homeDirectoryForCurrentUser.path

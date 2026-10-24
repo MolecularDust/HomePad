@@ -11,30 +11,6 @@ struct WindowDragArea: NSViewRepresentable {
     func updateNSView(_ nsView: NSView, context: Context) {}
 }
 
-/// One of the round filter buttons beside the search field.
-struct ScopeButton: View {
-    let scope: SearchScope
-    let selected: Bool
-    let action: () -> Void
-    @State private var hovering = false
-
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: scope.symbol)
-                .font(.system(size: 20))
-                .foregroundStyle(selected ? Color.accentColor : Color.secondary)
-                .frame(width: 58, height: 58)
-                .background(Circle().fill(Color(nsColor: .textBackgroundColor)))
-                .overlay(Circle().stroke(selected ? Color.accentColor : Color.primary.opacity(hovering ? 0.3 : 0.15),
-                                         lineWidth: selected ? 1.5 : 0.5))
-                .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
-        }
-        .buttonStyle(.plain)
-        .onHover { hovering = $0 }
-        .help("\(scope.title)  ⌘\((SearchScope.filters.firstIndex(of: scope) ?? 0) + 1)")
-    }
-}
-
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -46,7 +22,7 @@ struct SpotlightPlusView: View {
                 .padding(.top, 22)
                 .padding(.bottom, 14)
 
-            if state.query.isEmpty && state.scope == .all {
+            if state.query.isEmpty {
                 HomeView()
             } else {
                 SearchResultsView()
@@ -63,11 +39,11 @@ struct SpotlightPlusView: View {
         }
     }
 
-    /// The search field (a tall white pill) with the four filters beside it, as in Spotlight.
+    /// The search field: a tall white pill.
     private var searchBar: some View {
         HStack(spacing: 10) {
             HStack(spacing: 10) {
-                if state.scope != .all || !state.query.isEmpty {
+                if !state.query.isEmpty {
                     // Back to the pinned apps (Esc does the same, a step at a time).
                     Button { state.goHome() } label: {
                         Image(systemName: "chevron.left")
@@ -82,7 +58,7 @@ struct SpotlightPlusView: View {
                         .font(.system(size: 19, weight: .medium))
                         .foregroundStyle(.secondary)
                 }
-                TextField(state.scope.placeholder, text: $state.query)
+                TextField("SpotlightPlus Search", text: $state.query)
                     .textFieldStyle(.plain)
                     .font(.system(size: 20))
                     .focused($searchFocused)
@@ -99,11 +75,6 @@ struct SpotlightPlusView: View {
             .overlay(Capsule().stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
             .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
 
-            ForEach(SearchScope.filters, id: \.self) { scope in
-                ScopeButton(scope: scope, selected: state.scope == scope) {
-                    state.scope = state.scope == scope ? .all : scope
-                }
-            }
         }
     }
 
@@ -415,24 +386,6 @@ struct SearchResultsView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 2) {
-                        if state.scope == .clipboard && !items.isEmpty {
-                            HStack {
-                                Spacer()
-                                Button("Clear history") {
-                                    ClipboardHistory.shared.clear()
-                                    SearchEngine.shared.search(state.query, scope: state.scope)
-                                }
-                                .buttonStyle(.plain)
-                                .font(.system(size: 12))
-                                .foregroundStyle(.secondary)
-                            }
-                            .padding(.horizontal, 10)
-                        }
-                        if items.isEmpty && state.scope != .all {
-                            Text(state.scope.emptyMessage)
-                                .font(.callout).foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity).padding(.vertical, 40)
-                        }
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, result in
                             VStack(alignment: .leading, spacing: 2) {
                                 if result.section != .calculator && (index == 0 || items[index - 1].section != result.section) {
@@ -446,16 +399,12 @@ struct SearchResultsView: View {
                                 Group {
                                     if result.section == .calculator {
                                         CalculatorRow(result: result, selected: index == state.selection)
-                                    } else if result.section == .clipboard {
-                                        ClipboardRow(result: result, selected: index == state.selection)
                                     } else {
                                         ResultRow(result: result, selected: index == state.selection)
                                     }
                                 }
                                 .onTapGesture {
-                                    if let name = result.actionName {
-                                        Launcher.runShortcut(name)
-                                    } else if let answer = result.copyText {
+                                    if let answer = result.copyText {
                                         Launcher.copy(answer)
                                         PanelController.shared.hide(restoreFocus: true)
                                     } else {
@@ -479,48 +428,6 @@ struct SearchResultsView: View {
                 }
             }
         }
-    }
-}
-
-/// A clipboard item: a document icon with the app it was copied from, the text, when, and a copy button.
-struct ClipboardRow: View {
-    let result: SearchResult
-    let selected: Bool
-
-    var body: some View {
-        HStack(spacing: 12) {
-            ZStack(alignment: .bottomTrailing) {
-                Image(systemName: "doc.text")
-                    .font(.system(size: 26, weight: .light))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 34, height: 34)
-                if let badge = result.badgeURL {
-                    Image(nsImage: IconCache.icon(for: badge)).resizable().frame(width: 16, height: 16)
-                        .offset(x: 4, y: 2)
-                }
-            }
-            .frame(width: 38, height: 38)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(result.name).font(.system(size: 14)).lineLimit(1)
-                Text(result.subtitle).font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(1)
-            }
-            Spacer()
-            Button {
-                Launcher.copy(result.copyText ?? result.name)
-                PanelController.shared.hide(restoreFocus: true)
-            } label: {
-                Image(systemName: "doc.on.doc")
-                    .font(.system(size: 13))
-                    .frame(width: 30, height: 30)
-                    .background(Circle().fill(Color.primary.opacity(0.1)))
-            }
-            .buttonStyle(.plain)
-            .help("Copy again")
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(RoundedRectangle(cornerRadius: 8).fill(selected ? Color.accentColor.opacity(0.22) : .clear))
-        .contentShape(Rectangle())
     }
 }
 
@@ -567,17 +474,10 @@ struct ResultRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            if let symbol = result.symbol {
-                Image(systemName: symbol)
-                    .font(.system(size: 18))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 30, height: 30)
-            } else {
-                Image(nsImage: IconCache.icon(for: result.url))
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundStyle(.secondary)
-            }
+            Image(nsImage: IconCache.icon(for: result.url))
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 1) {
                 Text(result.name).font(.system(size: 13)).lineLimit(1)
                 Text(result.subtitle).font(.system(size: 11)).foregroundStyle(.secondary)
@@ -585,8 +485,7 @@ struct ResultRow: View {
             }
             Spacer()
             if selected {
-                Text(result.actionName != nil ? "↩ run" : result.copyText != nil ? "↩ copy"
-                     : result.url.isFileURL ? "↩ open   ⌘↩ show" : "↩ search")
+                Text(result.url.isFileURL ? "↩ open   ⌘↩ show" : "↩ search")
                     .font(.system(size: 11)).foregroundStyle(.secondary)
             }
         }

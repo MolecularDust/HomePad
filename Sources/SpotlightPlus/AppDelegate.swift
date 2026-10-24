@@ -10,7 +10,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Touch singletons so they start observing right away.
         _ = CategoryStore.shared
         _ = RunningApps.shared
-        _ = ClipboardHistory.shared
         _ = PanelController.shared
 
         HotKeyManager.shared.onPress = {
