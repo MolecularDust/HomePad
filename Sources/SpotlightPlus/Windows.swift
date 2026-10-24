@@ -142,7 +142,9 @@ enum WindowCatalog {
         let numbers = SkyLight.spaceNumbers()
         let found: [RealWindow] = infos.compactMap { info in
             guard (info[kCGWindowOwnerPID as String] as? Int32) == pid,
-                  (info[kCGWindowLayer as String] as? Int) == 0,
+                  // Normal windows are level 0, but some apps (DaVinci Resolve) raise theirs to 3 or 4 while active;
+                  // palettes and panels sit at up to 8. Menu bar items, the Dock and the like are far above.
+                  let level = info[kCGWindowLayer as String] as? Int, (0...8).contains(level),
                   (info[kCGWindowAlpha as String] as? Double ?? 1) > 0,
                   let number = info[kCGWindowNumber as String] as? CGWindowID,
                   let bounds = info[kCGWindowBounds as String] as? NSDictionary,
