@@ -53,6 +53,7 @@ struct SettingsView: View {
             Section("Apps") {
                 HStack {
                     Button("Add App…") { Launcher.chooseAppsToPin() }
+                    Button("Add File or Folder…") { Launcher.chooseFilesToPin() }
                     Button("Add Category…") { Launcher.addCategory() }
                     Button("Re-import from Dock…") { confirmReimport() }
                 }

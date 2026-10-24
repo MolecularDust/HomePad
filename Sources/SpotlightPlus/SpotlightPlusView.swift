@@ -58,7 +58,7 @@ struct SpotlightPlusView: View {
                         .font(.system(size: 19, weight: .medium))
                         .foregroundStyle(.secondary)
                 }
-                TextField("SpotlightPlus Search", text: $state.query)
+                TextField("Search apps, documents and files", text: $state.query)
                     .textFieldStyle(.plain)
                     .font(.system(size: 20))
                     .focused($searchFocused)
@@ -135,6 +135,7 @@ struct HomeView: View {
             HStack(spacing: 16) {
                 Spacer()
                 HoverLink(title: "Add App") { Launcher.chooseAppsToPin() }
+                HoverLink(title: "Add File or Folder") { Launcher.chooseFilesToPin() }
                 HoverLink(title: "Add Category") { Launcher.addCategory() }
             }
             .padding(.horizontal, 24)
@@ -170,6 +171,7 @@ struct HomeView: View {
                     .contentShape(Rectangle())
                     .contextMenu {
                         Button("Add App…") { Launcher.chooseAppsToPin() }
+                        Button("Add File or Folder…") { Launcher.chooseFilesToPin() }
                         Button("Add Category…") { Launcher.addCategory() }
                     }
                 }
@@ -191,6 +193,7 @@ struct CategorySection: View {
                 .contextMenu {
                     Button("Rename…") { Launcher.renameCategory(category) }
                     Button("Add App…") { Launcher.chooseAppsToPin(to: category.id) }
+                    Button("Add File or Folder…") { Launcher.chooseFilesToPin(to: category.id) }
                     if category.id != store.essentialsID {
                         Divider()
                         Button("Delete Category") { store.delete(category.id) }
@@ -271,7 +274,7 @@ struct AppTile: View {
                         ForEach(others) { c in Button(c.name) { CategoryStore.shared.move(url, toCategory: c.id) } }
                     }
                 }
-                Button("Unpin App") { CategoryStore.shared.remove(url) }
+                Button(url.pathExtension == "app" ? "Unpin App" : "Unpin") { CategoryStore.shared.remove(url) }
             } else {
                 PinMenu(url: url)
             }
@@ -291,12 +294,13 @@ struct PinMenu: View {
     let url: URL
     var body: some View {
         let categories = CategoryStore.shared.categories
+        let title = url.pathExtension == "app" ? "Pin App" : "Pin"
         if categories.count > 1 {
-            Menu("Pin App") {
+            Menu(title) {
                 ForEach(categories) { c in Button(c.name) { CategoryStore.shared.add(url, to: c.id) } }
             }
         } else {
-            Button("Pin App") { CategoryStore.shared.add(url) }
+            Button(title) { CategoryStore.shared.add(url) }
         }
     }
 }
@@ -415,6 +419,7 @@ struct SearchResultsView: View {
                             }
                             .id(result.id)
                         }
+                        FullDiskAccessHint().padding(.top, 8)
                     }
                     .padding(.horizontal, 18)
                     .padding(.bottom, 12)
@@ -426,6 +431,42 @@ struct SearchResultsView: View {
                 .onChange(of: state.selection) { i in
                     if items.indices.contains(i) { proxy.scrollTo(items[i].id) }
                 }
+            }
+        }
+    }
+}
+
+/// Without Full Disk Access macOS keeps Documents, Desktop and Downloads out of the search results, which
+/// looks like files that don't exist. This says so, and takes you to the switch.
+struct FullDiskAccessHint: View {
+    @AppStorage("hideFullDiskHint") private var hidden = false
+    @State private var granted = Permissions.fullDiskAccess
+
+    var body: some View {
+        if !granted && !hidden {
+            HStack(spacing: 12) {
+                Image(systemName: "lock.shield").font(.system(size: 18)).foregroundStyle(.secondary).frame(width: 30)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Files in Documents, Desktop and Downloads aren't searched yet")
+                        .font(.system(size: 12, weight: .medium))
+                    Text("Click to allow Full Disk Access, then relaunch SpotlightPlus")
+                        .font(.system(size: 11)).foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button { hidden = true } label: {
+                    Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.secondary)
+                        .frame(width: 22, height: 22).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .help("Don't show this again")
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(RoundedRectangle(cornerRadius: 8).fill(Color.primary.opacity(0.06)))
+            .contentShape(Rectangle())
+            .onTapGesture {
+                Permissions.openSettings("Privacy_AllFiles")
+                PanelController.shared.hide(restoreFocus: false)
             }
         }
     }
@@ -500,7 +541,7 @@ struct ResultRow: View {
                 Button("Show in Finder") { Launcher.reveal(result.url) }
                 Divider()
                 if CategoryStore.shared.contains(result.url) {
-                    Button("Unpin App") { CategoryStore.shared.remove(result.url) }
+                    Button(result.url.pathExtension == "app" ? "Unpin App" : "Unpin") { CategoryStore.shared.remove(result.url) }
                 } else {
                     PinMenu(url: result.url)
                 }

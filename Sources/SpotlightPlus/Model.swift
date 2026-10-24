@@ -1,6 +1,18 @@
 import AppKit
 import UniformTypeIdentifiers
 
+/// False only when the item is really gone. A file in a protected folder (Documents, Desktop, Downloads) that
+/// this app isn't allowed to look at reports "no permission", not "missing", and must stay pinned.
+func itemExists(atPath path: String) -> Bool {
+    do {
+        _ = try FileManager.default.attributesOfItem(atPath: path)
+        return true
+    } catch let error as NSError {
+        return !(error.domain == NSCocoaErrorDomain && (error.code == NSFileNoSuchFileError || error.code == NSFileReadNoSuchFileError))
+            && !(error.domain == NSPOSIXErrorDomain && error.code == Int(ENOENT))
+    }
+}
+
 func normalized(_ url: URL) -> URL {
     URL(fileURLWithPath: url.standardizedFileURL.path)
 }
@@ -54,7 +66,7 @@ final class CategoryStore: ObservableObject {
             categories = [Category(name: "Essentials", paths: paths)]
         }
         for i in categories.indices {
-            categories[i].paths = categories[i].paths.filter { FileManager.default.fileExists(atPath: $0) }
+            categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
         }
         save()
     }
@@ -223,6 +235,25 @@ enum Launcher {
     /// Shows the app picker for a category (Essentials by default). The panel stays visible behind it.
     static func chooseAppsToPin(to category: UUID? = nil) {
         DispatchQueue.main.async { AppPicker.show(for: category) }
+    }
+
+    /// Pins any files or folders. The standard open dialog is used here, so Documents and the like can be browsed.
+    static func chooseFilesToPin(to category: UUID? = nil) {
+        DispatchQueue.main.async {
+            PanelController.shared.keepVisible {
+                activateSelf()
+                let panel = NSOpenPanel()
+                panel.title = "Add Files or Folders"
+                panel.prompt = "Add"
+                panel.allowsMultipleSelection = true
+                panel.canChooseFiles = true
+                panel.canChooseDirectories = true
+                panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
+                if panel.runModal() == .OK {
+                    panel.urls.forEach { CategoryStore.shared.add($0, to: category) }
+                }
+            }
+        }
     }
 
     static func addCategory() {
