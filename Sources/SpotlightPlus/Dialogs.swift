@@ -162,11 +162,15 @@ private struct AppPickerView: View {
                     ForEach(shown, id: \.self) { url in
                         PickerTile(url: url, added: store.contains(url), selected: selected.contains(url),
                                    toggle: {
+                                       // Check the live state: a double-click delivers its clicks after the pin.
+                                       guard !store.contains(url) else { return }
                                        if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
                                    },
                                    pin: {
+                                       guard !store.contains(url) else { return }
                                        selected.remove(url)
                                        store.add(url, to: category)
+                                       close()          // so the new tile is visible in the panel behind
                                    })
                     }
                 }
@@ -206,7 +210,7 @@ private struct AppPickerView: View {
     private var footer: some View {
         HStack(spacing: 10) {
             Button("Browse…", action: browse)
-            Text("Double-click an app to add it right away")
+            Text("Double-click an app to add it and close")
                 .font(.system(size: 11)).foregroundStyle(.secondary)
             Spacer()
             Button("Cancel", action: close).keyboardShortcut(.cancelAction)
@@ -279,8 +283,8 @@ private struct PickerTile: View {
         .opacity(added ? 0.45 : 1)
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
-        .onTapGesture { if !added { toggle() } }
-        .simultaneousGesture(TapGesture(count: 2).onEnded { if !added { pin() } })
+        .onTapGesture { toggle() }
+        .simultaneousGesture(TapGesture(count: 2).onEnded { pin() })
         .help(IconCache.name(for: url))
     }
 }
