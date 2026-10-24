@@ -101,18 +101,30 @@ private struct TextPromptView: View {
 // MARK: - Picking apps
 
 enum InstalledApps {
+    private static var store: [URL]?
+
+    /// The list, kept after the first time; `refresh` rebuilds it (apps installed since).
+    static func cached(refresh: Bool = false) -> [URL] {
+        if let store, !refresh { return store }
+        let apps = list()
+        store = apps
+        return apps
+    }
+
     /// Apps in the usual folders, sorted by name.
     static func list() -> [URL] {
         let home = FileManager.default.homeDirectoryForCurrentUser.path
         let folders = ["/Applications", "/Applications/Utilities", "/System/Applications",
-                       "/System/Applications/Utilities", "\(home)/Applications"]
+                       "/System/Applications/Utilities", "/System/Cryptexes/App/System/Applications",
+                       "\(home)/Applications"]
         var seen = Set<String>()
         var apps: [URL] = []
         for folder in folders {
-            let urls = (try? FileManager.default.contentsOfDirectory(
-                at: URL(fileURLWithPath: folder), includingPropertiesForKeys: nil,
-                options: [.skipsHiddenFiles])) ?? []
-            for url in urls where url.pathExtension == "app" && seen.insert(url.path).inserted {
+            // No skipsHiddenFiles: Safari is a hidden link in /Applications.
+            let urls = (try? FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: folder),
+                                                                     includingPropertiesForKeys: nil)) ?? []
+            for url in urls where url.pathExtension == "app" && !url.lastPathComponent.hasPrefix(".")
+                && seen.insert(url.resolvingSymlinksInPath().path).inserted {
                 apps.append(url)
             }
         }

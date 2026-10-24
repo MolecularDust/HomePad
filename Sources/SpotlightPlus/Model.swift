@@ -201,6 +201,12 @@ enum Launcher {
         }
     }
 
+    /// Runs a Shortcut. The panel closes and focus goes back, so the Shortcut acts on the app you were in.
+    static func runShortcut(_ name: String) {
+        PanelController.shared.hide(restoreFocus: true)
+        ShortcutsCatalog.perform(name)
+    }
+
     /// Puts text on the clipboard, e.g. a calculator answer.
     static func copy(_ text: String) {
         NSPasteboard.general.clearContents()

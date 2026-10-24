@@ -8,6 +8,11 @@ import ApplicationServices
 enum Permissions {
     static var screenRecording: Bool { CGPreflightScreenCaptureAccess() }
     static var accessibility: Bool { AXIsProcessTrusted() }
+    /// Full Disk Access has no API to ask or check; being able to open the system's privacy database means it's on.
+    /// Without it, macOS leaves files in Documents, Desktop and Downloads out of the search results.
+    static var fullDiskAccess: Bool {
+        FileHandle(forReadingAtPath: "/Library/Application Support/com.apple.TCC/TCC.db") != nil
+    }
 
     /// Our panels float above ordinary windows, which would hide the system's permission dialog behind them.
     private static func clearFloatingWindows() {
@@ -440,16 +445,19 @@ struct WindowPreviewView: View {
             } else if model.windows.isEmpty {
                 Text("No open windows").font(.system(size: 11)).foregroundStyle(.secondary)
             } else {
-                ForEach(groups.indices, id: \.self) { g in
-                    VStack(alignment: .leading, spacing: 8) {
-                        if groups.count > 1 {
-                            Text("Space \(groups[g].space)")
-                                .font(.system(size: 11, weight: .semibold))
-                                .foregroundStyle(.secondary)
-                        }
-                        ForEach(groups[g].rows.indices, id: \.self) { r in
-                            HStack(alignment: .top, spacing: 10) {
-                                ForEach(groups[g].rows[r]) { WindowThumbnail(window: $0, app: model.app) }
+                // Spaces sit side by side; within a Space, thumbnails run left to right.
+                HStack(alignment: .top, spacing: 20) {
+                    ForEach(groups.indices, id: \.self) { g in
+                        VStack(alignment: .leading, spacing: 8) {
+                            if groups.count > 1 {
+                                Text("Space \(groups[g].space)")
+                                    .font(.system(size: 11, weight: .semibold))
+                                    .foregroundStyle(.secondary)
+                            }
+                            ForEach(groups[g].rows.indices, id: \.self) { r in
+                                HStack(alignment: .top, spacing: 10) {
+                                    ForEach(groups[g].rows[r]) { WindowThumbnail(window: $0, app: model.app) }
+                                }
                             }
                         }
                     }
@@ -466,9 +474,10 @@ struct WindowPreviewView: View {
     private var groups: [(space: Int, rows: [[AppWindow]])] {
         var order: [Int] = []
         for w in model.windows where !order.contains(w.spaceNumber) { order.append(w.spaceNumber) }
+        let perRow = order.count > 1 ? 2 : 3          // narrower columns when Spaces sit side by side
         return order.map { space in
             let windows = model.windows.filter { $0.spaceNumber == space }
-            let rows = stride(from: 0, to: windows.count, by: 3).map { Array(windows[$0..<min($0 + 3, windows.count)]) }
+            let rows = stride(from: 0, to: windows.count, by: perRow).map { Array(windows[$0..<min($0 + perRow, windows.count)]) }
             return (space, rows)
         }
     }

@@ -9,11 +9,13 @@ struct SettingsView: View {
     @AppStorage("columns") private var columns = 6
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
+    @AppStorage(ClipboardHistory.enabledKey) private var clipboardHistory = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
     @State private var hasAccessibility = Permissions.accessibility
     @State private var hasScreenRecording = Permissions.screenRecording
+    @State private var hasFullDisk = Permissions.fullDiskAccess
 
     var body: some View {
         Form {
@@ -67,7 +69,11 @@ struct SettingsView: View {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
-                if !hasAccessibility || !hasScreenRecording {
+                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: hasFullDisk,
+                              detail: "Find files in Documents, Desktop and Downloads. Add SpotlightPlus with + if it isn't listed, then relaunch it.") {
+                    Permissions.openSettings("Privacy_AllFiles")
+                }
+                if !hasAccessibility || !hasScreenRecording || !hasFullDisk {
                     Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                     .font(.caption).foregroundStyle(.secondary)
                 }
@@ -77,6 +83,14 @@ struct SettingsView: View {
                 Toggle("Hide the Dock", isOn: $dockHidden)
                     .onChange(of: dockHidden) { DockControl.setHidden($0) }
                 Text("Turns on auto-hide with a very long delay, so the Dock never pops up. Cmd-Tab and Mission Control keep working.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
+            Section("Clipboard history") {
+                Toggle("Remember what I copy", isOn: $clipboardHistory)
+                    .onChange(of: clipboardHistory) { if !$0 { ClipboardHistory.shared.clear() } }
+                Button("Clear clipboard history") { ClipboardHistory.shared.clear() }
+                Text("Text only, for the last 8 hours, kept in memory and never saved to disk. Items password managers mark as secret are skipped.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 
@@ -111,6 +125,7 @@ struct SettingsView: View {
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             hasAccessibility = Permissions.accessibility
             hasScreenRecording = Permissions.screenRecording
+            hasFullDisk = Permissions.fullDiskAccess
         }
     }
 
@@ -137,6 +152,7 @@ struct SettingsView: View {
         columns = 6
         showRunning = true
         showMenuBarIcon = true
+        clipboardHistory = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }
     }

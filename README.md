@@ -35,6 +35,11 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. Apps that are open but not in a category show in the
   **Running** section, which can't be edited (it can be turned off).
 - **Running app menu**: right-click a running app for **Close Windows** (only if it has a window open; needs the Accessibility permission) and **Close App**.
+- **Filters**: the four round buttons beside the search field (or ⌘1 to ⌘4) narrow the list, as in Spotlight:
+  **Apps** (every installed app), **Files and Folders** (recent ones, or search by name), **Shortcuts**
+  (your Shortcuts app shortcuts; ↩ runs one) and **Clipboard History** (text you copied in the last 8 hours,
+  kept in memory only; ↩ copies it again). Esc leaves a filter. Files in Documents, Desktop and Downloads only
+  appear once SpotlightPlus has **Full Disk Access** (System Settings → Privacy & Security).
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close.

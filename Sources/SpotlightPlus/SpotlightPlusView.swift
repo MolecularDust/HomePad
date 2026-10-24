@@ -11,6 +11,30 @@ struct WindowDragArea: NSViewRepresentable {
     func updateNSView(_ nsView: NSView, context: Context) {}
 }
 
+/// One of the round filter buttons beside the search field.
+struct ScopeButton: View {
+    let scope: SearchScope
+    let selected: Bool
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: scope.symbol)
+                .font(.system(size: 20))
+                .foregroundStyle(selected ? Color.accentColor : Color.secondary)
+                .frame(width: 58, height: 58)
+                .background(Circle().fill(Color(nsColor: .textBackgroundColor)))
+                .overlay(Circle().stroke(selected ? Color.accentColor : Color.primary.opacity(hovering ? 0.3 : 0.15),
+                                         lineWidth: selected ? 1.5 : 0.5))
+                .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .help("\(scope.title)  ⌘\((SearchScope.filters.firstIndex(of: scope) ?? 0) + 1)")
+    }
+}
+
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -22,7 +46,7 @@ struct SpotlightPlusView: View {
                 .padding(.top, 22)
                 .padding(.bottom, 14)
 
-            if state.query.isEmpty {
+            if state.query.isEmpty && state.scope == .all {
                 HomeView()
             } else {
                 SearchResultsView()
@@ -39,26 +63,36 @@ struct SpotlightPlusView: View {
         }
     }
 
+    /// The search field (a tall white pill) with the four filters beside it, as in Spotlight.
     private var searchBar: some View {
         HStack(spacing: 10) {
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: 17, weight: .medium))
-                .foregroundStyle(.secondary)
-            TextField("Search apps, documents and files", text: $state.query)
-                .textFieldStyle(.plain)
-                .font(.system(size: 18))
-                .focused($searchFocused)
-            if !state.query.isEmpty {
-                Button { state.query = "" } label: {
-                    Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 19, weight: .medium))
+                    .foregroundStyle(.secondary)
+                TextField(state.scope.placeholder, text: $state.query)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 20))
+                    .focused($searchFocused)
+                if !state.query.isEmpty {
+                    Button { state.query = "" } label: {
+                        Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
+            }
+            .padding(.horizontal, 20)
+            .frame(height: 58)
+            .background(Capsule().fill(Color(nsColor: .textBackgroundColor)))
+            .overlay(Capsule().stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
+            .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
+
+            ForEach(SearchScope.filters, id: \.self) { scope in
+                ScopeButton(scope: scope, selected: state.scope == scope) {
+                    state.scope = state.scope == scope ? .all : scope
+                }
             }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 11)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.primary.opacity(0.07)))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.08)))
     }
 
     private var footer: some View {
@@ -367,7 +401,12 @@ struct SearchResultsView: View {
         let items = search.results
         ScrollViewReader { proxy in
             ScrollView {
-                VStack(alignment: .leading, spacing: 2) {
+                LazyVStack(alignment: .leading, spacing: 2) {
+                    if items.isEmpty && state.scope != .all {
+                        Text(state.scope.emptyMessage)
+                            .font(.callout).foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity).padding(.vertical, 40)
+                    }
                     ForEach(Array(items.enumerated()), id: \.element.id) { index, result in
                         VStack(alignment: .leading, spacing: 2) {
                             if result.section != .calculator && (index == 0 || items[index - 1].section != result.section) {
@@ -386,7 +425,9 @@ struct SearchResultsView: View {
                                 }
                             }
                                 .onTapGesture {
-                                    if let answer = result.copyText {
+                                    if let name = result.actionName {
+                                        Launcher.runShortcut(name)
+                                    } else if let answer = result.copyText {
                                         Launcher.copy(answer)
                                         PanelController.shared.hide(restoreFocus: true)
                                     } else {
@@ -451,10 +492,17 @@ struct ResultRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(nsImage: IconCache.icon(for: result.url))
-                .resizable()
-                .frame(width: 30, height: 30)
-                .foregroundStyle(.secondary)
+            if let symbol = result.symbol {
+                Image(systemName: symbol)
+                    .font(.system(size: 18))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 30, height: 30)
+            } else {
+                Image(nsImage: IconCache.icon(for: result.url))
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundStyle(.secondary)
+            }
             VStack(alignment: .leading, spacing: 1) {
                 Text(result.name).font(.system(size: 13)).lineLimit(1)
                 Text(result.subtitle).font(.system(size: 11)).foregroundStyle(.secondary)
@@ -462,7 +510,8 @@ struct ResultRow: View {
             }
             Spacer()
             if selected {
-                Text(result.url.isFileURL ? "↩ open   ⌘↩ show" : "↩ search")
+                Text(result.actionName != nil ? "↩ run" : result.copyText != nil ? "↩ copy"
+                     : result.url.isFileURL ? "↩ open   ⌘↩ show" : "↩ search")
                     .font(.system(size: 11)).foregroundStyle(.secondary)
             }
         }
