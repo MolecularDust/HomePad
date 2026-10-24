@@ -64,22 +64,28 @@ private struct TextPromptView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             if !message.isEmpty {
-                Text(message).font(.callout).foregroundStyle(.secondary)
+                Text(message).font(.system(size: 14)).foregroundStyle(.secondary)
             }
             TextField("Name", text: $text)
-                .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.plain)
+                .font(.system(size: 18))
                 .focused($focused)
                 .onSubmit(submit)
-            HStack {
+                .padding(.horizontal, 14)
+                .padding(.vertical, 11)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.primary.opacity(0.07)))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.08)))
+            HStack(spacing: 10) {
                 Spacer()
                 Button("Cancel") { done(nil) }.keyboardShortcut(.cancelAction)
                 Button(button, action: submit).keyboardShortcut(.defaultAction)
             }
+            .controlSize(.large)
         }
-        .padding(20)
-        .frame(width: 340)
+        .padding(28)
+        .frame(width: 520)
         .onAppear { DispatchQueue.main.async { focused = true } }
     }
 
@@ -127,53 +133,80 @@ private struct AppPickerView: View {
     let category: UUID
     let close: () -> Void
     @ObservedObject private var store = CategoryStore.shared
+    @AppStorage("columns") private var columns = 6
     @State private var query = ""
     @State private var selected = Set<URL>()
     @State private var apps = InstalledApps.list()
+    @FocusState private var searchFocused: Bool
 
     private var shown: [URL] {
         query.isEmpty ? apps : apps.filter { IconCache.name(for: $0).localizedCaseInsensitiveContains(query) }
     }
 
-    var body: some View {
-        VStack(spacing: 0) {
-            TextField("Search apps", text: $query)
-                .textFieldStyle(.roundedBorder)
-                .padding(12)
-            List(shown, id: \.self) { url in row(url) }
-                .listStyle(.plain)
-            Divider()
-            HStack {
-                Button("Browse…", action: browse)
-                Spacer()
-                Button("Cancel", action: close).keyboardShortcut(.cancelAction)
-                Button(selected.isEmpty ? "Add" : "Add \(selected.count)", action: add)
-                    .keyboardShortcut(.defaultAction)
-                    .disabled(selected.isEmpty)
-            }
-            .padding(12)
-        }
-        .frame(width: 420, height: 520)
+    private var grid: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 6), count: max(columns, 3))
     }
 
-    private func row(_ url: URL) -> some View {
-        let added = store.contains(url)
-        return HStack(spacing: 10) {
-            Image(nsImage: IconCache.icon(for: url)).resizable().frame(width: 26, height: 26)
-            Text(IconCache.name(for: url))
-            Spacer()
-            if added {
-                Text("Added").font(.caption).foregroundStyle(.secondary)
-            } else if selected.contains(url) {
-                Image(systemName: "checkmark.circle.fill").foregroundStyle(Color.accentColor)
+    var body: some View {
+        VStack(spacing: 0) {
+            searchBar
+                .padding(.horizontal, 24)
+                .padding(.top, 22)
+                .padding(.bottom, 14)
+
+            ScrollView {
+                LazyVGrid(columns: grid, spacing: 6) {
+                    ForEach(shown, id: \.self) { url in
+                        PickerTile(url: url, added: store.contains(url), selected: selected.contains(url)) {
+                            if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 16)
+            }
+
+            Divider().opacity(0.6)
+            footer
+        }
+        .frame(width: panelSize.width, height: panelSize.height)
+        .onAppear { DispatchQueue.main.async { searchFocused = true } }
+    }
+
+    private var searchBar: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 17, weight: .medium))
+                .foregroundStyle(.secondary)
+            TextField("Search apps", text: $query)
+                .textFieldStyle(.plain)
+                .font(.system(size: 18))
+                .focused($searchFocused)
+            if !query.isEmpty {
+                Button { query = "" } label: {
+                    Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
             }
         }
-        .contentShape(Rectangle())
-        .opacity(added ? 0.5 : 1)
-        .onTapGesture {
-            guard !added else { return }
-            if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 11)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color.primary.opacity(0.07)))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.08)))
+    }
+
+    private var footer: some View {
+        HStack(spacing: 10) {
+            Button("Browse…", action: browse)
+            Spacer()
+            Button("Cancel", action: close).keyboardShortcut(.cancelAction)
+            Button(selected.isEmpty ? "Add" : "Add \(selected.count)", action: add)
+                .keyboardShortcut(.defaultAction)
+                .disabled(selected.isEmpty)
         }
+        .padding(.horizontal, 24)
+        .frame(height: 52)
+        .background(Color.primary.opacity(0.03))
     }
 
     private func add() {
@@ -194,5 +227,48 @@ private struct AppPickerView: View {
             panel.urls.forEach { store.add($0, to: category) }
             close()
         }
+    }
+}
+
+/// Same look as a tile in the main panel, with a check mark when picked.
+private struct PickerTile: View {
+    let url: URL
+    let added: Bool
+    let selected: Bool
+    let toggle: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        VStack(spacing: 5) {
+            Image(nsImage: IconCache.icon(for: url))
+                .resizable()
+                .interpolation(.high)
+                .frame(width: 52, height: 52)
+                .overlay(alignment: .topTrailing) {
+                    if selected {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 18))
+                            .foregroundStyle(.white, Color.accentColor)
+                            .offset(x: 6, y: -6)
+                    }
+                }
+            Text(IconCache.name(for: url))
+                .font(.system(size: 11))
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .padding(.horizontal, 4)
+            Text(added ? "Added" : " ")
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+        .background(RoundedRectangle(cornerRadius: 10)
+            .fill(selected ? Color.accentColor.opacity(0.22) : (hovering && !added ? Color.primary.opacity(0.09) : .clear)))
+        .opacity(added ? 0.45 : 1)
+        .contentShape(Rectangle())
+        .onHover { hovering = $0 }
+        .onTapGesture { if !added { toggle() } }
+        .help(IconCache.name(for: url))
     }
 }
