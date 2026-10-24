@@ -27,7 +27,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `ShortcutConflict.swift` | Detects who else uses the global shortcut (macOS shortcuts exactly, known launcher apps as a guess) and shows the explanation dialog; Carbon registration does NOT fail on clashes |
 | `Onboarding.swift` | First-run welcome window (permissions + shortcut); reopen via menu bar → Setup Guide… |
 | `Dialogs.swift` | `ModalWindow` (titled, closable, runs via `NSApp.runModal`), `TextPrompt`, `AppPicker`; replaces NSAlert/NSOpenPanel so dialogs have a close button |
-| `Spaces.swift` | Private SkyLight calls, looked up with `dlsym`: which Space a window is on (hidden helper windows are on none), and bringing a window forward. OK because the app is unsandboxed and not on the App Store |
+| `Spaces.swift` | Private SkyLight calls, looked up with `dlsym`: which Space a window is on (hidden helper windows are on none), bringing a window forward, and `RemoteAX` (Accessibility elements for windows on other Spaces, found by scanning element ids; windows sit at ids in the thousands). OK because the app is unsandboxed and not on the App Store |
 | `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |

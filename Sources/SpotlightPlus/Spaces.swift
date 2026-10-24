@@ -10,6 +10,7 @@ enum SkyLight {
     private typealias ActiveSpace = @convention(c) (Int32) -> Int
     private typealias ProcessForPID = @convention(c) (pid_t, UnsafeMutableRawPointer) -> Int32
     private typealias SetFrontProcess = @convention(c) (UnsafeMutableRawPointer, CGWindowID, UInt32) -> Int32
+    private typealias CopyManagedDisplaySpaces = @convention(c) (Int32) -> Unmanaged<CFArray>?
     private typealias PostEvent = @convention(c) (UnsafeMutableRawPointer, UnsafeMutablePointer<UInt8>) -> Int32
 
     private static let handle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
@@ -27,6 +28,19 @@ enum SkyLight {
     static var activeSpace: Int? {
         guard let connection, let function = symbol("CGSGetActiveSpace", as: ActiveSpace.self) else { return nil }
         return function(connection)
+    }
+
+    /// Space id -> its number (1, 2, 3 ...) in Mission Control's order, per display.
+    static func spaceNumbers() -> [Int: Int] {
+        guard let connection, let function = symbol("CGSCopyManagedDisplaySpaces", as: CopyManagedDisplaySpaces.self),
+              let displays = function(connection)?.takeRetainedValue() as? [[String: Any]] else { return [:] }
+        var numbers: [Int: Int] = [:]
+        for display in displays {
+            for (index, space) in ((display["Spaces"] as? [[String: Any]]) ?? []).enumerated() {
+                if let id = space["ManagedSpaceID"] as? Int { numbers[id] = index + 1 }
+            }
+        }
+        return numbers
     }
 
     /// The Spaces a window belongs to. Empty for windows that belong to none: the hidden helper windows many
@@ -59,5 +73,76 @@ enum SkyLight {
             _ = postEvent(psn, &bytes)
             return true
         }
+    }
+}
+
+/// Accessibility only lists windows on the Space being shown. Windows on other Spaces can still be reached by
+/// building their Accessibility elements directly (private calls), which is how window switchers such as AltTab
+/// do it: element ids are tried one after another and each window element is matched to its window number.
+/// Ids count up as an app creates interface elements, so windows sit at ids in the thousands. Windows found are
+/// remembered, and later searches start near the highest id seen.
+enum RemoteAX {
+    private typealias CreateWithRemoteToken = @convention(c) (CFData) -> Unmanaged<AXUIElement>?
+    private typealias GetWindow = @convention(c) (AXUIElement, UnsafeMutablePointer<CGWindowID>) -> AXError
+
+    private static let createWithRemoteToken = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "_AXUIElementCreateWithRemoteToken")
+        .map { unsafeBitCast($0, to: CreateWithRemoteToken.self) }
+    private static let getWindow = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "_AXUIElementGetWindow")
+        .map { unsafeBitCast($0, to: GetWindow.self) }
+
+    private static let lock = NSLock()
+    private static var knownIDs: [pid_t: [CGWindowID: UInt64]] = [:]
+    private static var highWater: [pid_t: UInt64] = [:]
+
+    /// The Accessibility element of one window, on any Space. `deep` keeps searching much further (a few
+    /// seconds at worst); it is for when the user has clicked something and is waiting for it anyway.
+    static func element(for window: CGWindowID, pid: pid_t, deep: Bool = false) -> AXUIElement? {
+        guard Permissions.accessibility, createWithRemoteToken != nil, getWindow != nil else { return nil }
+        lock.lock()
+        let cachedID = knownIDs[pid]?[window]
+        let high = highWater[pid] ?? 0
+        lock.unlock()
+
+        if let cachedID, let element = windowElement(pid: pid, id: cachedID, expecting: window) { return element }
+
+        let start = high > 500 ? high - 500 : 0          // newer elements have higher ids
+        let end = max(high + 10_000, 40_000)
+        return scan(pid: pid, ids: start..<end, target: window)
+            ?? (start > 0 ? scan(pid: pid, ids: 0..<start, target: window) : nil)
+            ?? (deep ? scan(pid: pid, ids: end..<300_000, target: window) : nil)
+    }
+
+    private static func token(pid: pid_t, id: UInt64) -> CFData {
+        var token = Data(count: 20)
+        token.replaceSubrange(0..<4, with: withUnsafeBytes(of: Int32(pid)) { Data($0) })
+        token.replaceSubrange(8..<12, with: withUnsafeBytes(of: Int32(0x636f636f)) { Data($0) })
+        token.replaceSubrange(12..<20, with: withUnsafeBytes(of: id) { Data($0) })
+        return token as CFData
+    }
+
+    private static func windowElement(pid: pid_t, id: UInt64, expecting: CGWindowID? = nil) -> AXUIElement? {
+        guard let createWithRemoteToken, let getWindow,
+              let element = createWithRemoteToken(token(pid: pid, id: id))?.takeRetainedValue() else { return nil }
+        var role: CFTypeRef?
+        AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role)
+        guard role as? String == kAXWindowRole else { return nil }
+        var windowID = CGWindowID(0)
+        guard getWindow(element, &windowID) == .success, expecting == nil || windowID == expecting else { return nil }
+        return element
+    }
+
+    private static func scan(pid: pid_t, ids: Range<UInt64>, target: CGWindowID) -> AXUIElement? {
+        guard let getWindow else { return nil }
+        for id in ids {
+            guard let element = windowElement(pid: pid, id: id) else { continue }
+            var windowID = CGWindowID(0)
+            guard getWindow(element, &windowID) == .success else { continue }
+            lock.lock()
+            knownIDs[pid, default: [:]][windowID] = id
+            highWater[pid] = max(highWater[pid] ?? 0, id)
+            lock.unlock()
+            if windowID == target { return element }
+        }
+        return nil
     }
 }

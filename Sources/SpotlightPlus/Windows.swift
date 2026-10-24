@@ -67,6 +67,8 @@ struct AppWindow: Identifiable {
     var onOtherSpace = false
     /// False when Accessibility can't find this window's close button (the cross is then hidden).
     var canClose = true
+    /// 1, 2, 3 ... in Mission Control's order; 0 when unknown.
+    var spaceNumber = 0
 }
 
 enum WindowCatalog {
@@ -78,12 +80,14 @@ enum WindowCatalog {
               let content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
         else { return [] }
 
-        let real = Dictionary(uniqueKeysWithValues: realWindows(for: pid).map { ($0.id, $0) })
-        let wins = content.windows.filter { $0.owningApplication?.processID == pid && real[$0.windowID] != nil }
+        let ordered = realWindows(for: pid)
+        let shareable = Dictionary(content.windows.filter { $0.owningApplication?.processID == pid }.map { ($0.windowID, $0) },
+                                   uniquingKeysWith: { first, _ in first })
         var result: [AppWindow] = []
-        for w in wins {
+        for r in ordered {
+            guard let w = shareable[r.id] else { continue }
             result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w),
-                                    onOtherSpace: real[w.windowID]?.onOtherSpace ?? false))
+                                    onOtherSpace: r.onOtherSpace, spaceNumber: r.spaceNumber))
         }
         return result.map { window in
             var w = window
@@ -117,6 +121,7 @@ enum WindowCatalog {
         let id: CGWindowID
         let frame: CGRect
         let onOtherSpace: Bool
+        let spaceNumber: Int
     }
 
     /// The windows a person would call windows: visible ones, minimised ones, and ones on other Spaces. Apps also
@@ -129,7 +134,8 @@ enum WindowCatalog {
             .compactMap(axFrame)
         let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
         let activeSpace = SkyLight.activeSpace
-        return infos.compactMap { info in
+        let numbers = SkyLight.spaceNumbers()
+        let found: [RealWindow] = infos.compactMap { info in
             guard (info[kCGWindowOwnerPID as String] as? Int32) == pid,
                   (info[kCGWindowLayer as String] as? Int) == 0,
                   (info[kCGWindowAlpha as String] as? Double ?? 1) > 0,
@@ -141,8 +147,14 @@ enum WindowCatalog {
             let spaces = SkyLight.spaces(of: number)
             let otherSpace = activeSpace.map { active in !spaces.isEmpty && !spaces.contains(active) } ?? false
             guard onScreen || otherSpace || minimised.contains(where: near(rect)) else { return nil }
-            return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace)
+            // Minimised windows can belong to no Space; they are on the one showing.
+            let spaceNo = spaces.first.flatMap { numbers[$0] } ?? activeSpace.flatMap { numbers[$0] } ?? 0
+            return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo)
         }
+        // By Space (in Mission Control's order), then front to back.
+        return found.enumerated()
+            .sorted { ($0.element.spaceNumber, $0.offset) < ($1.element.spaceNumber, $1.offset) }
+            .map(\.element)
     }
 
     // MARK: Closing windows
@@ -179,6 +191,10 @@ enum WindowCatalog {
         // switch to a Space where it has windows; naming the window first points it at this one.
         if window.onOtherSpace {
             SkyLight.focus(window: window.id, pid: app.processIdentifier)
+            if let element = axWindow(for: window, pid: app.processIdentifier, deep: true) {
+                AXUIElementPerformAction(element, kAXRaiseAction as CFString)
+                AXUIElementSetAttributeValue(AXUIElementCreateApplication(app.processIdentifier), kAXFrontmostAttribute as CFString, kCFBooleanTrue)
+            }
             app.activate(options: [.activateAllWindows])
             return
         }
@@ -200,20 +216,22 @@ enum WindowCatalog {
     @discardableResult
     static func close(_ window: AppWindow, of app: NSRunningApplication) -> Bool {
         guard Permissions.accessibility else { Permissions.requestAccessibility(); return false }
-        guard let button = closeButton(for: window, pid: app.processIdentifier) else { return false }
+        guard let button = closeButton(for: window, pid: app.processIdentifier, deep: true) else { return false }
         return AXUIElementPerformAction(button, kAXPressAction as CFString) == .success
     }
 
-    private static func closeButton(for window: AppWindow, pid: pid_t) -> AXUIElement? {
-        axWindow(for: window, pid: pid).flatMap(closeButton(of:))
+    private static func closeButton(for window: AppWindow, pid: pid_t, deep: Bool = false) -> AXUIElement? {
+        axWindow(for: window, pid: pid, deep: deep).flatMap(closeButton(of:))
     }
 
     /// The Accessibility element for a window from the window list: by title and position, then position, then title.
-    private static func axWindow(for window: AppWindow, pid: pid_t) -> AXUIElement? {
+    private static func axWindow(for window: AppWindow, pid: pid_t, deep: Bool = false) -> AXUIElement? {
+        if window.onOtherSpace { return RemoteAX.element(for: window.id, pid: pid, deep: deep) }
         let candidates = axWindows(pid)
         return candidates.first { axString($0, kAXTitleAttribute) == window.title && axFrame($0).map(near(window.frame)) == true }
             ?? candidates.first { axFrame($0).map(near(window.frame)) == true }
             ?? candidates.first { !window.title.isEmpty && axString($0, kAXTitleAttribute) == window.title }
+            ?? RemoteAX.element(for: window.id, pid: pid, deep: deep)
     }
 
     private static func near(_ target: CGRect) -> (CGRect) -> Bool {
@@ -422,9 +440,18 @@ struct WindowPreviewView: View {
             } else if model.windows.isEmpty {
                 Text("No open windows").font(.system(size: 11)).foregroundStyle(.secondary)
             } else {
-                ForEach(rows.indices, id: \.self) { r in
-                    HStack(alignment: .top, spacing: 10) {
-                        ForEach(rows[r]) { WindowThumbnail(window: $0, app: model.app) }
+                ForEach(groups.indices, id: \.self) { g in
+                    VStack(alignment: .leading, spacing: 8) {
+                        if groups.count > 1 {
+                            Text("Space \(groups[g].space)")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(.secondary)
+                        }
+                        ForEach(groups[g].rows.indices, id: \.self) { r in
+                            HStack(alignment: .top, spacing: 10) {
+                                ForEach(groups[g].rows[r]) { WindowThumbnail(window: $0, app: model.app) }
+                            }
+                        }
                     }
                 }
             }
@@ -434,8 +461,16 @@ struct WindowPreviewView: View {
         .onHover { WindowPreviewController.shared.previewHover($0) }
     }
 
-    private var rows: [[AppWindow]] {
-        stride(from: 0, to: model.windows.count, by: 3).map { Array(model.windows[$0..<min($0 + 3, model.windows.count)]) }
+    /// Windows grouped by Space (already in order), three thumbnails to a row. Space titles show only when the
+    /// app has windows on more than one Space.
+    private var groups: [(space: Int, rows: [[AppWindow]])] {
+        var order: [Int] = []
+        for w in model.windows where !order.contains(w.spaceNumber) { order.append(w.spaceNumber) }
+        return order.map { space in
+            let windows = model.windows.filter { $0.spaceNumber == space }
+            let rows = stride(from: 0, to: windows.count, by: 3).map { Array(windows[$0..<min($0 + 3, windows.count)]) }
+            return (space, rows)
+        }
     }
 
     private func headline(_ app: NSRunningApplication) -> String {
