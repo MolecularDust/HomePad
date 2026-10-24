@@ -63,6 +63,8 @@ struct AppWindow: Identifiable {
     let title: String
     let frame: CGRect
     var image: NSImage?
+    /// False when Accessibility can't find this window's close button (the cross is then hidden).
+    var canClose = true
 }
 
 enum WindowCatalog {
@@ -80,7 +82,11 @@ enum WindowCatalog {
         for w in wins {
             result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w)))
         }
-        return result
+        return result.map { window in
+            var w = window
+            w.canClose = !Permissions.accessibility || closeButton(for: window, pid: pid) != nil
+            return w
+        }
     }
 
     private static func thumbnail(of window: SCWindow) async -> NSImage? {
@@ -167,16 +173,32 @@ enum WindowCatalog {
             return
         }
         let axApp = AXUIElementCreateApplication(app.processIdentifier)
-        let candidates = axWindows(app.processIdentifier)
-        let match = candidates.first { axString($0, kAXTitleAttribute) == window.title && axFrame($0).map(near(window.frame)) == true }
-            ?? candidates.first { axFrame($0).map(near(window.frame)) == true }
-            ?? candidates.first { !window.title.isEmpty && axString($0, kAXTitleAttribute) == window.title }
-        if let match {
+        if let match = axWindow(for: window, pid: app.processIdentifier) {
             AXUIElementSetAttributeValue(match, kAXMinimizedAttribute as CFString, kCFBooleanFalse)
             AXUIElementPerformAction(match, kAXRaiseAction as CFString)
             AXUIElementSetAttributeValue(axApp, kAXFrontmostAttribute as CFString, kCFBooleanTrue)
         }
         app.activate(options: [])
+    }
+
+    /// Closes one specific window by pressing its close button. Needs the Accessibility permission.
+    @discardableResult
+    static func close(_ window: AppWindow, of app: NSRunningApplication) -> Bool {
+        guard Permissions.accessibility else { Permissions.requestAccessibility(); return false }
+        guard let button = closeButton(for: window, pid: app.processIdentifier) else { return false }
+        return AXUIElementPerformAction(button, kAXPressAction as CFString) == .success
+    }
+
+    private static func closeButton(for window: AppWindow, pid: pid_t) -> AXUIElement? {
+        axWindow(for: window, pid: pid).flatMap(closeButton(of:))
+    }
+
+    /// The Accessibility element for a window from the window list: by title and position, then position, then title.
+    private static func axWindow(for window: AppWindow, pid: pid_t) -> AXUIElement? {
+        let candidates = axWindows(pid)
+        return candidates.first { axString($0, kAXTitleAttribute) == window.title && axFrame($0).map(near(window.frame)) == true }
+            ?? candidates.first { axFrame($0).map(near(window.frame)) == true }
+            ?? candidates.first { !window.title.isEmpty && axString($0, kAXTitleAttribute) == window.title }
     }
 
     private static func near(_ target: CGRect) -> (CGRect) -> Bool {
@@ -236,6 +258,7 @@ final class WindowPreviewController {
     private var showWork: DispatchWorkItem?
     private var hideWork: DispatchWorkItem?
     private var generation = 0
+    private var lastTile = CGRect.zero
 
     private init() {
         host = NSHostingView(rootView: WindowPreviewView(model: model))
@@ -298,6 +321,26 @@ final class WindowPreviewController {
         panel.orderOut(nil)
     }
 
+    /// Closes one window from the popup, then refreshes the thumbnails (the popup closes with the last window).
+    func closeWindow(_ window: AppWindow) {
+        guard let app = model.app else { return }
+        WindowCatalog.close(window, of: app)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.reload() }
+    }
+
+    private func reload() {
+        guard panel.isVisible, let app = model.app else { return }
+        generation += 1
+        let mine = generation
+        Task { @MainActor in
+            let windows = await WindowCatalog.windows(for: app.processIdentifier)
+            guard mine == self.generation else { return }
+            if windows.isEmpty { self.hideNow(); return }
+            self.model.windows = windows
+            self.resizeAndPlace(tile: self.lastTile)
+        }
+    }
+
     private func scheduleHide() {
         hideWork?.cancel()
         let work = DispatchWorkItem { [weak self] in
@@ -312,6 +355,7 @@ final class WindowPreviewController {
         guard overTile, PanelController.shared.isVisible else { return }
         generation += 1
         let mine = generation
+        lastTile = tile
         model.app = app
         model.windows = []
         model.fallbackTitles = []
@@ -421,11 +465,34 @@ struct WindowThumbnail: View {
             .frame(width: size.width, height: size.height)
             .overlay(RoundedRectangle(cornerRadius: 6)
                 .stroke(hovering ? Color.accentColor : Color.primary.opacity(0.15), lineWidth: hovering ? 2 : 0.5))
+            .overlay(alignment: .topLeading) {
+                if window.canClose { CloseCross { WindowPreviewController.shared.closeWindow(window) } }
+            }
             Text(window.title.isEmpty ? (app?.localizedName ?? "Window") : window.title)
                 .font(.system(size: 11)).lineLimit(1).frame(width: size.width, alignment: .leading)
         }
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .onTapGesture { if let app { WindowCatalog.focus(window, of: app) } }
+    }
+}
+
+/// The small cross in a thumbnail's corner: closes that one window.
+private struct CloseCross: View {
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "xmark")
+                .font(.system(size: 9, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 18, height: 18)
+                .background(Circle().fill(hovering ? Color.red : Color.black.opacity(0.55)))
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .padding(5)
+        .help("Close this window")
     }
 }
