@@ -1,9 +1,10 @@
 import AppKit
 
 struct SearchResult: Identifiable, Hashable {
-    enum Section: Int { case apps, files, web
+    enum Section: Int { case calculator, apps, files, web
         var title: String {
             switch self {
+            case .calculator: return "Calculator"
             case .apps: return "Apps"
             case .files: return "Documents & Folders"
             case .web: return "Web"
@@ -14,6 +15,8 @@ struct SearchResult: Identifiable, Hashable {
     let name: String
     let subtitle: String
     let section: Section
+    /// Set on a calculator answer: what Return or the copy button puts on the clipboard.
+    var copyText: String?
     var id: URL { url }
 }
 
@@ -26,6 +29,7 @@ final class SearchEngine: ObservableObject {
     private var observers: [NSObjectProtocol] = []
     private var pending: DispatchWorkItem?
     private var text = ""
+    private var typed = ""
 
     func search(_ raw: String) {
         pending?.cancel()
@@ -35,9 +39,17 @@ final class SearchEngine: ObservableObject {
             .replacingOccurrences(of: "*", with: "")
             .replacingOccurrences(of: "?", with: "")
         text = cleaned
+        typed = raw
         guard !cleaned.isEmpty else { results = []; return }
 
-        results = [webResult(cleaned)] + results.filter { $0.section != .web }
+        // The web search gets what was typed (the wildcard stripping is only for the Spotlight index query).
+        let webText = raw.trimmingCharacters(in: .whitespaces)
+        let calculation = calculatorResults()
+        if !calculation.isEmpty {
+            results = calculation + [webResult(webText)]      // a sum isn't a file search
+            return
+        }
+        results = [webResult(webText)] + results.filter { $0.section == .apps || $0.section == .files }
         let work = DispatchWorkItem { [weak self] in self?.start(cleaned) }
         pending = work
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.08, execute: work) // light debounce
@@ -99,9 +111,16 @@ final class SearchEngine: ObservableObject {
         func best(_ list: [(SearchResult, Int, Date)], _ n: Int) -> [SearchResult] {
             list.sorted { $0.1 != $1.1 ? $0.1 < $1.1 : $0.2 > $1.2 }.prefix(n).map(\.0)
         }
-        results = best(apps, 6) + best(files, 10) + [webResult(text)]
+        results = best(apps, 6) + best(files, 10) + [webResult(typed.trimmingCharacters(in: .whitespaces))]
         let state = PanelState.shared
         if state.selection >= results.count { state.selection = 0 }
+    }
+
+    /// Arithmetic typed into the field gets an answer card first, as in Spotlight.
+    private func calculatorResults() -> [SearchResult] {
+        guard let answer = Calculator.evaluate(typed) else { return [] }
+        return [SearchResult(url: URL(string: "spotlightplus-calculator://answer")!, name: answer.value,
+                             subtitle: answer.expression, section: .calculator, copyText: answer.value)]
     }
 
     private func webResult(_ text: String) -> SearchResult {

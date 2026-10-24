@@ -32,6 +32,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |
 | `SpotlightPlusView.swift` | The UI: search bar, category grids, placeholder tiles, running apps, results list |
+| `Calculator.swift` | Arithmetic typed in the search field (hand-written parser, not NSExpression, which throws on bad input); result card appears first |
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, `CategoryStore` (categories, persisted as JSON), running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |

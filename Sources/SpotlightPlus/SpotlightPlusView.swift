@@ -370,7 +370,7 @@ struct SearchResultsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     ForEach(Array(items.enumerated()), id: \.element.id) { index, result in
                         VStack(alignment: .leading, spacing: 2) {
-                            if index == 0 || items[index - 1].section != result.section {
+                            if result.section != .calculator && (index == 0 || items[index - 1].section != result.section) {
                                 Text(result.section.title)
                                     .font(.system(size: 12, weight: .semibold))
                                     .foregroundStyle(.secondary)
@@ -378,8 +378,21 @@ struct SearchResultsView: View {
                                     .padding(.leading, 10)
                                     .padding(.bottom, 2)
                             }
-                            ResultRow(result: result, selected: index == state.selection)
-                                .onTapGesture { Launcher.open(result.url) }
+                            Group {
+                                if result.section == .calculator {
+                                    CalculatorRow(result: result, selected: index == state.selection)
+                                } else {
+                                    ResultRow(result: result, selected: index == state.selection)
+                                }
+                            }
+                                .onTapGesture {
+                                    if let answer = result.copyText {
+                                        Launcher.copy(answer)
+                                        PanelController.shared.hide(restoreFocus: true)
+                                    } else {
+                                        Launcher.open(result.url)
+                                    }
+                                }
                                 .onHover { if $0 { state.selection = index } }
                         }
                         .id(result.id)
@@ -392,6 +405,43 @@ struct SearchResultsView: View {
                 if items.indices.contains(i) { proxy.scrollTo(items[i].id) }
             }
         }
+    }
+}
+
+/// A calculator answer: the sum in small type, the result large, and a button that copies it.
+struct CalculatorRow: View {
+    let result: SearchResult
+    let selected: Bool
+    @State private var copied = false
+
+    var body: some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(result.subtitle).font(.system(size: 12)).foregroundStyle(.secondary).lineLimit(1)
+                Text(result.name).font(.system(size: 30, weight: .medium)).lineLimit(1).minimumScaleFactor(0.5)
+            }
+            Spacer()
+            if selected {
+                Text("↩ copy").font(.system(size: 11)).foregroundStyle(.secondary)
+            }
+            Button {
+                Launcher.copy(result.copyText ?? result.name)
+                copied = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { copied = false }
+            } label: {
+                Image(systemName: copied ? "checkmark" : "doc.on.doc")
+                    .font(.system(size: 14))
+                    .frame(width: 32, height: 32)
+                    .background(Circle().fill(Color.primary.opacity(0.1)))
+            }
+            .buttonStyle(.plain)
+            .help("Copy the answer")
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(RoundedRectangle(cornerRadius: 12).fill(selected ? Color.accentColor.opacity(0.22) : Color.primary.opacity(0.06)))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.primary.opacity(0.1)))
+        .contentShape(Rectangle())
     }
 }
 

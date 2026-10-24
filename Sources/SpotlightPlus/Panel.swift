@@ -160,6 +160,11 @@ final class PanelController: NSObject, NSWindowDelegate {
                 return nil
             case kVK_Return, kVK_ANSI_KeypadEnter:
                 guard results.indices.contains(state.selection) else { return event }
+                if let answer = results[state.selection].copyText {
+                    Launcher.copy(answer)
+                    self.hide(restoreFocus: true)
+                    return nil
+                }
                 let url = results[state.selection].url
                 if event.modifierFlags.contains(.command) && url.isFileURL {
                     Launcher.reveal(url)

@@ -201,6 +201,12 @@ enum Launcher {
         }
     }
 
+    /// Puts text on the clipboard, e.g. a calculator answer.
+    static func copy(_ text: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
+    }
+
     static func reveal(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
         NSWorkspace.shared.activateFileViewerSelecting([url])
