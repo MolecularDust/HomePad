@@ -56,12 +56,12 @@ struct OnboardingView: View {
             }
 
             step("1. Allow access") {
-                permissionRow("Screen Recording", granted: hasScreenRecording,
+                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: hasScreenRecording,
                               detail: "Shows a preview of each window when you hover a running app.") {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
-                permissionRow("Accessibility", granted: hasAccessibility,
+                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: hasAccessibility,
                               detail: "Jumps to the window you pick, and powers the double-tap shortcut.") {
                     Permissions.requestAccessibility()
                 }
@@ -121,14 +121,14 @@ struct OnboardingView: View {
         }
     }
 
-    private func permissionRow(_ title: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
+    private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                 Text(detail).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
-            PermissionButton(granted: granted, action: request)
+            PermissionButton(granted: granted, pane: pane, request: request)
         }
     }
 }

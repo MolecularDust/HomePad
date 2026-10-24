@@ -58,11 +58,11 @@ struct SettingsView: View {
             }
 
             Section("Permissions") {
-                permissionRow("Accessibility", granted: hasAccessibility,
+                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: hasAccessibility,
                               detail: "Jump to a specific window and double-tap a modifier key.") {
                     Permissions.requestAccessibility()
                 }
-                permissionRow("Screen Recording", granted: hasScreenRecording,
+                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: hasScreenRecording,
                               detail: "Window previews when you hover a running app.") {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
@@ -114,12 +114,12 @@ struct SettingsView: View {
         }
     }
 
-    private func permissionRow(_ title: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
+    private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
                 Text(title)
                 Spacer()
-                PermissionButton(granted: granted, action: request)
+                PermissionButton(granted: granted, pane: pane, request: request)
             }
             Text(detail).font(.caption).foregroundStyle(.secondary)
         }

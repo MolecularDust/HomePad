@@ -35,12 +35,14 @@ enum Permissions {
 }
 
 /// Red while the permission is missing or switched off, green once it's on.
+/// Missing: asks for it. Allowed: opens that permission's pane in System Settings, to review or switch it off.
 struct PermissionButton: View {
     let granted: Bool
-    let action: () -> Void
+    let pane: String
+    let request: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(action: { granted ? Permissions.openSettings(pane) : request() }) {
             Label(granted ? "Allowed" : "Allow…",
                   systemImage: granted ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
                 .font(.system(size: 12, weight: .medium))
@@ -50,7 +52,7 @@ struct PermissionButton: View {
                 .background(Capsule().fill(granted ? Color.green : Color.red))
         }
         .buttonStyle(.plain)
-        .disabled(granted)
+        .help(granted ? "Open this permission in System Settings" : "Allow this permission")
     }
 }
 

@@ -156,6 +156,7 @@ final class ShortcutStore: ObservableObject {
         isNone = false
         UserDefaults.standard.set(false, forKey: Self.noneKey)
         ShortcutConflict.forgetDismissal()
+        ShortcutConflict.forgetConfirmation()
         registerCurrent(report: true)
     }
 
@@ -165,9 +166,17 @@ final class ShortcutStore: ObservableObject {
         registerCurrent()
     }
 
+    /// A real press of the shortcut reached the app, so it works: drop any warning about it.
+    func confirmWorking() {
+        guard !isNone else { return }
+        ShortcutConflict.confirm(shortcut)
+        conflict = nil
+    }
+
     /// Registers the shortcut, then checks whether something else gets it first: macOS's own shortcuts are
     /// read from the system, anything else by pressing the shortcut and seeing if it reaches us.
-    /// `report` shows the explanation dialog (unless the user already dismissed it for this shortcut).
+    /// `report` shows the explanation dialog (unless the user dismissed it for this shortcut, or a press
+    /// of it has already been seen to work).
     func registerCurrent(report: Bool = false) {
         guard !isNone else {
             HotKeyManager.shared.unregister()
@@ -176,6 +185,7 @@ final class ShortcutStore: ObservableObject {
         }
         let registered = HotKeyManager.shared.register(shortcut)
         let current = shortcut
+        if ShortcutConflict.isConfirmed(current) { conflict = nil; return }
         let wantsReport = report && !ShortcutConflict.isDismissed(current)
 
         if let owner = ShortcutConflict.systemOwner(of: current) ?? (registered ? nil : .unknown) {
@@ -185,11 +195,22 @@ final class ShortcutStore: ObservableObject {
         }
         conflict = nil
         guard wantsReport else { return }
-        HotKeyManager.shared.probe(current) { [weak self] received in
-            guard let self, received == false, self.shortcut == current, !self.isNone else { return }
-            let owner = ShortcutConflict.appGuess(for: current) ?? .unknown
-            self.conflict = owner
-            ShortcutConflict.report(current, owner: owner)
+        // One missed test press proves little (startup, focus), so it takes three in a row.
+        probe(current, attemptsLeft: 3)
+    }
+
+    private func probe(_ current: Shortcut, attemptsLeft: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self, self.shortcut == current, !self.isNone, !ShortcutConflict.isConfirmed(current) else { return }
+            HotKeyManager.shared.probe(current) { [weak self] received in
+                guard let self, self.shortcut == current, !self.isNone else { return }
+                if received == true { ShortcutConflict.confirm(current); self.conflict = nil; return }
+                guard received == false else { return }      // nil: couldn't test
+                if attemptsLeft > 1 { self.probe(current, attemptsLeft: attemptsLeft - 1); return }
+                let owner = ShortcutConflict.appGuess(for: current) ?? .unknown
+                self.conflict = owner
+                ShortcutConflict.report(current, owner: owner)
+            }
         }
     }
 }

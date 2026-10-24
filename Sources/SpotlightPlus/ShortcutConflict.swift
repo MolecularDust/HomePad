@@ -81,6 +81,15 @@ enum ShortcutConflict {
 
     private static let dismissedKey = "dismissedShortcutConflict"
 
+    /// Set once a press of this shortcut has really reached the app. It proves the shortcut works, so no
+    /// warning is shown for it (until the user picks a different one).
+    private static let confirmedKey = "confirmedShortcut"
+    static func confirm(_ shortcut: Shortcut) { UserDefaults.standard.set(shortcut.displayString, forKey: confirmedKey) }
+    static func forgetConfirmation() { UserDefaults.standard.removeObject(forKey: confirmedKey) }
+    static func isConfirmed(_ shortcut: Shortcut) -> Bool {
+        UserDefaults.standard.string(forKey: confirmedKey) == shortcut.displayString
+    }
+
     static func forgetDismissal() { UserDefaults.standard.removeObject(forKey: dismissedKey) }
     static func isDismissed(_ shortcut: Shortcut) -> Bool {
         UserDefaults.standard.string(forKey: dismissedKey) == shortcut.displayString
