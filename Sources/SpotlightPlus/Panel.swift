@@ -26,6 +26,12 @@ final class PanelState: ObservableObject {
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
 
+    /// Back to the pinned apps: clears the search and any filter.
+    func goHome() {
+        query = ""
+        scope = .all
+    }
+
     func reset() {
         query = ""
         scope = .all

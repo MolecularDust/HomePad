@@ -90,7 +90,7 @@ struct SettingsView: View {
                 Toggle("Remember what I copy", isOn: $clipboardHistory)
                     .onChange(of: clipboardHistory) { if !$0 { ClipboardHistory.shared.clear() } }
                 Button("Clear clipboard history") { ClipboardHistory.shared.clear() }
-                Text("Text only, for the last 8 hours, kept in memory and never saved to disk. Items password managers mark as secret are skipped.")
+                Text("Text only, for the last 8 hours. Saved on this Mac in a file only you can read, and only while SpotlightPlus is running (turn on Launch at login to keep it recording). Items password managers mark as secret are skipped.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 

@@ -1,15 +1,18 @@
 import AppKit
 
-/// Text recently copied, for the clipboard filter in the search bar. Kept in memory only (never written to
-/// disk), for the last 8 hours and 50 items, and items that password managers mark as secret are skipped.
+/// Text recently copied, for the clipboard filter in the search bar. Unlike Spotlight's, which the system keeps
+/// for you, this only records while SpotlightPlus is running (turn on Launch at login to keep it running).
+/// Kept for the last 8 hours and 50 items, saved in a file only you can read, and cleared from Settings.
+/// Items that password managers mark as secret are skipped.
 final class ClipboardHistory {
     static let shared = ClipboardHistory()
     static let enabledKey = "clipboardHistory"
 
-    struct Item: Identifiable {
-        let id = UUID()
+    struct Item: Identifiable, Codable {
+        var id = UUID()
         let text: String
         let date: Date
+        let appBundleID: String?
     }
 
     private(set) var items: [Item] = []
@@ -22,9 +25,22 @@ final class ClipboardHistory {
         "com.agilebits.onepassword",
     ]
 
+    private var fileURL: URL {
+        let folder = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("SpotlightPlus", isDirectory: true)
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true,
+                                                 attributes: [.posixPermissions: 0o700])
+        return folder.appendingPathComponent("clipboard.json")
+    }
+
     static var enabled: Bool { UserDefaults.standard.object(forKey: enabledKey) as? Bool ?? true }
 
     private init() {
+        if Self.enabled, let data = try? Data(contentsOf: fileURL),
+           let saved = try? JSONDecoder().decode([Item].self, from: data) {
+            items = saved
+        }
+        prune()
         let timer = Timer(timeInterval: 0.6, repeats: true) { [weak self] _ in self?.poll() }
         RunLoop.main.add(timer, forMode: .common)
     }
@@ -32,24 +48,41 @@ final class ClipboardHistory {
     /// Newest first, without anything older than eight hours.
     var recent: [Item] {
         guard Self.enabled else { return [] }
-        items.removeAll { Date().timeIntervalSince($0.date) > maxAge }
+        prune()
         return items
     }
 
-    func clear() { items = [] }
+    func clear() {
+        items = []
+        try? FileManager.default.removeItem(at: fileURL)
+    }
+
+    private func prune() {
+        let before = items.count
+        items.removeAll { Date().timeIntervalSince($0.date) > maxAge }
+        if items.count != before { save() }
+    }
+
+    private func save() {
+        guard let data = try? JSONEncoder().encode(items) else { return }
+        let url = fileURL
+        try? data.write(to: url, options: .atomic)
+        try? FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+    }
 
     private func poll() {
         let board = NSPasteboard.general
         guard board.changeCount != lastChange else { return }
         lastChange = board.changeCount
-        guard Self.enabled else { items = []; return }
+        guard Self.enabled else { clear(); return }
         let types = board.types?.map(\.rawValue) ?? []
         guard !types.contains(where: secretTypes.contains),
               let text = board.string(forType: .string)?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty, text.count <= 20_000 else { return }
         items.removeAll { $0.text == text }
-        items.insert(Item(text: text, date: Date()), at: 0)
+        items.insert(Item(text: text, date: Date(), appBundleID: NSWorkspace.shared.frontmostApplication?.bundleIdentifier), at: 0)
         if items.count > maxItems { items.removeLast(items.count - maxItems) }
+        save()
     }
 }
 

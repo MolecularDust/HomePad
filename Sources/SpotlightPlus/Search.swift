@@ -82,6 +82,8 @@ struct SearchResult: Identifiable, Hashable {
     var actionName: String?
     /// An SF Symbol to show instead of a file icon.
     var symbol: String?
+    /// A small app icon shown on the corner of the icon (the app a clipboard item was copied from).
+    var badgeURL: URL?
     var id: URL { url }
 }
 
@@ -237,16 +239,22 @@ final class SearchEngine: ObservableObject {
 
     private func clipboardResults() -> [SearchResult] {
         let needle = text.lowercased()
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .short
+        let time = DateFormatter()
+        time.timeStyle = .short
+        time.dateStyle = .none
+        let day = DateFormatter()
+        day.dateStyle = .short
+        day.timeStyle = .short
         return ClipboardHistory.shared.recent
             .filter { needle.isEmpty || $0.text.lowercased().contains(needle) }
             .map { item in
                 let oneLine = item.text.split(whereSeparator: \.isNewline).joined(separator: " ")
                 let shown = oneLine.count > 110 ? String(oneLine.prefix(110)) + "…" : oneLine
+                let when = Calendar.current.isDateInToday(item.date) ? time.string(from: item.date) : day.string(from: item.date)
+                let app = item.appBundleID.flatMap { NSWorkspace.shared.urlForApplication(withBundleIdentifier: $0) }
                 return SearchResult(url: URL(string: "spotlightplus-clipboard://\(item.id.uuidString)")!, name: shown,
-                                    subtitle: "\(formatter.localizedString(for: item.date, relativeTo: Date())) · \(item.text.count) characters",
-                                    section: .clipboard, copyText: item.text, symbol: "doc.on.doc")
+                                    subtitle: "Text · Copied \(when)", section: .clipboard, copyText: item.text,
+                                    symbol: "doc.text", badgeURL: app)
             }
     }
 

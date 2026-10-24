@@ -67,9 +67,21 @@ struct SpotlightPlusView: View {
     private var searchBar: some View {
         HStack(spacing: 10) {
             HStack(spacing: 10) {
-                Image(systemName: "magnifyingglass")
-                    .font(.system(size: 19, weight: .medium))
-                    .foregroundStyle(.secondary)
+                if state.scope != .all || !state.query.isEmpty {
+                    // Back to the pinned apps (Esc does the same, a step at a time).
+                    Button { state.goHome() } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 17, weight: .semibold))
+                            .frame(width: 28, height: 28)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .help("Back to your apps  Esc")
+                } else {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 19, weight: .medium))
+                        .foregroundStyle(.secondary)
+                }
                 TextField(state.scope.placeholder, text: $state.query)
                     .textFieldStyle(.plain)
                     .font(.system(size: 20))
@@ -399,31 +411,47 @@ struct SearchResultsView: View {
 
     var body: some View {
         let items = search.results
-        ScrollViewReader { proxy in
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 2) {
-                    if items.isEmpty && state.scope != .all {
-                        Text(state.scope.emptyMessage)
-                            .font(.callout).foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity).padding(.vertical, 40)
-                    }
-                    ForEach(Array(items.enumerated()), id: \.element.id) { index, result in
-                        VStack(alignment: .leading, spacing: 2) {
-                            if result.section != .calculator && (index == 0 || items[index - 1].section != result.section) {
-                                Text(result.section.title)
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundStyle(.secondary)
-                                    .padding(.top, index == 0 ? 0 : 10)
-                                    .padding(.leading, 10)
-                                    .padding(.bottom, 2)
-                            }
-                            Group {
-                                if result.section == .calculator {
-                                    CalculatorRow(result: result, selected: index == state.selection)
-                                } else {
-                                    ResultRow(result: result, selected: index == state.selection)
+        GeometryReader { geo in
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 2) {
+                        if state.scope == .clipboard && !items.isEmpty {
+                            HStack {
+                                Spacer()
+                                Button("Clear history") {
+                                    ClipboardHistory.shared.clear()
+                                    SearchEngine.shared.search(state.query, scope: state.scope)
                                 }
+                                .buttonStyle(.plain)
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
                             }
+                            .padding(.horizontal, 10)
+                        }
+                        if items.isEmpty && state.scope != .all {
+                            Text(state.scope.emptyMessage)
+                                .font(.callout).foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity).padding(.vertical, 40)
+                        }
+                        ForEach(Array(items.enumerated()), id: \.element.id) { index, result in
+                            VStack(alignment: .leading, spacing: 2) {
+                                if result.section != .calculator && (index == 0 || items[index - 1].section != result.section) {
+                                    Text(result.section.title)
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundStyle(.secondary)
+                                        .padding(.top, index == 0 ? 0 : 10)
+                                        .padding(.leading, 10)
+                                        .padding(.bottom, 2)
+                                }
+                                Group {
+                                    if result.section == .calculator {
+                                        CalculatorRow(result: result, selected: index == state.selection)
+                                    } else if result.section == .clipboard {
+                                        ClipboardRow(result: result, selected: index == state.selection)
+                                    } else {
+                                        ResultRow(result: result, selected: index == state.selection)
+                                    }
+                                }
                                 .onTapGesture {
                                     if let name = result.actionName {
                                         Launcher.runShortcut(name)
@@ -435,17 +463,64 @@ struct SearchResultsView: View {
                                     }
                                 }
                                 .onHover { if $0 { state.selection = index } }
+                            }
+                            .id(result.id)
                         }
-                        .id(result.id)
                     }
+                    .padding(.horizontal, 18)
+                    .padding(.bottom, 12)
+                    // Fill the area, so a click on the empty space goes back to the pinned apps.
+                    .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { state.goHome() }
                 }
-                .padding(.horizontal, 18)
-                .padding(.bottom, 12)
-            }
-            .onChange(of: state.selection) { i in
-                if items.indices.contains(i) { proxy.scrollTo(items[i].id) }
+                .onChange(of: state.selection) { i in
+                    if items.indices.contains(i) { proxy.scrollTo(items[i].id) }
+                }
             }
         }
+    }
+}
+
+/// A clipboard item: a document icon with the app it was copied from, the text, when, and a copy button.
+struct ClipboardRow: View {
+    let result: SearchResult
+    let selected: Bool
+
+    var body: some View {
+        HStack(spacing: 12) {
+            ZStack(alignment: .bottomTrailing) {
+                Image(systemName: "doc.text")
+                    .font(.system(size: 26, weight: .light))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 34, height: 34)
+                if let badge = result.badgeURL {
+                    Image(nsImage: IconCache.icon(for: badge)).resizable().frame(width: 16, height: 16)
+                        .offset(x: 4, y: 2)
+                }
+            }
+            .frame(width: 38, height: 38)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(result.name).font(.system(size: 14)).lineLimit(1)
+                Text(result.subtitle).font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(1)
+            }
+            Spacer()
+            Button {
+                Launcher.copy(result.copyText ?? result.name)
+                PanelController.shared.hide(restoreFocus: true)
+            } label: {
+                Image(systemName: "doc.on.doc")
+                    .font(.system(size: 13))
+                    .frame(width: 30, height: 30)
+                    .background(Circle().fill(Color.primary.opacity(0.1)))
+            }
+            .buttonStyle(.plain)
+            .help("Copy again")
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(RoundedRectangle(cornerRadius: 8).fill(selected ? Color.accentColor.opacity(0.22) : .clear))
+        .contentShape(Rectangle())
     }
 }
 
