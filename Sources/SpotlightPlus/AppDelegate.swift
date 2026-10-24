@@ -6,13 +6,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var settingsWindow: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        LegacyMigration.run()
         // Touch singletons so they start observing right away.
-        _ = PinnedStore.shared
+        _ = CategoryStore.shared
         _ = RunningApps.shared
         _ = PanelController.shared
 
         HotKeyManager.shared.onPress = { PanelController.shared.toggle() }
         ShortcutStore.shared.registerCurrent()
+        DoubleTapMonitor.shared.apply()
 
         setUpStatusItem()
     }
@@ -22,12 +24,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func setUpStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(systemSymbolName: "square.grid.3x3.fill",
-                                           accessibilityDescription: "Start Menu")
+                                           accessibilityDescription: "SpotlightPlus")
         let menu = NSMenu()
-        menu.addItem(withTitle: "Open Start Menu", action: #selector(openPanel), keyEquivalent: "").target = self
+        menu.addItem(withTitle: "Open SpotlightPlus", action: #selector(openPanel), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: ",").target = self
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Quit Start Menu", action: #selector(quit), keyEquivalent: "q").target = self
+        menu.addItem(withTitle: "Quit SpotlightPlus", action: #selector(quit), keyEquivalent: "q").target = self
         statusItem.menu = menu
     }
 
@@ -38,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         PanelController.shared.hide(restoreFocus: false)
         if settingsWindow == nil {
             let window = NSWindow(contentViewController: NSHostingController(rootView: SettingsView()))
-            window.title = "Start Menu Settings"
+            window.title = "SpotlightPlus Settings"
             window.styleMask = [.titled, .closable]
             window.isReleasedWhenClosed = false
             settingsWindow = window

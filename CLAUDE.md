@@ -1,9 +1,9 @@
-# Start Menu for macOS
+# SpotlightPlus for macOS
 
-A Windows 11–style Start menu for macOS, built as a Swift Package. A global shortcut (default
+A Windows 11–style launcher for macOS, built as a Swift Package. A global shortcut (default
 Option-Space) pops up a centered panel with a search bar (backed by the Spotlight index) above a grid
-of pinned apps. The pinned grid is meant to replace the Dock: on first launch it is seeded from the
-Dock's pinned apps, after which it is its own unlimited list. See [README.md](README.md) for user-facing behavior.
+of pinned apps. The grid is meant to replace the Dock: apps live in user-defined categories (Essentials first, seeded from the
+Dock on first launch, plus custom ones), with a read-only Running section. See [README.md](README.md) for user-facing behavior.
 
 ## Technical facts
 
@@ -15,18 +15,21 @@ Dock's pinned apps, after which it is its own unlimited list. See [README.md](RE
 - Search uses **`NSMetadataQuery`** (Spotlight index), debounced 80 ms, scope `NSMetadataQueryLocalComputerScope`.
 - Initial pinned list comes from the Dock's **`com.apple.dock` `persistent-apps`** preference (via `CFPreferences`), Finder prepended.
 - "Hide the Dock" sets `autohide` + `autohide-delay=1000` in `com.apple.dock` and restarts the Dock.
-- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`pinnedPaths`, `columns`, `showRunning`, `hotkey*`).
+- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`categories`, `columns`, `showRunning`, `hotkey*`, `doubleTapKey`). Bundle id is `local.mike.SpotlightPlus`.
+- Permissions (prompted at runtime): Screen Recording (window thumbnails), Accessibility (raise a specific window, double-tap trigger). Ad-hoc signing means macOS may re-ask after a rebuild.
 
 ## Layout
 
-| File (`Sources/StartMenu/`) | What it does |
+| File (`Sources/SpotlightPlus/`) | What it does |
 |---|---|
 | `main.swift`, `AppDelegate.swift` | App startup, menu-bar icon, settings window |
+| `Trigger.swift` | Double-tap-modifier trigger (global `NSEvent` monitor), `LegacyMigration` from bundle id `local.mike.StartMenu` |
+| `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |
-| `StartMenuView.swift` | The UI: search bar, pinned grid, running apps, results list |
+| `SpotlightPlusView.swift` | The UI: search bar, category grids, placeholder tiles, running apps, results list |
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
-| `Model.swift` | Dock import, pinned list, running apps, launching, Dock hiding |
+| `Model.swift` | Dock import, `CategoryStore` (categories, persisted as JSON), running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
 
 Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.
@@ -34,8 +37,8 @@ Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.
 ## Build
 
 ```
-./build_app.sh      # release build + assembles "build/Start Menu.app" (Info.plist, ad-hoc codesign)
+./build_app.sh      # release build + assembles "build/SpotlightPlus.app" (Info.plist, ad-hoc codesign)
 swift build         # compile only (debug)
 ```
 
-Output is `build/Start Menu.app`; `.build/` and `build/` are git-ignored. To work in Xcode, open `Package.swift`.
+Output is `build/SpotlightPlus.app`; `.build/` and `build/` are git-ignored. To work in Xcode, open `Package.swift`.

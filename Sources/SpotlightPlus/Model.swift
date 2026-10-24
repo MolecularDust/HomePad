@@ -29,56 +29,119 @@ enum DockImporter {
     }
 }
 
-// MARK: - Pinned items (your own list, unlimited)
+// MARK: - Categories (your own lists, unlimited)
 
-final class PinnedStore: ObservableObject {
-    static let shared = PinnedStore()
-    @Published private(set) var items: [URL] = []
-    private let key = "pinnedPaths"
+struct Category: Identifiable, Codable, Equatable {
+    var id = UUID()
+    var name: String
+    var paths: [String] = []
+}
+
+final class CategoryStore: ObservableObject {
+    static let shared = CategoryStore()
+    /// The first category is Essentials: it can be renamed but never deleted.
+    @Published private(set) var categories: [Category] = []
+    private let key = "categories"
 
     private init() {
-        if let paths = UserDefaults.standard.stringArray(forKey: key) {
-            items = paths.map { URL(fileURLWithPath: $0) }
-                .filter { FileManager.default.fileExists(atPath: $0.path) }
+        let d = UserDefaults.standard
+        if let data = d.data(forKey: key),
+           let saved = try? JSONDecoder().decode([Category].self, from: data), !saved.isEmpty {
+            categories = saved
         } else {
-            items = DockImporter.pinnedApps()   // first launch: copy the Dock
-            save()
+            // First launch (or upgrade from the single pinned list): everything goes into Essentials.
+            let paths = d.stringArray(forKey: "pinnedPaths") ?? DockImporter.pinnedApps().map(\.path)
+            categories = [Category(name: "Essentials", paths: paths)]
         }
+        for i in categories.indices {
+            categories[i].paths = categories[i].paths.filter { FileManager.default.fileExists(atPath: $0) }
+        }
+        save()
     }
 
-    func contains(_ url: URL) -> Bool { items.contains { $0.path == normalized(url).path } }
+    var essentialsID: UUID { categories[0].id }
 
-    func add(_ url: URL, at index: Int? = nil) {
-        let u = normalized(url)
-        guard !contains(u) else { return }
-        if let index, index <= items.count { items.insert(u, at: index) } else { items.append(u) }
+    func urls(in id: UUID) -> [URL] {
+        (categories.first { $0.id == id }?.paths ?? []).map { URL(fileURLWithPath: $0) }
+    }
+
+    func contains(_ url: URL) -> Bool { location(of: url) != nil }
+
+    func location(of url: URL) -> (category: UUID, index: Int)? {
+        let path = normalized(url).path
+        for c in categories {
+            if let i = c.paths.firstIndex(of: path) { return (c.id, i) }
+        }
+        return nil
+    }
+
+    /// Adds to a category (Essentials by default). An app lives in one category at a time.
+    func add(_ url: URL, to id: UUID? = nil, at index: Int? = nil) {
+        guard !contains(url) else { return }
+        insert(normalized(url).path, in: id ?? essentialsID, at: index)
         save()
     }
 
     func remove(_ url: URL) {
-        items.removeAll { $0.path == normalized(url).path }
+        let path = normalized(url).path
+        for i in categories.indices { categories[i].paths.removeAll { $0 == path } }
         save()
     }
 
-    func move(_ url: URL, to index: Int) {
-        guard let from = items.firstIndex(where: { $0.path == url.path }), from != index else { return }
-        let item = items.remove(at: from)
-        items.insert(item, at: min(index, items.count))
+    func move(_ url: URL, toCategory id: UUID, at index: Int? = nil) {
+        let path = normalized(url).path
+        guard contains(url) else { return }
+        for i in categories.indices { categories[i].paths.removeAll { $0 == path } }
+        insert(path, in: id, at: index)
         save()
     }
 
     func shift(_ url: URL, by delta: Int) {
-        guard let from = items.firstIndex(where: { $0.path == url.path }) else { return }
-        move(url, to: max(0, min(items.count - 1, from + delta)))
+        guard let loc = location(of: url) else { return }
+        let count = urls(in: loc.category).count
+        move(url, toCategory: loc.category, at: max(0, min(count - 1, loc.index + delta)))
     }
 
-    func replaceWithDock() {
-        items = DockImporter.pinnedApps()
+    @discardableResult
+    func addCategory(named name: String) -> UUID {
+        let category = Category(name: name)
+        categories.append(category)
+        save()
+        return category.id
+    }
+
+    func rename(_ id: UUID, to name: String) {
+        guard let i = categories.firstIndex(where: { $0.id == id }) else { return }
+        categories[i].name = name
         save()
     }
 
+    /// Deleting a category moves its apps to Essentials.
+    func delete(_ id: UUID) {
+        guard id != essentialsID, let i = categories.firstIndex(where: { $0.id == id }) else { return }
+        let paths = categories[i].paths
+        categories.remove(at: i)
+        categories[0].paths.append(contentsOf: paths)
+        save()
+    }
+
+    func replaceWithDock() {
+        let dock = DockImporter.pinnedApps().map(\.path)
+        for i in categories.indices { categories[i].paths.removeAll { dock.contains($0) } }
+        categories[0].paths = dock
+        save()
+    }
+
+    private func insert(_ path: String, in id: UUID, at index: Int?) {
+        let i = categories.firstIndex { $0.id == id } ?? 0
+        let at = min(index ?? categories[i].paths.count, categories[i].paths.count)
+        categories[i].paths.insert(path, at: at)
+    }
+
     private func save() {
-        UserDefaults.standard.set(items.map(\.path), forKey: key)
+        if let data = try? JSONEncoder().encode(categories) {
+            UserDefaults.standard.set(data, forKey: key)
+        }
     }
 }
 
@@ -139,26 +202,65 @@ enum Launcher {
         RunningApps.shared.app(for: url)?.terminate()
     }
 
-    /// Shows a file picker for apps to pin. The panel is hidden while the picker is open.
-    static func chooseAppsToPin() {
+    /// Hides the panel, runs a modal dialog, then brings the panel back.
+    private static func outsidePanel(_ body: @escaping () -> Void) {
         let pc = PanelController.shared
         pc.suppressAutoHide = true
         pc.hide(restoreFocus: false)
         DispatchQueue.main.async {
             activateSelf()
+            body()
+            pc.suppressAutoHide = false
+            pc.show()
+        }
+    }
+
+    /// Shows a file picker for apps to pin into a category (Essentials by default).
+    static func chooseAppsToPin(to category: UUID? = nil) {
+        outsidePanel {
             let panel = NSOpenPanel()
-            panel.title = "Pin Apps to Start"
+            panel.title = "Pin Apps"
             panel.prompt = "Pin"
             panel.allowsMultipleSelection = true
             panel.canChooseDirectories = false
             panel.allowedContentTypes = [.application]
             panel.directoryURL = URL(fileURLWithPath: "/Applications")
             if panel.runModal() == .OK {
-                panel.urls.forEach { PinnedStore.shared.add($0) }
+                panel.urls.forEach { CategoryStore.shared.add($0, to: category) }
             }
-            pc.suppressAutoHide = false
-            pc.show()
         }
+    }
+
+    static func addCategory() {
+        outsidePanel {
+            if let name = promptForText(title: "New category", message: "Name the category, for example Browsers.",
+                                        initial: "", button: "Add") {
+                CategoryStore.shared.addCategory(named: name)
+            }
+        }
+    }
+
+    static func renameCategory(_ category: Category) {
+        outsidePanel {
+            if let name = promptForText(title: "Rename category", message: "", initial: category.name, button: "Rename") {
+                CategoryStore.shared.rename(category.id, to: name)
+            }
+        }
+    }
+
+    private static func promptForText(title: String, message: String, initial: String, button: String) -> String? {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.addButton(withTitle: button)
+        alert.addButton(withTitle: "Cancel")
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
+        field.stringValue = initial
+        alert.accessoryView = field
+        alert.window.initialFirstResponder = field
+        guard alert.runModal() == .alertFirstButtonReturn else { return nil }
+        let text = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        return text.isEmpty ? nil : text
     }
 }
 

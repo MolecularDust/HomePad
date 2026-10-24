@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "StartMenu",
+    name: "SpotlightPlus",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "StartMenu",
-            path: "Sources/StartMenu"
+            name: "SpotlightPlus",
+            path: "Sources/SpotlightPlus"
         )
     ]
 )

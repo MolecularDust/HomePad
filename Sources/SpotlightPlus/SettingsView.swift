@@ -9,12 +9,15 @@ struct SettingsView: View {
     @AppStorage("showRunning") private var showRunning = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
+    @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
+    @State private var hasAccessibility = Permissions.accessibility
+    @State private var hasScreenRecording = Permissions.screenRecording
 
     var body: some View {
         Form {
             Section("Shortcut") {
                 HStack {
-                    Text("Open Start Menu")
+                    Text("Open SpotlightPlus")
                     Spacer()
                     ShortcutRecorder()
                 }
@@ -24,6 +27,15 @@ struct SettingsView: View {
                 }
                 Text("To use ⌘Space, first turn off Spotlight's shortcut in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.")
                     .font(.caption).foregroundStyle(.secondary)
+                Picker("Or double-tap", selection: $doubleTap) {
+                    ForEach(DoubleTapMonitor.Key.allCases) { Text($0.title).tag($0.rawValue) }
+                }
+                .onChange(of: doubleTap) { _ in
+                    DoubleTapMonitor.shared.apply()
+                    hasAccessibility = Permissions.accessibility
+                }
+                Text("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the Accessibility permission.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
 
             Section("Layout") {
@@ -31,10 +43,23 @@ struct SettingsView: View {
                 Toggle("Show running apps that aren't pinned", isOn: $showRunning)
             }
 
-            Section("Pinned apps") {
+            Section("Apps") {
                 HStack {
                     Button("Add App…") { Launcher.chooseAppsToPin() }
+                    Button("Add Category…") { Launcher.addCategory() }
                     Button("Re-import from Dock…") { confirmReimport() }
+                }
+            }
+
+            Section("Permissions") {
+                permissionRow("Accessibility", granted: hasAccessibility,
+                              detail: "Jump to a specific window and double-tap a modifier key.") {
+                    Permissions.requestAccessibility()
+                }
+                permissionRow("Screen Recording", granted: hasScreenRecording,
+                              detail: "Window previews when you hover a running app.") {
+                    Permissions.requestScreenRecording()
+                    Permissions.openSettings("Privacy_ScreenCapture")
                 }
             }
 
@@ -61,16 +86,35 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 480)
         .fixedSize(horizontal: false, vertical: true)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            hasAccessibility = Permissions.accessibility
+            hasScreenRecording = Permissions.screenRecording
+        }
+    }
+
+    private func permissionRow(_ title: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack {
+                Text(title)
+                Spacer()
+                if granted {
+                    Label("Allowed", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                } else {
+                    Button("Allow…", action: request)
+                }
+            }
+            Text(detail).font(.caption).foregroundStyle(.secondary)
+        }
     }
 
     private func confirmReimport() {
         let alert = NSAlert()
-        alert.messageText = "Replace pinned apps with the Dock's apps?"
-        alert.informativeText = "Your current pinned list and its order will be replaced."
+        alert.messageText = "Replace Essentials with the Dock's apps?"
+        alert.informativeText = "Your current Essentials list and its order will be replaced. Other categories are kept."
         alert.addButton(withTitle: "Replace")
         alert.addButton(withTitle: "Cancel")
         if alert.runModal() == .alertFirstButtonReturn {
-            PinnedStore.shared.replaceWithDock()
+            CategoryStore.shared.replaceWithDock()
         }
     }
 }

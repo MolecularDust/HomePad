@@ -27,7 +27,7 @@ final class PanelState: ObservableObject {
 }
 
 /// Borderless floating window with a translucent, rounded background.
-final class StartPanel: NSPanel {
+final class SpotlightPanel: NSPanel {
     init(content: NSView) {
         super.init(contentRect: NSRect(origin: .zero, size: panelSize),
                    styleMask: [.borderless], backing: .buffered, defer: false)
@@ -71,18 +71,19 @@ final class PanelController: NSObject, NSWindowDelegate {
     static let shared = PanelController()
 
     var suppressAutoHide = false
-    private var panel: StartPanel!
+    private var panel: SpotlightPanel!
     private var keyMonitor: Any?
     private var previousApp: NSRunningApplication?
     private var isHiding = false
 
     private override init() {
         super.init()
-        panel = StartPanel(content: NSHostingView(rootView: StartMenuView()))
+        panel = SpotlightPanel(content: NSHostingView(rootView: SpotlightPlusView()))
         panel.delegate = self
     }
 
     var isVisible: Bool { panel.isVisible }
+    var frame: NSRect { panel.frame }
 
     func toggle() { isVisible ? hide(restoreFocus: true) : show() }
 
@@ -112,6 +113,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         let previous = previousApp
         previousApp = nil
         removeKeyMonitor()
+        WindowPreviewController.shared.hideNow()
         panel.orderOut(nil)
         isHiding = false
         if restoreFocus { previous?.activate(options: []) }

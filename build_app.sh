@@ -1,24 +1,24 @@
 #!/bin/bash
-# Builds "Start Menu.app" into ./build. Needs Xcode or the Command Line Tools (xcode-select --install).
+# Builds "SpotlightPlus.app" into ./build. Needs Xcode or the Command Line Tools (xcode-select --install).
 set -euo pipefail
 cd "$(dirname "$0")"
 
 swift build -c release
 
-APP="build/Start Menu.app"
+APP="build/SpotlightPlus.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp .build/release/StartMenu "$APP/Contents/MacOS/StartMenu"
+cp .build/release/SpotlightPlus "$APP/Contents/MacOS/SpotlightPlus"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key>        <string>StartMenu</string>
-    <key>CFBundleIdentifier</key>        <string>local.mike.StartMenu</string>
-    <key>CFBundleName</key>              <string>Start Menu</string>
-    <key>CFBundleDisplayName</key>       <string>Start Menu</string>
+    <key>CFBundleExecutable</key>        <string>SpotlightPlus</string>
+    <key>CFBundleIdentifier</key>        <string>local.mike.SpotlightPlus</string>
+    <key>CFBundleName</key>              <string>SpotlightPlus</string>
+    <key>CFBundleDisplayName</key>       <string>SpotlightPlus</string>
     <key>CFBundlePackageType</key>       <string>APPL</string>
     <key>CFBundleShortVersionString</key><string>1.0</string>
     <key>CFBundleVersion</key>           <string>1</string>
