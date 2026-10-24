@@ -34,6 +34,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   of each of its windows and click one to jump straight to it (needs Screen Recording and Accessibility;
   without Screen Recording you get a plain list). Apps that are open but not in a category show in the
   **Running** section, which can't be edited (it can be turned off).
+- **Running app menu**: right-click a running app for **Close Windows** (only if it has a window open; needs the Accessibility permission) and **Close App**.
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close.
 

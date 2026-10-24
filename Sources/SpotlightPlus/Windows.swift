@@ -102,6 +102,33 @@ enum WindowCatalog {
         return axWindows(pid).compactMap { axString($0, kAXTitleAttribute) }.filter { !$0.isEmpty }
     }
 
+    // MARK: Counting and closing windows
+
+    /// How many windows an app has open (minimised ones included). Accessibility gives the most accurate count;
+    /// without it the window list is used, which needs no permission.
+    static func windowCount(for pid: pid_t) -> Int {
+        if Permissions.accessibility { return axWindows(pid).count }
+        let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
+        return infos.filter {
+            guard ($0[kCGWindowOwnerPID as String] as? Int32) == pid,
+                  ($0[kCGWindowLayer as String] as? Int) == 0,
+                  let bounds = $0[kCGWindowBounds as String] as? NSDictionary,
+                  let rect = CGRect(dictionaryRepresentation: bounds) else { return false }
+            return rect.width > 80 && rect.height > 60
+        }.count
+    }
+
+    /// Presses the close button of each of the app's windows. Needs the Accessibility permission.
+    static func closeWindows(of app: NSRunningApplication) {
+        WindowPreviewController.shared.hideNow()
+        guard Permissions.accessibility else { Permissions.requestAccessibility(); return }
+        for window in axWindows(app.processIdentifier) {
+            var button: CFTypeRef?
+            AXUIElementCopyAttributeValue(window, kAXCloseButtonAttribute as CFString, &button)
+            if let button { AXUIElementPerformAction(button as! AXUIElement, kAXPressAction as CFString) }
+        }
+    }
+
     // MARK: Jumping to a window
 
     static func focus(_ window: AppWindow, of app: NSRunningApplication) {

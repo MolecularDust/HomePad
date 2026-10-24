@@ -202,6 +202,10 @@ enum Launcher {
         RunningApps.shared.app(for: url)?.terminate()
     }
 
+    static func closeWindows(_ url: URL) {
+        if let app = RunningApps.shared.app(for: url) { WindowCatalog.closeWindows(of: app) }
+    }
+
     /// Shows the app picker for a category (Essentials by default). The panel stays visible behind it.
     static func chooseAppsToPin(to category: UUID? = nil) {
         DispatchQueue.main.async { AppPicker.show(for: category) }
