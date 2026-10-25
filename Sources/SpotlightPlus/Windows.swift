@@ -299,6 +299,7 @@ final class WindowPreviewController {
     private var hideWork: DispatchWorkItem?
     private var generation = 0
     private var lastTile = CGRect.zero
+    private var mouseMonitor: Any?
 
     private init() {
         host = NSHostingView(rootView: WindowPreviewView(model: model))
@@ -334,6 +335,8 @@ final class WindowPreviewController {
     /// `tile` is the hovered tile's frame in the main panel's coordinates (origin top-left).
     func hover(app: NSRunningApplication?, over: Bool, tile: CGRect) {
         overTile = over
+        // With a mouse button down the user is clicking or dragging the tile, not looking for its windows.
+        if over, NSEvent.pressedMouseButtons != 0 { return }
         if over, let app {
             hideWork?.cancel()
             if panel.isVisible, model.app?.processIdentifier == app.processIdentifier { return }
@@ -353,6 +356,8 @@ final class WindowPreviewController {
     }
 
     func hideNow() {
+        if let mouseMonitor { NSEvent.removeMonitor(mouseMonitor) }
+        mouseMonitor = nil
         showWork?.cancel()
         hideWork?.cancel()
         generation += 1
@@ -392,7 +397,7 @@ final class WindowPreviewController {
     }
 
     private func show(_ app: NSRunningApplication, tile: CGRect) {
-        guard overTile, PanelController.shared.isVisible else { return }
+        guard overTile, PanelController.shared.isVisible, NSEvent.pressedMouseButtons == 0 else { return }
         generation += 1
         let mine = generation
         lastTile = tile
@@ -406,6 +411,15 @@ final class WindowPreviewController {
         }
         resizeAndPlace(tile: tile)
         panel.orderFrontRegardless()
+
+        // Pressing the mouse anywhere but on the popup itself (to click the tile, or to start dragging it) dismisses it,
+        // so it never sits in the way of a drag.
+        if mouseMonitor == nil {
+            mouseMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .leftMouseDragged]) { [weak self] event in
+                if let self, event.window !== self.panel { self.hideNow() }
+                return event
+            }
+        }
 
         guard !model.needsPermission else { return }
         Task { @MainActor in
