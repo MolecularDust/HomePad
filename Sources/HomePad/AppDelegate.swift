@@ -7,6 +7,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Settings was opened from the panel (its gear): the panel stays behind it, and gets keyboard focus back when
     /// Settings closes.
     private var panelBehindSettings = false
+    private static let settingsOriginKey = "settingsWindowOrigin"
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LegacyMigration.run()
@@ -123,9 +124,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 DispatchQueue.main.async { PanelController.shared.stayBehind(false) }
             }
             settingsWindow = window
+            // Centered the first time; after that it stays where you put it. Only the position is restored: the
+            // height is worked out above.
+            if let saved = UserDefaults.standard.string(forKey: Self.settingsOriginKey) {
+                window.setFrameOrigin(NSPointFromString(saved))
+            } else {
+                window.center()
+            }
+            NotificationCenter.default.addObserver(forName: NSWindow.didMoveNotification, object: window, queue: .main) { [weak window] _ in
+                guard let window else { return }
+                UserDefaults.standard.set(NSStringFromPoint(window.frame.origin), forKey: Self.settingsOriginKey)
+            }
         }
         if settingsWindow?.isVisible == false { PermissionStatus.shared.watch(true) }
-        settingsWindow?.center()
         activateSelf()
         settingsWindow?.makeKeyAndOrderFront(nil)
         // SwiftUI puts the cursor in the first text field (Icons per row) when the window opens; start with nothing

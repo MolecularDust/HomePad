@@ -30,9 +30,11 @@ enum Onboarding {
             w.delegate = c
             closer = c
             window = w
+            // Centered the first time; after that it stays where you put it, also across Quit & Reopen.
+            if !w.setFrameUsingName("SetupGuide") { w.center() }
+            w.setFrameAutosaveName("SetupGuide")
         }
         PanelController.shared.hide(restoreFocus: false)
-        window?.center()
         activateSelf()
         window?.makeKeyAndOrderFront(nil)
     }
