@@ -313,6 +313,8 @@ enum WindowCatalog {
         let spaceNumber: Int
         /// From the window server; empty without the Screen Recording permission.
         var title = ""
+        /// Only known when the app was asked (`askingApp`).
+        var isMinimised = false
 
     }
 
@@ -350,7 +352,7 @@ enum WindowCatalog {
             // Minimised windows can belong to no Space; they are on the one showing.
             let spaceNo = spaces.first.flatMap { numbers[$0] } ?? activeSpace.flatMap { numbers[$0] } ?? 0
             return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo,
-                              title: info[kCGWindowName as String] as? String ?? "")
+                              title: info[kCGWindowName as String] as? String ?? "", isMinimised: isMinimised)
         }
         // By Space (in Mission Control's order), then front to back.
         return found.enumerated()

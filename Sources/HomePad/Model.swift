@@ -292,16 +292,22 @@ enum Launcher {
     static func open(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
         guard url.isFileURL, let app = RunningApps.shared.app(for: url) else { openNow(url); return }
-        // A running app whose windows are all on other Spaces: go to one of them, as the Dock does. Worked out in the
-        // background: the quick check (window server only) settles the usual case; asking the app itself, which can
-        // take a few hundred ms, only happens when every window seems to be on another Space.
+        // A running app with nothing to show on this Space, like the Dock: windows on another Space → go there;
+        // only minimised windows → bring the most recent back. (Opera with two windows minimised here and two on
+        // another Space used to only become active, which showed nothing: the minimised ones counted as "here".)
+        // The quick check (window server only) settles the usual case; asking the app itself, which can take a few
+        // hundred ms, only happens when it finds no window at all.
         let pid = app.processIdentifier
         DispatchQueue.global(qos: .userInteractive).async {
-            var windows = WindowCatalog.realWindows(for: pid, askingApp: false)
-            if !windows.isEmpty, windows.allSatisfy(\.onOtherSpace) { windows = WindowCatalog.realWindows(for: pid) }
+            let quick = WindowCatalog.realWindows(for: pid, askingApp: false)
+            var target: WindowCatalog.RealWindow?
+            if !quick.contains(where: { !$0.onOtherSpace }) {
+                target = quick.first(where: \.onOtherSpace)
+                    ?? WindowCatalog.realWindows(for: pid).first(where: \.isMinimised)
+            }
             DispatchQueue.main.async {
-                if let first = windows.first, windows.allSatisfy(\.onOtherSpace) {
-                    WindowCatalog.focus(AppWindow(id: first.id, title: "", frame: first.frame, onOtherSpace: true), of: app)
+                if let target {
+                    WindowCatalog.focus(AppWindow(id: target.id, title: "", frame: target.frame, onOtherSpace: target.onOtherSpace), of: app)
                 } else {
                     openNow(url)
                 }
