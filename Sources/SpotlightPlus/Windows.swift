@@ -571,3 +571,27 @@ private struct CloseCross: View {
         .help("Close this window")
     }
 }
+
+/// Which running apps have windows that "Close Windows" can close. Finding out means asking each app over
+/// Accessibility and waiting for its answer, which took about 300 ms for a dozen apps (and a busy app can take far
+/// longer). So it is asked in the background, when the panel opens and when a running app is pointed at, and the
+/// tiles' menus read the last answer.
+final class ClosableWindows: ObservableObject {
+    static let shared = ClosableWindows()
+    @Published private(set) var pids: Set<pid_t> = []
+    private let queue = DispatchQueue(label: "SpotlightPlus.closable-windows", qos: .userInitiated)
+    private var running = false
+
+    func refresh() {
+        guard !running else { return }
+        running = true
+        let candidates = RunningApps.shared.apps.map(\.processIdentifier)
+        queue.async {
+            let found = Set(candidates.filter { WindowCatalog.closableWindowCount(for: $0) > 0 })
+            DispatchQueue.main.async {
+                self.running = false
+                if found != self.pids { self.pids = found }
+            }
+        }
+    }
+}

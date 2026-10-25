@@ -241,7 +241,14 @@ struct NumberSetting: View {
                 .frame(width: 48)
                 .focused($editing)
                 .onSubmit(commit)
-                .onChange(of: editing) { if !$0 { commit() } }     // leaving the field takes what was typed
+                .onChange(of: editing) { focused in
+                    if focused {
+                        // Clicking in selects the number, so typing replaces it.
+                        DispatchQueue.main.async { NSApp.sendAction(#selector(NSText.selectAll(_:)), to: nil, from: nil) }
+                    } else {
+                        commit()                                    // leaving the field takes what was typed
+                    }
+                }
             if !unit.isEmpty { Text(unit).foregroundStyle(.secondary) }
             ControlGroup {
                 Button { set(value - step) } label: { Image(systemName: "minus") }

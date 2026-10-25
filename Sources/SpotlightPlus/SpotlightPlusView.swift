@@ -105,7 +105,7 @@ struct MovesWindowWhenDragged: ViewModifier {
     func body(content: Content) -> some View {
         content.gesture(DragGesture(minimumDistance: 4)
             .onChanged { _ in
-                guard PanelState.shared.pressedCategory == nil else { return }      // a category row is being carried instead
+                guard RowDrag.shared.pressed == nil else { return }      // a category row is being carried instead
                 let panel = PanelController.shared
                 if !drag.active { drag.active = true; drag.mouse = NSEvent.mouseLocation; drag.origin = panel.frame.origin }
                 let mouse = NSEvent.mouseLocation
@@ -260,16 +260,27 @@ struct CarriedRow<Content: View>: View {
 
     var body: some View {
         let carried = drag.carried == id
+        let selected = drag.pressed == id
         content
+            .padding(6)
+            .background {
+                // Solid underneath the green tint, so a carried row hides the rows it passes over.
+                if selected {
+                    RoundedRectangle(cornerRadius: 12).fill(Color(nsColor: .windowBackgroundColor))
+                        .overlay(RoundedRectangle(cornerRadius: 12).fill(Color.green.opacity(0.12)))
+                }
+            }
+            .overlay { if selected { RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: 2) } }
+            .padding(-6)
             .offset(y: drag.shift(for: id))
             .animation(carried ? nil : .easeInOut(duration: 0.18), value: drag.target)    // the others slide; the carried one sticks to the pointer
+            .zIndex(carried ? 1 : 0)
     }
 }
 
 struct HomeView: View {
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var running = RunningApps.shared
-    @ObservedObject private var state = PanelState.shared
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
@@ -306,7 +317,6 @@ struct HomeView: View {
                                         Color.clear.preference(key: RowFramesKey.self, value: [category.id: geo.frame(in: .named("rows"))])
                                     })
                             }
-                            .zIndex(state.draggingCategory == category.id ? 1 : 0)
                         }
 
                         if showRunning && !runningApps.isEmpty {
@@ -328,7 +338,7 @@ struct HomeView: View {
                     }
                     .coordinateSpace(name: "rows")
                     .onPreferenceChange(RowFramesKey.self) { frames in
-                        if state.draggingCategory == nil { RowDrag.shared.frames = frames }     // where the rows rest, not where one is carried
+                        if PanelState.shared.draggingCategory == nil { RowDrag.shared.frames = frames }     // where the rows rest, not where one is carried
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
@@ -353,13 +363,12 @@ struct HomeView: View {
 /// and trades places with the row it is dropped on.
 struct CategoryTitle: View {
     let category: Category
-    @ObservedObject private var state = PanelState.shared
     @State private var hovering = false
 
     var body: some View {
         Text(category.name)
             .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(hovering && !state.isDragging ? Color.green : Color.primary)
+            .foregroundStyle(hovering ? Color.green : Color.primary)
             .contentShape(Rectangle())
             .overlay(CategoryDragHandle(category: category))
             .onHover { hovering = $0 && !PanelState.shared.isDragging }      // after the overlay: the drag layer sits on top of the name
@@ -389,10 +398,10 @@ final class CategoryDragSourceView: NSView {
         guard let window else { return }
         let state = PanelState.shared
         let drag = RowDrag.shared
-        state.pressedCategory = category.id
+        drag.press(category.id)
         let startY = event.locationInWindow.y
         var carrying = false
-        while let next = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp]), next.type == .leftMouseDragged {
+        while let next = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp], until: .distantFuture, inMode: .default, dequeue: true), next.type == .leftMouseDragged {
             let offset = startY - next.locationInWindow.y          // window coordinates grow upwards
             if !carrying {
                 guard abs(offset) > 3 else { continue }
@@ -403,7 +412,7 @@ final class CategoryDragSourceView: NSView {
             }
             drag.move(to: offset)
         }
-        if carrying { state.dropCarriedRow() } else { state.pressedCategory = nil }
+        if carrying { state.dropCarriedRow() } else { drag.press(nil) }
     }
 }
 
@@ -412,10 +421,6 @@ struct CategorySection: View {
     let grid: [GridItem]
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
-    @ObservedObject private var state = PanelState.shared
-
-    /// Pressed or carried: the whole row is selected.
-    private var isSelected: Bool { state.pressedCategory == category.id }
 
     var body: some View {
         let urls = store.urls(in: category.id)
@@ -439,17 +444,6 @@ struct CategorySection: View {
             // Drop a tile or Finder items onto the category's empty space to append them.
             .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
         }
-        .padding(6)
-        .background {
-            // Solid underneath the green tint, so a carried row hides the rows it passes over.
-            if isSelected {
-                RoundedRectangle(cornerRadius: 12).fill(Color(nsColor: .windowBackgroundColor))
-                    .overlay(RoundedRectangle(cornerRadius: 12).fill(Color.green.opacity(0.12)))
-            }
-        }
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: isSelected ? 2 : 0))
-        .padding(-6)
-        .animation(.easeInOut(duration: 0.12), value: isSelected)
         // A right-click anywhere in this category's band that isn't on a tile (its title, the gaps between and
         // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -488,6 +482,7 @@ struct AppTile: View {
     let categoryID: UUID?
     @State private var hovering = false
     @State private var frame = CGRect.zero
+    @ObservedObject private var closable = ClosableWindows.shared
 
     var body: some View {
         VStack(spacing: 5) {
@@ -514,6 +509,7 @@ struct AppTile: View {
             guard !PanelState.shared.isDragging else { hovering = false; return }      // passing over it with something in hand
             hovering = inside
             if isRunning {
+                if inside { ClosableWindows.shared.refresh() }      // so its menu is current by the time it's right-clicked
                 WindowPreviewController.shared.hover(app: RunningApps.shared.app(for: url), over: inside, tile: frame)
             }
         }
@@ -540,7 +536,9 @@ struct AppTile: View {
             }
             if isRunning {
                 Divider()
-                if let app = RunningApps.shared.app(for: url), WindowCatalog.closableWindowCount(for: app.processIdentifier) > 0 {
+                // Read from what the background check last found: asking the app here would wait for its answer
+                // every time the tile is drawn, since SwiftUI builds this menu along with the tile.
+                if let app = RunningApps.shared.app(for: url), closable.pids.contains(app.processIdentifier) {
                     Button("Close Windows") { Launcher.closeWindows(url) }
                 }
                 Button("Close App") { Launcher.quit(url) }

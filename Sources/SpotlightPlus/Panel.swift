@@ -17,9 +17,10 @@ final class PanelState: ObservableObject {
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
-    @Published var pressedCategory: UUID?   // category row selected by pressing its title
-    @Published var draggingCategory: UUID?  // category row being carried to a new place in the order
-    @Published var isDragging = false       // a tile or a category title is in the air
+    // Not published: views that need these read them when they run, so starting or ending a drag doesn't redraw
+    // the whole panel. What a drag shows on screen comes from RowDrag.
+    var draggingCategory: UUID?             // category row being carried to a new place in the order
+    var isDragging = false                  // a tile or a category title is in the air
     private var dragWatcher: Timer?
     private var lastDragActivity = Date()
 
@@ -52,7 +53,6 @@ final class PanelState: ObservableObject {
         isDragging = false
         draggingItem = nil
         draggingCategory = nil
-        pressedCategory = nil
         RowDrag.shared.reset()
     }
 
@@ -259,6 +259,7 @@ final class PanelController: NSObject, NSWindowDelegate {
     func show() {
         PanelState.shared.reset()
         RunningApps.shared.refresh()
+        ClosableWindows.shared.refresh()
 
         // Where you left it, if that's still on a screen; otherwise centred on the screen with the mouse pointer,
         // slightly above the middle (like Spotlight).
@@ -466,10 +467,13 @@ final class RowDrag: ObservableObject {
     static let shared = RowDrag()
     @Published private(set) var offset: CGFloat = 0     // how far the carried row is from where it rests (down is positive)
     @Published private(set) var target: Int?            // the place in the order it would land in
+    @Published private(set) var pressed: UUID?          // the row selected by pressing its title (and then carried)
     private(set) var carried: UUID?
     var frames: [UUID: CGRect] = [:]                    // where the rows rest, measured when nothing is carried
     private var order: [UUID] = []
     private var from = 0
+
+    func press(_ id: UUID?) { if pressed != id { pressed = id } }
 
     func begin(_ id: UUID) {
         order = CategoryStore.shared.categories.map(\.id)
@@ -509,6 +513,7 @@ final class RowDrag: ObservableObject {
     var landing: (UUID, Int)? { carried.flatMap { id in target.map { (id, $0) } } }
 
     func reset() {
+        if pressed != nil { pressed = nil }
         guard carried != nil || offset != 0 else { return }
         carried = nil
         target = nil

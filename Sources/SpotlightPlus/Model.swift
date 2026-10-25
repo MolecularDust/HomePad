@@ -207,6 +207,7 @@ final class CategoryStore: ObservableObject {
 final class RunningApps: ObservableObject {
     static let shared = RunningApps()
     @Published private(set) var apps: [NSRunningApplication] = []
+    private var byPath: [String: NSRunningApplication] = [:]       // every tile asks "is this running?" on each redraw
 
     private init() {
         refresh()
@@ -217,17 +218,18 @@ final class RunningApps: ObservableObject {
         }
     }
 
+    /// Publishes only when the set of running apps really changed, since that redraws every tile.
     func refresh() {
         let me = ProcessInfo.processInfo.processIdentifier
-        apps = NSWorkspace.shared.runningApplications.filter {
+        let current = NSWorkspace.shared.runningApplications.filter {
             $0.activationPolicy == .regular && $0.bundleURL != nil && $0.processIdentifier != me
         }
+        guard current.map(\.processIdentifier) != apps.map(\.processIdentifier) else { return }
+        byPath = Dictionary(current.compactMap { app in app.bundleURL.map { (normalized($0).path, app) } }) { first, _ in first }
+        apps = current
     }
 
-    func app(for url: URL) -> NSRunningApplication? {
-        let path = normalized(url).path
-        return apps.first { $0.bundleURL.map { normalized($0).path } == path }
-    }
+    func app(for url: URL) -> NSRunningApplication? { byPath[normalized(url).path] }
 
     func isRunning(_ url: URL) -> Bool { app(for: url) != nil }
 }
@@ -310,7 +312,9 @@ enum Launcher {
 enum IconCache {
     private static var cache: [String: NSImage] = [:]
 
-    private static var trashState: (full: Bool, date: Date)?
+    private static var trashFull: Bool?
+    private static var trashChecked = Date.distantPast
+    private static var trashImages: [Bool: NSImage] = [:]
 
     static func icon(for url: URL) -> NSImage {
         guard url.isFileURL else {
@@ -325,19 +329,43 @@ enum IconCache {
 
     /// The system's trash can, empty or full. Asking the file system for the icon of ~/.Trash returns a plain folder.
     private static func trashIcon() -> NSImage {
-        if trashState == nil || Date().timeIntervalSince(trashState!.date) > 3 {
-            // Looking for one visible item is cheap even when the Trash holds thousands.
-            let full = FileManager.default.enumerator(at: trashURL, includingPropertiesForKeys: nil,
-                                                      options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])?.nextObject() != nil
-            trashState = (full, Date())
+        // Looking for one visible item is cheap even when the Trash holds thousands, but it is still a disk access, so
+        // after the first time it's done in the background and the tiles are redrawn only if the answer changed.
+        if trashFull == nil {
+            trashFull = trashHasItems()
+            trashChecked = Date()
+        } else if Date().timeIntervalSince(trashChecked) > 3 {
+            trashChecked = Date()
+            DispatchQueue.global(qos: .utility).async {
+                let full = trashHasItems()
+                DispatchQueue.main.async {
+                    guard full != trashFull else { return }
+                    trashFull = full
+                    CategoryStore.shared.objectWillChange.send()
+                }
+            }
         }
-        let name = trashState!.full ? NSImage.trashFullName : NSImage.trashEmptyName
-        return NSImage(named: name) ?? NSWorkspace.shared.icon(forFile: trashURL.path)
+        let full = trashFull ?? false
+        if let image = trashImages[full] { return image }
+        let image = NSImage(named: full ? NSImage.trashFullName : NSImage.trashEmptyName) ?? NSWorkspace.shared.icon(forFile: trashURL.path)
+        trashImages[full] = image
+        return image
     }
 
+    private static func trashHasItems() -> Bool {
+        FileManager.default.enumerator(at: trashURL, includingPropertiesForKeys: nil,
+                                       options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])?.nextObject() != nil
+    }
+
+    private static var names: [String: String] = [:]
+
+    /// Remembered: the file system lookup is slow enough to matter when every tile asks on every redraw.
     static func name(for url: URL) -> String {
-        let name = FileManager.default.displayName(atPath: url.path)
-        return name.hasSuffix(".app") ? String(name.dropLast(4)) : name
+        if let known = names[url.path] { return known }
+        let display = FileManager.default.displayName(atPath: url.path)
+        let name = display.hasSuffix(".app") ? String(display.dropLast(4)) : display
+        names[url.path] = name
+        return name
     }
 }
 

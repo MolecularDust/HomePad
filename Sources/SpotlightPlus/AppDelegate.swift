@@ -74,6 +74,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindow?.center()
         activateSelf()
         settingsWindow?.makeKeyAndOrderFront(nil)
+        // SwiftUI puts the cursor in the first text field (Icons per row) when the window opens; start with nothing
+        // focused instead, so a stray key press can't change a setting.
+        DispatchQueue.main.async { self.settingsWindow?.makeFirstResponder(nil) }
     }
 
     static var shared: AppDelegate? { NSApp.delegate as? AppDelegate }
