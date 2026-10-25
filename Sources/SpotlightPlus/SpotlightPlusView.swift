@@ -240,8 +240,10 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
                     .contentShape(Rectangle())
                     .contextMenu {
-                        Button("Add App…") { Launcher.chooseAppsToPin() }
-                        Button("Add File or Folder…") { Launcher.chooseFilesToPin() }
+                        // Outside every category (below the last one, in the Running section): into Essentials.
+                        Button("Add App to \(store.categories[0].name)…") { Launcher.chooseAppsToPin() }
+                        Button("Add File or Folder to \(store.categories[0].name)…") { Launcher.chooseFilesToPin() }
+                        Divider()
                         Button("Add Category…") { Launcher.addCategory() }
                     }
                 }
@@ -260,15 +262,6 @@ struct CategorySection: View {
         let urls = store.urls(in: category.id)
         VStack(alignment: .leading, spacing: 6) {
             Text(category.name).font(.system(size: 14, weight: .semibold))
-                .contextMenu {
-                    Button("Rename…") { Launcher.renameCategory(category) }
-                    Button("Add App…") { Launcher.chooseAppsToPin(to: category.id) }
-                    Button("Add File or Folder…") { Launcher.chooseFilesToPin(to: category.id) }
-                    if category.id != store.essentialsID {
-                        Divider()
-                        Button("Delete Category") { store.delete(category.id) }
-                    }
-                }
 
             LazyVGrid(columns: grid, spacing: 6) {
                 ForEach(urls, id: \.self) { url in
@@ -285,6 +278,20 @@ struct CategorySection: View {
             }
             // Drop a tile or Finder items onto the category's empty space to append them.
             .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
+        }
+        // A right-click anywhere in this category's band that isn't on a tile (its title, the gaps between and
+        // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .contextMenu {
+            Button("Add App to \(category.name)…") { Launcher.chooseAppsToPin(to: category.id) }
+            Button("Add File or Folder to \(category.name)…") { Launcher.chooseFilesToPin(to: category.id) }
+            Divider()
+            Button("Add Category…") { Launcher.addCategory() }
+            Button("Rename \(category.name)…") { Launcher.renameCategory(category) }
+            if category.id != store.essentialsID {
+                Button("Delete \(category.name)") { store.delete(category.id) }
+            }
         }
     }
 }
