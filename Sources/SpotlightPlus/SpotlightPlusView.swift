@@ -574,15 +574,15 @@ struct AppTile: View, Equatable {
         // the icon lands in it when dropped. Name and running mark keep their space, so nothing shifts.
         let inTheAir = tileDrag.item == url && categoryID != nil
         // The running mark right under the icon, and the name under that, so the mark stays clear of the text.
-        // The mark sits close under the icon's artwork and further from the name, so it reads as the icon's. (App icons
-        // keep a transparent margin of about 5 pt below the artwork, so the mark goes up into it.)
+        // The mark belongs to the icon: its gap to the artwork is half its distance to the middle of the name (see
+        // RunningMark).
         VStack(spacing: 0) {
             if inTheAir { DashedSlot() } else { TileIcon(url: url) }
             RoundedRectangle(cornerRadius: 1.5)
                 .fill(isRunning && !inTheAir ? Color.red : Color.clear)
-                .frame(width: 18, height: 3)
-                .padding(.top, -3)
-                .padding(.bottom, 13)
+                .frame(width: 18, height: RunningMark.height)
+                .padding(.top, RunningMark.above)
+                .padding(.bottom, RunningMark.below)
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(1)
@@ -681,6 +681,18 @@ struct PinMenu: View {
 }
 
 /// Grayed-out stand-in shown in a category that has no apps yet.
+/// Where the running mark sits between the icon and the name. The gap from the icon's artwork to the mark is half the
+/// distance from the mark to the middle of the name, so the mark reads as the icon's. App icons keep a transparent
+/// margin below their artwork (100 pt of Apple's 1024 pt grid), which counts as part of that gap. The name stays where
+/// it is: the space above and below the mark always adds up to 10 pt.
+enum RunningMark {
+    static let height: CGFloat = 3
+    private static let iconMargin: CGFloat = 52 * 100 / 1024, nameHalfHeight: CGFloat = 7, total: CGFloat = 10
+    // margin + above = (below + nameHalfHeight) / 2, with above + below = total
+    static let above = (total + nameHalfHeight - 2 * iconMargin) / 3
+    static let below = total - above
+}
+
 /// The dashed square with a plus: an empty category's stand-in, and the place a dragged icon will land.
 struct DashedSlot: View {
     var body: some View {
@@ -701,7 +713,7 @@ struct PlaceholderTile: View {
     var body: some View {
         VStack(spacing: 0) {
             DashedSlot()
-            Color.clear.frame(width: 18, height: 3).padding(.top, -3).padding(.bottom, 13)
+            Color.clear.frame(width: 18, height: RunningMark.height).padding(.top, RunningMark.above).padding(.bottom, RunningMark.below)
             Text("Add your app here")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
