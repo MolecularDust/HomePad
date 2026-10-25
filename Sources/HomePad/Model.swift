@@ -292,18 +292,17 @@ enum Launcher {
     static func open(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
         guard url.isFileURL, let app = RunningApps.shared.app(for: url) else { openNow(url); return }
-        // A running app with nothing to show on this Space, like the Dock: windows on another Space → go there;
-        // only minimised windows → bring the most recent back. (Opera with two windows minimised here and two on
-        // another Space used to only become active, which showed nothing: the minimised ones counted as "here".)
-        // The quick check (window server only) settles the usual case; asking the app itself, which can take a few
-        // hundred ms, only happens when it finds no window at all.
+        // This Space comes first, as in the Dock: a window showing here → the app comes forward with it; only
+        // minimised windows here → the most recent comes back; no window here at all → go to another Space where it
+        // has some. The quick check (window server only) settles the usual case; asking the app itself, which can
+        // take a few hundred ms and is the only way to find minimised windows, happens when nothing shows here.
         let pid = app.processIdentifier
         DispatchQueue.global(qos: .userInteractive).async {
             let quick = WindowCatalog.realWindows(for: pid, askingApp: false)
             var target: WindowCatalog.RealWindow?
             if !quick.contains(where: { !$0.onOtherSpace }) {
-                target = quick.first(where: \.onOtherSpace)
-                    ?? WindowCatalog.realWindows(for: pid).first(where: \.isMinimised)
+                let all = WindowCatalog.realWindows(for: pid)
+                target = all.first(where: \.minimisedHere) ?? all.first(where: \.onOtherSpace)
             }
             DispatchQueue.main.async {
                 if let target {

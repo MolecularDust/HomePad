@@ -315,6 +315,8 @@ enum WindowCatalog {
         var title = ""
         /// Only known when the app was asked (`askingApp`).
         var isMinimised = false
+        /// Minimised from the Space showing now (a minimised window keeps the Space it was on).
+        var minimisedHere = false
 
     }
 
@@ -352,7 +354,8 @@ enum WindowCatalog {
             // Minimised windows can belong to no Space; they are on the one showing.
             let spaceNo = spaces.first.flatMap { numbers[$0] } ?? activeSpace.flatMap { numbers[$0] } ?? 0
             return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo,
-                              title: info[kCGWindowName as String] as? String ?? "", isMinimised: isMinimised)
+                              title: info[kCGWindowName as String] as? String ?? "", isMinimised: isMinimised,
+                              minimisedHere: isMinimised && (spaces.isEmpty || activeSpace.map(spaces.contains) ?? true))
         }
         // By Space (in Mission Control's order), then front to back.
         return found.enumerated()
