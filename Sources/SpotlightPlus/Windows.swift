@@ -146,10 +146,10 @@ enum WindowCatalog {
     /// keep many hidden helper windows (DaVinci Resolve has dozens). Those belong to no Space, which is how
     /// they're told apart from a real window on another desktop.
     /// Needs no permission, so it works before Screen Recording or Accessibility are allowed.
-    static func realWindows(for pid: pid_t) -> [RealWindow] {
-        let minimised = axWindows(pid)
-            .filter { axBool($0, kAXMinimizedAttribute) == true }
-            .compactMap(axFrame)
+    /// Finding minimised windows means asking the app itself, which waits for its answer (DaVinci Resolve took up to
+    /// 425 ms); `askingApp: false` leaves them out and only asks the window server, which takes a few ms.
+    static func realWindows(for pid: pid_t, askingApp: Bool = true) -> [RealWindow] {
+        let minimised = askingApp ? axWindows(pid).filter { axBool($0, kAXMinimizedAttribute) == true }.compactMap(axFrame) : []
         let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
         let activeSpace = SkyLight.activeSpace
         let numbers = SkyLight.spaceNumbers()
@@ -204,9 +204,15 @@ enum WindowCatalog {
 
     // MARK: Jumping to a window
 
+    /// The panel goes at once; finding the window (which waits for the app's answers, and for a window on another
+    /// Space can mean a search of a few seconds) happens in the background.
     static func focus(_ window: AppWindow, of app: NSRunningApplication) {
         PanelController.shared.hide(restoreFocus: false)
         WindowPreviewController.shared.hideNow()
+        DispatchQueue.global(qos: .userInteractive).async { bringForward(window, of: app) }
+    }
+
+    private static func bringForward(_ window: AppWindow, of app: NSRunningApplication) {
         // A window on another Space can't be reached through Accessibility. Activating the app makes macOS
         // switch to a Space where it has windows; naming the window first points it at this one.
         if window.onOtherSpace {
@@ -215,12 +221,14 @@ enum WindowCatalog {
                 AXUIElementPerformAction(element, kAXRaiseAction as CFString)
                 AXUIElementSetAttributeValue(AXUIElementCreateApplication(app.processIdentifier), kAXFrontmostAttribute as CFString, kCFBooleanTrue)
             }
-            app.activate(options: [.activateAllWindows])
+            DispatchQueue.main.async { app.activate(options: [.activateAllWindows]) }
             return
         }
         guard Permissions.accessibility else {
-            Permissions.requestAccessibility()
-            app.activate(options: [.activateAllWindows])
+            DispatchQueue.main.async {
+                Permissions.requestAccessibility()
+                app.activate(options: [.activateAllWindows])
+            }
             return
         }
         let axApp = AXUIElementCreateApplication(app.processIdentifier)
@@ -229,7 +237,7 @@ enum WindowCatalog {
             AXUIElementPerformAction(match, kAXRaiseAction as CFString)
             AXUIElementSetAttributeValue(axApp, kAXFrontmostAttribute as CFString, kCFBooleanTrue)
         }
-        app.activate(options: [])
+        DispatchQueue.main.async { app.activate(options: []) }
     }
 
     /// Closes one specific window by pressing its close button. Needs the Accessibility permission.

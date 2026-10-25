@@ -275,14 +275,25 @@ final class RunningApps: ObservableObject {
 enum Launcher {
     static func open(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
-        // A running app whose windows are all on other Spaces: go to one of them, as the Dock does.
-        if url.isFileURL, let app = RunningApps.shared.app(for: url) {
-            let windows = WindowCatalog.realWindows(for: app.processIdentifier)
-            if let first = windows.first, windows.allSatisfy(\.onOtherSpace) {
-                WindowCatalog.focus(AppWindow(id: first.id, title: "", frame: first.frame, onOtherSpace: true), of: app)
-                return
+        guard url.isFileURL, let app = RunningApps.shared.app(for: url) else { openNow(url); return }
+        // A running app whose windows are all on other Spaces: go to one of them, as the Dock does. Worked out in the
+        // background: the quick check (window server only) settles the usual case; asking the app itself, which can
+        // take a few hundred ms, only happens when every window seems to be on another Space.
+        let pid = app.processIdentifier
+        DispatchQueue.global(qos: .userInteractive).async {
+            var windows = WindowCatalog.realWindows(for: pid, askingApp: false)
+            if !windows.isEmpty, windows.allSatisfy(\.onOtherSpace) { windows = WindowCatalog.realWindows(for: pid) }
+            DispatchQueue.main.async {
+                if let first = windows.first, windows.allSatisfy(\.onOtherSpace) {
+                    WindowCatalog.focus(AppWindow(id: first.id, title: "", frame: first.frame, onOtherSpace: true), of: app)
+                } else {
+                    openNow(url)
+                }
             }
         }
+    }
+
+    private static func openNow(_ url: URL) {
         if url.isFileURL && url.pathExtension == "app" {
             // Launches the app, or brings it forward (and reopens a window) if already running —
             // the same thing clicking a Dock icon does.
