@@ -17,8 +17,10 @@ final class PanelState: ObservableObject {
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
-    @Published var draggingCategory: UUID?  // category title being dragged to a new place in the order
-    @Published var dropTarget: UUID?        // the category band a dragged title is over: where it would land
+    @Published var pressedCategory: UUID?   // category row selected by pressing its title
+    @Published var draggingCategory: UUID?  // category row being carried to a new place in the order
+    @Published var rowOffset: CGFloat = 0   // how far the carried row is from where it rests (down is positive)
+    var rowFrames: [UUID: CGRect] = [:]     // where the category rows rest
     @Published var isDragging = false       // a tile or a category title is in the air
     private var dragWatcher: Timer?
     private var lastDragActivity = Date()
@@ -52,7 +54,51 @@ final class PanelState: ObservableObject {
         isDragging = false
         draggingItem = nil
         draggingCategory = nil
-        dropTarget = nil
+        pressedCategory = nil
+        rowOffset = 0
+    }
+
+    /// Where the carried row would land: past every row whose middle it has crossed.
+    private func carriedTarget() -> (from: Int, to: Int)? {
+        let order = CategoryStore.shared.categories.map(\.id)
+        guard let id = draggingCategory, let from = order.firstIndex(of: id), let frame = rowFrames[id] else { return nil }
+        let middle = frame.midY + rowOffset
+        var to = from
+        for (index, other) in order.enumerated() where index != from {
+            guard let rest = rowFrames[other] else { continue }
+            if index > from, middle > rest.midY { to = max(to, index) }
+            if index < from, middle < rest.midY { to = min(to, index) }
+        }
+        return (from, to)
+    }
+
+    /// How far a category row is moved from its resting place: the carried one follows the pointer, the ones it has
+    /// passed slide a row's height out of the way.
+    func rowShift(for id: UUID) -> CGFloat {
+        guard let dragging = draggingCategory else { return 0 }
+        if id == dragging { return rowOffset }
+        let order = CategoryStore.shared.categories.map(\.id)
+        guard let index = order.firstIndex(of: id), let (from, to) = carriedTarget(), let carried = rowFrames[dragging] else { return 0 }
+        // A row's height plus the gap to the next one (the gap is the same all the way down).
+        let gap = order.count > 1 ? (rowFrames[order[1]]?.minY ?? 0) - (rowFrames[order[0]]?.maxY ?? 0) : 0
+        let pitch = carried.height + gap
+        if to > from, index > from, index <= to { return -pitch }
+        if to < from, index >= to, index < from { return pitch }
+        return 0
+    }
+
+    /// The carried row is let go: it takes the place it has reached.
+    func dropCarriedRow() {
+        if let id = draggingCategory, let (_, to) = carriedTarget() {
+            var instant = Transaction()
+            instant.disablesAnimations = true
+            withTransaction(instant) {
+                CategoryStore.shared.moveCategory(id, toIndex: to)
+                endDrag()
+            }
+        } else {
+            endDrag()
+        }
     }
 
     /// Back to the pinned apps.

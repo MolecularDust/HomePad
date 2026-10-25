@@ -31,11 +31,11 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
   Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
   ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
-- **Category order**: a category's name turns green when you point at it. Drag it and the whole row (name and
-  icons) comes along as a small picture; drop it anywhere on another category and the two **swap places** (the target
-  is outlined in green while you hover). Or right-click inside a category and choose **Move Up** / **Move Down**.
-  While something is being dragged, hover effects and window previews stay off. Essentials can be moved too; it stays
-  the default place for new items and can't be deleted.
+- **Category order**: a category's name turns green when you point at it. Press it and the whole row is selected
+  (green fill and outline); drag and the row itself comes along, a little see-through, while the other rows slide
+  aside to make room. Let go and it stays where it is. Or right-click inside a category and choose **Move Up** /
+  **Move Down**. While something is being dragged, hover effects and window previews stay off. Essentials can be
+  moved too; it stays the default place for new items and can't be deleted. Thin gray lines separate the categories.
 - **Right-click to add**: right-click empty space inside a category (its title, or the gaps between and after its
   tiles) and the menu adds to *that* category: "Add App to Files…", "Add File or Folder to Files…", plus Add Category,
   Rename and Delete for it. Right-click outside every category (below the last one) and it adds to Essentials.
