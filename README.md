@@ -93,3 +93,8 @@ any time from the menu-bar icon → Setup Guide…
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, categories, running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
+
+## App icon
+
+The icon is `Resources/AppIcon.svg`. After changing it, run `./tools/make_icon.sh` to rebuild `Resources/AppIcon.icns`
+(all the sizes macOS uses, with a transparent background), then `./build_app.sh`.

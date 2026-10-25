@@ -42,7 +42,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 
 Pop-ups must go through `PanelController.keepVisible` so the panel stays visible behind them.
 
-Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.
+Other top-level files: `Package.swift`, `build_app.sh`, `README.md`. The app icon is `Resources/AppIcon.svg`; `tools/make_icon.sh` renders it into `Resources/AppIcon.icns`, which `build_app.sh` copies into the bundle (`CFBundleIconFile`).
 
 ## Build
 
