@@ -47,6 +47,24 @@ struct Category: Identifiable, Codable, Equatable {
     var id = UUID()
     var name: String
     var paths: [String] = []
+    /// The category that things are added to by default, and that can't be deleted. It starts out first, but a
+    /// category can be dragged above it, so it is marked rather than found by position.
+    var isEssentials = false
+
+    init(id: UUID = UUID(), name: String, paths: [String] = [], isEssentials: Bool = false) {
+        self.id = id
+        self.name = name
+        self.paths = paths
+        self.isEssentials = isEssentials
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(UUID.self, forKey: .id)
+        name = try values.decode(String.self, forKey: .name)
+        paths = try values.decode([String].self, forKey: .paths)
+        isEssentials = try values.decodeIfPresent(Bool.self, forKey: .isEssentials) ?? false    // saved before it existed
+    }
 }
 
 final class CategoryStore: ObservableObject {
@@ -62,16 +80,17 @@ final class CategoryStore: ObservableObject {
             categories = saved
         } else if let paths = d.stringArray(forKey: "pinnedPaths") {
             // Upgrade from the single pinned list: everything goes into Essentials.
-            categories = [Category(name: "Essentials", paths: paths)]
+            categories = [Category(name: "Essentials", paths: paths, isEssentials: true)]
         } else {
             // The very first run: the Dock's apps in Essentials, plus a "Files" category with the Trash and
             // Downloads, like the right end of the Dock. Only ever created here, so deleting it keeps it deleted.
-            categories = [Category(name: "Essentials", paths: DockImporter.pinnedApps().map(\.path))]
+            categories = [Category(name: "Essentials", paths: DockImporter.pinnedApps().map(\.path), isEssentials: true)]
             if let files = Self.filesCategory(avoiding: categories) { categories.append(files) }
         }
         for i in categories.indices {
             categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
         }
+        if !categories.contains(where: \.isEssentials) { categories[0].isEssentials = true }   // saved before it existed
         save()
     }
 
@@ -83,7 +102,9 @@ final class CategoryStore: ObservableObject {
         return paths.isEmpty ? nil : Category(name: "Files", paths: paths)
     }
 
-    var essentialsID: UUID { categories[0].id }
+    private var essentialsIndex: Int { categories.firstIndex(where: \.isEssentials) ?? 0 }
+    var essentialsID: UUID { categories[essentialsIndex].id }
+    var essentialsName: String { categories[essentialsIndex].name }
 
     func urls(in id: UUID) -> [URL] {
         (categories.first { $0.id == id }?.paths ?? []).map { URL(fileURLWithPath: $0) }
@@ -140,6 +161,15 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
+    /// Puts a category where another one is, moving the others along (dragging a category title).
+    func moveCategory(_ id: UUID, to targetID: UUID) {
+        guard id != targetID, let from = categories.firstIndex(where: { $0.id == id }),
+              let to = categories.firstIndex(where: { $0.id == targetID }) else { return }
+        let category = categories.remove(at: from)
+        categories.insert(category, at: to)
+        save()
+    }
+
     /// Deleting a category unpins everything in it too (the apps and files themselves are untouched).
     func delete(_ id: UUID) {
         guard id != essentialsID, let i = categories.firstIndex(where: { $0.id == id }) else { return }
@@ -150,12 +180,12 @@ final class CategoryStore: ObservableObject {
     func replaceWithDock() {
         let dock = DockImporter.pinnedApps().map(\.path)
         for i in categories.indices { categories[i].paths.removeAll { dock.contains($0) } }
-        categories[0].paths = dock
+        categories[essentialsIndex].paths = dock
         save()
     }
 
     private func insert(_ path: String, in id: UUID, at index: Int?) {
-        let i = categories.firstIndex { $0.id == id } ?? 0
+        let i = categories.firstIndex { $0.id == id } ?? essentialsIndex
         let at = min(index ?? categories[i].paths.count, categories[i].paths.count)
         categories[i].paths.insert(path, at: at)
     }

@@ -17,6 +17,7 @@ final class PanelState: ObservableObject {
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
+    var draggingCategory: UUID?             // category title being dragged to a new place in the order
 
     /// Back to the pinned apps.
     func goHome() { query = "" }
@@ -25,6 +26,7 @@ final class PanelState: ObservableObject {
         query = ""
         selection = 0
         draggingItem = nil
+        draggingCategory = nil
         focusToken += 1
     }
 }

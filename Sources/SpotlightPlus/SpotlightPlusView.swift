@@ -227,6 +227,7 @@ struct HomeView: View {
     @ObservedObject private var running = RunningApps.shared
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
+    @AppStorage("tightRows") private var tight = false
 
     private var grid: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 6), count: max(columns, 3))
@@ -251,20 +252,20 @@ struct HomeView: View {
 
             GeometryReader { geo in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
+                    VStack(alignment: .leading, spacing: tight ? 8 : 14) {
                         ForEach(store.categories) { category in
                             CategorySection(category: category, grid: grid, running: running)
                         }
 
                         if showRunning && !runningApps.isEmpty {
-                            VStack(alignment: .leading, spacing: 6) {
+                            VStack(alignment: .leading, spacing: tight ? 3 : 6) {
                                 HStack {
                                     Text("Running").font(.system(size: 14, weight: .semibold))
                                     Spacer()
                                     Label("Managed automatically", systemImage: "lock")
                                         .font(.system(size: 11)).foregroundStyle(.tertiary)
                                 }
-                                LazyVGrid(columns: grid, spacing: 6) {
+                                LazyVGrid(columns: grid, spacing: tight ? 2 : 6) {
                                     ForEach(runningApps, id: \.self) { url in
                                         AppTile(url: url, isRunning: true, categoryID: nil)
                                     }
@@ -280,8 +281,8 @@ struct HomeView: View {
                     .movesWindowWhenDragged()          // inside the scroll view, which takes its own mouse events
                     .contextMenu {
                         // Outside every category (below the last one, in the Running section): into Essentials.
-                        Button("Add App to \(store.categories[0].name)…") { Launcher.chooseAppsToPin() }
-                        Button("Add File or Folder to \(store.categories[0].name)…") { Launcher.chooseFilesToPin() }
+                        Button("Add App to \(store.essentialsName)…") { Launcher.chooseAppsToPin() }
+                        Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
                         Divider()
                         Button("Add Category…") { Launcher.addCategory() }
                     }
@@ -291,18 +292,62 @@ struct HomeView: View {
     }
 }
 
+/// A category's name. It turns green under the pointer, and dragging it moves the whole category to a new place in
+/// the order, the way tiles are rearranged.
+struct CategoryTitle: View {
+    let category: Category
+    @State private var hovering = false
+
+    var body: some View {
+        Text(category.name)
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(hovering ? Color.green : Color.primary)
+            .contentShape(Rectangle())
+            .onHover { hovering = $0 }
+            .onDrag {
+                PanelState.shared.draggingCategory = category.id
+                return NSItemProvider(object: "spotlightplus-category:\(category.id.uuidString)" as NSString)
+            }
+            .help("Drag to change the order of the categories")
+    }
+}
+
+/// While a category title is being dragged, whatever it is carried over decides its new place.
+enum CategoryReorder {
+    static func enter(target: UUID) {
+        guard let dragging = PanelState.shared.draggingCategory, dragging != target else { return }
+        withAnimation(.easeInOut(duration: 0.18)) { CategoryStore.shared.moveCategory(dragging, to: target) }
+    }
+
+    /// Ends a category drag; true if one was in progress.
+    static func finish() -> Bool {
+        guard PanelState.shared.draggingCategory != nil else { return false }
+        PanelState.shared.draggingCategory = nil
+        return true
+    }
+}
+
+struct CategoryReorderDelegate: DropDelegate {
+    let target: UUID
+
+    func dropEntered(info: DropInfo) { CategoryReorder.enter(target: target) }
+    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+    func performDrop(info: DropInfo) -> Bool { CategoryReorder.finish() }
+}
+
 struct CategorySection: View {
     let category: Category
+    @AppStorage("tightRows") private var tight = false
     let grid: [GridItem]
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
 
     var body: some View {
         let urls = store.urls(in: category.id)
-        VStack(alignment: .leading, spacing: 6) {
-            Text(category.name).font(.system(size: 14, weight: .semibold))
+        VStack(alignment: .leading, spacing: tight ? 3 : 6) {
+            CategoryTitle(category: category)
 
-            LazyVGrid(columns: grid, spacing: 6) {
+            LazyVGrid(columns: grid, spacing: tight ? 2 : 6) {
                 ForEach(urls, id: \.self) { url in
                     AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id)
                         .onDrag {
@@ -318,6 +363,8 @@ struct CategorySection: View {
             // Drop a tile or Finder items onto the category's empty space to append them.
             .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
         }
+        // A category title dragged over this band takes this band's place in the order.
+        .onDrop(of: [.plainText], delegate: CategoryReorderDelegate(target: category.id))
         // A right-click anywhere in this category's band that isn't on a tile (its title, the gaps between and
         // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -344,13 +391,14 @@ private struct TileFrameKey: PreferenceKey {
 /// categoryID is nil for tiles in the Running section, which can't be edited.
 struct AppTile: View {
     let url: URL
+    @AppStorage("tightRows") private var tight = false
     let isRunning: Bool
     let categoryID: UUID?
     @State private var hovering = false
     @State private var frame = CGRect.zero
 
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: tight ? 2 : 5) {
             Image(nsImage: IconCache.icon(for: url))
                 .resizable()
                 .interpolation(.high)
@@ -365,7 +413,7 @@ struct AppTile: View {
                 .frame(width: 18, height: 3)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
+        .padding(.vertical, tight ? 3 : 8)
         .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
         .background(GeometryReader { Color.clear.preference(key: TileFrameKey.self, value: $0.frame(in: .global)) })
         .onPreferenceChange(TileFrameKey.self) { frame = $0 }
@@ -427,9 +475,10 @@ struct PinMenu: View {
 /// Grayed-out stand-in shown in a category that has no apps yet.
 struct PlaceholderTile: View {
     let categoryID: UUID
+    @AppStorage("tightRows") private var tight = false
 
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: tight ? 2 : 5) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -445,7 +494,7 @@ struct PlaceholderTile: View {
             Color.clear.frame(width: 18, height: 3)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
+        .padding(.vertical, tight ? 3 : 8)
         .contentShape(Rectangle())
         .onTapGesture { Launcher.chooseAppsToPin(to: categoryID) }
     }
@@ -457,6 +506,10 @@ struct TileDropDelegate: DropDelegate {
 
     func dropEntered(info: DropInfo) {
         let store = CategoryStore.shared
+        if PanelState.shared.draggingCategory != nil {            // a category title is being carried over this tile
+            if let category = store.location(of: target)?.category { CategoryReorder.enter(target: category) }
+            return
+        }
         guard let dragging = PanelState.shared.draggingItem, dragging != target,
               let to = store.location(of: target) else { return }
         withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, toCategory: to.category, at: to.index) }
@@ -465,6 +518,7 @@ struct TileDropDelegate: DropDelegate {
     func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
+        if CategoryReorder.finish() { return true }
         if PanelState.shared.draggingItem != nil {
             PanelState.shared.draggingItem = nil
             return true
@@ -483,9 +537,12 @@ struct TileDropDelegate: DropDelegate {
 struct CategoryDropDelegate: DropDelegate {
     let category: UUID
 
+    func dropEntered(info: DropInfo) { CategoryReorder.enter(target: category) }
+
     func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
+        if CategoryReorder.finish() { return true }
         if let dragging = PanelState.shared.draggingItem {
             CategoryStore.shared.move(dragging, toCategory: category)
             PanelState.shared.draggingItem = nil

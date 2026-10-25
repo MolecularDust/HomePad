@@ -31,6 +31,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
   Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
   ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
+- **Category order**: a category's name turns green when you point at it; drag it onto another category to move it
+  to that place in the order (Essentials can be moved too; it stays the default place for new items and can't be deleted).
 - **Right-click to add**: right-click empty space inside a category (its title, or the gaps between and after its
   tiles) and the menu adds to *that* category: "Add App to Files…", "Add File or Folder to Files…", plus Add Category,
   Rename and Delete for it. Right-click outside every category (below the last one) and it adds to Essentials.
@@ -67,7 +69,7 @@ any time from the menu-bar icon → Setup Guide…
 - **Menu-bar icon**: Settings → General can hide it. Launching the app again opens the panel.
 - **Reset to Defaults**: restores shortcut, double-tap, layout, Dock hiding and launch at login (apps and categories are kept).
 - **Double-tap**: open with Control, Option or Command tapped twice.
-- **Icons per row** (8 by default), **show running apps**, **re-import from Dock**.
+- **Icons per row** (8 by default), **tighter rows** (less vertical space between rows), **show running apps**, **re-import from Dock**.
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
 - **Launch at login**.
