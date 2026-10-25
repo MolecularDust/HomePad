@@ -1,9 +1,9 @@
 import AppKit
 import SwiftUI
 
-/// A window with a title bar and a close button, shown above the SpotlightPlus panel. `run()` blocks until it
-/// closes (the panel stays visible behind it); `show()` doesn't block and puts it beside the panel, so things
-/// can be dragged from one into the other. Closing it with the red button counts as Cancel.
+/// A window with a title bar and a close button, shown in the middle of the screen above the SpotlightPlus panel.
+/// `run()` blocks until it closes (the panel stays visible behind it); `show()` doesn't, so the window can be
+/// moved aside and things dragged from it into the panel. Closing it with the red button counts as Cancel.
 final class ModalWindow: NSObject, NSWindowDelegate {
     private static var open: [ModalWindow] = []
     private let window: NSWindow
@@ -36,11 +36,11 @@ final class ModalWindow: NSObject, NSWindowDelegate {
         }
     }
 
-    /// Shows the window without blocking, beside the panel (which is kept from hiding while it's open).
+    /// Shows the window without blocking (the panel is kept from hiding while it's open).
     func show() {
         Self.open.append(self)
         PanelController.shared.holdOpen(true)
-        PanelController.shared.arrange(beside: window)
+        window.center()
         activateSelf()
         window.makeKeyAndOrderFront(nil)
     }

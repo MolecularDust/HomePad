@@ -29,8 +29,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
-  The Add App and Add File or Folder windows open beside the panel, so you can also drag any tile from them into it.
-  In the file window, the round button on a sidebar place (Documents, Downloads, Trash ...) picks the folder itself.
+  Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
+  ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
 - **Add apps**: the Add App button (double-click an app in the picker to add it and close the picker), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles

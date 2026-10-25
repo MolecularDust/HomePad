@@ -77,6 +77,7 @@ private struct FilePickerView: View {
     @State private var history: [Place] = []
     @State private var query = ""
     @State private var selected = Set<URL>()
+    @State private var pickedPlace: URL?
     @State private var showHidden = false
     @State private var entries: [Entry] = []
     @State private var unreadable = false
@@ -172,7 +173,7 @@ private struct FilePickerView: View {
                 let url = url(of: item.place)
                 SidebarRow(item: item, current: place == item.place,
                            added: store.contains(url), picked: selected.contains(url),
-                           go: { go(item.place) }, toggle: { toggle(url) })
+                           go: { choose(item.place) }, toggle: { toggle(url) })
                     .onDrag { NSItemProvider(object: url as NSURL) }
             }
         }
@@ -282,6 +283,16 @@ private struct FilePickerView: View {
 
     // MARK: Actions
 
+    /// A click on a place in the sidebar opens it and picks it itself, so Add is ready (only one place at a time;
+    /// items picked inside folders stay picked).
+    private func choose(_ new: Place) {
+        let url = url(of: new)
+        if let old = pickedPlace { selected.remove(old) }
+        pickedPlace = store.contains(url) ? nil : url
+        if let picked = pickedPlace { selected.insert(picked) }
+        go(new)
+    }
+
     private func go(_ new: Place) {
         guard new != place else { return }
         history.append(place)
@@ -295,7 +306,8 @@ private struct FilePickerView: View {
 
     private func toggle(_ url: URL) {
         guard !store.contains(url) else { return }
-        if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
+        if selected.contains(url) { selected.remove(url); if pickedPlace == url { pickedPlace = nil } }
+        else { selected.insert(url) }
     }
 
     /// Double-click: a folder opens, anything else is added.

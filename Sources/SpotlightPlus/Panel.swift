@@ -132,25 +132,6 @@ final class PanelController: NSObject, NSWindowDelegate {
         if !hold && panel.isVisible { panel.makeKeyAndOrderFront(nil) }
     }
 
-    /// Puts a window beside the panel, the two centred on the screen as a pair, so the panel isn't covered.
-    /// On a screen too narrow for both, the window goes to the right edge and covers only part of the panel.
-    func arrange(beside window: NSWindow) {
-        guard panel.isVisible else { window.center(); return }
-        let visible = (panel.screen ?? NSScreen.main)?.visibleFrame ?? panel.frame
-        let gap: CGFloat = 16
-        let f = panel.frame, size = window.frame.size
-        var x: CGFloat
-        if f.width + gap + size.width <= visible.width - 20 {
-            let startX = visible.midX - (f.width + gap + size.width) / 2
-            panel.setFrameOrigin(NSPoint(x: startX, y: f.minY))
-            x = startX + f.width + gap
-        } else {
-            x = visible.maxX - size.width - 10
-        }
-        let y = min(max(f.midY - size.height / 2, visible.minY), visible.maxY - size.height)
-        window.setFrameOrigin(NSPoint(x: x, y: y))
-    }
-
     /// restoreFocus: give focus back to the app you were in (Esc / hotkey), vs. not (an app was launched).
     func hide(restoreFocus: Bool) {
         guard panel.isVisible, !isHiding else { return }
