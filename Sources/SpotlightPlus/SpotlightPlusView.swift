@@ -237,12 +237,13 @@ struct HoverLink: View {
 // MARK: - Categories + running apps
 
 /// The "Row height" setting: the distance in points from one row of tiles to the next. 101 is the standard layout.
-/// A tile's icon, running mark and name take about 79 pt and 6 pt separates the rows; the rest is padding above and
-/// below each tile.
+/// A tile is its icon, running mark and name, and 6 pt separates the rows; the rest is padding above and below each
+/// tile.
 enum RowMetrics {
     static let standard = 101
     static let range = 85...125
-    private static let tileContent: CGFloat = 79, rowGap: CGFloat = 6
+    private static let tileContent: CGFloat = 52 + RunningMark.above + RunningMark.height + RunningMark.below + 14
+    private static let rowGap: CGFloat = 6
 
     static func padding(_ rowHeight: Int) -> CGFloat { max(0, (CGFloat(rowHeight) - tileContent - rowGap) / 2) }
 
@@ -681,16 +682,16 @@ struct PinMenu: View {
 }
 
 /// Grayed-out stand-in shown in a category that has no apps yet.
-/// Where the running mark sits between the icon and the name. The gap from the icon's artwork to the mark is half the
-/// distance from the mark to the middle of the name, so the mark reads as the icon's. App icons keep a transparent
-/// margin below their artwork (100 pt of Apple's 1024 pt grid), which counts as part of that gap. The name stays where
-/// it is: the space above and below the mark always adds up to 10 pt.
+/// Where the running mark sits between the icon and the name. Its gap to the icon's artwork is half what its distance
+/// to the middle of the name was with 10 pt around the mark (App icons keep a transparent margin below their artwork,
+/// 100 pt of Apple's 1024 pt grid, which counts as part of that gap); the space from the mark to the name is then
+/// halved, which brings the name up.
 enum RunningMark {
     static let height: CGFloat = 3
     private static let iconMargin: CGFloat = 52 * 100 / 1024, nameHalfHeight: CGFloat = 7, total: CGFloat = 10
     // margin + above = (below + nameHalfHeight) / 2, with above + below = total
     static let above = (total + nameHalfHeight - 2 * iconMargin) / 3
-    static let below = total - above
+    static let below = (total - above) / 2
 }
 
 /// The dashed square with a plus: an empty category's stand-in, and the place a dragged icon will land.
