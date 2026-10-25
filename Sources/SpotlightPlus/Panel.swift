@@ -16,7 +16,13 @@ final class PanelState: ObservableObject {
     }
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
-    var draggingItem: URL?                  // pinned tile being reordered
+    var draggingItem: URL? {               // pinned tile being reordered
+        didSet {
+            // Shown a moment later, so the picture the system takes of the tile for the pointer is still the icon.
+            let item = draggingItem
+            DispatchQueue.main.async { if PanelState.shared.draggingItem == item, TileDrag.shared.item != item { TileDrag.shared.item = item } }
+        }
+    }
     // Not published: views that need these read them when they run, so starting or ending a drag doesn't redraw
     // the whole panel. What a drag shows on screen comes from RowDrag.
     var draggingCategory: UUID?             // category row being carried to a new place in the order
@@ -38,9 +44,11 @@ final class PanelState: ObservableObject {
         // SwiftUI has no callback for a drag that ends without a drop. It counts as over when the mouse button is up
         // and no drop target has seen the pointer for a second. (Added for all run-loop modes: a drag runs the loop
         // in tracking mode.)
-        let timer = Timer(timeInterval: 0.2, repeats: true) { [weak self] _ in
+        // A drop on a tile or category ends the drag at once; this only catches drops elsewhere, and quickly, since the
+        // dragged tile's place shows a placeholder until the drag is over.
+        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self, Date().timeIntervalSince(started) > 0.4, NSEvent.pressedMouseButtons == 0,
-                  Date().timeIntervalSince(self.lastDragActivity) > 1.0 else { return }
+                  Date().timeIntervalSince(self.lastDragActivity) > 0.3 else { return }
             self.endDrag()
         }
         RunLoop.main.add(timer, forMode: .common)
@@ -52,6 +60,7 @@ final class PanelState: ObservableObject {
         dragWatcher = nil
         isDragging = false
         draggingItem = nil
+        if TileDrag.shared.item != nil { TileDrag.shared.item = nil }
         draggingCategory = nil
         RowDrag.shared.reset()
     }
@@ -495,6 +504,13 @@ final class PanelController: NSObject, NSWindowDelegate {
         if let m = keyMonitor { NSEvent.removeMonitor(m) }
         keyMonitor = nil
     }
+}
+
+/// The pinned tile being dragged, for drawing its place as an empty slot. Apart from PanelState so that starting and
+/// ending a drag redraws the tiles only.
+final class TileDrag: ObservableObject {
+    static let shared = TileDrag()
+    @Published fileprivate(set) var item: URL?
 }
 
 /// The category row being carried. Kept apart from PanelState on purpose: the offset changes with every mouse move,

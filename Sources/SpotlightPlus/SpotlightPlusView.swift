@@ -515,6 +515,10 @@ struct CategorySection: View {
                             PanelState.shared.draggingItem = url
                             PanelState.shared.beginDrag()
                             return NSItemProvider(object: url.path as NSString)
+                        } preview: {
+                            // Just the icon under the pointer (by default it was a picture of the whole tile, hover
+                            // highlight and name included), above the empty slot it leaves behind.
+                            TileIcon(url: url)
                         }
                         .onDrop(of: [.plainText, .fileURL], delegate: TileDropDelegate(target: url))
                 }
@@ -561,22 +565,27 @@ struct AppTile: View, Equatable {
     @State private var hovering = false
     @State private var frame = FrameBox()
     @ObservedObject private var closable = ClosableWindows.shared
+    @ObservedObject private var tileDrag = TileDrag.shared
 
     var body: some View {
+        // While this tile is being dragged, its place is an empty slot (moving along as the others make room), and
+        // the icon lands in it when dropped. Name and running mark keep their space, so nothing shifts.
+        let inTheAir = tileDrag.item == url && categoryID != nil
         VStack(spacing: 5) {
-            TileIcon(url: url)
+            if inTheAir { DashedSlot() } else { TileIcon(url: url) }
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .padding(.horizontal, 4)
+                .opacity(inTheAir ? 0 : 1)
             RoundedRectangle(cornerRadius: 1.5)
-                .fill(isRunning ? Color.red : Color.clear)
+                .fill(isRunning && !inTheAir ? Color.red : Color.clear)
                 .frame(width: 18, height: 3)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, RowMetrics.padding(rowHeight))
-        .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
+        .background(RoundedRectangle(cornerRadius: 10).fill(hovering && !inTheAir ? Color.primary.opacity(0.09) : .clear))
         // Written straight into the box as the tile is laid out. (Passed up as a preference, the change handler
         // stopped being called once the tile no longer rebuilt, and the popup was placed at the panel's corner.)
         .background(GeometryReader { geo in
@@ -643,19 +652,26 @@ struct PinMenu: View {
 }
 
 /// Grayed-out stand-in shown in a category that has no apps yet.
+/// The dashed square with a plus: an empty category's stand-in, and the place a dragged icon will land.
+struct DashedSlot: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
+                .foregroundStyle(.quaternary)
+            Image(systemName: "plus").font(.system(size: 18)).foregroundStyle(.tertiary)
+        }
+        .frame(width: 52, height: 52)
+    }
+}
+
 struct PlaceholderTile: View {
     let categoryID: UUID
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
 
     var body: some View {
         VStack(spacing: 5) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
-                    .foregroundStyle(.quaternary)
-                Image(systemName: "plus").font(.system(size: 18)).foregroundStyle(.tertiary)
-            }
-            .frame(width: 52, height: 52)
+            DashedSlot()
             Text("Add your app here")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
