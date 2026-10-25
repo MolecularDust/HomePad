@@ -313,9 +313,12 @@ enum Launcher {
                     WindowCatalog.focus(AppWindow(id: target.id, title: "", frame: target.frame, onOtherSpace: target.onOtherSpace), of: app)
                 } else {
                     // While HomePad is still the active app (see `vanish`), so macOS lets it bring this one forward.
+                    // Once only: a second request (the "open app" one the Dock uses) made macOS activate it again, and
+                    // closing the panel before that settled put the previous app in front for a moment (a flicker).
+                    // The panel closes by itself once this app is in front. The "open app" request is only for an
+                    // app with no window at all, which then opens a new one.
                     app.activate(options: [.activateAllWindows])
-                    openNow(url)
-                    PanelController.shared.hide(restoreFocus: false)
+                    if quick.isEmpty && !app.isHidden { openNow(url) }
                 }
             }
         }

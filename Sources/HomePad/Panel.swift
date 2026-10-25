@@ -412,15 +412,15 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     /// restoreFocus: give focus back to the app you were in (Esc / hotkey), vs. not (an app was launched).
     /// Gone from view at once, but still open, so HomePad stays the active app until the app you picked has come
-    /// forward (`hide` closes it then). macOS only lets the active app bring another one forward; with the panel
-    /// closed first, focus went back to the previous app and the request was quietly ignored (Opera stayed behind).
+    /// forward; it then closes by itself, as HomePad stops being active. macOS only lets the active app bring
+    /// another one forward, and closing the panel first handed the front back to the previous app for a moment.
     func vanish() {
         guard panel.isVisible else { return }
         WindowPreviewController.shared.hideNow()
         panel.alphaValue = 0
         panel.ignoresMouseEvents = true
         // In case nothing comes forward to take focus.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             if self?.panel.alphaValue == 0 { self?.hide(restoreFocus: false) }
         }
     }

@@ -393,14 +393,10 @@ enum WindowCatalog {
     /// The panel goes at once; finding the window (which waits for the app's answers, and for a window on another
     /// Space can mean a search of a few seconds) happens in the background.
     static func focus(_ window: AppWindow, of app: NSRunningApplication) {
-        // Out of view at once, but closed only after the window has come forward (see `PanelController.vanish`).
+        // Out of view at once; it closes by itself once the app has come forward (see `PanelController.vanish`).
         PanelController.shared.vanish()
         WindowPreviewController.shared.hideNow()
-        DispatchQueue.global(qos: .userInteractive).async {
-            bringForward(window, of: app)
-            // Queued after the activation bringForward itself queues on the main thread.
-            DispatchQueue.main.async { PanelController.shared.hide(restoreFocus: false) }
-        }
+        DispatchQueue.global(qos: .userInteractive).async { bringForward(window, of: app) }
     }
 
     private static func bringForward(_ window: AppWindow, of app: NSRunningApplication) {
