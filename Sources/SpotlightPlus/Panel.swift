@@ -212,7 +212,9 @@ final class SpotlightPanel: NSPanel {
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { true }
 
-    private static func roundedMask(radius: CGFloat) -> NSImage {
+    /// A stretchable rounded rectangle for NSVisualEffectView.maskImage. (Rounding the view's layer instead leaves
+    /// the blurred background, and the shadow made from it, square at the corners.)
+    static func roundedMask(radius: CGFloat) -> NSImage {
         let edge = radius * 2 + 1
         let image = NSImage(size: NSSize(width: edge, height: edge), flipped: false) { rect in
             NSColor.black.setFill()

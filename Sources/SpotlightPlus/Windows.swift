@@ -396,9 +396,7 @@ final class WindowPreviewController {
         effect.material = .popover
         effect.blendingMode = .behindWindow
         effect.state = .active
-        effect.wantsLayer = true
-        effect.layer?.cornerRadius = 12
-        effect.layer?.masksToBounds = true
+        effect.maskImage = SpotlightPanel.roundedMask(radius: 12)
         host.translatesAutoresizingMaskIntoConstraints = false
         effect.addSubview(host)
         NSLayoutConstraint.activate([
@@ -546,6 +544,7 @@ final class WindowPreviewController {
         var y = tileTop + 6
         if y + size.height > visible.maxY { y = tileBottom - 6 - size.height }
         panel.setFrame(NSRect(x: x, y: y, width: size.width, height: size.height), display: true)
+        panel.invalidateShadow()          // the shadow follows the rounded shape at its new size
     }
 }
 
