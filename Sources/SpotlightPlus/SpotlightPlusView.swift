@@ -31,7 +31,7 @@ struct SpotlightPlusView: View {
             Divider().opacity(0.6)
             footer
         }
-        .frame(width: panelSize.width, height: panelSize.height)
+        .frame(minWidth: 520, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
         .background(WindowDragArea())
         .onAppear { searchFocused = true }
         .onChange(of: state.focusToken) { _ in
@@ -85,6 +85,11 @@ struct SpotlightPlusView: View {
                 .foregroundStyle(.secondary)
             Text(NSFullUserName()).font(.system(size: 13))
             Spacer()
+            Button { PanelController.shared.resetFrame() } label: {
+                Image(systemName: "arrow.counterclockwise").font(.system(size: 14))
+            }
+            .buttonStyle(.plain)
+            .help("Reset window size and position")
             Button { AppDelegate.shared?.openSettings() } label: {
                 Image(systemName: "gearshape").font(.system(size: 15))
             }

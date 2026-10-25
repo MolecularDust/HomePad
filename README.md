@@ -25,7 +25,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Categories**: apps live in named categories. **Essentials** comes first and is seeded from your Dock on
   first launch, plus a **Files** category with Downloads and the Trash, like the right end of the Dock. Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click a category name to rename or delete
-  it (its apps move to Essentials).
+  it (everything in it is unpinned too; the apps and files themselves are untouched).
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
@@ -43,6 +43,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Finding files**: files in Documents, Desktop and Downloads only appear in search once SpotlightPlus has
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
+- **Window**: drag any edge to resize the panel, or drag an empty part to move it. It reopens exactly as you left it;
+  the ↺ button beside the settings cogwheel puts it back to the standard size, centred.
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close. The ‹ button or a click on empty space also goes back to your apps.
 

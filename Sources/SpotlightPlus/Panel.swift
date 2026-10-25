@@ -33,7 +33,7 @@ final class PanelState: ObservableObject {
 final class SpotlightPanel: NSPanel {
     init(content: NSView) {
         super.init(contentRect: NSRect(origin: .zero, size: panelSize),
-                   styleMask: [.borderless], backing: .buffered, defer: false)
+                   styleMask: [.borderless, .resizable], backing: .buffered, defer: false)
         isFloatingPanel = true
         level = .modalPanel
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient, .ignoresCycle]
@@ -43,6 +43,7 @@ final class SpotlightPanel: NSPanel {
         hidesOnDeactivate = false
         isReleasedWhenClosed = false
         isMovableByWindowBackground = true     // drag it by any empty area
+        minSize = NSSize(width: 520, height: 400)   // drag any edge to resize
 
         let effect = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
         effect.material = .popover
@@ -75,6 +76,9 @@ final class PanelController: NSObject, NSWindowDelegate {
     static let shared = PanelController()
 
     var suppressAutoHide = false
+    /// True while the code itself moves or resizes the panel, so that isn't remembered as the user's choice.
+    private var placing = false
+    private let frameKey = "panelFrame"
     private var panel: SpotlightPanel!
     private var keyMonitor: Any?
     private var previousApp: NSRunningApplication?
@@ -101,13 +105,16 @@ final class PanelController: NSObject, NSWindowDelegate {
         PanelState.shared.reset()
         RunningApps.shared.refresh()
 
-        // Center on the screen that has the mouse pointer, slightly above the middle (like Spotlight).
-        let mouse = NSEvent.mouseLocation
-        let screen = NSScreen.screens.first { NSMouseInRect(mouse, $0.frame, false) } ?? NSScreen.main
-        if let f = screen?.visibleFrame {
-            panel.setFrameOrigin(NSPoint(x: f.midX - panelSize.width / 2,
-                                         y: f.midY - panelSize.height / 2 + f.height * 0.04))
+        // Where you left it, if that's still on a screen; otherwise centred on the screen with the mouse pointer,
+        // slightly above the middle (like Spotlight).
+        placing = true
+        if let saved = savedFrame {
+            panel.setFrame(saved, display: false)
+        } else {
+            let mouse = NSEvent.mouseLocation
+            panel.setFrame(defaultFrame(on: NSScreen.screens.first { NSMouseInRect(mouse, $0.frame, false) } ?? NSScreen.main), display: false)
         }
+        placing = false
 
         let front = NSWorkspace.shared.frontmostApplication
         previousApp = front?.processIdentifier == ProcessInfo.processInfo.processIdentifier ? nil : front
@@ -156,6 +163,39 @@ final class PanelController: NSObject, NSWindowDelegate {
         panel.orderOut(nil)
         isHiding = false
         if restoreFocus { previous?.activate(options: []) }
+    }
+
+    // MARK: Size and position
+
+    private func defaultFrame(on screen: NSScreen?) -> NSRect {
+        guard let f = screen?.visibleFrame else { return NSRect(origin: panel.frame.origin, size: panelSize) }
+        return NSRect(x: f.midX - panelSize.width / 2, y: f.midY - panelSize.height / 2 + f.height * 0.04,
+                      width: panelSize.width, height: panelSize.height)
+    }
+
+    /// The frame saved when you last moved or resized the panel, if it still fits on a connected screen.
+    private var savedFrame: NSRect? {
+        guard let text = UserDefaults.standard.string(forKey: frameKey) else { return nil }
+        let frame = NSRectFromString(text)
+        guard frame.width >= panel.minSize.width, frame.height >= panel.minSize.height,
+              NSScreen.screens.contains(where: { $0.visibleFrame.intersects(frame) }) else { return nil }
+        return frame
+    }
+
+    private func rememberFrame() {
+        guard !placing, panel.isVisible else { return }
+        UserDefaults.standard.set(NSStringFromRect(panel.frame), forKey: frameKey)
+    }
+
+    func windowDidMove(_ notification: Notification) { rememberFrame() }
+    func windowDidEndLiveResize(_ notification: Notification) { rememberFrame() }
+
+    /// Back to the standard size, centred, and forget the remembered frame.
+    func resetFrame() {
+        UserDefaults.standard.removeObject(forKey: frameKey)
+        placing = true
+        panel.setFrame(defaultFrame(on: panel.screen ?? NSScreen.main), display: true)
+        placing = false
     }
 
     func windowDidResignKey(_ notification: Notification) {

@@ -68,7 +68,7 @@ final class CategoryStore: ObservableObject {
         for i in categories.indices {
             categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
         }
-        // Once: a "Files" category with Downloads and the Trash, like the right end of the Dock. Not brought
+        // Once: a "Files" category with the Trash and Downloads, like the right end of the Dock. Not brought
         // back if you delete it later.
         if !d.bool(forKey: "seededFilesCategory") {
             d.set(true, forKey: "seededFilesCategory")
@@ -76,14 +76,23 @@ final class CategoryStore: ObservableObject {
                 categories.append(files)
             }
         }
+        // Once: the first version of that category had Downloads before the Trash. Swap it, if it's still untouched.
+        if !d.bool(forKey: "filesTrashFirst") {
+            d.set(true, forKey: "filesTrashFirst")
+            let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.path
+                ?? NSHomeDirectory() + "/Downloads"
+            if let i = categories.firstIndex(where: { $0.name == "Files" }), categories[i].paths == [downloads, trashURL.path] {
+                categories[i].paths = [trashURL.path, downloads]
+            }
+        }
         save()
     }
 
-    /// Downloads and the Trash, left out when they are already pinned somewhere.
+    /// The Trash and Downloads (in that order, like the Dock), left out when they are already pinned somewhere.
     static func filesCategory(avoiding existing: [Category]) -> Category? {
         let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.path
             ?? NSHomeDirectory() + "/Downloads"
-        let paths = [downloads, trashURL.path].filter { path in !existing.contains { $0.paths.contains(path) } }
+        let paths = [trashURL.path, downloads].filter { path in !existing.contains { $0.paths.contains(path) } }
         return paths.isEmpty ? nil : Category(name: "Files", paths: paths)
     }
 
@@ -144,12 +153,10 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
-    /// Deleting a category moves its apps to Essentials.
+    /// Deleting a category unpins everything in it too (the apps and files themselves are untouched).
     func delete(_ id: UUID) {
         guard id != essentialsID, let i = categories.firstIndex(where: { $0.id == id }) else { return }
-        let paths = categories[i].paths
         categories.remove(at: i)
-        categories[0].paths.append(contentsOf: paths)
         save()
     }
 
