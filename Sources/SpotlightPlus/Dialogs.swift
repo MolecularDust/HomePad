@@ -1,10 +1,13 @@
 import AppKit
 import SwiftUI
 
-/// A modal window with a title bar and a close button, shown above the SpotlightPlus panel (which stays
-/// visible behind it). Closing it with the red button counts as Cancel.
+/// A window with a title bar and a close button, shown above the SpotlightPlus panel. `run()` blocks until it
+/// closes (the panel stays visible behind it); `show()` doesn't block and puts it beside the panel, so things
+/// can be dragged from one into the other. Closing it with the red button counts as Cancel.
 final class ModalWindow: NSObject, NSWindowDelegate {
+    private static var open: [ModalWindow] = []
     private let window: NSWindow
+    private var isModal = false
 
     init<Content: View>(title: String, @ViewBuilder content: (ModalWindow) -> Content) {
         window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable], backing: .buffered, defer: false)
@@ -24,6 +27,7 @@ final class ModalWindow: NSObject, NSWindowDelegate {
     func close() { window.close() }
 
     func run() {
+        isModal = true
         PanelController.shared.keepVisible {
             window.center()
             activateSelf()
@@ -32,7 +36,20 @@ final class ModalWindow: NSObject, NSWindowDelegate {
         }
     }
 
-    func windowWillClose(_ notification: Notification) { NSApp.stopModal() }
+    /// Shows the window without blocking, beside the panel (which is kept from hiding while it's open).
+    func show() {
+        Self.open.append(self)
+        PanelController.shared.holdOpen(true)
+        PanelController.shared.arrange(beside: window)
+        activateSelf()
+        window.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        if isModal { NSApp.stopModal(); return }
+        Self.open.removeAll { $0 === self }
+        if Self.open.isEmpty { PanelController.shared.holdOpen(false) }
+    }
 }
 
 // MARK: - Asking for a name
@@ -130,7 +147,7 @@ enum AppPicker {
         let modal = ModalWindow(title: "Add Apps to \(name)") { modal in
             AppPickerView(category: target, close: modal.close)
         }
-        modal.run()
+        modal.show()
     }
 }
 
@@ -138,7 +155,7 @@ private struct AppPickerView: View {
     let category: UUID
     let close: () -> Void
     @ObservedObject private var store = CategoryStore.shared
-    @AppStorage("columns") private var columns = 6
+    @AppStorage("columns") private var columns = 8
     @State private var query = ""
     @State private var selected = Set<URL>()
     @State private var apps = InstalledApps.list()
@@ -286,6 +303,7 @@ private struct PickerTile: View {
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .onTapGesture { toggle() }
+        .onDrag { NSItemProvider(object: url as NSURL) }          // drag it into the panel beside this window
         .simultaneousGesture(TapGesture(count: 2).onEnded { pin() })
         .help(IconCache.name(for: url))
     }

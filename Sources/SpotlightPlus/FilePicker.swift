@@ -13,7 +13,7 @@ enum FilePicker {
         let modal = ModalWindow(title: "Add Files and Folders to \(name)") { modal in
             FilePickerView(category: target, close: modal.close)
         }
-        modal.run()
+        modal.show()
     }
 }
 
@@ -34,6 +34,39 @@ private struct SidebarItem: Identifiable {
     let symbol: String
     let place: Place
     var id: String { title }
+}
+
+/// A place in the sidebar. Clicking opens it; the round button on its right picks the place itself for adding.
+private struct SidebarRow: View {
+    let item: SidebarItem
+    let current: Bool
+    let added: Bool
+    let picked: Bool
+    let go: () -> Void
+    let toggle: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: item.symbol).frame(width: 18).foregroundStyle(Color.accentColor)
+            Text(item.title).font(.system(size: 13)).lineLimit(1)
+            Spacer()
+            if hovering || picked || added {
+                Button(action: toggle) {
+                    Image(systemName: added ? "checkmark.circle" : (picked ? "checkmark.circle.fill" : "plus.circle"))
+                        .font(.system(size: 15))
+                        .foregroundStyle(picked ? Color.accentColor : Color.secondary)
+                }
+                .buttonStyle(.plain)
+                .help(added ? "\(item.title) is already added" : "Add \(item.title) itself")
+            }
+        }
+        .padding(.horizontal, 8).padding(.vertical, 5)
+        .background(RoundedRectangle(cornerRadius: 6).fill(current ? Color.accentColor.opacity(0.22) : .clear))
+        .contentShape(Rectangle())
+        .onHover { hovering = $0 }
+        .onTapGesture(perform: go)
+    }
 }
 
 private struct FilePickerView: View {
@@ -136,18 +169,20 @@ private struct FilePickerView: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title).font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary).padding(.leading, 8).padding(.bottom, 2)
             ForEach(items) { item in
-                Button { go(item.place) } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: item.symbol).frame(width: 18).foregroundStyle(Color.accentColor)
-                        Text(item.title).font(.system(size: 13)).lineLimit(1)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 8).padding(.vertical, 5)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(place == item.place ? Color.accentColor.opacity(0.22) : .clear))
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
+                let url = url(of: item.place)
+                SidebarRow(item: item, current: place == item.place,
+                           added: store.contains(url), picked: selected.contains(url),
+                           go: { go(item.place) }, toggle: { toggle(url) })
+                    .onDrag { NSItemProvider(object: url as NSURL) }
             }
+        }
+    }
+
+    /// What a place stands for when it is added itself (Documents, Downloads, the Trash ...).
+    private func url(of place: Place) -> URL {
+        switch place {
+        case .folder(let url): return url
+        case .trash: return trashURL
         }
     }
 
@@ -336,6 +371,7 @@ private struct FileTile: View {
         .contentShape(Rectangle())
         .onHover { hovering = $0 }
         .onTapGesture { toggle() }
+        .onDrag { NSItemProvider(object: url as NSURL) }          // drag it into the panel beside this window
         .simultaneousGesture(TapGesture(count: 2).onEnded { if !added || isFolder { open() } })
         .help(url.path)
     }

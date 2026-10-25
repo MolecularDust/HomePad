@@ -119,7 +119,7 @@ struct HoverLink: View {
 struct HomeView: View {
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var running = RunningApps.shared
-    @AppStorage("columns") private var columns = 6
+    @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
 
     private var grid: [GridItem] {

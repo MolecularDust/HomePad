@@ -6,7 +6,7 @@ import Carbon.HIToolbox
 
 struct SettingsView: View {
     @ObservedObject private var shortcuts = ShortcutStore.shared
-    @AppStorage("columns") private var columns = 6
+    @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
@@ -50,7 +50,7 @@ struct SettingsView: View {
                 Toggle("Show running apps that aren't pinned", isOn: $showRunning)
             }
 
-            Section("Apps") {
+            Section("Items") {
                 HStack {
                     Button("Add App…") { Launcher.chooseAppsToPin() }
                     Button("Add File or Folder…") { Launcher.chooseFilesToPin() }
@@ -134,13 +134,13 @@ struct SettingsView: View {
     private func confirmReset() {
         let alert = NSAlert()
         alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 6 icons per row, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 8 icons per row, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
-        columns = 6
+        columns = 8
         showRunning = true
         showMenuBarIcon = true
         if dockHidden { dockHidden = false }

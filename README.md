@@ -29,6 +29,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
+  The Add App and Add File or Folder windows open beside the panel, so you can also drag any tile from them into it.
+  In the file window, the round button on a sidebar place (Documents, Downloads, Trash ...) picks the folder itself.
 - **Add apps**: the Add App button (double-click an app in the picker to add it and close the picker), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles
@@ -57,7 +59,7 @@ any time from the menu-bar icon → Setup Guide…
 - **Menu-bar icon**: Settings → General can hide it. Launching the app again opens the panel.
 - **Reset to Defaults**: restores shortcut, double-tap, layout, Dock hiding and launch at login (apps and categories are kept).
 - **Double-tap**: open with Control, Option or Command tapped twice.
-- **Icons per row**, **show running apps**, **re-import from Dock**.
+- **Icons per row** (8 by default), **show running apps**, **re-import from Dock**.
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
 - **Launch at login**.
