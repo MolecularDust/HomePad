@@ -418,13 +418,17 @@ enum WindowCatalog {
             }
             return
         }
-        let axApp = AXUIElementCreateApplication(app.processIdentifier)
-        if let match = axWindow(for: window, pid: app.processIdentifier) {
+        // As AltTab does it: first make the app the front one with this window (one window-server call), then
+        // restore and raise the window, and nothing after that. Activating the app again once the window was
+        // coming back (it used to be activated twice, after the restore) made Opera redraw it: its page flashed
+        // blank for a moment.
+        let match = axWindow(for: window, pid: app.processIdentifier)
+        let fronted = SkyLight.focus(window: window.id, pid: app.processIdentifier)
+        if let match {
             AXUIElementSetAttributeValue(match, kAXMinimizedAttribute as CFString, kCFBooleanFalse)
             AXUIElementPerformAction(match, kAXRaiseAction as CFString)
-            AXUIElementSetAttributeValue(axApp, kAXFrontmostAttribute as CFString, kCFBooleanTrue)
         }
-        DispatchQueue.main.async { app.activate(options: []) }
+        if !fronted { DispatchQueue.main.async { app.activate(options: []) } }
     }
 
     /// Closes one specific window by pressing its close button. Needs the Accessibility permission.
