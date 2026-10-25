@@ -80,7 +80,7 @@ struct SettingsView: View {
                     Permissions.requestScreenRecording()
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Find files in Documents, Desktop and Downloads. Drag HomePad into the list that opens.") {
+                              detail: "Find files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.") {
                     Permissions.requestFullDiskAccess()
                 }
                 if !permissions.allGranted {

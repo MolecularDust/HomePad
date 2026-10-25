@@ -75,10 +75,12 @@ private struct DragInView: View {
                 Button(action: close) { Image(systemName: "xmark").font(.system(size: 10, weight: .bold)) }
                     .buttonStyle(.plain).foregroundStyle(.secondary).help("Close")
             }
-            AppIconDragSource().frame(width: 72, height: 72).help("Drag into the Full Disk Access list")
-            Text("Drag HomePad into the list")
+            // HomePad can't tell whether it's listed already (reading the list needs this very permission), so
+            // the text covers both.
+            Text("Turn on HomePad in this list")
                 .font(.system(size: 13, weight: .semibold))
-            Text("then turn its switch on.\nOr press + under the list and choose HomePad.")
+            AppIconDragSource().frame(width: 64, height: 64).help("Drag into the Full Disk Access list")
+            Text("Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad.")
                 .font(.system(size: 11)).foregroundStyle(.secondary).multilineTextAlignment(.center)
         }
         .padding(EdgeInsets(top: 10, leading: 16, bottom: 16, trailing: 12))
