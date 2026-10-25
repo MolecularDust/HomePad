@@ -180,6 +180,8 @@ enum WindowCatalog {
         let frame: CGRect
         let onOtherSpace: Bool
         let spaceNumber: Int
+        /// From the window server; empty without the Screen Recording permission.
+        var title = ""
     }
 
     /// The windows a person would call windows: visible ones, minimised ones, and ones on other Spaces. Apps also
@@ -209,7 +211,8 @@ enum WindowCatalog {
             guard onScreen || otherSpace || minimised.contains(where: near(rect)) else { return nil }
             // Minimised windows can belong to no Space; they are on the one showing.
             let spaceNo = spaces.first.flatMap { numbers[$0] } ?? activeSpace.flatMap { numbers[$0] } ?? 0
-            return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo)
+            return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo,
+                              title: info[kCGWindowName as String] as? String ?? "")
         }
         // By Space (in Mission Control's order), then front to back.
         return found.enumerated()
@@ -698,6 +701,127 @@ final class ClosableWindows: ObservableObject {
                 self.running = false
                 if found != self.pids { self.pids = found }
             }
+        }
+    }
+}
+
+/// What a running app's right-click menu lists beyond the basics, like the Dock's: its windows (the one in front
+/// checked) and the "New …" commands from its File menu (New Tab, New Window, New Private Window in a browser).
+/// The Dock gets an app's own menu through a private channel, so the File menu stands in for it. Reading either means
+/// asking the app over Accessibility, so it is done in the background when the pointer reaches the tile, and the
+/// menu, which SwiftUI builds along with the tile, shows what was last read.
+final class AppMenus: ObservableObject {
+    struct Window: Identifiable {
+        let id: CGWindowID
+        let title: String
+        let frame: CGRect
+        let onOtherSpace: Bool
+        let isMain: Bool
+    }
+    struct Command: Identifiable {
+        let title: String
+        let element: AXUIElement
+        var id: String { title }
+    }
+    struct Info {
+        var windows: [Window] = []
+        var commands: [Command] = []
+    }
+
+    static let shared = AppMenus()
+    @Published private(set) var info: [pid_t: Info] = [:]
+    private var lastRead: [pid_t: Double] = [:]
+    private let queue = DispatchQueue(label: "SpotlightPlus.app-menus", qos: .userInitiated)
+
+    /// At most every two seconds per app.
+    func refresh(_ app: NSRunningApplication) {
+        let pid = app.processIdentifier
+        guard CACurrentMediaTime() - (lastRead[pid] ?? 0) > 2 else { return }
+        lastRead[pid] = CACurrentMediaTime()
+        let name = app.localizedName ?? "Window"
+        queue.async {
+            let found = Self.read(pid: pid, appName: name)
+            DispatchQueue.main.async { self.info[pid] = found }
+        }
+    }
+
+    private static func read(pid: pid_t, appName: String) -> Info {
+        let trusted = Permissions.accessibility
+        let axApp = AXUIElementCreateApplication(pid)
+        // The window in front: on the Space showing, with the main window's title and place (windows on other Spaces
+        // often share both size and position, so the title is what tells them apart).
+        let mainWindow = trusted ? element(axApp, kAXMainWindowAttribute) : nil
+        let mainFrame = mainWindow.flatMap(frame), mainTitle = mainWindow.flatMap { string($0, kAXTitleAttribute) }
+        var marked = false
+        let windows = WindowCatalog.realWindows(for: pid, askingApp: trusted)
+            .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+            .map { w -> Window in
+                var isMain = false
+                if !marked, !w.onOtherSpace, let mainFrame,
+                   abs(mainFrame.minX - w.frame.minX) < 4, abs(mainFrame.minY - w.frame.minY) < 4, abs(mainFrame.width - w.frame.width) < 4,
+                   mainTitle == nil || w.title.isEmpty || mainTitle == w.title {
+                    isMain = true
+                    marked = true
+                }
+                return Window(id: w.id, title: w.title.isEmpty ? appName : w.title, frame: w.frame, onOtherSpace: w.onOtherSpace, isMain: isMain)
+            }
+        return Info(windows: windows, commands: trusted ? newCommands(axApp) : [])
+    }
+
+    /// The enabled "New …" items of the app's File menu (titled File, or else the third menu: after the Apple menu and
+    /// the app's own).
+    private static func newCommands(_ app: AXUIElement) -> [Command] {
+        guard let bar = element(app, kAXMenuBarAttribute) else { return [] }
+        let menus = children(bar)
+        guard let file = menus.first(where: { string($0, kAXTitleAttribute) == "File" }) ?? (menus.count > 2 ? menus[2] : nil),
+              let fileMenu = children(file).first else { return [] }
+        return children(fileMenu).compactMap { item in
+            guard let title = string(item, kAXTitleAttribute), title == "New" || title.hasPrefix("New "),
+                  bool(item, kAXEnabledAttribute) != false, children(item).isEmpty else { return nil }
+            return Command(title: title.replacingOccurrences(of: "…", with: "").trimmingCharacters(in: .whitespaces), element: item)
+        }
+    }
+
+    private static func element(_ e: AXUIElement, _ attribute: String) -> AXUIElement? {
+        var ref: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(e, attribute as CFString, &ref) == .success, let ref,
+              CFGetTypeID(ref) == AXUIElementGetTypeID() else { return nil }
+        return (ref as! AXUIElement)
+    }
+
+    private static func children(_ e: AXUIElement) -> [AXUIElement] {
+        var ref: CFTypeRef?
+        AXUIElementCopyAttributeValue(e, kAXChildrenAttribute as CFString, &ref)
+        return ref as? [AXUIElement] ?? []
+    }
+
+    private static func string(_ e: AXUIElement, _ attribute: String) -> String? {
+        var ref: CFTypeRef?
+        AXUIElementCopyAttributeValue(e, attribute as CFString, &ref)
+        return ref as? String
+    }
+
+    private static func bool(_ e: AXUIElement, _ attribute: String) -> Bool? {
+        var ref: CFTypeRef?
+        AXUIElementCopyAttributeValue(e, attribute as CFString, &ref)
+        return ref as? Bool
+    }
+
+    private static func frame(_ e: AXUIElement) -> CGRect? {
+        var pos: CFTypeRef?, size: CFTypeRef?
+        AXUIElementCopyAttributeValue(e, kAXPositionAttribute as CFString, &pos)
+        AXUIElementCopyAttributeValue(e, kAXSizeAttribute as CFString, &size)
+        var p = CGPoint.zero, s = CGSize.zero
+        guard let pos, let size, AXValueGetValue(pos as! AXValue, .cgPoint, &p), AXValueGetValue(size as! AXValue, .cgSize, &s) else { return nil }
+        return CGRect(origin: p, size: s)
+    }
+
+    /// Runs one of the app's "New …" commands, then brings the app forward to show what it made.
+    static func run(_ command: Command, of app: NSRunningApplication) {
+        PanelController.shared.hide(restoreFocus: false)
+        DispatchQueue.global(qos: .userInteractive).async {
+            AXUIElementPerformAction(command.element, kAXPressAction as CFString)
+            DispatchQueue.main.async { app.activate(options: []) }
         }
     }
 }

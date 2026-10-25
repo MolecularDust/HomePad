@@ -567,6 +567,7 @@ struct AppTile: View, Equatable {
     @State private var frame = FrameBox()
     @ObservedObject private var closable = ClosableWindows.shared
     @ObservedObject private var tileDrag = TileDrag.shared
+    @ObservedObject private var appMenus = AppMenus.shared
 
     var body: some View {
         // While this tile is being dragged, its place is an empty slot (moving along as the others make room), and
@@ -599,19 +600,38 @@ struct AppTile: View, Equatable {
             guard !PanelState.shared.isDragging else { hovering = false; return }      // passing over it with something in hand
             hovering = inside
             if isRunning {
-                if inside { ClosableWindows.shared.refresh() }      // so its menu is current by the time it's right-clicked
+                if inside {                                         // so its menu is current by the time it's right-clicked
+                    ClosableWindows.shared.refresh()
+                    if let app = RunningApps.shared.app(for: url) { AppMenus.shared.refresh(app) }
+                }
                 WindowPreviewController.shared.hover(app: RunningApps.shared.app(for: url), over: inside, tile: frame.rect)
             }
         }
         .onTapGesture { Launcher.open(url) }
         .help(IconCache.name(for: url))
         .contextMenu {
-            Button("Open") { Launcher.open(url) }
+            // Laid out like the Dock's menu. A running app's windows and "New …" commands come from what was read in the
+            // background when the pointer arrived (see AppMenus); asking the app here would hold up drawing the tile.
+            let app = isRunning ? RunningApps.shared.app(for: url) : nil
+            let menu = app.flatMap { appMenus.info[$0.processIdentifier] }
+            if let app, let menu, !menu.windows.isEmpty {
+                ForEach(menu.windows) { window in
+                    // A checkable item, so the window in front shows the menu's own check mark; choosing any of them
+                    // brings that window forward.
+                    Toggle(window.title, isOn: Binding(get: { window.isMain }, set: { _ in
+                        WindowCatalog.focus(AppWindow(id: window.id, title: window.title, frame: window.frame,
+                                                      onOtherSpace: window.onOtherSpace), of: app)
+                    }))
+                }
+                Divider()
+            }
+            if let app, let menu, !menu.commands.isEmpty {
+                ForEach(menu.commands) { command in Button(command.title) { AppMenus.run(command, of: app) } }
+                Divider()
+            }
+            if app == nil { Button("Open") { Launcher.open(url) } }
             if url.path != trashURL.path { Button("Show in Finder") { Launcher.reveal(url) } }
-            Divider()
             if let categoryID {
-                Button("Move Left") { CategoryStore.shared.shift(url, by: -1) }
-                Button("Move Right") { CategoryStore.shared.shift(url, by: 1) }
                 let others = CategoryStore.shared.categories.filter { $0.id != categoryID }
                 if !others.isEmpty {
                     Menu("Move to") {
@@ -628,10 +648,11 @@ struct AppTile: View, Equatable {
                 Divider()
                 // Read from what the background check last found: asking the app here would wait for its answer
                 // every time the tile is drawn, since SwiftUI builds this menu along with the tile.
-                if let app = RunningApps.shared.app(for: url), closable.pids.contains(app.processIdentifier) {
+                if let app, closable.pids.contains(app.processIdentifier) {
                     Button("Close Windows") { Launcher.closeWindows(url) }
                 }
-                Button("Close App") { Launcher.quit(url) }
+                Button("Hide") { Launcher.hide(url) }
+                Button("Quit") { Launcher.quit(url) }                // Force Quit with Option held
             }
         }
     }

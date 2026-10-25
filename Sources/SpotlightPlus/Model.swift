@@ -188,12 +188,6 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
-    func shift(_ url: URL, by delta: Int) {
-        guard let loc = location(of: url) else { return }
-        let count = urls(in: loc.category).count
-        move(url, toCategory: loc.category, at: max(0, min(count - 1, loc.index + delta)))
-    }
-
     @discardableResult
     func addCategory(named name: String) -> UUID {
         let category = Category(name: name)
@@ -318,8 +312,15 @@ enum Launcher {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 
+    /// Quits the app; with Option held while choosing it, force quits (as in the Dock).
     static func quit(_ url: URL) {
-        RunningApps.shared.app(for: url)?.terminate()
+        guard let app = RunningApps.shared.app(for: url) else { return }
+        if NSEvent.modifierFlags.contains(.option) { app.forceTerminate() } else { app.terminate() }
+    }
+
+    static func hide(_ url: URL) {
+        PanelController.shared.hide(restoreFocus: false)
+        RunningApps.shared.app(for: url)?.hide()
     }
 
     static func closeWindows(_ url: URL) {
