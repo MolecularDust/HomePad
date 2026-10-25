@@ -49,7 +49,7 @@ struct SettingsView: View {
 
             Section("Layout") {
                 Stepper("Icons per row: \(columns)", value: $columns, in: 4...10)
-                Toggle("Show running apps that aren't pinned", isOn: $showRunning)
+                Toggle("Show the Running section", isOn: $showRunning)
             }
 
             Section("Window") {

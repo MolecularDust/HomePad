@@ -40,14 +40,13 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   around, including between categories.
 - **Running apps**: a red bar under an icon means the app is running. Hover a running app to see a thumbnail
   of each of its windows, on every desktop (Space), listed in Mission Control order with a "Space N" title when an app has windows on more than one and click one to jump straight to it (switching desktops if needed), or click the cross in its corner to close just that window (also works for windows on other desktops) (needs Screen Recording and Accessibility;
-  without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. Apps that are open but not in a category show in the
-  **Running** section, which can't be edited (it can be turned off).
+  without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. The **Running** section lists every app that is running (pinned or not, like the Dock's running indicators); it can't be edited and can be turned off in Settings.
 - **Running app menu**: right-click a running app for **Close Windows** (only if it has a window open; needs the Accessibility permission) and **Close App**.
 - **Finding files**: files in Documents, Desktop and Downloads only appear in search once SpotlightPlus has
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
 - **Window**: drag any edge or corner of the panel to resize it (the edges have wide grab strips and show resize
-  cursors), or drag an empty part to move it. Settings → Window has **Remember window size** (on by default) and
+  cursors), or drag any empty part to move it (not the tile grid itself, where dragging rearranges tiles). Clicking empty space takes focus out of the search field; typing puts it back. Settings → Window has **Remember window size** (on by default) and
   **Remember window position** (off by default). The ↺ button beside the settings cogwheel puts the panel back to the
   standard size, centred. The Add App and Add File or Folder windows can be resized too (they always open at their
   standard size).

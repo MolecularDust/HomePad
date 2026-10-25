@@ -29,60 +29,51 @@ final class PanelState: ObservableObject {
     }
 }
 
-/// Invisible strips along the panel's edges and corners for resizing it with the mouse. A borderless window's own
-/// resize area is a pixel or two wide, which is hard to hit; these are wider and show the resize cursors.
-/// Clicks anywhere else pass straight through to the content.
-final class ResizeHandlesView: NSView {
-    private struct Edges: OptionSet {
+/// One invisible strip along an edge or in a corner of the panel, for resizing it with the mouse. A borderless
+/// window's own resize area is a pixel or two wide, which is hard to hit; these are wider and show the resize
+/// cursors. They exist only at the edges: a view laid over the whole window, even one that ignores clicks in the
+/// middle, stops the window from being dragged by its background.
+final class ResizeZoneView: NSView {
+    struct Edges: OptionSet {
         let rawValue: Int
         static let left = Edges(rawValue: 1), right = Edges(rawValue: 2), top = Edges(rawValue: 4), bottom = Edges(rawValue: 8)
     }
 
-    private let thickness: CGFloat = 7
-    private let corner: CGFloat = 16
-    private var dragging: Edges = []
+    static let thickness: CGFloat = 7
+    static let corner: CGFloat = 16
+
+    private let edges: Edges
     private var startMouse = NSPoint.zero
     private var startFrame = NSRect.zero
     var onResizeEnd: (() -> Void)?
 
+    init(edges: Edges, frame: NSRect, autoresizing: NSView.AutoresizingMask) {
+        self.edges = edges
+        super.init(frame: frame)
+        autoresizingMask = autoresizing
+    }
+
+    required init?(coder: NSCoder) { fatalError("not used") }
+
     override var mouseDownCanMoveWindow: Bool { false }       // the window must not move while resizing
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }   // the first click on an edge already resizes
 
-    private func edges(at p: NSPoint) -> Edges {
-        var e: Edges = []
-        if p.x < thickness || (p.x < corner && (p.y < thickness || p.y > bounds.height - thickness)) { e.insert(.left) }
-        if p.x > bounds.width - thickness || (p.x > bounds.width - corner && (p.y < thickness || p.y > bounds.height - thickness)) { e.insert(.right) }
-        if p.y < thickness || (p.y < corner && (p.x < thickness || p.x > bounds.width - thickness)) { e.insert(.bottom) }
-        if p.y > bounds.height - thickness || (p.y > bounds.height - corner && (p.x < thickness || p.x > bounds.width - thickness)) { e.insert(.top) }
-        return e
-    }
-
-    override func hitTest(_ point: NSPoint) -> NSView? {
-        edges(at: convert(point, from: superview)).isEmpty ? nil : self
-    }
-
     override func resetCursorRects() {
-        let t = thickness, c = corner, w = bounds.width, h = bounds.height
-        let horizontal = NSCursor.resizeLeftRight, vertical = NSCursor.resizeUpDown
-        addCursorRect(NSRect(x: 0, y: c, width: t, height: h - 2 * c), cursor: horizontal)
-        addCursorRect(NSRect(x: w - t, y: c, width: t, height: h - 2 * c), cursor: horizontal)
-        addCursorRect(NSRect(x: c, y: 0, width: w - 2 * c, height: t), cursor: vertical)
-        addCursorRect(NSRect(x: c, y: h - t, width: w - 2 * c, height: t), cursor: vertical)
-        let southwestNortheast = Self.diagonalCursor(.bottomLeft), southeastNorthwest = Self.diagonalCursor(.bottomRight)
-        addCursorRect(NSRect(x: 0, y: 0, width: c, height: c), cursor: southwestNortheast)
-        addCursorRect(NSRect(x: w - c, y: h - c, width: c, height: c), cursor: southwestNortheast)
-        addCursorRect(NSRect(x: w - c, y: 0, width: c, height: c), cursor: southeastNorthwest)
-        addCursorRect(NSRect(x: 0, y: h - c, width: c, height: c), cursor: southeastNorthwest)
+        addCursorRect(bounds, cursor: cursor)
     }
 
-    private enum Diagonal { case bottomLeft, bottomRight }
-
-    /// Diagonal resize arrows: a public cursor on macOS 15 and later, the closest ordinary one before that.
-    private static func diagonalCursor(_ kind: Diagonal) -> NSCursor {
-        if #available(macOS 15.0, *) {
-            return NSCursor.frameResize(position: kind == .bottomLeft ? .bottomLeft : .bottomRight, directions: .all)
+    private var cursor: NSCursor {
+        let horizontal = edges.contains(.left) || edges.contains(.right)
+        let vertical = edges.contains(.top) || edges.contains(.bottom)
+        if horizontal && vertical {
+            // The corner running from bottom-left to top-right, or from bottom-right to top-left.
+            let southwestNortheast = (edges.contains(.left) && edges.contains(.bottom)) || (edges.contains(.right) && edges.contains(.top))
+            if #available(macOS 15.0, *) {
+                return NSCursor.frameResize(position: southwestNortheast ? .bottomLeft : .bottomRight, directions: .all)
+            }
+            return NSCursor.crosshair
         }
-        return NSCursor.crosshair
+        return horizontal ? NSCursor.resizeLeftRight : NSCursor.resizeUpDown
     }
 
     override func setFrameSize(_ newSize: NSSize) {
@@ -91,32 +82,46 @@ final class ResizeHandlesView: NSView {
     }
 
     override func mouseDown(with event: NSEvent) {
-        dragging = edges(at: convert(event.locationInWindow, from: nil))
         startMouse = NSEvent.mouseLocation
         startFrame = window?.frame ?? .zero
     }
 
     override func mouseDragged(with event: NSEvent) {
-        guard let window, !dragging.isEmpty else { return }
+        guard let window else { return }
         let dx = NSEvent.mouseLocation.x - startMouse.x, dy = NSEvent.mouseLocation.y - startMouse.y
         let minimum = window.minSize
         var frame = startFrame
-        if dragging.contains(.right) { frame.size.width = max(minimum.width, startFrame.width + dx) }
-        if dragging.contains(.left) {
+        if edges.contains(.right) { frame.size.width = max(minimum.width, startFrame.width + dx) }
+        if edges.contains(.left) {
             frame.size.width = max(minimum.width, startFrame.width - dx)
             frame.origin.x = startFrame.maxX - frame.size.width
         }
-        if dragging.contains(.top) { frame.size.height = max(minimum.height, startFrame.height + dy) }
-        if dragging.contains(.bottom) {
+        if edges.contains(.top) { frame.size.height = max(minimum.height, startFrame.height + dy) }
+        if edges.contains(.bottom) {
             frame.size.height = max(minimum.height, startFrame.height - dy)
             frame.origin.y = startFrame.maxY - frame.size.height
         }
         window.setFrame(frame, display: true)
     }
 
-    override func mouseUp(with event: NSEvent) {
-        dragging = []
-        onResizeEnd?()
+    override func mouseUp(with event: NSEvent) { onResizeEnd?() }
+
+    /// The eight zones for a view of the given size: four edges (between the corners) and four corners.
+    static func zones(in size: NSSize) -> [ResizeZoneView] {
+        let t = thickness, c = corner, w = size.width, h = size.height
+        func zone(_ edges: Edges, _ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat, _ mask: NSView.AutoresizingMask) -> ResizeZoneView {
+            ResizeZoneView(edges: edges, frame: NSRect(x: x, y: y, width: width, height: height), autoresizing: mask)
+        }
+        return [
+            zone(.left, 0, c, t, h - 2 * c, [.height, .maxXMargin]),
+            zone(.right, w - t, c, t, h - 2 * c, [.height, .minXMargin]),
+            zone(.bottom, c, 0, w - 2 * c, t, [.width, .maxYMargin]),
+            zone(.top, c, h - t, w - 2 * c, t, [.width, .minYMargin]),
+            zone([.left, .bottom], 0, 0, c, c, [.maxXMargin, .maxYMargin]),
+            zone([.right, .bottom], w - c, 0, c, c, [.minXMargin, .maxYMargin]),
+            zone([.left, .top], 0, h - c, c, c, [.maxXMargin, .minYMargin]),
+            zone([.right, .top], w - c, h - c, c, c, [.minXMargin, .minYMargin]),
+        ]
     }
 }
 
@@ -124,9 +129,9 @@ final class ResizeHandlesView: NSView {
 final class SpotlightPanel: NSPanel {
     /// Called when a drag on the edge handles ends.
     var onResizeEnd: (() -> Void)? {
-        didSet { handles?.onResizeEnd = onResizeEnd }
+        didSet { zones.forEach { $0.onResizeEnd = onResizeEnd } }
     }
-    private var handles: ResizeHandlesView?
+    private var zones: [ResizeZoneView] = []
 
     init(content: NSView) {
         super.init(contentRect: NSRect(origin: .zero, size: panelSize),
@@ -150,10 +155,8 @@ final class SpotlightPanel: NSPanel {
         content.frame = effect.bounds
         content.autoresizingMask = [.width, .height]
         effect.addSubview(content)
-        let handles = ResizeHandlesView(frame: effect.bounds)
-        handles.autoresizingMask = [.width, .height]
-        effect.addSubview(handles)              // on top of the content, so it sees clicks at the edges first
-        self.handles = handles
+        zones = ResizeZoneView.zones(in: effect.bounds.size)
+        zones.forEach { effect.addSubview($0) }     // on top of the content, so they see clicks at the edges first
         contentView = effect
     }
 
@@ -250,6 +253,8 @@ final class PanelController: NSObject, NSWindowDelegate {
         guard panel.isVisible else { return }
         if NSApp.isActive { panel.makeKeyAndOrderFront(nil) } else { hide(restoreFocus: false) }
     }
+
+    func move(to origin: NSPoint) { panel.setFrameOrigin(origin) }
 
     /// Keeps the panel from hiding when it loses focus (a picker window is open next to it).
     func holdOpen(_ hold: Bool) {
@@ -352,8 +357,50 @@ final class PanelController: NSObject, NSWindowDelegate {
                 }
                 return nil
             default:
+                // Typing while the search field isn't focused (after a click on empty space): the text goes to the field.
+                let blocked: NSEvent.ModifierFlags = [.command, .control]
+                if event.modifierFlags.intersection(blocked).isEmpty, !(NSApp.keyWindow?.firstResponder is NSText),
+                   let text = event.characters, let scalar = text.unicodeScalars.first {
+                    if Int(event.keyCode) == kVK_Delete {
+                        self.queueTyping(nil)
+                    } else if scalar.value >= 32 && scalar.value != 127 && scalar.value < 0xF700 {
+                        self.queueTyping(text)         // 0xF700 and up are the arrow and function keys
+                    } else {
+                        return event
+                    }
+                    return nil
+                }
                 return event
             }
+        }
+    }
+
+    private var queuedKeys: [String?] = []       // nil stands for Delete
+    private var flushScheduled = false
+
+    /// Typing while the search field isn't focused: focus it, then put the typed characters in once it is.
+    /// (Focusing selects its text, so each character is inserted at the end rather than typed over the selection.)
+    private func queueTyping(_ key: String?) {
+        queuedKeys.append(key)
+        guard !flushScheduled else { return }
+        flushScheduled = true
+        PanelState.shared.focusToken += 1
+        flushTyping(attempt: 1)
+    }
+
+    private func flushTyping(attempt: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [weak self] in
+            guard let self else { return }
+            guard let editor = self.panel.firstResponder as? NSTextView else {
+                if attempt < 5 { self.flushTyping(attempt: attempt + 1) } else { self.queuedKeys = []; self.flushScheduled = false }
+                return
+            }
+            editor.setSelectedRange(NSRange(location: (editor.string as NSString).length, length: 0))
+            for key in self.queuedKeys {
+                if let key { editor.insertText(key, replacementRange: editor.selectedRange()) } else { editor.deleteBackward(nil) }
+            }
+            self.queuedKeys = []
+            self.flushScheduled = false
         }
     }
 

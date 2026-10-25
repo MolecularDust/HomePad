@@ -6,6 +6,13 @@ import UniformTypeIdentifiers
 struct WindowDragArea: NSViewRepresentable {
     final class DragView: NSView {
         override var mouseDownCanMoveWindow: Bool { true }
+        override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+
+        /// A press on empty panel takes focus out of the search field, then (if it turns into a drag) moves the window.
+        override func mouseDown(with event: NSEvent) {
+            window?.makeFirstResponder(nil)
+            window?.performDrag(with: event)
+        }
     }
     func makeNSView(context: Context) -> NSView { DragView() }
     func updateNSView(_ nsView: NSView, context: Context) {}
@@ -87,6 +94,30 @@ struct FooterProfile: View {
     }
 }
 
+/// Moves the panel when an empty part of it is dragged. The window's own drag-by-background doesn't reach the
+/// areas SwiftUI draws (the lists, the footer), so this does it by hand. Tiles and buttons have their own gestures,
+/// which take precedence.
+private final class MoveDrag { var active = false; var mouse = NSPoint.zero; var origin = NSPoint.zero }
+
+struct MovesWindowWhenDragged: ViewModifier {
+    @State private var drag = MoveDrag()
+
+    func body(content: Content) -> some View {
+        content.gesture(DragGesture(minimumDistance: 4)
+            .onChanged { _ in
+                let panel = PanelController.shared
+                if !drag.active { drag.active = true; drag.mouse = NSEvent.mouseLocation; drag.origin = panel.frame.origin }
+                let mouse = NSEvent.mouseLocation
+                panel.move(to: NSPoint(x: drag.origin.x + mouse.x - drag.mouse.x, y: drag.origin.y + mouse.y - drag.mouse.y))
+            }
+            .onEnded { _ in drag.active = false })
+    }
+}
+
+extension View {
+    func movesWindowWhenDragged() -> some View { modifier(MovesWindowWhenDragged()) }
+}
+
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -109,8 +140,13 @@ struct SpotlightPlusView: View {
         }
         .frame(minWidth: 520, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
         .background(WindowDragArea())
+        // A click or drag on empty space takes focus out of the search field and (for a drag) moves the window.
+        .contentShape(Rectangle())
+        .onTapGesture { searchFocused = false }
+        .movesWindowWhenDragged()
         .onAppear { searchFocused = true }
         .onChange(of: state.focusToken) { _ in
+            searchFocused = false
             DispatchQueue.main.async { searchFocused = true }
         }
     }
@@ -196,8 +232,10 @@ struct HomeView: View {
         Array(repeating: GridItem(.flexible(), spacing: 6), count: max(columns, 3))
     }
 
-    private var unpinnedRunning: [URL] {
-        running.apps.compactMap { $0.bundleURL.map(normalized) }.filter { !store.contains($0) }
+    /// Every running app, like the Dock's running indicators, pinned or not.
+    private var runningApps: [URL] {
+        running.apps.compactMap { $0.bundleURL.map(normalized) }
+            .sorted { IconCache.name(for: $0).localizedCaseInsensitiveCompare(IconCache.name(for: $1)) == .orderedAscending }
     }
 
     var body: some View {
@@ -218,7 +256,7 @@ struct HomeView: View {
                             CategorySection(category: category, grid: grid, running: running)
                         }
 
-                        if showRunning && !unpinnedRunning.isEmpty {
+                        if showRunning && !runningApps.isEmpty {
                             VStack(alignment: .leading, spacing: 6) {
                                 HStack {
                                     Text("Running").font(.system(size: 14, weight: .semibold))
@@ -227,7 +265,7 @@ struct HomeView: View {
                                         .font(.system(size: 11)).foregroundStyle(.tertiary)
                                 }
                                 LazyVGrid(columns: grid, spacing: 6) {
-                                    ForEach(unpinnedRunning, id: \.self) { url in
+                                    ForEach(runningApps, id: \.self) { url in
                                         AppTile(url: url, isRunning: true, categoryID: nil)
                                     }
                                 }
@@ -239,6 +277,7 @@ struct HomeView: View {
                     // Fill the whole scroll area so a right-click on empty space lands here.
                     .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
                     .contentShape(Rectangle())
+                    .movesWindowWhenDragged()          // inside the scroll view, which takes its own mouse events
                     .contextMenu {
                         // Outside every category (below the last one, in the Running section): into Essentials.
                         Button("Add App to \(store.categories[0].name)…") { Launcher.chooseAppsToPin() }
@@ -283,6 +322,7 @@ struct CategorySection: View {
         // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
+        .movesWindowWhenDragged()                // the band claims the mouse for its menu, so it moves the window itself
         .contextMenu {
             Button("Add App to \(category.name)…") { Launcher.chooseAppsToPin(to: category.id) }
             Button("Add File or Folder to \(category.name)…") { Launcher.chooseFilesToPin(to: category.id) }
@@ -352,6 +392,8 @@ struct AppTile: View {
                     }
                 }
                 Button(url.pathExtension == "app" ? "Unpin App" : "Unpin") { CategoryStore.shared.remove(url) }
+            } else if CategoryStore.shared.contains(url) {
+                Button("Unpin App") { CategoryStore.shared.remove(url) }
             } else {
                 PinMenu(url: url)
             }
@@ -504,6 +546,7 @@ struct SearchResultsView: View {
                     .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
                     .contentShape(Rectangle())
                     .onTapGesture { state.goHome() }
+                    .movesWindowWhenDragged()
                 }
                 .onChange(of: state.selection) { i in
                     if items.indices.contains(i) { proxy.scrollTo(items[i].id) }
