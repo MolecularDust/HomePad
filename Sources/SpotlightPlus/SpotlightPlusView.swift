@@ -569,6 +569,7 @@ struct AppTile: View, Equatable {
     @ObservedObject private var closable = ClosableWindows.shared
     @ObservedObject private var tileDrag = TileDrag.shared
     @ObservedObject private var appMenus = AppMenus.shared
+    @ObservedObject private var quitRequests = QuitRequests.shared
 
     var body: some View {
         // While this tile is being dragged, its place is an empty slot (moving along as the others make room), and
@@ -657,8 +658,9 @@ struct AppTile: View, Equatable {
                     Button("Close Windows") { Launcher.closeWindows(url) }
                 }
                 Button("Hide") { Launcher.hide(url) }
-                if Launcher.canQuit(url) {
-                    Button("Quit") { Launcher.quit(url) }            // Force Quit with Option held
+                if Launcher.canQuit(url), let app {
+                    // Force Quit with Option held, or once the app has ignored a Quit.
+                    Button(quitRequests.ignored.contains(app.processIdentifier) ? "Force Quit" : "Quit") { Launcher.quit(url) }
                 }
             }
         }

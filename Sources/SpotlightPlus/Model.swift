@@ -264,6 +264,28 @@ final class RunningApps: ObservableObject {
     func isRunning(_ url: URL) -> Bool { app(for: url) != nil }
 }
 
+/// Apps that were asked to quit and didn't: still running a few seconds later, they get Force Quit in their menu.
+final class QuitRequests: ObservableObject {
+    static let shared = QuitRequests()
+    @Published private(set) var ignored: Set<pid_t> = []
+    private static let patience: TimeInterval = 3
+
+    private init() {
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didTerminateApplicationNotification,
+                                                          object: nil, queue: .main) { [weak self] note in
+            guard let self, let app = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else { return }
+            self.ignored.remove(app.processIdentifier)
+        }
+    }
+
+    func watch(_ app: NSRunningApplication) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.patience) { [weak self] in
+            guard let self, !app.isTerminated else { return }
+            self.ignored.insert(app.processIdentifier)
+        }
+    }
+}
+
 // MARK: - Opening things
 
 enum Launcher {
@@ -317,10 +339,16 @@ enum Launcher {
         RunningApps.shared.app(for: url)?.bundleIdentifier != "com.apple.finder"
     }
 
-    /// Quits the app; with Option held while choosing it, force quits (as in the Dock).
+    /// Quits the app; with Option held while choosing it, force quits (as in the Dock). An app still running a few
+    /// seconds after being asked is remembered, and its menu then offers Force Quit instead.
     static func quit(_ url: URL) {
         guard canQuit(url), let app = RunningApps.shared.app(for: url) else { return }
-        if NSEvent.modifierFlags.contains(.option) { app.forceTerminate() } else { app.terminate() }
+        if NSEvent.modifierFlags.contains(.option) || QuitRequests.shared.ignored.contains(app.processIdentifier) {
+            app.forceTerminate()
+            return
+        }
+        app.terminate()
+        QuitRequests.shared.watch(app)
     }
 
     static func hide(_ url: URL) {
