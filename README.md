@@ -43,8 +43,11 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Finding files**: files in Documents, Desktop and Downloads only appear in search once SpotlightPlus has
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
-- **Window**: drag any edge to resize the panel, or drag an empty part to move it. It reopens exactly as you left it;
-  the ↺ button beside the settings cogwheel puts it back to the standard size, centred.
+- **Window**: drag any edge or corner of the panel to resize it (the edges have wide grab strips and show resize
+  cursors), or drag an empty part to move it. Settings → Window has **Remember window size** (on by default) and
+  **Remember window position** (off by default). The ↺ button beside the settings cogwheel puts the panel back to the
+  standard size, centred. The Add App and Add File or Folder windows can be resized too (they always open at their
+  standard size).
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close. The ‹ button or a click on empty space also goes back to your apps.
 

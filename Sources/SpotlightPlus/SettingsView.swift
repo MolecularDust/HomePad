@@ -9,6 +9,8 @@ struct SettingsView: View {
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
+    @AppStorage(PanelController.rememberSizeKey) private var rememberSize = true
+    @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -48,6 +50,13 @@ struct SettingsView: View {
             Section("Layout") {
                 Stepper("Icons per row: \(columns)", value: $columns, in: 4...10)
                 Toggle("Show running apps that aren't pinned", isOn: $showRunning)
+            }
+
+            Section("Window") {
+                Toggle("Remember window size", isOn: $rememberSize)
+                Toggle("Remember window position", isOn: $rememberPosition)
+                Text("For the main window, which you can resize by dragging its edges. The ↺ button in its corner goes back to the standard size, centred. The Add windows can be resized too, but always open at their standard size.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
 
             Section("Items") {
@@ -141,6 +150,8 @@ struct SettingsView: View {
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
         columns = 8
+        rememberSize = true
+        rememberPosition = false
         showRunning = true
         showMenuBarIcon = true
         if dockHidden { dockHidden = false }

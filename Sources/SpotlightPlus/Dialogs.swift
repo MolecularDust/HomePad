@@ -9,12 +9,16 @@ final class ModalWindow: NSObject, NSWindowDelegate {
     private let window: NSWindow
     private var isModal = false
 
-    init<Content: View>(title: String, @ViewBuilder content: (ModalWindow) -> Content) {
-        window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable], backing: .buffered, defer: false)
+    /// `resizable` windows can be dragged larger or smaller (down to `minimumSize`); they always open at the size
+    /// their content asks for.
+    init<Content: View>(title: String, resizable: Bool = false, minimumSize: NSSize = NSSize(width: 520, height: 420),
+                        initialSize: NSSize? = nil, @ViewBuilder content: (ModalWindow) -> Content) {
+        window = NSWindow(contentRect: .zero, styleMask: resizable ? [.titled, .closable, .resizable] : [.titled, .closable],
+                          backing: .buffered, defer: false)
         super.init()
         let host = NSHostingView(rootView: content(self))
         window.contentView = host
-        window.setContentSize(host.fittingSize)
+        if resizable { window.contentMinSize = minimumSize }
         window.title = title
         // An empty toolbar gives the full-height title bar and traffic lights that regular Mac apps have.
         window.toolbar = NSToolbar(identifier: "ModalWindow")
@@ -22,6 +26,8 @@ final class ModalWindow: NSObject, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         window.level = .modalPanel
         window.delegate = self
+        // Last: adding the toolbar above makes the title bar taller, which would otherwise stretch the content.
+        window.setContentSize(initialSize ?? host.fittingSize)
     }
 
     func close() { window.close() }
@@ -144,7 +150,7 @@ enum AppPicker {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
         let name = store.categories.first { $0.id == target }?.name ?? "Essentials"
-        let modal = ModalWindow(title: "Add Apps to \(name)") { modal in
+        let modal = ModalWindow(title: "Add Apps to \(name)", resizable: true, initialSize: panelSize) { modal in
             AppPickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -200,7 +206,8 @@ private struct AppPickerView: View {
             Divider().opacity(0.6)
             footer
         }
-        .frame(width: panelSize.width, height: panelSize.height)
+        .frame(minWidth: 520, idealWidth: panelSize.width, maxWidth: .infinity,
+               minHeight: 420, idealHeight: panelSize.height, maxHeight: .infinity)
         .onAppear { DispatchQueue.main.async { searchFocused = true } }
     }
 

@@ -10,7 +10,7 @@ enum FilePicker {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
         let name = store.categories.first { $0.id == target }?.name ?? "Essentials"
-        let modal = ModalWindow(title: "Add Files and Folders to \(name)") { modal in
+        let modal = ModalWindow(title: "Add Files and Folders to \(name)", resizable: true, initialSize: panelSize) { modal in
             FilePickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -150,7 +150,8 @@ private struct FilePickerView: View {
                 footer
             }
         }
-        .frame(width: panelSize.width, height: panelSize.height)
+        .frame(minWidth: 520, idealWidth: panelSize.width, maxWidth: .infinity,
+               minHeight: 420, idealHeight: panelSize.height, maxHeight: .infinity)
         .onAppear { reload(); DispatchQueue.main.async { searchFocused = true } }
         .onChange(of: place) { _ in query = ""; reload() }
         .onChange(of: showHidden) { _ in reload() }
