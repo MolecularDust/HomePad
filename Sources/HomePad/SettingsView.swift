@@ -78,7 +78,6 @@ struct SettingsView: View {
                 permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
                               detail: "Window previews when you hover a running app.") {
                     Permissions.requestScreenRecording()
-                    Permissions.openSettings("Privacy_ScreenCapture")
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
                               detail: "Find files in Documents, Desktop and Downloads. Add HomePad with + if it isn't listed, then relaunch it.") {

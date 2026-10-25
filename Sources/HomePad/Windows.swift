@@ -20,6 +20,10 @@ enum Permissions {
         WindowPreviewController.shared.hideNow()
     }
 
+    /// macOS's own Screen Recording prompt (the padlock) comes first: its Open System Settings button closes it and
+    /// opens the list with HomePad already in it. HomePad opening System Settings as well used to show the list before
+    /// HomePad was added, with the prompt left on top. macOS shows that prompt only once, so when none appears,
+    /// HomePad opens the list itself.
     static func requestScreenRecording() {
         guard !screenRecording else { return }      // already allowed: never ask again
         clearFloatingWindows()
@@ -29,6 +33,16 @@ enum Permissions {
         // Recording list (after a permissions reset it often doesn't), so the switch can't be turned on. Asking
         // ScreenCaptureKit for the windows on screen does list the app, reliably.
         SCShareableContent.getExcludingDesktopWindows(false, onScreenWindowsOnly: true) { _, _ in }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if !systemPromptShowing { openSettings("Privacy_ScreenCapture") }
+        }
+    }
+
+    /// The padlock prompt macOS shows for privacy permissions is on screen. (Window owners can be read without
+    /// Screen Recording; only window titles can't.)
+    private static var systemPromptShowing: Bool {
+        let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]] ?? []
+        return windows.contains { $0[kCGWindowOwnerName as String] as? String == "universalAccessAuthWarn" }
     }
 
     static func requestAccessibility() {

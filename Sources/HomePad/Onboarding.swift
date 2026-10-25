@@ -64,7 +64,6 @@ struct OnboardingView: View {
                 permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
                               detail: "Shows a preview of each window when you hover a running app.") {
                     Permissions.requestScreenRecording()
-                    Permissions.openSettings("Privacy_ScreenCapture")
                 }
                 permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: permissions.accessibility,
                               detail: "Jumps to the window you pick, and powers the double-tap shortcut.") {
