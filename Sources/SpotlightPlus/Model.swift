@@ -469,16 +469,41 @@ enum DockControl {
         DispatchQueue.global(qos: .userInitiated).async { apply(hidden) }
     }
 
+    /// The very long reveal delay is only read when the Dock starts, so the Dock is restarted. But a Dock that starts
+    /// already auto-hidden doesn't always give back the space it took on screen: windows snapped to that edge kept a
+    /// gap where the Dock had been. So it restarts with auto-hide off, and auto-hide is then switched on live, the
+    /// way System Settings does it, which frees the space.
     private static func apply(_ hidden: Bool) {
         if hidden {
-            run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "true")
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide-delay", "-float", "1000")
+            run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
         } else {
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
             run("/usr/bin/defaults", "delete", "com.apple.dock", "autohide-delay")
         }
+        let old = dockPID()
         run("/usr/bin/killall", "Dock") // the Dock relaunches itself with the new settings
+        guard hidden else { return }
+        // Wait for the new Dock, then switch auto-hide on.
+        for _ in 0..<50 where dockPID() == old || dockPID() == nil { Thread.sleep(forTimeInterval: 0.1) }
+        Thread.sleep(forTimeInterval: 0.6)
+        if let setAutoHide {
+            setAutoHide(true)
+        } else {
+            run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "true")
+            run("/usr/bin/killall", "Dock")
+        }
     }
+
+    private static func dockPID() -> pid_t? {
+        NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first?.processIdentifier
+    }
+
+    /// The Dock's own switch for auto-hide (a private call in ApplicationServices that System Settings and window
+    /// utilities use); looked up at run time, and the plain restart is used if it ever goes away.
+    private typealias SetAutoHide = @convention(c) (Bool) -> Void
+    private static let setAutoHide = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "CoreDockSetAutoHideEnabled")
+        .map { unsafeBitCast($0, to: SetAutoHide.self) }
 
     private static func run(_ tool: String, _ args: String...) {
         let p = Process()
