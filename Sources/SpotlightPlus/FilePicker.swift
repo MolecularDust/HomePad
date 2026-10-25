@@ -51,17 +51,21 @@ private struct SidebarRow: View {
             Image(systemName: item.symbol).frame(width: 18).foregroundStyle(Color.accentColor)
             Text(item.title).font(.system(size: 13)).lineLimit(1)
             Spacer()
-            if hovering || picked || added {
-                Button(action: toggle) {
-                    Image(systemName: added ? "checkmark.circle" : (picked ? "checkmark.circle.fill" : "plus.circle"))
-                        .font(.system(size: 15))
-                        .foregroundStyle(picked ? Color.accentColor : Color.secondary)
-                }
-                .buttonStyle(.plain)
-                .help(added ? "\(item.title) is already added" : "Add \(item.title) itself")
+            // Always laid out, only hidden: showing it on hover must not change the row's height.
+            let visible = hovering || picked || added
+            Button(action: toggle) {
+                Image(systemName: added ? "checkmark.circle" : (picked ? "checkmark.circle.fill" : "plus.circle"))
+                    .font(.system(size: 15))
+                    .foregroundStyle(picked ? Color.accentColor : Color.secondary)
+                    .frame(width: 20, height: 20)
             }
+            .buttonStyle(.plain)
+            .opacity(visible ? 1 : 0)
+            .allowsHitTesting(visible)
+            .help(added ? "\(item.title) is already added" : "Add \(item.title) itself")
         }
-        .padding(.horizontal, 8).padding(.vertical, 5)
+        .padding(.horizontal, 8)
+        .frame(height: 30)
         .background(RoundedRectangle(cornerRadius: 6).fill(current ? Color.accentColor.opacity(0.22) : .clear))
         .contentShape(Rectangle())
         .onHover { hovering = $0 }

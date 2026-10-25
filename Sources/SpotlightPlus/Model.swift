@@ -265,14 +265,29 @@ enum Launcher {
 enum IconCache {
     private static var cache: [String: NSImage] = [:]
 
+    private static var trashState: (full: Bool, date: Date)?
+
     static func icon(for url: URL) -> NSImage {
         guard url.isFileURL else {
             return NSImage(systemSymbolName: "globe", accessibilityDescription: nil) ?? NSImage()
         }
+        if url.path == trashURL.path { return trashIcon() }
         if let cached = cache[url.path] { return cached }
         let image = NSWorkspace.shared.icon(forFile: url.path)
         cache[url.path] = image
         return image
+    }
+
+    /// The system's trash can, empty or full. Asking the file system for the icon of ~/.Trash returns a plain folder.
+    private static func trashIcon() -> NSImage {
+        if trashState == nil || Date().timeIntervalSince(trashState!.date) > 3 {
+            // Looking for one visible item is cheap even when the Trash holds thousands.
+            let full = FileManager.default.enumerator(at: trashURL, includingPropertiesForKeys: nil,
+                                                      options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])?.nextObject() != nil
+            trashState = (full, Date())
+        }
+        let name = trashState!.full ? NSImage.trashFullName : NSImage.trashEmptyName
+        return NSImage(named: name) ?? NSWorkspace.shared.icon(forFile: trashURL.path)
     }
 
     static func name(for url: URL) -> String {
