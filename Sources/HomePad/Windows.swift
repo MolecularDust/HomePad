@@ -29,13 +29,15 @@ enum Permissions {
         clearFloatingWindows()
         SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()
-        _ = CGRequestScreenCaptureAccess()
-        // On recent macOS the call above doesn't always put HomePad in System Settings' Screen & System Audio
-        // Recording list (after a permissions reset it often doesn't), so the switch can't be turned on. Asking
-        // ScreenCaptureKit for the windows on screen does list the app, reliably.
-        SCShareableContent.getExcludingDesktopWindows(false, onScreenWindowsOnly: true) { _, _ in }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if !systemPromptShowing { openSettings("Privacy_ScreenCapture") }
+        SystemSettingsWindow.quit {
+            _ = CGRequestScreenCaptureAccess()
+            // On recent macOS the call above doesn't always put HomePad in System Settings' Screen & System Audio
+            // Recording list (after a permissions reset it often doesn't), so the switch can't be turned on. Asking
+            // ScreenCaptureKit for the windows on screen does list the app, reliably.
+            SCShareableContent.getExcludingDesktopWindows(false, onScreenWindowsOnly: true) { _, _ in }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if !systemPromptShowing { openSettings("Privacy_ScreenCapture") }
+            }
         }
     }
 
@@ -51,7 +53,9 @@ enum Permissions {
         clearFloatingWindows()
         SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()
-        _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
+        SystemSettingsWindow.quit {
+            _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
+        }
     }
 
     static func openSettings(_ pane: String) {
@@ -63,33 +67,43 @@ enum Permissions {
     }
 }
 
-/// System Settings is closed again once the permission HomePad sent you there for is on, but only when HomePad
-/// opened it. Left open, the next step's padlock prompt would appear next to it and you could skip the prompt's
-/// button, which is the only thing that closes the prompt.
+/// The Setup Guide funnels you through macOS's padlock prompt: its Open System Settings button is the only thing
+/// that closes it. So System Settings is quit before a prompt appears (otherwise you could go straight to it and leave
+/// the prompt stuck) and again once the permission is on, ready for the next step.
 enum SystemSettingsWindow {
     private static let ids = ["com.apple.systempreferences", "com.apple.Settings"]
-    /// Kept in the defaults: after Screen Recording or Full Disk Access, it is closed once HomePad has reopened.
-    private static let openedKey = "closeSystemSettingsWhenGranted"
+    /// Kept in the defaults: after Screen Recording or Full Disk Access it closes once HomePad has reopened.
+    private static let pendingKey = "closeSystemSettingsWhenGranted"
 
     private static var running: [NSRunningApplication] {
         ids.flatMap { NSRunningApplication.runningApplications(withBundleIdentifier: $0) }
     }
 
-    /// HomePad is about to send you to System Settings. Already open: it was yours, and it stays.
-    static func noteVisit() {
-        if running.isEmpty { UserDefaults.standard.set(true, forKey: openedKey) }
+    /// Quits System Settings, then runs `then` once it has gone (straight away if it isn't open; after 2 s at most).
+    static func quit(then: @escaping () -> Void) {
+        let apps = running
+        guard !apps.isEmpty else { then(); return }
+        apps.forEach { $0.terminate() }
+        let deadline = Date().addingTimeInterval(2)
+        func check() {
+            if apps.allSatisfy(\.isTerminated) || Date() > deadline { then() }
+            else { DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: check) }
+        }
+        check()
     }
 
-    /// The permission is on: close System Settings if HomePad opened it.
-    static func closeIfOpenedByUs() {
-        guard UserDefaults.standard.bool(forKey: openedKey) else { return }
-        UserDefaults.standard.removeObject(forKey: openedKey)
-        // A moment later, so the switch can be seen turning on.
+    /// A permission was asked for: System Settings closes again once it's on.
+    static func noteVisit() { UserDefaults.standard.set(true, forKey: pendingKey) }
+
+    /// The permission is on: close System Settings, a moment later so the switch can be seen turning on.
+    static func closeAfterGrant() {
+        guard UserDefaults.standard.bool(forKey: pendingKey) else { return }
+        UserDefaults.standard.removeObject(forKey: pendingKey)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { running.forEach { $0.terminate() } }
     }
 
-    /// An ordinary launch: whatever System Settings window there is now isn't one HomePad is waiting on.
-    static func forget() { UserDefaults.standard.removeObject(forKey: openedKey) }
+    /// An ordinary launch: nothing is being waited on.
+    static func forget() { UserDefaults.standard.removeObject(forKey: pendingKey) }
 }
 
 /// The three permissions, shared by Settings, the Setup Guide and the search hint. Checked again whenever the app

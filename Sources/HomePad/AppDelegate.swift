@@ -28,13 +28,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Accessibility may be what just came on: start listening for the double tap again with it.
             DoubleTapMonitor.shared.apply(ask: false)
             // System Settings is about to offer Quit & Reopen: it stays until HomePad is back.
-            if !restartComing { SystemSettingsWindow.closeIfOpenedByUs() }
+            if !restartComing { SystemSettingsWindow.closeAfterGrant() }
             self?.bringBack()
         }
-        // Back from a Quit & Reopen: the window you were in opens again, and System Settings closes if HomePad
-        // opened it.
+        // Back from a Quit & Reopen: the window you were in opens again, and System Settings closes.
         let reopening = Relaunch.windowToReopen()
-        if reopening != nil { SystemSettingsWindow.closeIfOpenedByUs() } else { SystemSettingsWindow.forget() }
+        if reopening != nil { SystemSettingsWindow.closeAfterGrant() } else { SystemSettingsWindow.forget() }
         switch reopening {
         case "settings": openSettings()
         case "setupGuide": Onboarding.show()
