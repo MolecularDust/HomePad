@@ -290,8 +290,12 @@ final class QuitRequests: ObservableObject {
 
 enum Launcher {
     static func open(_ url: URL) {
-        PanelController.shared.hide(restoreFocus: false)
-        guard url.isFileURL, let app = RunningApps.shared.app(for: url) else { openNow(url); return }
+        guard url.isFileURL, let app = RunningApps.shared.app(for: url) else {
+            PanelController.shared.hide(restoreFocus: false)
+            openNow(url)
+            return
+        }
+        PanelController.shared.vanish()
         // This Space comes first, as in the Dock: a window showing here → the app comes forward with it; only
         // minimised windows here → the most recent comes back; no window here at all → go to another Space where it
         // has some. The quick check (window server only) settles the usual case; asking the app itself, which can
@@ -308,7 +312,10 @@ enum Launcher {
                 if let target {
                     WindowCatalog.focus(AppWindow(id: target.id, title: "", frame: target.frame, onOtherSpace: target.onOtherSpace), of: app)
                 } else {
+                    // While HomePad is still the active app (see `vanish`), so macOS lets it bring this one forward.
+                    app.activate(options: [.activateAllWindows])
                     openNow(url)
+                    PanelController.shared.hide(restoreFocus: false)
                 }
             }
         }
