@@ -693,7 +693,7 @@ struct TileDropDelegate: DropDelegate {
     func dropEntered(info: DropInfo) {
         PanelState.shared.noteDragActivity()
         let store = CategoryStore.shared
-        guard let dragging = PanelState.shared.draggingItem, dragging != target,
+        guard !PanelState.shared.tileDragCancelled, let dragging = PanelState.shared.draggingItem, dragging != target,
               let to = store.location(of: target) else { return }
         withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, toCategory: to.category, at: to.index) }
     }
@@ -704,7 +704,8 @@ struct TileDropDelegate: DropDelegate {
 
     func performDrop(info: DropInfo) -> Bool {
         if PanelState.shared.draggingItem != nil {
-            PanelState.shared.finishTileDrop()
+            // After Esc nothing lands: ending the drag puts the tile back.
+            if PanelState.shared.tileDragCancelled { PanelState.shared.endDrag() } else { PanelState.shared.finishTileDrop() }
             return true
         }
         let providers = info.itemProviders(for: [.fileURL])
@@ -729,6 +730,7 @@ struct CategoryDropDelegate: DropDelegate {
 
     func performDrop(info: DropInfo) -> Bool {
         if let dragging = PanelState.shared.draggingItem {
+            if PanelState.shared.tileDragCancelled { PanelState.shared.endDrag(); return true }
             CategoryStore.shared.move(dragging, toCategory: category)
             PanelState.shared.finishTileDrop()
             return true

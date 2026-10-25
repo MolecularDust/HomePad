@@ -28,6 +28,8 @@ final class PanelState: ObservableObject {
     /// it goes back to if the drag doesn't end in a drop (Esc, or let go elsewhere).
     private var dragOrigin: (category: UUID, index: Int)?
     private var leaveWork: DispatchWorkItem?
+    /// Esc was pressed during the tile drag: everything is already back, and what the drag still reports is ignored.
+    private(set) var tileDragCancelled = false
     // Not published: views that need these read them when they run, so starting or ending a drag doesn't redraw
     // the whole panel. What a drag shows on screen comes from RowDrag.
     var draggingCategory: UUID?             // category row being carried to a new place in the order
@@ -40,7 +42,7 @@ final class PanelState: ObservableObject {
     func noteDragActivity() {
         lastDragActivity = Date()
         leaveWork?.cancel()
-        if let item = draggingItem { TileDrag.shared.show(item) }
+        if let item = draggingItem, !tileDragCancelled { TileDrag.shared.show(item) }
     }
 
     /// The drag left a drop target. If no other one takes it at once, it is over none of them: it was cancelled with
@@ -48,7 +50,7 @@ final class PanelState: ObservableObject {
     /// comes back over the tiles. (Moving from one tile to the next reports leaving one and entering the other, and
     /// crossing the gap between categories takes a moment, hence the short wait.)
     func noteDragLeft() {
-        guard draggingItem != nil else { return }
+        guard draggingItem != nil, !tileDragCancelled else { return }
         leaveWork?.cancel()
         let work = DispatchWorkItem { [weak self] in
             guard let self, self.draggingItem != nil, Date().timeIntervalSince(self.lastDragActivity) > 0.12 else { return }
@@ -85,13 +87,24 @@ final class PanelState: ObservableObject {
         // in tracking mode.)
         // A drop on a tile or category ends the drag at once; this only catches drops elsewhere, and quickly, since the
         // dragged tile's place shows a placeholder until the drag is over.
-        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self, Date().timeIntervalSince(started) > 0.4 else { return }
+        tileDragCancelled = false
+        let timer = Timer(timeInterval: 1.0 / 60, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            // Esc cancels the drag, but the drag swallows the key, so its state is read here: the moment it is down,
+            // the tiles go back and the slot goes, in one movement with the system's own slide of the picture back.
+            if self.draggingItem != nil, !self.tileDragCancelled,
+               CGEventSource.keyState(.combinedSessionState, key: CGKeyCode(kVK_Escape)) {
+                self.tileDragCancelled = true
+                self.leaveWork?.cancel()
+                self.returnDraggedTile(animated: true)
+                TileDrag.shared.show(nil)
+            }
+            guard Date().timeIntervalSince(started) > 0.4 else { return }
             let quiet = Date().timeIntervalSince(self.lastDragActivity)
             // While a dragged tile is over the tiles, they hear from it about 25 times a second, even when the pointer
             // is still. Silence means it was cancelled (Esc) or is elsewhere: everything goes back as it was at once,
             // the button may still be held. If it comes back over the tiles, the slot and the live order return.
-            if quiet > 0.2, self.draggingItem != nil, TileDrag.shared.item != nil {
+            if quiet > 0.2, self.draggingItem != nil, !self.tileDragCancelled, TileDrag.shared.item != nil {
                 self.returnDraggedTile(animated: true)
                 TileDrag.shared.show(nil)
             }
@@ -109,6 +122,7 @@ final class PanelState: ObservableObject {
         leaveWork?.cancel()
         returnDraggedTile(animated: false)
         dragOrigin = nil
+        tileDragCancelled = false
         isDragging = false
         draggingItem = nil
         TileDrag.shared.show(nil)
