@@ -105,6 +105,20 @@ enum SystemSettingsWindow {
         check()
     }
 
+    /// Runs `action` once System Settings has quit (straight away if it isn't open).
+    static func whenClosed(_ action: @escaping () -> Void) {
+        guard !running.isEmpty else { action(); return }
+        var token: NSObjectProtocol?
+        token = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didTerminateApplicationNotification,
+                                                                  object: nil, queue: .main) { note in
+            let app = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
+            guard let id = app?.bundleIdentifier, ids.contains(id) else { return }
+            if let token { NSWorkspace.shared.notificationCenter.removeObserver(token) }
+            token = nil
+            action()
+        }
+    }
+
     /// A permission was asked for: System Settings closes again once it's on.
     static func noteVisit() { UserDefaults.standard.set(true, forKey: pendingKey) }
 
