@@ -49,8 +49,8 @@ struct SettingsView: View {
             }
 
             Section("Layout") {
-                Stepper("Icons per row: \(columns)", value: $columns, in: 4...10)
-                Stepper("Row height: \(rowHeight) pt", value: $rowHeight, in: RowMetrics.range, step: 2)
+                NumberSetting(title: "Icons per row", value: $columns, range: 4...10)
+                NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
             }
 
@@ -216,5 +216,52 @@ struct ShortcutRecorder: View {
         if let m = monitor { NSEvent.removeMonitor(m) }
         monitor = nil
         store.registerCurrent()
+    }
+}
+
+/// A number you can type, or nudge with − and +. Not a Stepper: the system one repeats while its arrow is held, and
+/// since every change re-lays out the panel it could miss the button coming up and keep counting down on its own.
+/// These buttons take one step per click.
+struct NumberSetting: View {
+    let title: String
+    @Binding var value: Int
+    let range: ClosedRange<Int>
+    var step = 1
+    var unit = ""
+    @State private var text = ""
+    @FocusState private var editing: Bool
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Text(title)
+            Spacer()
+            TextField(title, text: $text)
+                .labelsHidden()
+                .multilineTextAlignment(.trailing)
+                .frame(width: 48)
+                .focused($editing)
+                .onSubmit(commit)
+                .onChange(of: editing) { if !$0 { commit() } }     // leaving the field takes what was typed
+            if !unit.isEmpty { Text(unit).foregroundStyle(.secondary) }
+            ControlGroup {
+                Button { set(value - step) } label: { Image(systemName: "minus") }
+                    .disabled(value <= range.lowerBound)
+                Button { set(value + step) } label: { Image(systemName: "plus") }
+                    .disabled(value >= range.upperBound)
+            }
+            .frame(width: 64)
+        }
+        .onAppear { text = String(value) }
+        .onChange(of: value) { if !editing { text = String($0) } }
+    }
+
+    private func set(_ new: Int) {
+        value = min(max(new, range.lowerBound), range.upperBound)
+        text = String(value)
+    }
+
+    /// Takes the typed number, kept within the range; anything that isn't a number goes back to the current value.
+    private func commit() {
+        if let typed = Int(text.trimmingCharacters(in: .whitespaces)) { set(typed) } else { text = String(value) }
     }
 }
