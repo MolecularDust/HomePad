@@ -43,7 +43,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   mid-drag), or right-click a search result → Pin App.
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles
   around, including between categories.
-- **Running apps**: a soft red outline around an icon means the app is running. Hover a running app to see a thumbnail
+- **Running apps**: a red bar right under an icon (above its name) means the app is running. Hover a running app to see a thumbnail
   of each of its windows, on every desktop (Space), listed in Mission Control order with a "Space N" title when an app has windows on more than one and click one to jump straight to it (switching desktops if needed), or click the cross in its corner to close just that window (also works for windows on other desktops) (needs Screen Recording and Accessibility;
   without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. The **Running** section lists every app that is running (pinned or not, like the Dock's running indicators); nothing can be added to, renamed or removed from it, but it can be dragged by its title (or moved with **Move Up** / **Move Down** in its right-click menu) to any place among the categories, and it can be turned off in Settings.
 - **Running app menu**: right-click a running app for **Close Windows** (only if it has a window open; needs the Accessibility permission) and **Close App**.

@@ -237,11 +237,12 @@ struct HoverLink: View {
 // MARK: - Categories + running apps
 
 /// The "Row height" setting: the distance in points from one row of tiles to the next. 101 is the standard layout.
-/// A tile's icon and name take about 71 pt and 6 pt separates the rows; the rest is padding above and below each tile.
+/// A tile's icon, running mark and name take about 79 pt and 6 pt separates the rows; the rest is padding above and
+/// below each tile.
 enum RowMetrics {
     static let standard = 101
     static let range = 85...125
-    private static let tileContent: CGFloat = 71, rowGap: CGFloat = 6
+    private static let tileContent: CGFloat = 79, rowGap: CGFloat = 6
 
     static func padding(_ rowHeight: Int) -> CGFloat { max(0, (CGFloat(rowHeight) - tileContent - rowGap) / 2) }
 
@@ -571,12 +572,12 @@ struct AppTile: View, Equatable {
         // While this tile is being dragged, its place is an empty slot (moving along as the others make room), and
         // the icon lands in it when dropped. Name and running mark keep their space, so nothing shifts.
         let inTheAir = tileDrag.item == url && categoryID != nil
+        // The running mark right under the icon, and the name under that, so the mark stays clear of the text.
         VStack(spacing: 5) {
-            if inTheAir {
-                DashedSlot()
-            } else {
-                TileIcon(url: url).overlay { if isRunning { RunningOutline() } }
-            }
+            if inTheAir { DashedSlot() } else { TileIcon(url: url) }
+            RoundedRectangle(cornerRadius: 1.5)
+                .fill(isRunning && !inTheAir ? Color.red : Color.clear)
+                .frame(width: 18, height: 3)
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(1)
@@ -653,22 +654,6 @@ struct PinMenu: View {
 }
 
 /// Grayed-out stand-in shown in a category that has no apps yet.
-/// A running app's mark: a soft red outline around its icon. macOS app icons leave a transparent margin around
-/// their artwork (on Apple's 1024 pt grid the rounded square is 824 pt, with a 185 pt corner), so the outline follows
-/// that shape rather than the image's edge, and hugs the artwork without a gap.
-struct RunningOutline: View {
-    private static let iconSize: CGFloat = 52, lineWidth: CGFloat = 2
-
-    var body: some View {
-        let scale = Self.iconSize / 1024
-        let artwork = 824 * scale
-        RoundedRectangle(cornerRadius: 185 * scale + Self.lineWidth, style: .continuous)
-            .strokeBorder(Color.red.opacity(0.55), lineWidth: Self.lineWidth)
-            .frame(width: artwork + Self.lineWidth * 2, height: artwork + Self.lineWidth * 2)
-            .allowsHitTesting(false)
-    }
-}
-
 /// The dashed square with a plus: an empty category's stand-in, and the place a dragged icon will land.
 struct DashedSlot: View {
     var body: some View {
@@ -689,6 +674,7 @@ struct PlaceholderTile: View {
     var body: some View {
         VStack(spacing: 5) {
             DashedSlot()
+            Color.clear.frame(width: 18, height: 3)
             Text("Add your app here")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
