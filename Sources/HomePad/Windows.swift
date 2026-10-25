@@ -58,6 +58,19 @@ enum Permissions {
         }
     }
 
+    /// No prompt exists for Full Disk Access, and an app can't add itself to the list: System Settings opens at it,
+    /// with a helper beside it holding HomePad's icon to drag in.
+    static func requestFullDiskAccess() {
+        guard !fullDiskAccess else { return }
+        clearFloatingWindows()
+        SystemSettingsWindow.noteVisit()
+        PermissionStatus.shared.expectGrant()
+        SystemSettingsWindow.quit {
+            openSettings("Privacy_AllFiles")
+            DragInHelper.show()
+        }
+    }
+
     static func openSettings(_ pane: String) {
         SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()

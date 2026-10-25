@@ -72,8 +72,8 @@ struct OnboardingView: View {
                     Permissions.requestAccessibility()
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Finds files in Documents, Desktop and Downloads. Add HomePad with + if it isn't listed.") {
-                    Permissions.openSettings("Privacy_AllFiles")
+                              detail: "Finds files in Documents, Desktop and Downloads. Drag HomePad into the list that opens.") {
+                    Permissions.requestFullDiskAccess()
                 }
                 Text("macOS may ask you to reopen HomePad after you allow Screen Recording or Full Disk Access.")
                     .font(.caption).foregroundStyle(.secondary)

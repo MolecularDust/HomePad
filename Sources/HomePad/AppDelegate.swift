@@ -27,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         PermissionStatus.shared.onGranted = { [weak self] restartComing in
             // Accessibility may be what just came on: start listening for the double tap again with it.
             DoubleTapMonitor.shared.apply(ask: false)
+            DragInHelper.close()
             // System Settings is about to offer Quit & Reopen: it stays until HomePad is back.
             if !restartComing { SystemSettingsWindow.closeAfterGrant() }
             self?.bringBack()

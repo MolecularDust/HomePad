@@ -80,8 +80,8 @@ struct SettingsView: View {
                     Permissions.requestScreenRecording()
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Find files in Documents, Desktop and Downloads. Add HomePad with + if it isn't listed, then relaunch it.") {
-                    Permissions.openSettings("Privacy_AllFiles")
+                              detail: "Find files in Documents, Desktop and Downloads. Drag HomePad into the list that opens.") {
+                    Permissions.requestFullDiskAccess()
                 }
                 if !permissions.allGranted {
                     Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")

@@ -873,8 +873,7 @@ struct FullDiskAccessHint: View {
             .background(RoundedRectangle(cornerRadius: 8).fill(Color.primary.opacity(0.06)))
             .contentShape(Rectangle())
             .onTapGesture {
-                Permissions.openSettings("Privacy_AllFiles")
-                PanelController.shared.hide(restoreFocus: false)
+                Permissions.requestFullDiskAccess()
             }
         }
     }
