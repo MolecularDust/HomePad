@@ -637,6 +637,9 @@ struct AppTile: View, Equatable {
             }
             if app == nil { Button("Open") { Launcher.open(url) } }
             if url.path != trashURL.path { Button("Show in Finder") { Launcher.reveal(url) } }
+            if url.path == trashURL.path {
+                Button("Empty Trash…") { Launcher.emptyTrash() }.disabled(!IconCache.trashIsFull)
+            }
             if let categoryID {
                 let others = CategoryStore.shared.categories.filter { $0.id != categoryID }
                 if !others.isEmpty {

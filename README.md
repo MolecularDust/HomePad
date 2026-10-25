@@ -34,7 +34,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
   Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
-  ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
+  ready. These windows don't block the panel: move one aside and drag any tile from it into the panel. Right-click the Trash tile for **Empty Trash…** (it asks first; HomePad has Finder empty it, as the Dock does, so the first time macOS asks whether HomePad may control Finder).
 - **Category order**: a category's name turns green when you point at it. Press it and the whole row is selected
   (green fill and outline); drag and the row itself comes along while the other rows slide aside to make
   room (the panel stays where it is). Let go and it stays where it is. Or right-click inside a category and choose **Move Up** /

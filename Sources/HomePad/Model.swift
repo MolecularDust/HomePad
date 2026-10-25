@@ -344,6 +344,39 @@ enum Launcher {
         NSPasteboard.general.setString(text, forType: .string)
     }
 
+    /// Asks first, then has Finder empty the Trash, as the Dock does: every drive's Trash, locked items and Finder's
+    /// own sound included. The first time, macOS asks whether HomePad may control Finder.
+    static func emptyTrash() {
+        let confirmed = PanelController.shared.keepVisible { () -> Bool in
+            let alert = NSAlert()
+            alert.messageText = "Empty the Trash?"
+            alert.informativeText = "The items in the Trash will be erased permanently. You can't undo this action."
+            alert.addButton(withTitle: "Empty Trash")
+            alert.addButton(withTitle: "Cancel")
+            return alert.runModal() == .alertFirstButtonReturn
+        }
+        guard confirmed else { return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            var error: NSDictionary?
+            NSAppleScript(source: "tell application id \"com.apple.finder\" to empty trash")?.executeAndReturnError(&error)
+            DispatchQueue.main.async {
+                IconCache.trashChanged()
+                guard let error else { return }
+                let notAllowed = (error[NSAppleScript.errorNumber] as? Int) == -1743
+                PanelController.shared.keepVisible {
+                    let alert = NSAlert()
+                    alert.messageText = notAllowed ? "HomePad isn't allowed to control Finder" : "The Trash couldn't be emptied"
+                    alert.informativeText = notAllowed
+                        ? "HomePad asks Finder to empty the Trash, as the Dock does. Turn on Finder under HomePad in System Settings › Privacy & Security › Automation."
+                        : (error[NSAppleScript.errorMessage] as? String ?? "Finder reported an error.")
+                    alert.addButton(withTitle: notAllowed ? "Open System Settings" : "OK")
+                    if notAllowed { alert.addButton(withTitle: "Cancel") }
+                    if alert.runModal() == .alertFirstButtonReturn, notAllowed { Permissions.openSettings("Privacy_Automation") }
+                }
+            }
+        }
+    }
+
     static func reveal(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
         NSWorkspace.shared.activateFileViewerSelecting([url])
@@ -452,6 +485,16 @@ enum IconCache {
         let image = NSImage(named: full ? NSImage.trashFullName : NSImage.trashEmptyName) ?? NSWorkspace.shared.icon(forFile: trashURL.path)
         trashImages[full] = image
         return image
+    }
+
+    /// As last checked (the Trash tile's icon keeps this current).
+    static var trashIsFull: Bool { trashFull ?? false }
+
+    /// The Trash changed (it was just emptied): check it again on the next draw.
+    static func trashChanged() {
+        trashFull = trashHasItems()
+        trashChecked = Date()
+        CategoryStore.shared.objectWillChange.send()
     }
 
     private static func trashHasItems() -> Bool {

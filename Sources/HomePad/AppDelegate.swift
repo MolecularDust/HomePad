@@ -83,7 +83,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                            accessibilityDescription: "HomePad")
         let menu = NSMenu()
         menu.addItem(withTitle: "Open HomePad", action: #selector(openPanel), keyEquivalent: "").target = self
-        menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: ",").target = self
+        // No ⌘, here: HomePad is never the app in front when this menu is open, so the shortcut went to that app
+        // (Finder's settings, say), not to HomePad.
+        menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit HomePad", action: #selector(quit), keyEquivalent: "q").target = self
