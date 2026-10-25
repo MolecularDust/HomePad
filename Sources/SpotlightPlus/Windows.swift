@@ -79,29 +79,44 @@ struct AppWindow: Identifiable {
 enum WindowCatalog {
     static let thumbnailSize = CGSize(width: 180, height: 112)
 
-    /// Lists an app's windows with thumbnails. Needs Screen Recording permission.
-    static func windows(for pid: pid_t) async -> [AppWindow] {
-        guard Permissions.screenRecording,
-              let content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
-        else { return [] }
-
-        let ordered = realWindows(for: pid)
+    /// Lists an app's windows with thumbnails. Needs Screen Recording permission. Runs off the main thread: asking
+    /// another app about its windows waits for that app's answer.
+    /// `fresh` skips the shared window list kept from the last couple of seconds (after a window was closed).
+    static func windows(for pid: pid_t, fresh: Bool = false) async -> [AppWindow] {
+        guard Permissions.screenRecording else { return [] }
+        async let listed = Task.detached(priority: .userInitiated) { realWindows(for: pid) }.value
+        guard let content = await ShareableWindows.shared.content(fresh: fresh) else { return [] }
+        let ordered = await listed
         let shareable = Dictionary(content.windows.filter { $0.owningApplication?.processID == pid }.map { ($0.windowID, $0) },
                                    uniquingKeysWith: { first, _ in first })
-        var result: [AppWindow] = []
-        for r in ordered {
-            guard let w = shareable[r.id] else { continue }
-            result.append(AppWindow(id: w.windowID, title: w.title ?? "", frame: w.frame, image: await thumbnail(of: w),
-                                    onOtherSpace: r.onOtherSpace, spaceNumber: r.spaceNumber))
+        let found = ordered.compactMap { r in shareable[r.id].map { (real: r, window: $0) } }
+
+        // All thumbnails at once, rather than one after another.
+        let images = await withTaskGroup(of: (CGWindowID, CGImage?).self) { group -> [CGWindowID: CGImage] in
+            for item in found { group.addTask { (item.window.windowID, await thumbnail(of: item.window)) } }
+            var images: [CGWindowID: CGImage] = [:]
+            for await (id, image) in group { images[id] = image }
+            return images
         }
-        return result.map { window in
-            var w = window
-            w.canClose = !Permissions.accessibility || closeButton(for: window, pid: pid) != nil
-            return w
+        let result = found.map { item in
+            AppWindow(id: item.window.windowID, title: item.window.title ?? "", frame: item.window.frame,
+                      image: images[item.window.windowID].map { NSImage(cgImage: $0, size: NSSize(width: $0.width / 2, height: $0.height / 2)) },
+                      onOtherSpace: item.real.onOtherSpace, spaceNumber: item.real.spaceNumber)
         }
+        // Whether each window has a close button to press. A window on another Space can only be reached by a long
+        // search (see RemoteAX), so its cross is shown and the search happens only if it is clicked.
+        return await Task.detached(priority: .userInitiated) { () -> [AppWindow] in
+            let trusted = Permissions.accessibility
+            return result.map { window in
+                var w = window
+                w.canClose = !trusted || window.onOtherSpace || closeButton(for: window, pid: pid) != nil
+                return w
+            }
+        }.value
     }
 
-    private static func thumbnail(of window: SCWindow) async -> NSImage? {
+    /// At twice the thumbnail size, for sharp Retina display.
+    private static func thumbnail(of window: SCWindow) async -> CGImage? {
         guard #available(macOS 14.0, *) else { return nil }   // SCScreenshotManager needs macOS 14
         let config = SCStreamConfiguration()
         let scale = min(thumbnailSize.width * 2 / window.frame.width, thumbnailSize.height * 2 / window.frame.height)
@@ -109,9 +124,7 @@ enum WindowCatalog {
         config.height = max(1, Int(window.frame.height * scale))
         config.showsCursor = false
         let filter = SCContentFilter(desktopIndependentWindow: window)
-        guard let image = try? await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
-        else { return nil }
-        return NSImage(cgImage: image, size: NSSize(width: image.width / 2, height: image.height / 2))
+        return try? await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
     }
 
     /// Window titles via Accessibility, used when Screen Recording isn't allowed.
@@ -276,6 +289,21 @@ enum WindowCatalog {
     }
 }
 
+/// The list of every window on screen that ScreenCaptureKit hands out, kept for two seconds: fetching it takes
+/// 20 to 50 ms, and moving along the running apps would otherwise fetch it for each one.
+actor ShareableWindows {
+    static let shared = ShareableWindows()
+    private var content: SCShareableContent?
+    private var fetched = 0.0
+
+    func content(fresh: Bool) async -> SCShareableContent? {
+        if !fresh, let content, CACurrentMediaTime() - fetched < 2 { return content }
+        content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
+        fetched = CACurrentMediaTime()
+        return content
+    }
+}
+
 // MARK: - Hover popup
 
 final class WindowPreviewModel: ObservableObject {
@@ -300,6 +328,9 @@ final class WindowPreviewController {
     private var generation = 0
     private var lastTile = CGRect.zero
     private var mouseMonitor: Any?
+    /// What was loaded for the app last pointed at: loading starts the moment the pointer arrives, so the
+    /// thumbnails are usually ready by the time the popup appears.
+    private var loaded: (pid: pid_t, windows: [AppWindow], titles: [String])?
 
     private init() {
         host = NSHostingView(rootView: WindowPreviewView(model: model))
@@ -341,6 +372,10 @@ final class WindowPreviewController {
             hideWork?.cancel()
             if panel.isVisible, model.app?.processIdentifier == app.processIdentifier { return }
             showWork?.cancel()
+            load(app)
+            // A short wait before the first popup, so passing over a tile doesn't flash one. Once a popup is open,
+            // moving to the next running app shows its windows straight away.
+            if panel.isVisible { show(app, tile: tile); return }
             let work = DispatchWorkItem { [weak self] in self?.show(app, tile: tile) }
             showWork = work
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: work)
@@ -361,15 +396,42 @@ final class WindowPreviewController {
         showWork?.cancel()
         hideWork?.cancel()
         generation += 1
+        loaded = nil
         overTile = false
         overPreview = false
         panel.orderOut(nil)
     }
 
+    /// Starts finding the app's windows (or, without Screen Recording, their titles) in the background.
+    private func load(_ app: NSRunningApplication) {
+        generation += 1
+        let mine = generation
+        let pid = app.processIdentifier
+        loaded = nil
+        let permitted = Permissions.screenRecording
+        Task { @MainActor in
+            let windows = permitted ? await WindowCatalog.windows(for: pid) : []
+            let titles = permitted ? [] : await Task.detached { WindowCatalog.titles(for: pid) }.value
+            guard mine == self.generation else { return }
+            self.loaded = (pid, windows, titles)
+            if self.panel.isVisible, self.model.app?.processIdentifier == pid { self.apply(windows: windows, titles: titles) }
+        }
+    }
+
+    private func apply(windows: [AppWindow], titles: [String]) {
+        if model.needsPermission {
+            model.fallbackTitles = titles
+        } else {
+            model.windows = windows
+            model.loading = false
+        }
+        resizeAndPlace(tile: lastTile)
+    }
+
     /// Closes one window from the popup, then refreshes the thumbnails (the popup closes with the last window).
     func closeWindow(_ window: AppWindow) {
         guard let app = model.app else { return }
-        WindowCatalog.close(window, of: app)
+        Task.detached(priority: .userInitiated) { WindowCatalog.close(window, of: app) }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in self?.reload() }
     }
 
@@ -378,7 +440,7 @@ final class WindowPreviewController {
         generation += 1
         let mine = generation
         Task { @MainActor in
-            let windows = await WindowCatalog.windows(for: app.processIdentifier)
+            let windows = await WindowCatalog.windows(for: app.processIdentifier, fresh: true)
             guard mine == self.generation else { return }
             if windows.isEmpty { self.hideNow(); return }
             self.model.windows = windows
@@ -398,16 +460,18 @@ final class WindowPreviewController {
 
     private func show(_ app: NSRunningApplication, tile: CGRect) {
         guard overTile, PanelController.shared.isVisible, NSEvent.pressedMouseButtons == 0 else { return }
-        generation += 1
-        let mine = generation
         lastTile = tile
         model.app = app
-        model.windows = []
-        model.fallbackTitles = []
         model.needsPermission = !Permissions.screenRecording
-        model.loading = !model.needsPermission
-        if model.needsPermission {
-            model.fallbackTitles = WindowCatalog.titles(for: app.processIdentifier)
+        // Already loaded (the usual case): shown complete at once, with no loading step and no second resize.
+        if let loaded, loaded.pid == app.processIdentifier {
+            model.windows = loaded.windows
+            model.fallbackTitles = loaded.titles
+            model.loading = false
+        } else {
+            model.windows = []
+            model.fallbackTitles = []
+            model.loading = !model.needsPermission
         }
         resizeAndPlace(tile: tile)
         panel.orderFrontRegardless()
@@ -419,15 +483,6 @@ final class WindowPreviewController {
                 if let self, event.window !== self.panel { self.hideNow() }
                 return event
             }
-        }
-
-        guard !model.needsPermission else { return }
-        Task { @MainActor in
-            let windows = await WindowCatalog.windows(for: app.processIdentifier)
-            guard mine == self.generation else { return }
-            self.model.windows = windows
-            self.model.loading = false
-            self.resizeAndPlace(tile: tile)
         }
     }
 
