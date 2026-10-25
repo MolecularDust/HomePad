@@ -46,6 +46,47 @@ struct FooterIcon: View {
     }
 }
 
+/// Your picture and name in the footer. Clicking opens System Settings on the Apple Account page.
+struct FooterProfile: View {
+    @State private var hovering = false
+
+    var body: some View {
+        Button {
+            PanelController.shared.hide(restoreFocus: false)
+            if let url = URL(string: "x-apple.systempreferences:com.apple.systempreferences.AppleIDSettings") {
+                NSWorkspace.shared.open(url)
+            }
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.system(size: 22))
+                    .foregroundStyle(.secondary)
+                Text(NSFullUserName()).font(.system(size: 13))
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(RoundedRectangle(cornerRadius: 8).fill(hovering ? Color.primary.opacity(0.08) : .clear))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .accessibilityLabel("Apple Account")
+        .overlay(alignment: .topLeading) {
+            if hovering {
+                Text("Apple Account")
+                    .font(.system(size: 11, weight: .medium))
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 6).fill(.regularMaterial))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
+                    .fixedSize()
+                    .offset(y: -34)
+                    .allowsHitTesting(false)
+            }
+        }
+        .zIndex(1)
+    }
+}
+
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -115,10 +156,7 @@ struct SpotlightPlusView: View {
 
     private var footer: some View {
         HStack(spacing: 10) {
-            Image(systemName: "person.crop.circle.fill")
-                .font(.system(size: 22))
-                .foregroundStyle(.secondary)
-            Text(NSFullUserName()).font(.system(size: 13))
+            FooterProfile()
             Spacer()
             FooterIcon(symbol: "arrow.counterclockwise", name: "Reset window") { PanelController.shared.resetFrame() }
             FooterIcon(symbol: "gearshape", name: "Settings") { AppDelegate.shared?.openSettings() }

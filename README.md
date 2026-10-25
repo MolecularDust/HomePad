@@ -48,6 +48,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   **Remember window position** (off by default). The ↺ button beside the settings cogwheel puts the panel back to the
   standard size, centred. The Add App and Add File or Folder windows can be resized too (they always open at their
   standard size).
+- **Your name** in the panel's lower-left corner opens System Settings on your Apple Account.
 - **Search**: just start typing. Apps come first, then documents and folders, then a web search.
   ↑ ↓ to choose, ↩ to open, ⌘↩ to show in Finder, Esc to clear and then close. The ‹ button or a click on empty space also goes back to your apps.
 
