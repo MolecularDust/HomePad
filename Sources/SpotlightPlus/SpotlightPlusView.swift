@@ -574,11 +574,15 @@ struct AppTile: View, Equatable {
         // the icon lands in it when dropped. Name and running mark keep their space, so nothing shifts.
         let inTheAir = tileDrag.item == url && categoryID != nil
         // The running mark right under the icon, and the name under that, so the mark stays clear of the text.
-        VStack(spacing: 5) {
+        // The mark sits close under the icon's artwork and further from the name, so it reads as the icon's. (App icons
+        // keep a transparent margin of about 5 pt below the artwork, so the mark goes up into it.)
+        VStack(spacing: 0) {
             if inTheAir { DashedSlot() } else { TileIcon(url: url) }
             RoundedRectangle(cornerRadius: 1.5)
                 .fill(isRunning && !inTheAir ? Color.red : Color.clear)
                 .frame(width: 18, height: 3)
+                .padding(.top, -3)
+                .padding(.bottom, 13)
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(1)
@@ -695,9 +699,9 @@ struct PlaceholderTile: View {
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
 
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 0) {
             DashedSlot()
-            Color.clear.frame(width: 18, height: 3)
+            Color.clear.frame(width: 18, height: 3).padding(.top, -3).padding(.bottom, 13)
             Text("Add your app here")
                 .font(.system(size: 11))
                 .foregroundStyle(.tertiary)
