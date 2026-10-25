@@ -27,6 +27,7 @@ enum Permissions {
     static func requestScreenRecording() {
         guard !screenRecording else { return }      // already allowed: never ask again
         clearFloatingWindows()
+        SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()
         _ = CGRequestScreenCaptureAccess()
         // On recent macOS the call above doesn't always put HomePad in System Settings' Screen & System Audio
@@ -48,16 +49,47 @@ enum Permissions {
     static func requestAccessibility() {
         guard !accessibility else { return }        // already allowed: never ask again
         clearFloatingWindows()
+        SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()
         _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
     }
 
     static func openSettings(_ pane: String) {
+        SystemSettingsWindow.noteVisit()
         PermissionStatus.shared.expectGrant()
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?\(pane)") {
             NSWorkspace.shared.open(url)
         }
     }
+}
+
+/// System Settings is closed again once the permission HomePad sent you there for is on, but only when HomePad
+/// opened it. Left open, the next step's padlock prompt would appear next to it and you could skip the prompt's
+/// button, which is the only thing that closes the prompt.
+enum SystemSettingsWindow {
+    private static let ids = ["com.apple.systempreferences", "com.apple.Settings"]
+    /// Kept in the defaults: after Screen Recording or Full Disk Access, it is closed once HomePad has reopened.
+    private static let openedKey = "closeSystemSettingsWhenGranted"
+
+    private static var running: [NSRunningApplication] {
+        ids.flatMap { NSRunningApplication.runningApplications(withBundleIdentifier: $0) }
+    }
+
+    /// HomePad is about to send you to System Settings. Already open: it was yours, and it stays.
+    static func noteVisit() {
+        if running.isEmpty { UserDefaults.standard.set(true, forKey: openedKey) }
+    }
+
+    /// The permission is on: close System Settings if HomePad opened it.
+    static func closeIfOpenedByUs() {
+        guard UserDefaults.standard.bool(forKey: openedKey) else { return }
+        UserDefaults.standard.removeObject(forKey: openedKey)
+        // A moment later, so the switch can be seen turning on.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { running.forEach { $0.terminate() } }
+    }
+
+    /// An ordinary launch: whatever System Settings window there is now isn't one HomePad is waiting on.
+    static func forget() { UserDefaults.standard.removeObject(forKey: openedKey) }
 }
 
 /// The three permissions, shared by Settings, the Setup Guide and the search hint. Checked again whenever the app
@@ -72,7 +104,8 @@ final class PermissionStatus: ObservableObject {
     private var watchers = 0
     private var timer: Timer?
     /// What HomePad does when a permission it asked for is switched on (bring itself back to the front).
-    var onGranted: (() -> Void)?
+    /// `restartComing`: Screen Recording or Full Disk Access, for which System Settings offers Quit & Reopen.
+    var onGranted: ((_ restartComing: Bool) -> Void)?
     private var waitTimer: Timer?
     private var waitUntil = Date.distantPast
     /// Waiting for a permission asked for: System Settings is in front, and HomePad comes back once it's on.
@@ -90,14 +123,15 @@ final class PermissionStatus: ObservableObject {
 
     func refresh() {
         let a = Permissions.accessibility, s = Permissions.screenRecording, f = Permissions.fullDiskAccess
-        let newlyGranted = (a && !accessibility) || (s && !screenRecording) || (f && !fullDiskAccess)
+        let restartComing = (s && !screenRecording) || (f && !fullDiskAccess)
+        let newlyGranted = (a && !accessibility) || restartComing
         if a != accessibility { accessibility = a }
         if s != screenRecording { screenRecording = s }
         if f != fullDiskAccess { fullDiskAccess = f }
         if newlyGranted, isWaiting {
             grantedAt = Date()
             stopWaiting()
-            onGranted?()
+            onGranted?(restartComing)
         }
     }
 
