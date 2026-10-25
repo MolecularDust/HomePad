@@ -312,9 +312,14 @@ enum Launcher {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 
+    /// Finder can't be quit from here, as in the Dock: quitting it takes the desktop's icons away until it is restarted.
+    static func canQuit(_ url: URL) -> Bool {
+        RunningApps.shared.app(for: url)?.bundleIdentifier != "com.apple.finder"
+    }
+
     /// Quits the app; with Option held while choosing it, force quits (as in the Dock).
     static func quit(_ url: URL) {
-        guard let app = RunningApps.shared.app(for: url) else { return }
+        guard canQuit(url), let app = RunningApps.shared.app(for: url) else { return }
         if NSEvent.modifierFlags.contains(.option) { app.forceTerminate() } else { app.terminate() }
     }
 

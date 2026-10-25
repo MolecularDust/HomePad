@@ -652,7 +652,9 @@ struct AppTile: View, Equatable {
                     Button("Close Windows") { Launcher.closeWindows(url) }
                 }
                 Button("Hide") { Launcher.hide(url) }
-                Button("Quit") { Launcher.quit(url) }                // Force Quit with Option held
+                if Launcher.canQuit(url) {
+                    Button("Quit") { Launcher.quit(url) }            // Force Quit with Option held
+                }
             }
         }
     }
