@@ -18,11 +18,16 @@ final class PanelState: ObservableObject {
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL? {               // pinned tile being reordered
         didSet {
+            guard let item = draggingItem, oldValue != item else { return }
+            dragOrigin = CategoryStore.shared.location(of: item)
             // Shown a moment later, so the picture the system takes of the tile for the pointer is still the icon.
-            let item = draggingItem
-            DispatchQueue.main.async { if PanelState.shared.draggingItem == item, TileDrag.shared.item != item { TileDrag.shared.item = item } }
+            DispatchQueue.main.async { if PanelState.shared.draggingItem == item { TileDrag.shared.show(item) } }
         }
     }
+    /// Where the dragged tile was picked up. The other tiles make room for it as it passes over them, so this is where
+    /// it goes back to if the drag doesn't end in a drop (Esc, or let go elsewhere).
+    private var dragOrigin: (category: UUID, index: Int)?
+    private var leaveWork: DispatchWorkItem?
     // Not published: views that need these read them when they run, so starting or ending a drag doesn't redraw
     // the whole panel. What a drag shows on screen comes from RowDrag.
     var draggingCategory: UUID?             // category row being carried to a new place in the order
@@ -31,7 +36,41 @@ final class PanelState: ObservableObject {
     private var lastDragActivity = Date()
 
     /// Called by drop targets whenever a drag moves over them, so a drag that is still moving is never taken for dead.
-    func noteDragActivity() { lastDragActivity = Date() }
+    /// Over a tile or a category again after leaving them: the empty slot shows again where the tile is.
+    func noteDragActivity() {
+        lastDragActivity = Date()
+        leaveWork?.cancel()
+        if let item = draggingItem { TileDrag.shared.show(item) }
+    }
+
+    /// The drag left a drop target. If no other one takes it at once, it is over none of them: it was cancelled with
+    /// Esc, or is outside the tiles. Then everything looks as before the drag, the tile back in its place, until it
+    /// comes back over the tiles. (Moving from one tile to the next reports leaving one and entering the other, and
+    /// crossing the gap between categories takes a moment, hence the short wait.)
+    func noteDragLeft() {
+        guard draggingItem != nil else { return }
+        leaveWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self, self.draggingItem != nil, Date().timeIntervalSince(self.lastDragActivity) > 0.12 else { return }
+            self.returnDraggedTile(animated: true)
+            TileDrag.shared.show(nil)
+        }
+        leaveWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: work)
+    }
+
+    /// The tile was dropped on a tile or a category: its new place stands.
+    func finishTileDrop() {
+        dragOrigin = nil
+        endDrag()
+    }
+
+    private func returnDraggedTile(animated: Bool) {
+        guard let item = draggingItem, let origin = dragOrigin,
+              let now = CategoryStore.shared.location(of: item), now.category != origin.category || now.index != origin.index else { return }
+        let move = { CategoryStore.shared.move(item, toCategory: origin.category, at: origin.index) }
+        if animated { withAnimation(.easeInOut(duration: 0.15), move) } else { move() }
+    }
 
     /// A tile or category title was picked up. While dragging, passing over other things must not trigger them
     /// (hover colours, window previews).
@@ -47,20 +86,32 @@ final class PanelState: ObservableObject {
         // A drop on a tile or category ends the drag at once; this only catches drops elsewhere, and quickly, since the
         // dragged tile's place shows a placeholder until the drag is over.
         let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self, Date().timeIntervalSince(started) > 0.4, NSEvent.pressedMouseButtons == 0,
-                  Date().timeIntervalSince(self.lastDragActivity) > 0.3 else { return }
+            guard let self, Date().timeIntervalSince(started) > 0.4 else { return }
+            let quiet = Date().timeIntervalSince(self.lastDragActivity)
+            // While a dragged tile is over the tiles, they hear from it about 25 times a second, even when the pointer
+            // is still. Silence means it was cancelled (Esc) or is elsewhere: everything goes back as it was at once,
+            // the button may still be held. If it comes back over the tiles, the slot and the live order return.
+            if quiet > 0.2, self.draggingItem != nil, TileDrag.shared.item != nil {
+                self.returnDraggedTile(animated: true)
+                TileDrag.shared.show(nil)
+            }
+            guard NSEvent.pressedMouseButtons == 0, quiet > 0.3 else { return }
             self.endDrag()
         }
         RunLoop.main.add(timer, forMode: .common)
         dragWatcher = timer
     }
 
+    /// Without a drop (Esc, or let go outside the tiles), the dragged tile goes back where it was.
     func endDrag() {
         dragWatcher?.invalidate()
         dragWatcher = nil
+        leaveWork?.cancel()
+        returnDraggedTile(animated: false)
+        dragOrigin = nil
         isDragging = false
         draggingItem = nil
-        if TileDrag.shared.item != nil { TileDrag.shared.item = nil }
+        TileDrag.shared.show(nil)
         draggingCategory = nil
         RowDrag.shared.reset()
     }
@@ -510,7 +561,9 @@ final class PanelController: NSObject, NSWindowDelegate {
 /// ending a drag redraws the tiles only.
 final class TileDrag: ObservableObject {
     static let shared = TileDrag()
-    @Published fileprivate(set) var item: URL?
+    @Published private(set) var item: URL?
+
+    func show(_ new: URL?) { if item != new { item = new } }
 }
 
 /// The category row being carried. Kept apart from PanelState on purpose: the offset changes with every mouse move,

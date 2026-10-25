@@ -691,6 +691,7 @@ struct TileDropDelegate: DropDelegate {
     let target: URL
 
     func dropEntered(info: DropInfo) {
+        PanelState.shared.noteDragActivity()
         let store = CategoryStore.shared
         guard let dragging = PanelState.shared.draggingItem, dragging != target,
               let to = store.location(of: target) else { return }
@@ -699,10 +700,11 @@ struct TileDropDelegate: DropDelegate {
 
     func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
 
+    func dropExited(info: DropInfo) { PanelState.shared.noteDragLeft() }
+
     func performDrop(info: DropInfo) -> Bool {
         if PanelState.shared.draggingItem != nil {
-            PanelState.shared.endDrag()
-            PanelState.shared.draggingItem = nil
+            PanelState.shared.finishTileDrop()
             return true
         }
         let providers = info.itemProviders(for: [.fileURL])
@@ -719,12 +721,16 @@ struct TileDropDelegate: DropDelegate {
 struct CategoryDropDelegate: DropDelegate {
     let category: UUID
 
+    func dropEntered(info: DropInfo) { PanelState.shared.noteDragActivity() }
+
     func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
+
+    func dropExited(info: DropInfo) { PanelState.shared.noteDragLeft() }
 
     func performDrop(info: DropInfo) -> Bool {
         if let dragging = PanelState.shared.draggingItem {
             CategoryStore.shared.move(dragging, toCategory: category)
-            PanelState.shared.endDrag()
+            PanelState.shared.finishTileDrop()
             return true
         }
         let providers = info.itemProviders(for: [.fileURL])
