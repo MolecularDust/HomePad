@@ -244,6 +244,23 @@ enum RowMetrics {
     }
 }
 
+/// The "Icon spacing" setting: the horizontal gap in points between neighbouring tiles. Tiles have a fixed width and
+/// rows start at the left, so the gap really shows (when columns stretch to fill the panel, the distance between
+/// icons only depends on the panel's width). A row that wouldn't fit gives up gap first, then tile width.
+enum TileMetrics {
+    static let standardSpacing = 10
+    static let spacingRange = 0...40
+    static let tileWidth: CGFloat = 76          // the 52 pt icon plus room for its name
+
+    static func columns(count: Int, spacing: Int, width available: CGFloat) -> [GridItem] {
+        let count = max(count, 3)
+        let gaps = CGFloat(count - 1)
+        let gap = min(CGFloat(spacing), max(0, (available - CGFloat(count) * tileWidth) / gaps))
+        let tile = min(tileWidth, (available - gap * gaps) / CGFloat(count))
+        return Array(repeating: GridItem(.fixed(max(tile, 40)), spacing: gap), count: count)
+    }
+}
+
 struct RowFramesKey: PreferenceKey {
     static var defaultValue: [UUID: CGRect] = [:]
     static func reduce(value: inout [UUID: CGRect], nextValue: () -> [UUID: CGRect]) { value.merge(nextValue()) { $1 } }
@@ -292,10 +309,7 @@ struct HomeView: View {
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
-
-    private var grid: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 6), count: max(columns, 3))
-    }
+    @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
 
     /// Every running app, like the Dock's running indicators, pinned or not.
     private var runningApps: [URL] {
@@ -315,6 +329,7 @@ struct HomeView: View {
             .padding(.bottom, 4)
 
             GeometryReader { geo in
+                let grid = TileMetrics.columns(count: columns, spacing: iconSpacing, width: geo.size.width - 48)    // 24 pt margins
                 ScrollView {
                     VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
                         // The categories and the Running section, in the order they were put in.
@@ -409,7 +424,7 @@ struct RunningSection: View {
                 Label("Managed automatically", systemImage: "lock")
                     .font(.system(size: 11)).foregroundStyle(.tertiary)
             }
-            LazyVGrid(columns: grid, spacing: 6) {
+            LazyVGrid(columns: grid, alignment: .leading, spacing: 6) {
                 ForEach(apps, id: \.self) { url in
                     AppTile(url: url, isRunning: true, categoryID: nil)
                 }
@@ -480,7 +495,7 @@ struct CategorySection: View {
         VStack(alignment: .leading, spacing: 6) {
             RowTitle(id: category.id, name: category.name)
 
-            LazyVGrid(columns: grid, spacing: 6) {
+            LazyVGrid(columns: grid, alignment: .leading, spacing: 6) {
                 ForEach(urls, id: \.self) { url in
                     AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id)
                         .onDrag {

@@ -9,6 +9,7 @@ struct SettingsView: View {
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
+    @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
     @AppStorage(PanelController.rememberSizeKey) private var rememberSize = true
     @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
@@ -51,6 +52,7 @@ struct SettingsView: View {
             Section("Layout") {
                 NumberSetting(title: "Icons per row", value: $columns, range: 4...10)
                 NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
+                NumberSetting(title: "Icon spacing", value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
             }
 
@@ -145,7 +147,7 @@ struct SettingsView: View {
     private func confirmReset() {
         let alert = NSAlert()
         alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 8 icons per row, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 8 icons per row and the standard row height and icon spacing, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")
         guard alert.runModal() == .alertFirstButtonReturn else { return }
@@ -153,6 +155,7 @@ struct SettingsView: View {
         doubleTap = DoubleTapMonitor.Key.off.rawValue
         columns = 8
         rowHeight = RowMetrics.standard
+        iconSpacing = TileMetrics.standardSpacing
         rememberSize = true
         rememberPosition = false
         showRunning = true

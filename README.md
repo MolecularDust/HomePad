@@ -73,7 +73,8 @@ any time from the menu-bar icon → Setup Guide…
 - **Reset to Defaults**: restores shortcut, double-tap, layout, Dock hiding and launch at login (apps and categories are kept).
 - **Double-tap**: open with Control, Option or Command tapped twice.
 - **Icons per row** (8 by default, 4–10) and **row height** (the distance between rows of icons, 101 pt by default,
-  85–125): type a number or click − / +, **show running apps**, **re-import from Dock**.
+  85–125) and **icon spacing** (the horizontal gap between icons, 10 pt by default, 0–40; when the panel is
+  too narrow for the gap, the gap shrinks first, then the icons): type a number or click − / +, **show running apps**, **re-import from Dock**.
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
 - **Launch at login**.
