@@ -62,7 +62,7 @@ final class PanelState: ObservableObject {
         var instant = Transaction()
         instant.disablesAnimations = true
         withTransaction(instant) {
-            if let (id, index) = landing { CategoryStore.shared.moveCategory(id, toIndex: index) }
+            if let (id, index) = landing { CategoryStore.shared.moveRow(id, toIndex: index) }
             endDrag()
         }
     }
@@ -476,7 +476,7 @@ final class RowDrag: ObservableObject {
     func press(_ id: UUID?) { if pressed != id { pressed = id } }
 
     func begin(_ id: UUID) {
-        order = CategoryStore.shared.categories.map(\.id)
+        order = CategoryStore.shared.visibleRows
         guard let index = order.firstIndex(of: id) else { return }
         from = index
         carried = id

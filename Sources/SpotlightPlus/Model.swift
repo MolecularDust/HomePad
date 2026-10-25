@@ -71,7 +71,15 @@ final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
     /// The first category is Essentials: it can be renamed but never deleted.
     @Published private(set) var categories: [Category] = []
+    /// Where the Running section sits among the categories: just above this one, or at the end when nil. Kept as a
+    /// neighbour rather than a number so that a new category (added at the end) lands above Running when Running is
+    /// last, and below it when Running was moved higher.
+    @Published private(set) var runningAbove: UUID?
     private let key = "categories"
+    private let runningKey = "runningAbove"
+
+    /// Stands for the Running section in the row order, next to the categories' own ids.
+    static let runningID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
 
     private init() {
         let d = UserDefaults.standard
@@ -91,6 +99,45 @@ final class CategoryStore: ObservableObject {
             categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
         }
         if !categories.contains(where: \.isEssentials) { categories[0].isEssentials = true }   // saved before it existed
+        runningAbove = d.string(forKey: runningKey).flatMap(UUID.init(uuidString:))
+        save()
+    }
+
+    /// Whether the Running section is on screen: it's turned on in Settings and something is running.
+    var showsRunning: Bool {
+        (UserDefaults.standard.object(forKey: "showRunning") as? Bool ?? true) && !RunningApps.shared.apps.isEmpty
+    }
+
+    /// The rows from top to bottom: the categories, with Running in its place among them when it is shown.
+    func rows(includingRunning: Bool) -> [UUID] {
+        var ids = categories.map(\.id)
+        if includingRunning { ids.insert(Self.runningID, at: runningAbove.flatMap { ids.firstIndex(of: $0) } ?? ids.count) }
+        return ids
+    }
+
+    /// The rows as they are shown right now.
+    var visibleRows: [UUID] { rows(includingRunning: showsRunning) }
+
+    /// Puts a row (a category or Running) at a place among the rows on screen, moving the others along.
+    func moveRow(_ id: UUID, toIndex index: Int) {
+        var ids = visibleRows
+        guard let from = ids.firstIndex(of: id), ids.indices.contains(index), from != index else { return }
+        ids.insert(ids.remove(at: from), at: index)
+        apply(ids)
+    }
+
+    /// Moves a row one place up (-1) or down (+1), from its right-click menu.
+    func moveRow(_ id: UUID, by offset: Int) {
+        guard let from = visibleRows.firstIndex(of: id) else { return }
+        moveRow(id, toIndex: from + offset)
+    }
+
+    private func apply(_ ids: [UUID]) {
+        let byID = Dictionary(uniqueKeysWithValues: categories.map { ($0.id, $0) })
+        categories = ids.compactMap { byID[$0] }
+        if let running = ids.firstIndex(of: Self.runningID) {
+            runningAbove = ids.indices.contains(running + 1) ? ids[running + 1] : nil
+        }
         save()
     }
 
@@ -161,24 +208,12 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
-    /// Moves a category one place up (-1) or down (+1), from its right-click menu.
-    func moveCategory(_ id: UUID, by offset: Int) {
-        guard let from = categories.firstIndex(where: { $0.id == id }), categories.indices.contains(from + offset) else { return }
-        categories.swapAt(from, from + offset)
-        save()
-    }
-
-    /// Puts a category at a place in the order, moving the others along (dragging a category row).
-    func moveCategory(_ id: UUID, toIndex index: Int) {
-        guard let from = categories.firstIndex(where: { $0.id == id }), categories.indices.contains(index), from != index else { return }
-        categories.insert(categories.remove(at: from), at: index)
-        save()
-    }
-
     /// Deleting a category unpins everything in it too (the apps and files themselves are untouched).
     func delete(_ id: UUID) {
         guard id != essentialsID, let i = categories.firstIndex(where: { $0.id == id }) else { return }
         categories.remove(at: i)
+        // Running stays where it was: above whatever came after the deleted category.
+        if runningAbove == id { runningAbove = categories.indices.contains(i) ? categories[i].id : nil }
         save()
     }
 
@@ -199,6 +234,7 @@ final class CategoryStore: ObservableObject {
         if let data = try? JSONEncoder().encode(categories) {
             UserDefaults.standard.set(data, forKey: key)
         }
+        UserDefaults.standard.set(runningAbove?.uuidString, forKey: runningKey)
     }
 }
 

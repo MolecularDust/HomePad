@@ -317,31 +317,22 @@ struct HomeView: View {
             GeometryReader { geo in
                 ScrollView {
                     VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
-                        ForEach(Array(store.categories.enumerated()), id: \.element.id) { index, category in
-                            CarriedRow(id: category.id) {
-                                CategorySection(category: category, grid: grid, running: running)
-                                    .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
-                                    .background(GeometryReader { geo in
-                                        Color.clear.preference(key: RowFramesKey.self, value: [category.id: geo.frame(in: .named("rows"))])
-                                    })
-                            }
-                        }
-
-                        if showRunning && !runningApps.isEmpty {
-                            VStack(alignment: .leading, spacing: 6) {
-                                HStack {
-                                    Text("Running").font(.system(size: 14, weight: .semibold))
-                                    Spacer()
-                                    Label("Managed automatically", systemImage: "lock")
-                                        .font(.system(size: 11)).foregroundStyle(.tertiary)
-                                }
-                                LazyVGrid(columns: grid, spacing: 6) {
-                                    ForEach(runningApps, id: \.self) { url in
-                                        AppTile(url: url, isRunning: true, categoryID: nil)
+                        // The categories and the Running section, in the order they were put in.
+                        let rows = store.rows(includingRunning: showRunning && !runningApps.isEmpty)
+                        ForEach(Array(rows.enumerated()), id: \.element) { index, id in
+                            CarriedRow(id: id) {
+                                Group {
+                                    if id == CategoryStore.runningID {
+                                        RunningSection(apps: runningApps, grid: grid)
+                                    } else if let category = store.categories.first(where: { $0.id == id }) {
+                                        CategorySection(category: category, grid: grid, running: running)
                                     }
                                 }
+                                .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
+                                .background(GeometryReader { geo in
+                                    Color.clear.preference(key: RowFramesKey.self, value: [id: geo.frame(in: .named("rows"))])
+                                })
                             }
-                            .separatedAbove(!store.categories.isEmpty, gap: RowMetrics.categoryGap(rowHeight))
                         }
                     }
                     .coordinateSpace(name: "rows")
@@ -355,7 +346,7 @@ struct HomeView: View {
                     .contentShape(Rectangle())
                     .movesWindowWhenDragged()          // inside the scroll view, which takes its own mouse events
                     .contextMenu {
-                        // Outside every category (below the last one, in the Running section): into Essentials.
+                        // Outside every row (below the last one): into Essentials.
                         Button("Add App to \(store.essentialsName)…") { Launcher.chooseAppsToPin() }
                         Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
                         Divider()
@@ -367,35 +358,89 @@ struct HomeView: View {
     }
 }
 
-/// A category's name. It turns green under the pointer. Dragging it picks up the whole row (the name and its icons)
-/// and trades places with the row it is dropped on.
-struct CategoryTitle: View {
-    let category: Category
+/// A row's name (a category, or Running). It turns green under the pointer. Dragging it picks up the whole row (the
+/// name and its icons) and moves it to another place among the rows.
+struct RowTitle: View {
+    let id: UUID
+    let name: String
     @State private var hovering = false
 
     var body: some View {
-        Text(category.name)
+        Text(name)
             .font(.system(size: 14, weight: .semibold))
             .foregroundStyle(hovering ? Color.green : Color.primary)
             .contentShape(Rectangle())
-            .overlay(CategoryDragHandle(category: category))
+            .overlay(RowDragHandle(id: id))
             .onHover { hovering = $0 && !PanelState.shared.isDragging }      // after the overlay: the drag layer sits on top of the name
-            .help("Drag to move this category")
+            .help("Drag to move this section")
     }
 }
 
-/// An invisible layer over a category's name. Pressing it selects the whole row; dragging it carries the row itself
-/// (the other rows slide aside to make room) and letting go drops it in the place it has reached.
-struct CategoryDragHandle: NSViewRepresentable {
-    let category: Category
+/// Move Up / Move Down for a row's right-click menu, offered only where there is room to move.
+struct MoveRowItems: View {
+    let id: UUID
+    let name: String
+    @ObservedObject private var store = CategoryStore.shared
 
-    func makeNSView(context: Context) -> CategoryDragSourceView { CategoryDragSourceView() }
-
-    func updateNSView(_ view: CategoryDragSourceView, context: Context) { view.category = category }
+    var body: some View {
+        let rows = store.visibleRows
+        let position = rows.firstIndex(of: id) ?? 0
+        if position > 0 {
+            Button("Move \(name) Up") { withAnimation(.easeInOut(duration: 0.2)) { store.moveRow(id, by: -1) } }
+        }
+        if position < rows.count - 1 {
+            Button("Move \(name) Down") { withAnimation(.easeInOut(duration: 0.2)) { store.moveRow(id, by: 1) } }
+        }
+    }
 }
 
-final class CategoryDragSourceView: NSView {
-    var category = Category(name: "")
+/// Every running app, pinned or not, like the Dock's running indicators. Its contents follow the apps that are
+/// running, so it can't be added to, renamed or deleted, but it can be moved among the categories.
+struct RunningSection: View {
+    let apps: [URL]
+    let grid: [GridItem]
+    @ObservedObject private var store = CategoryStore.shared
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                RowTitle(id: CategoryStore.runningID, name: "Running")
+                Spacer()
+                Label("Managed automatically", systemImage: "lock")
+                    .font(.system(size: 11)).foregroundStyle(.tertiary)
+            }
+            LazyVGrid(columns: grid, spacing: 6) {
+                ForEach(apps, id: \.self) { url in
+                    AppTile(url: url, isRunning: true, categoryID: nil)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .movesWindowWhenDragged()
+        .contextMenu {
+            // Nothing can be added to Running itself, so adding goes to Essentials, as below the last row.
+            Button("Add App to \(store.essentialsName)…") { Launcher.chooseAppsToPin() }
+            Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
+            Divider()
+            Button("Add Category…") { Launcher.addCategory() }
+            MoveRowItems(id: CategoryStore.runningID, name: "Running")
+        }
+    }
+}
+
+/// An invisible layer over a row's name. Pressing it selects the whole row; dragging it carries the row itself
+/// (the other rows slide aside to make room) and letting go drops it in the place it has reached.
+struct RowDragHandle: NSViewRepresentable {
+    let id: UUID
+
+    func makeNSView(context: Context) -> RowDragSourceView { RowDragSourceView() }
+
+    func updateNSView(_ view: RowDragSourceView, context: Context) { view.id = id }
+}
+
+final class RowDragSourceView: NSView {
+    var id = UUID()
 
     override var mouseDownCanMoveWindow: Bool { false }
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
@@ -406,7 +451,7 @@ final class CategoryDragSourceView: NSView {
         guard let window else { return }
         let state = PanelState.shared
         let drag = RowDrag.shared
-        drag.press(category.id)
+        drag.press(id)
         let startY = event.locationInWindow.y
         var carrying = false
         while let next = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp], until: .distantFuture, inMode: .default, dequeue: true), next.type == .leftMouseDragged {
@@ -414,9 +459,9 @@ final class CategoryDragSourceView: NSView {
             if !carrying {
                 guard abs(offset) > 3 else { continue }
                 carrying = true
-                state.draggingCategory = category.id
+                state.draggingCategory = id
                 state.beginDrag()
-                drag.begin(category.id)
+                drag.begin(id)
             }
             drag.move(to: offset)
         }
@@ -433,7 +478,7 @@ struct CategorySection: View {
     var body: some View {
         let urls = store.urls(in: category.id)
         VStack(alignment: .leading, spacing: 6) {
-            CategoryTitle(category: category)
+            RowTitle(id: category.id, name: category.name)
 
             LazyVGrid(columns: grid, spacing: 6) {
                 ForEach(urls, id: \.self) { url in
@@ -462,13 +507,7 @@ struct CategorySection: View {
             Button("Add File or Folder to \(category.name)…") { Launcher.chooseFilesToPin(to: category.id) }
             Divider()
             Button("Add Category…") { Launcher.addCategory() }
-            let position = store.categories.firstIndex { $0.id == category.id } ?? 0
-            if position > 0 {
-                Button("Move \(category.name) Up") { withAnimation(.easeInOut(duration: 0.2)) { store.moveCategory(category.id, by: -1) } }
-            }
-            if position < store.categories.count - 1 {
-                Button("Move \(category.name) Down") { withAnimation(.easeInOut(duration: 0.2)) { store.moveCategory(category.id, by: 1) } }
-            }
+            MoveRowItems(id: category.id, name: category.name)
             Button("Rename \(category.name)…") { Launcher.renameCategory(category) }
             if category.id != store.essentialsID {
                 Button("Delete \(category.name)") { store.delete(category.id) }
