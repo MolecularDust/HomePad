@@ -243,6 +243,9 @@ final class PanelController: NSObject, NSWindowDelegate {
         panel = SpotlightPanel(content: NSHostingView(rootView: SpotlightPlusView()))
         panel.delegate = self
         panel.onResizeEnd = { [weak self] in self?.rememberFrame() }
+        // Lay the panel out once now, while nothing is waiting for it. (The first opening is still slower than the
+        // rest, about 160 ms against 26: that is the app becoming active and text input starting up the first time.)
+        panel.contentView?.layoutSubtreeIfNeeded()
         // Clicking outside every SpotlightPlus window hides the panel, whichever of our windows had focus.
         NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification, object: nil,
                                                queue: .main) { [weak self] _ in
@@ -304,7 +307,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         if NSApp.isActive { panel.makeKeyAndOrderFront(nil) } else { hide(restoreFocus: false) }
     }
 
-    func move(to origin: NSPoint) { panel.setFrameOrigin(origin) }
+    func performDrag(with event: NSEvent) { panel.performDrag(with: event) }
 
     /// Keeps the panel from hiding when it loses focus (a picker window is open next to it).
     func holdOpen(_ hold: Bool) {
@@ -358,7 +361,17 @@ final class PanelController: NSObject, NSWindowDelegate {
         UserDefaults.standard.set(NSStringFromPoint(panel.frame.origin), forKey: originKey)
     }
 
-    func windowDidMove(_ notification: Notification) { rememberFrame() }
+    private var saveWork: DispatchWorkItem?
+
+    /// Moving or resizing reports every step; the frame is written down once, when the steps stop.
+    private func rememberFrameSoon() {
+        saveWork?.cancel()
+        let work = DispatchWorkItem { [weak self] in self?.rememberFrame() }
+        saveWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: work)
+    }
+
+    func windowDidMove(_ notification: Notification) { if !placing { rememberFrameSoon() } }
     func windowDidEndLiveResize(_ notification: Notification) { rememberFrame() }
 
     /// Back to the standard size, centred, and forget the remembered size and position.
@@ -439,11 +452,13 @@ final class PanelController: NSObject, NSWindowDelegate {
         flushTyping(attempt: 1)
     }
 
+    /// Puts the queued keys in as soon as the field has focus: SwiftUI gives it focus on its next update, usually
+    /// within a frame, so this looks every few milliseconds rather than waiting a fixed time.
     private func flushTyping(attempt: Int) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + (attempt == 1 ? 0 : 0.008)) { [weak self] in
             guard let self else { return }
             guard let editor = self.panel.firstResponder as? NSTextView else {
-                if attempt < 5 { self.flushTyping(attempt: attempt + 1) } else { self.queuedKeys = []; self.flushScheduled = false }
+                if attempt < 60 { self.flushTyping(attempt: attempt + 1) } else { self.queuedKeys = []; self.flushScheduled = false }
                 return
             }
             editor.setSelectedRange(NSRange(location: (editor.string as NSString).length, length: 0))

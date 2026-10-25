@@ -448,7 +448,12 @@ enum DockControl {
         return autohide && delay >= 100
     }
 
+    /// Runs `defaults` and restarts the Dock in the background: waiting for them froze Settings.
     static func setHidden(_ hidden: Bool) {
+        DispatchQueue.global(qos: .userInitiated).async { apply(hidden) }
+    }
+
+    private static func apply(_ hidden: Bool) {
         if hidden {
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "true")
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide-delay", "-float", "1000")

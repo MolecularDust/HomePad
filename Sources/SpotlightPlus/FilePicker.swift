@@ -106,7 +106,10 @@ private struct FilePickerView: View {
         ]
     }
 
-    private var volumes: [SidebarItem] {
+    /// The drives, looked up when the window opens (it was done on every redraw, twice).
+    @State private var volumes: [SidebarItem] = []
+
+    private static func findVolumes() -> [SidebarItem] {
         let urls = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: [.volumeNameKey],
                                                          options: [.skipHiddenVolumes]) ?? []
         return urls.map { url in
@@ -152,7 +155,7 @@ private struct FilePickerView: View {
         }
         .frame(minWidth: 520, idealWidth: panelSize.width, maxWidth: .infinity,
                minHeight: 420, idealHeight: panelSize.height, maxHeight: .infinity)
-        .onAppear { reload(); DispatchQueue.main.async { searchFocused = true } }
+        .onAppear { volumes = Self.findVolumes(); reload(); DispatchQueue.main.async { searchFocused = true } }
         .onChange(of: place) { _ in query = ""; reload() }
         .onChange(of: showHidden) { _ in reload() }
     }
@@ -325,24 +328,31 @@ private struct FilePickerView: View {
         close()
     }
 
+    /// Reads the folder in the background (a big Downloads folder stalled the window), then shows it if it is still
+    /// the one being looked at.
     private func reload() {
         guard case .folder(let folder) = place else { entries = []; unreadable = false; return }
+        let hidden = showHidden, shownPlace = place
+        Task {
+            let read = await Task.detached(priority: .userInitiated) { Self.read(folder, showHidden: hidden) }.value
+            guard place == shownPlace, showHidden == hidden else { return }
+            entries = read ?? []
+            unreadable = read == nil
+        }
+    }
+
+    nonisolated private static func read(_ folder: URL, showHidden: Bool) -> [Entry]? {
         let keys: [URLResourceKey] = [.isDirectoryKey, .isPackageKey]
-        do {
-            let urls = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: keys,
-                                                                   options: showHidden ? [] : [.skipsHiddenFiles])
-            unreadable = false
-            entries = urls.map { url in
-                let values = try? url.resourceValues(forKeys: Set(keys))
-                return Entry(url: url, isFolder: values?.isDirectory == true && values?.isPackage != true)
-            }
-            .sorted { a, b in
-                if a.isFolder != b.isFolder { return a.isFolder }
-                return a.url.lastPathComponent.localizedStandardCompare(b.url.lastPathComponent) == .orderedAscending
-            }
-        } catch {
-            entries = []
-            unreadable = true
+        guard let urls = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: keys,
+                                                                      options: showHidden ? [] : [.skipsHiddenFiles])
+        else { return nil }
+        return urls.map { url in
+            let values = try? url.resourceValues(forKeys: Set(keys))
+            return Entry(url: url, isFolder: values?.isDirectory == true && values?.isPackage != true)
+        }
+        .sorted { a, b in
+            if a.isFolder != b.isFolder { return a.isFolder }
+            return a.url.lastPathComponent.localizedStandardCompare(b.url.lastPathComponent) == .orderedAscending
         }
     }
 }

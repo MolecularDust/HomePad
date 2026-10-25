@@ -644,10 +644,14 @@ final class ClosableWindows: ObservableObject {
     @Published private(set) var pids: Set<pid_t> = []
     private let queue = DispatchQueue(label: "SpotlightPlus.closable-windows", qos: .userInitiated)
     private var running = false
+    private var lastRun = 0.0
 
+    /// At most every few seconds: pointing along the running apps asked every app about its windows each time.
     func refresh() {
+        guard CACurrentMediaTime() - lastRun > 3 else { return }
         guard !running else { return }
         running = true
+        lastRun = CACurrentMediaTime()
         let candidates = RunningApps.shared.apps.map(\.processIdentifier)
         queue.async {
             let found = Set(candidates.filter { WindowCatalog.closableWindowCount(for: $0) > 0 })

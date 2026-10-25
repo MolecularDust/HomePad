@@ -95,9 +95,9 @@ struct FooterProfile: View {
 }
 
 /// Moves the panel when an empty part of it is dragged. The window's own drag-by-background doesn't reach the
-/// areas SwiftUI draws (the lists, the footer), so this does it by hand. Tiles and buttons have their own gestures,
-/// which take precedence.
-private final class MoveDrag { var active = false; var mouse = NSPoint.zero; var origin = NSPoint.zero }
+/// areas SwiftUI draws (the lists, the footer), so once a drag starts there it is handed to the window server, which
+/// moves the window itself, in step with the pointer. Tiles and buttons have their own gestures, which take precedence.
+private final class MoveDrag { var active = false }
 
 struct MovesWindowWhenDragged: ViewModifier {
     @State private var drag = MoveDrag()
@@ -105,11 +105,10 @@ struct MovesWindowWhenDragged: ViewModifier {
     func body(content: Content) -> some View {
         content.gesture(DragGesture(minimumDistance: 4)
             .onChanged { _ in
-                guard RowDrag.shared.pressed == nil else { return }      // a category row is being carried instead
-                let panel = PanelController.shared
-                if !drag.active { drag.active = true; drag.mouse = NSEvent.mouseLocation; drag.origin = panel.frame.origin }
-                let mouse = NSEvent.mouseLocation
-                panel.move(to: NSPoint(x: drag.origin.x + mouse.x - drag.mouse.x, y: drag.origin.y + mouse.y - drag.mouse.y))
+                guard !drag.active, RowDrag.shared.pressed == nil else { return }    // a category row is carried instead
+                guard let event = NSApp.currentEvent, event.type == .leftMouseDragged else { return }
+                drag.active = true
+                PanelController.shared.performDrag(with: event)       // returns when the mouse button comes up
             }
             .onEnded { _ in drag.active = false })
     }
