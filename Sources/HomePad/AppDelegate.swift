@@ -57,7 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// System Settings' "Quit & Reopen" (after Screen Recording or Full Disk Access is switched on) quits HomePad but
     /// didn't start it again, so HomePad relaunches itself when System Settings is what asked it to quit.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        if Relaunch.quitAskedBySystemSettings() || (PermissionStatus.shared.isWaiting && Relaunch.quitAskedByAnotherApp()) {
+        if Relaunch.quitAskedBySystemSettings() || (PermissionStatus.shared.expectsQuitAndReopen && Relaunch.quitAskedByAnotherApp()) {
             Relaunch.afterQuitting(reopening: Onboarding.isOpen ? "setupGuide" : (settingsWindow?.isVisible == true ? "settings" : nil))
         }
         return .terminateNow

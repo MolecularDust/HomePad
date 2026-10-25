@@ -63,6 +63,10 @@ final class PermissionStatus: ObservableObject {
     private var waitUntil = Date.distantPast
     /// Waiting for a permission asked for: System Settings is in front, and HomePad comes back once it's on.
     private(set) var isWaiting = false
+    private var grantedAt = Date.distantPast
+    /// A quit from another process now is most likely System Settings' Quit & Reopen: still waiting, or a permission
+    /// came on in the last few minutes. (Full Disk Access counts as on at once, before Quit & Reopen is even offered.)
+    var expectsQuitAndReopen: Bool { isWaiting || Date().timeIntervalSince(grantedAt) < 300 }
 
     private init() {
         NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
@@ -77,6 +81,7 @@ final class PermissionStatus: ObservableObject {
         if s != screenRecording { screenRecording = s }
         if f != fullDiskAccess { fullDiskAccess = f }
         if newlyGranted, isWaiting {
+            grantedAt = Date()
             stopWaiting()
             onGranted?()
         }
