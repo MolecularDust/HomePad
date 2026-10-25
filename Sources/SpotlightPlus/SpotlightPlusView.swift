@@ -548,11 +548,6 @@ struct CategorySection: View {
 /// tiles move (resizing the panel moved and rebuilt every tile), and is only needed when the pointer arrives.
 private final class FrameBox { var rect = CGRect.zero }
 
-private struct TileFrameKey: PreferenceKey {
-    static var defaultValue: CGRect = .zero
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) { value = nextValue() }
-}
-
 /// categoryID is nil for tiles in the Running section, which can't be edited.
 /// Compared by what it shows, so a category redrawn for another reason (the panel being resized) skips its unchanged
 /// tiles; changes the tile watches itself (hover, row height, the Close Windows check) still redraw it.
@@ -582,8 +577,12 @@ struct AppTile: View, Equatable {
         .frame(maxWidth: .infinity)
         .padding(.vertical, RowMetrics.padding(rowHeight))
         .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
-        .background(GeometryReader { Color.clear.preference(key: TileFrameKey.self, value: $0.frame(in: .global)) })
-        .onPreferenceChange(TileFrameKey.self) { frame.rect = $0 }
+        // Written straight into the box as the tile is laid out. (Passed up as a preference, the change handler
+        // stopped being called once the tile no longer rebuilt, and the popup was placed at the panel's corner.)
+        .background(GeometryReader { geo in
+            let _ = { frame.rect = geo.frame(in: .global) }()
+            Color.clear
+        })
         .contentShape(Rectangle())
         .onHover { inside in
             guard !PanelState.shared.isDragging else { hovering = false; return }      // passing over it with something in hand
