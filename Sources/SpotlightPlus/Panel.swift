@@ -84,6 +84,12 @@ final class PanelController: NSObject, NSWindowDelegate {
         super.init()
         panel = SpotlightPanel(content: NSHostingView(rootView: SpotlightPlusView()))
         panel.delegate = self
+        // Clicking outside every SpotlightPlus window hides the panel, whichever of our windows had focus.
+        NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification, object: nil,
+                                               queue: .main) { [weak self] _ in
+            guard let self, !self.suppressAutoHide else { return }
+            self.hide(restoreFocus: false)
+        }
     }
 
     var isVisible: Bool { panel.isVisible }
@@ -122,14 +128,21 @@ final class PanelController: NSObject, NSWindowDelegate {
         let result = body()
         suppressAutoHide = false
         panel.level = level
-        if wasVisible { panel.makeKeyAndOrderFront(nil) }
+        if wasVisible { settleAfterPopup() }
         return result
+    }
+
+    /// A popup window has closed. If you had already clicked away from SpotlightPlus while it was open (closing a
+    /// window's X doesn't bring the app back), the panel goes too; otherwise it takes focus again.
+    private func settleAfterPopup() {
+        guard panel.isVisible else { return }
+        if NSApp.isActive { panel.makeKeyAndOrderFront(nil) } else { hide(restoreFocus: false) }
     }
 
     /// Keeps the panel from hiding when it loses focus (a picker window is open next to it).
     func holdOpen(_ hold: Bool) {
         suppressAutoHide = hold
-        if !hold && panel.isVisible { panel.makeKeyAndOrderFront(nil) }
+        if !hold { settleAfterPopup() }
     }
 
     /// restoreFocus: give focus back to the app you were in (Esc / hotkey), vs. not (an app was launched).

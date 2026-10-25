@@ -68,7 +68,23 @@ final class CategoryStore: ObservableObject {
         for i in categories.indices {
             categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
         }
+        // Once: a "Files" category with Downloads and the Trash, like the right end of the Dock. Not brought
+        // back if you delete it later.
+        if !d.bool(forKey: "seededFilesCategory") {
+            d.set(true, forKey: "seededFilesCategory")
+            if !categories.contains(where: { $0.name == "Files" }), let files = Self.filesCategory(avoiding: categories) {
+                categories.append(files)
+            }
+        }
         save()
+    }
+
+    /// Downloads and the Trash, left out when they are already pinned somewhere.
+    static func filesCategory(avoiding existing: [Category]) -> Category? {
+        let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.path
+            ?? NSHomeDirectory() + "/Downloads"
+        let paths = [downloads, trashURL.path].filter { path in !existing.contains { $0.paths.contains(path) } }
+        return paths.isEmpty ? nil : Category(name: "Files", paths: paths)
     }
 
     var essentialsID: UUID { categories[0].id }
