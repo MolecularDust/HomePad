@@ -12,6 +12,7 @@ enum SkyLight {
     private typealias SetFrontProcess = @convention(c) (UnsafeMutableRawPointer, CGWindowID, UInt32) -> Int32
     private typealias CopyManagedDisplaySpaces = @convention(c) (Int32) -> Unmanaged<CFArray>?
     private typealias PostEvent = @convention(c) (UnsafeMutableRawPointer, UnsafeMutablePointer<UInt8>) -> Int32
+    private typealias IsOrderedIn = @convention(c) (Int32, CGWindowID, UnsafeMutablePointer<UInt8>) -> Int32
 
     private static let handle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
 
@@ -49,6 +50,16 @@ enum SkyLight {
         guard let connection, let function = symbol("CGSCopySpacesForWindows", as: SpacesForWindows.self),
               let result = function(connection, 7, [window] as CFArray)?.takeRetainedValue() else { return [] }
         return result as? [Int] ?? []
+    }
+
+    /// Whether a window is placed on its Space, shown there when that Space is. Apps keep hidden windows assigned to
+    /// a Space too (Opera keeps its address-bar suggestions and an empty panel), and seen from another Space they look
+    /// just like real windows there. nil if the call is unavailable.
+    static func isOrderedIn(_ window: CGWindowID) -> Bool? {
+        guard let connection, let function = symbol("SLSWindowIsOrderedIn", as: IsOrderedIn.self) else { return nil }
+        var ordered: UInt8 = 0
+        guard function(connection, window, &ordered) == 0 else { return nil }
+        return ordered != 0
     }
 
     /// Brings one specific window to the front, switching to its Space if it's on another one.

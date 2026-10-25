@@ -182,6 +182,7 @@ enum WindowCatalog {
         let spaceNumber: Int
         /// From the window server; empty without the Screen Recording permission.
         var title = ""
+
     }
 
     /// The windows a person would call windows: visible ones, minimised ones, and ones on other Spaces. Apps also
@@ -207,8 +208,14 @@ enum WindowCatalog {
                   rect.width > 80, rect.height > 60 else { return nil }
             let onScreen = (info[kCGWindowIsOnscreen as String] as? Bool) ?? ((info[kCGWindowIsOnscreen as String] as? Int) == 1)
             let spaces = SkyLight.spaces(of: number)
-            let otherSpace = activeSpace.map { active in !spaces.isEmpty && !spaces.contains(active) } ?? false
-            guard onScreen || otherSpace || minimised.contains(where: near(rect)) else { return nil }
+            let placed = SkyLight.isOrderedIn(number)
+            let isMinimised = minimised.contains(where: near(rect))
+            // Seen from another Space every window there is off screen, so whether it is placed on its Space is what
+            // tells a shown window from a hidden one. A window that belongs to a Space but isn't placed on it is left
+            // out, from every Space alike: the app no longer counts it (Opera's own Window menu leaves such windows out
+            // too), and nothing brings it back.
+            let otherSpace = (activeSpace.map { active in !spaces.isEmpty && !spaces.contains(active) } ?? false) && placed != false
+            guard onScreen || otherSpace || isMinimised else { return nil }
             // Minimised windows can belong to no Space; they are on the one showing.
             let spaceNo = spaces.first.flatMap { numbers[$0] } ?? activeSpace.flatMap { numbers[$0] } ?? 0
             return RealWindow(id: number, frame: rect, onOtherSpace: otherSpace, spaceNumber: spaceNo,
