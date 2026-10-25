@@ -22,12 +22,12 @@ struct SettingsView: View {
         Form {
             Section("Shortcut") {
                 HStack {
-                    Text("Open SpotlightPlus")
+                    Text("Open HomePad")
                     Spacer()
                     ShortcutRecorder()
                 }
                 if shortcuts.isNone && doubleTap == DoubleTapMonitor.Key.off.rawValue {
-                    Text("No shortcut is set. Open SpotlightPlus from the menu-bar icon, or choose a double-tap key below.")
+                    Text("No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 if let owner = shortcuts.conflict {
@@ -81,11 +81,11 @@ struct SettingsView: View {
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Find files in Documents, Desktop and Downloads. Add SpotlightPlus with + if it isn't listed, then relaunch it.") {
+                              detail: "Find files in Documents, Desktop and Downloads. Add HomePad with + if it isn't listed, then relaunch it.") {
                     Permissions.openSettings("Privacy_AllFiles")
                 }
                 if !permissions.allGranted {
-                    Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                    Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                     .font(.caption).foregroundStyle(.secondary)
                 }
             }
@@ -107,7 +107,7 @@ struct SettingsView: View {
                 Toggle("Show menu-bar icon", isOn: $showMenuBarIcon)
                     .onChange(of: showMenuBarIcon) { AppDelegate.shared?.setStatusItemVisible($0) }
                 if !showMenuBarIcon {
-                    Text("With the icon hidden, open SpotlightPlus with your shortcut or double-tap, or by launching the app again.")
+                    Text("With the icon hidden, open HomePad with your shortcut or double-tap, or by launching the app again.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 Toggle("Launch at login", isOn: $launchAtLogin)

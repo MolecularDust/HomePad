@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// A window with a title bar and a close button, shown in the middle of the screen above the SpotlightPlus panel.
+/// A window with a title bar and a close button, shown in the middle of the screen above the HomePad panel.
 /// `run()` blocks until it closes (the panel stays visible behind it); `show()` doesn't, so the window can be
 /// moved aside and things dragged from it into the panel. Closing it with the red button counts as Cancel.
 final class ModalWindow: NSObject, NSWindowDelegate {

@@ -31,13 +31,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func setUpStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(systemSymbolName: "square.grid.3x3.fill",
-                                           accessibilityDescription: "SpotlightPlus")
+                                           accessibilityDescription: "HomePad")
         let menu = NSMenu()
-        menu.addItem(withTitle: "Open SpotlightPlus", action: #selector(openPanel), keyEquivalent: "").target = self
+        menu.addItem(withTitle: "Open HomePad", action: #selector(openPanel), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: ",").target = self
         menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Quit SpotlightPlus", action: #selector(quit), keyEquivalent: "q").target = self
+        menu.addItem(withTitle: "Quit HomePad", action: #selector(quit), keyEquivalent: "q").target = self
         statusItem.menu = menu
         statusItem.isVisible = UserDefaults.standard.object(forKey: "showMenuBarIcon") as? Bool ?? true
     }
@@ -63,7 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let host = NSHostingController(rootView: SettingsView())
             host.sizingOptions = []           // the window is sized below, not by the content
             let window = NSWindow(contentViewController: host)
-            window.title = "SpotlightPlus Settings"
+            window.title = "HomePad Settings"
             window.styleMask = [.titled, .closable, .resizable]
             // As tall as the settings need, but never taller than the screen: the form scrolls inside.
             let natural = NSHostingView(rootView: SettingsView().fixedSize(horizontal: false, vertical: true)).fittingSize.height

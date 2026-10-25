@@ -13,7 +13,7 @@ enum Onboarding {
     static func show() {
         if window == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish)))
-            w.title = "Welcome to SpotlightPlus"
+            w.title = "Welcome to HomePad"
             w.styleMask = [.titled, .closable]
             // An empty toolbar gives the full-height title bar regular Mac apps have.
             w.toolbar = NSToolbar(identifier: "OnboardingWindow")
@@ -48,7 +48,7 @@ struct OnboardingView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Welcome to SpotlightPlus").font(.system(size: 20, weight: .semibold))
+                Text("Welcome to HomePad").font(.system(size: 20, weight: .semibold))
                 Text("Two quick steps and you're set. You can change everything later in Settings.")
                     .foregroundStyle(.secondary)
             }
@@ -64,13 +64,13 @@ struct OnboardingView: View {
                     Permissions.requestAccessibility()
                 }
                 permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Finds files in Documents, Desktop and Downloads. Add SpotlightPlus with + if it isn't listed.") {
+                              detail: "Finds files in Documents, Desktop and Downloads. Add HomePad with + if it isn't listed.") {
                     Permissions.openSettings("Privacy_AllFiles")
                 }
-                Text("macOS may ask you to reopen SpotlightPlus after you allow Screen Recording or Full Disk Access.")
+                Text("macOS may ask you to reopen HomePad after you allow Screen Recording or Full Disk Access.")
                     .font(.caption).foregroundStyle(.secondary)
                 if !permissions.allGranted {
-                    Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                    Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }

@@ -232,7 +232,7 @@ private struct FilePickerView: View {
         } else if unreadable {
             VStack(spacing: 8) {
                 Image(systemName: "lock").font(.system(size: 26)).foregroundStyle(.secondary)
-                Text("SpotlightPlus can't look inside this folder.").font(.system(size: 13, weight: .medium))
+                Text("HomePad can't look inside this folder.").font(.system(size: 13, weight: .medium))
                 Text("Allow access if macOS asks, or turn on Full Disk Access in Settings. You can still add the folder itself.")
                     .font(.system(size: 11)).foregroundStyle(.secondary).multilineTextAlignment(.center)
             }

@@ -132,7 +132,7 @@ extension View {
     func movesWindowWhenDragged() -> some View { modifier(MovesWindowWhenDragged()) }
 }
 
-struct SpotlightPlusView: View {
+struct HomePadView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
 
@@ -857,7 +857,7 @@ struct FullDiskAccessHint: View {
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Files in Documents, Desktop and Downloads aren't searched yet")
                         .font(.system(size: 12, weight: .medium))
-                    Text("Click to allow Full Disk Access, then relaunch SpotlightPlus")
+                    Text("Click to allow Full Disk Access, then relaunch HomePad")
                         .font(.system(size: 11)).foregroundStyle(.secondary)
                 }
                 Spacer()

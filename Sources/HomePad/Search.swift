@@ -164,7 +164,7 @@ final class SearchEngine: ObservableObject {
     /// Arithmetic typed into the field gets an answer card first, as in Spotlight.
     private func calculatorResults() -> [SearchResult] {
         guard let answer = Calculator.evaluate(typed) else { return [] }
-        return [SearchResult(url: URL(string: "spotlightplus-calculator://answer")!, name: answer.value,
+        return [SearchResult(url: URL(string: "homepad-calculator://answer")!, name: answer.value,
                              subtitle: answer.expression, section: .calculator, copyText: answer.value)]
     }
 

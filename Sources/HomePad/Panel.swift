@@ -316,13 +316,13 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     private override init() {
         super.init()
-        panel = SpotlightPanel(content: NSHostingView(rootView: SpotlightPlusView()))
+        panel = SpotlightPanel(content: NSHostingView(rootView: HomePadView()))
         panel.delegate = self
         panel.onResizeEnd = { [weak self] in self?.rememberFrame() }
         // Lay the panel out once now, while nothing is waiting for it. (The first opening is still slower than the
         // rest, about 160 ms against 26: that is the app becoming active and text input starting up the first time.)
         panel.contentView?.layoutSubtreeIfNeeded()
-        // Clicking outside every SpotlightPlus window hides the panel, whichever of our windows had focus.
+        // Clicking outside every HomePad window hides the panel, whichever of our windows had focus.
         NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification, object: nil,
                                                queue: .main) { [weak self] _ in
             guard let self, !self.suppressAutoHide else { return }
@@ -376,7 +376,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         return result
     }
 
-    /// A popup window has closed. If you had already clicked away from SpotlightPlus while it was open (closing a
+    /// A popup window has closed. If you had already clicked away from HomePad while it was open (closing a
     /// window's X doesn't bring the app back), the panel goes too; otherwise it takes focus again.
     private func settleAfterPopup() {
         guard panel.isVisible else { return }

@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "SpotlightPlus",
+    name: "HomePad",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "SpotlightPlus",
-            path: "Sources/SpotlightPlus"
+            name: "HomePad",
+            path: "Sources/HomePad"
         )
     ]
 )

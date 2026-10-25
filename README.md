@@ -1,4 +1,4 @@
-# SpotlightPlus for macOS
+# HomePad for macOS
 
 A Windows 11–style launcher: press a shortcut and a panel pops up in the middle of the screen with a
 search bar on top (searching the same index Spotlight uses) and a grid of pinned apps below.
@@ -12,7 +12,7 @@ chmod +x build_app.sh
 ./build_app.sh
 ```
 
-This creates `build/SpotlightPlus.app`. Move it to **/Applications** and open it. Because it's signed
+This creates `build/HomePad.app`. Move it to **/Applications** and open it. Because it's signed
 locally rather than by a registered developer, the first launch may need right-click → Open.
 
 It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own.
@@ -47,7 +47,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   of each of its windows, on every desktop (Space), listed in Mission Control order with a "Space N" title when an app has windows on more than one and click one to jump straight to it (switching desktops if needed), or click the cross in its corner to close just that window (also works for windows on other desktops) (needs Screen Recording and Accessibility;
   without Screen Recording you get a plain list). Clicking an app whose windows are all on other desktops takes you to one of them. The **Running** section lists every app that is running (pinned or not, like the Dock's running indicators); nothing can be added to, renamed or removed from it, but it can be dragged by its title (or moved with **Move Up** / **Move Down** in its right-click menu) to any place among the categories, and it can be turned off in Settings.
 - **Running app menu**: right-click a running app for a menu like the Dock's: its windows (the one in front checked; choose one to bring it forward), the "New …" commands from its File menu (New Tab, New Window, New Private Window in a browser), then **Close Windows** (only if it has a window open), **Hide** and **Quit** (hold Option to force quit; an app still running a few seconds after Quit gets **Force Quit** in its place; Finder has no Quit, as in the Dock, since quitting it removes the desktop icons). Windows and commands are read through Accessibility when the pointer reaches the tile.
-- **Finding files**: files in Documents, Desktop and Downloads only appear in search once SpotlightPlus has
+- **Finding files**: files in Documents, Desktop and Downloads only appear in search once HomePad has
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
 - **Window**: drag any edge or corner of the panel to resize it (the edges have wide grab strips and show resize
@@ -89,7 +89,7 @@ any time from the menu-bar icon → Setup Guide…
 | `Windows.swift` | Permissions, window listing and thumbnails (ScreenCaptureKit), hover popup, jump to window (Accessibility) |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`, no permissions needed) |
 | `Panel.swift` | The centered floating window and its keyboard handling |
-| `SpotlightPlusView.swift` | The UI: search bar, category grids, running apps, results list |
+| `HomePadView.swift` | The UI: search bar, category grids, running apps, results list |
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, categories, running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |

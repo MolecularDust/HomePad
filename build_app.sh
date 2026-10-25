@@ -1,5 +1,5 @@
 #!/bin/bash
-# Builds "SpotlightPlus.app" into ./build. Needs Xcode or the Command Line Tools (xcode-select --install).
+# Builds "HomePad.app" into ./build. Needs Xcode or the Command Line Tools (xcode-select --install).
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -8,20 +8,20 @@ cd "$(dirname "$0")"
 SDK_VERSION="$(xcrun --show-sdk-version)"
 swift build -c release -Xlinker -platform_version -Xlinker macos -Xlinker 13.0 -Xlinker "$SDK_VERSION"
 
-APP="build/SpotlightPlus.app"
+APP="build/HomePad.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp .build/release/SpotlightPlus "$APP/Contents/MacOS/SpotlightPlus"
+cp .build/release/HomePad "$APP/Contents/MacOS/HomePad"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key>        <string>SpotlightPlus</string>
-    <key>CFBundleIdentifier</key>        <string>local.mike.SpotlightPlus</string>
-    <key>CFBundleName</key>              <string>SpotlightPlus</string>
-    <key>CFBundleDisplayName</key>       <string>SpotlightPlus</string>
+    <key>CFBundleExecutable</key>        <string>HomePad</string>
+    <key>CFBundleIdentifier</key>        <string>local.mike.HomePad</string>
+    <key>CFBundleName</key>              <string>HomePad</string>
+    <key>CFBundleDisplayName</key>       <string>HomePad</string>
     <key>CFBundlePackageType</key>       <string>APPL</string>
     <key>CFBundleShortVersionString</key><string>1.0</string>
     <key>CFBundleVersion</key>           <string>1</string>
@@ -36,7 +36,7 @@ PLIST
 # Recording permissions to the bundle id; the default (a hash of the binary) changes on every build, which
 # leaves System Settings showing "on" for an older build while macOS refuses the new one.
 REQ="$(mktemp)"
-echo 'designated => identifier "local.mike.SpotlightPlus"' > "$REQ"
+echo 'designated => identifier "local.mike.HomePad"' > "$REQ"
 codesign --force --deep --sign - -r "$REQ" "$APP"
 rm -f "$REQ"
 

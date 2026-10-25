@@ -79,9 +79,26 @@ final class DoubleTapMonitor {
     }
 }
 
-/// One-time copy of settings saved by the app's earlier name (Start Menu).
+/// One-time copies of settings saved under the app's earlier names: SpotlightPlus, and before that Start Menu.
 enum LegacyMigration {
     static func run() {
+        fromSpotlightPlus()
+        fromStartMenu()
+    }
+
+    /// Everything (categories, layout, shortcut, window size ...) carries over, except that the setup guide shows once
+    /// more: macOS ties permissions to the app's id, so they have to be allowed again for the new one.
+    private static func fromSpotlightPlus() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: "migratedFromSpotlightPlus") else { return }
+        defaults.set(true, forKey: "migratedFromSpotlightPlus")
+        guard let old = defaults.persistentDomain(forName: "local.mike.SpotlightPlus") else { return }
+        for (key, value) in old where key != "onboardingCompleted" && defaults.object(forKey: key) == nil {
+            defaults.set(value, forKey: key)
+        }
+    }
+
+    private static func fromStartMenu() {
         let defaults = UserDefaults.standard
         guard !defaults.bool(forKey: "migratedFromStartMenu") else { return }
         defaults.set(true, forKey: "migratedFromStartMenu")

@@ -112,15 +112,15 @@ enum ShortcutConflict {
         switch owner {
         case .system(let name):
             alert.messageText = "\(keys) is already used by macOS"
-            alert.informativeText = "It's the shortcut for “\(name)”. To use \(keys) here, turn that shortcut off yourself in System Settings → Keyboard → Keyboard Shortcuts. SpotlightPlus won't change your system settings."
+            alert.informativeText = "It's the shortcut for “\(name)”. To use \(keys) here, turn that shortcut off yourself in System Settings → Keyboard → Keyboard Shortcuts. HomePad won't change your system settings."
             button("Open Keyboard Settings", openKeyboardSettings)
         case .app(let name, let url):
             alert.messageText = "\(keys) is probably used by \(name)"
-            alert.informativeText = "A test press of \(keys) didn't reach SpotlightPlus, so another app handles it first. \(name) is running and uses \(keys) by default, so it's the likely one, but macOS doesn't say which app owns a shortcut. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
+            alert.informativeText = "A test press of \(keys) didn't reach HomePad, so another app handles it first. \(name) is running and uses \(keys) by default, so it's the likely one, but macOS doesn't say which app owns a shortcut. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
             button("Open \(name)") { if let url { NSWorkspace.shared.open(url) } }
         case .unknown:
             alert.messageText = "\(keys) may already be in use"
-            alert.informativeText = "A test press of this shortcut didn't reach SpotlightPlus, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
+            alert.informativeText = "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
         }
         button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
         alert.addButton(withTitle: "Cancel")

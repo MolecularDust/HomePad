@@ -691,7 +691,7 @@ private struct CloseCross: View {
 final class ClosableWindows: ObservableObject {
     static let shared = ClosableWindows()
     @Published private(set) var pids: Set<pid_t> = []
-    private let queue = DispatchQueue(label: "SpotlightPlus.closable-windows", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "HomePad.closable-windows", qos: .userInitiated)
     private var running = false
     private var lastRun = 0.0
 
@@ -738,7 +738,7 @@ final class AppMenus: ObservableObject {
     static let shared = AppMenus()
     @Published private(set) var info: [pid_t: Info] = [:]
     private var lastRead: [pid_t: Double] = [:]
-    private let queue = DispatchQueue(label: "SpotlightPlus.app-menus", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "HomePad.app-menus", qos: .userInitiated)
 
     /// At most every two seconds per app.
     func refresh(_ app: NSRunningApplication) {
