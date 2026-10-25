@@ -16,6 +16,10 @@ This creates `build/HomePad.app`. Move it to **/Applications** and open it. Beca
 locally rather than by a registered developer, the first launch may need right-click → Open.
 
 It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own.
+
+**Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
+with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's
+block on apps that aren't registered with Apple, and through the Setup Guide.
 To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
 
 ## Using it

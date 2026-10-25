@@ -6,12 +6,18 @@ cd "$(dirname "$0")"
 # Record the real SDK in the binary. SwiftPM stamps the deployment target (13.0) as the SDK, and macOS then draws
 # the app in its older compatibility look: smaller traffic lights, older window shapes and controls.
 SDK_VERSION="$(xcrun --show-sdk-version)"
-swift build -c release -Xlinker -platform_version -Xlinker macos -Xlinker 13.0 -Xlinker "$SDK_VERSION"
+# UNIVERSAL=1 builds for both Apple silicon and Intel Macs (tools/make_release.sh does this); otherwise only for
+# this Mac, which is quicker.
+ARCHS=()
+[[ "${UNIVERSAL:-}" == 1 ]] && ARCHS=(--arch arm64 --arch x86_64)
+LINK=(-Xlinker -platform_version -Xlinker macos -Xlinker 13.0 -Xlinker "$SDK_VERSION")
+swift build -c release ${ARCHS[@]+"${ARCHS[@]}"} "${LINK[@]}"
+BIN="$(swift build -c release ${ARCHS[@]+"${ARCHS[@]}"} --show-bin-path)/HomePad"
 
 APP="build/HomePad.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp .build/release/HomePad "$APP/Contents/MacOS/HomePad"
+cp "$BIN" "$APP/Contents/MacOS/HomePad"
 # The icon, made from Resources/AppIcon.svg (see README: rebuilding the icon).
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 

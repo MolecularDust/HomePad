@@ -42,7 +42,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 
 Pop-ups must go through `PanelController.keepVisible` so the panel stays visible behind them.
 
-Other top-level files: `Package.swift`, `build_app.sh`, `README.md`. The app icon is `Resources/AppIcon.svg`; `tools/make_icon.sh` renders it into `Resources/AppIcon.icns`, which `build_app.sh` copies into the bundle (`CFBundleIconFile`).
+Other top-level files: `Package.swift`, `build_app.sh` (`UNIVERSAL=1` for arm64 + x86_64), `README.md`, `INSTALL.md` (install guide for friends; keep it in step with the Setup Guide and Settings wording). `tools/make_release.sh` zips the universal app with `INSTALL.md` into `dist/HomePad.zip` (git-ignored). The app icon is `Resources/AppIcon.svg`; `tools/make_icon.sh` renders it into `Resources/AppIcon.icns`, which `build_app.sh` copies into the bundle (`CFBundleIconFile`).
 
 ## Build
 
