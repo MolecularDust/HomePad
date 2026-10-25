@@ -81,9 +81,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func setStatusItemVisible(_ visible: Bool) { statusItem.isVisible = visible }
 
-    /// Launching the app again opens the panel, so it can't get lost when the menu-bar icon is hidden.
+    /// Launching the app again opens the panel, so it can't get lost when the menu-bar icon is hidden. With the
+    /// Setup Guide or Settings open, that window comes forward instead: the panel must not cover it.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        PanelController.shared.show()
+        bringBack()
         return true
     }
 
@@ -164,11 +165,13 @@ enum Relaunch {
     static func quitAskedByAnotherApp() -> Bool { quitSender != nil }
 
     /// Starts a tiny helper that waits for this process to end, then opens the app again; `window` is what to show.
+    /// System Settings' Quit & Reopen sometimes starts HomePad itself. Then the helper does nothing, because `open` on
+    /// a running app counts as clicking it again, which used to put the panel over the Setup Guide.
     static func afterQuitting(reopening window: String?) {
         UserDefaults.standard.set(window, forKey: reopenKey)
         let helper = Process()
         helper.executableURL = URL(fileURLWithPath: "/bin/sh")
-        helper.arguments = ["-c", "while /bin/kill -0 \(ProcessInfo.processInfo.processIdentifier) 2>/dev/null; do /bin/sleep 0.2; done; /usr/bin/open \"$0\"",
+        helper.arguments = ["-c", "while /bin/kill -0 \(ProcessInfo.processInfo.processIdentifier) 2>/dev/null; do /bin/sleep 0.2; done; /bin/sleep 1; /usr/bin/pgrep -x HomePad >/dev/null || /usr/bin/open \"$0\"",
                             Bundle.main.bundlePath]
         try? helper.run()
     }
