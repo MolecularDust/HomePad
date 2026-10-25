@@ -426,7 +426,7 @@ struct RunningSection: View {
             }
             LazyVGrid(columns: grid, alignment: .leading, spacing: 6) {
                 ForEach(apps, id: \.self) { url in
-                    AppTile(url: url, isRunning: true, categoryID: nil)
+                    AppTile(url: url, isRunning: true, categoryID: nil).equatable()
                 }
             }
         }
@@ -497,7 +497,7 @@ struct CategorySection: View {
 
             LazyVGrid(columns: grid, alignment: .leading, spacing: 6) {
                 ForEach(urls, id: \.self) { url in
-                    AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id)
+                    AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id).equatable()
                         .onDrag {
                             PanelState.shared.draggingItem = url
                             PanelState.shared.beginDrag()
@@ -531,19 +531,27 @@ struct CategorySection: View {
     }
 }
 
+/// Where a tile is, for placing the window popup next to it. A plain box rather than view state: it changes whenever
+/// tiles move (resizing the panel moved and rebuilt every tile), and is only needed when the pointer arrives.
+private final class FrameBox { var rect = CGRect.zero }
+
 private struct TileFrameKey: PreferenceKey {
     static var defaultValue: CGRect = .zero
     static func reduce(value: inout CGRect, nextValue: () -> CGRect) { value = nextValue() }
 }
 
 /// categoryID is nil for tiles in the Running section, which can't be edited.
-struct AppTile: View {
+/// Compared by what it shows, so a category redrawn for another reason (the panel being resized) skips its unchanged
+/// tiles; changes the tile watches itself (hover, row height, the Close Windows check) still redraw it.
+struct AppTile: View, Equatable {
+    static func == (a: AppTile, b: AppTile) -> Bool { a.url == b.url && a.isRunning == b.isRunning && a.categoryID == b.categoryID }
+
     let url: URL
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     let isRunning: Bool
     let categoryID: UUID?
     @State private var hovering = false
-    @State private var frame = CGRect.zero
+    @State private var frame = FrameBox()
     @ObservedObject private var closable = ClosableWindows.shared
 
     var body: some View {
@@ -565,14 +573,14 @@ struct AppTile: View {
         .padding(.vertical, RowMetrics.padding(rowHeight))
         .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
         .background(GeometryReader { Color.clear.preference(key: TileFrameKey.self, value: $0.frame(in: .global)) })
-        .onPreferenceChange(TileFrameKey.self) { frame = $0 }
+        .onPreferenceChange(TileFrameKey.self) { frame.rect = $0 }
         .contentShape(Rectangle())
         .onHover { inside in
             guard !PanelState.shared.isDragging else { hovering = false; return }      // passing over it with something in hand
             hovering = inside
             if isRunning {
                 if inside { ClosableWindows.shared.refresh() }      // so its menu is current by the time it's right-clicked
-                WindowPreviewController.shared.hover(app: RunningApps.shared.app(for: url), over: inside, tile: frame)
+                WindowPreviewController.shared.hover(app: RunningApps.shared.app(for: url), over: inside, tile: frame.rect)
             }
         }
         .onTapGesture { Launcher.open(url) }
