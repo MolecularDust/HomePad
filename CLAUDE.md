@@ -38,6 +38,8 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `Model.swift` | Dock import, `CategoryStore` (categories, persisted as JSON), running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
 
+`activateSelf()` uses `NSApp.activate(ignoringOtherApps:)` on purpose: the cooperative `NSApp.activate()` is often refused on macOS 14+, and then the panel opens without keyboard focus.
+
 Pop-ups must go through `PanelController.keepVisible` so the panel stays visible behind them.
 
 Other top-level files: `Package.swift`, `build_app.sh`, `README.md`.

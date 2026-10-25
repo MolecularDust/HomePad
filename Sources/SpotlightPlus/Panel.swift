@@ -226,7 +226,7 @@ final class PanelController: NSObject, NSWindowDelegate {
 
         let front = NSWorkspace.shared.frontmostApplication
         previousApp = front?.processIdentifier == ProcessInfo.processInfo.processIdentifier ? nil : front
-        activateSelf()   // lets us hand focus cleanly to whatever app gets launched
+        activateSelf()   // the app must be active for typing to reach the search field
         panel.makeKeyAndOrderFront(nil)
         installKeyMonitor()
     }
@@ -358,8 +358,9 @@ final class PanelController: NSObject, NSWindowDelegate {
                 return nil
             default:
                 // Typing while the search field isn't focused (after a click on empty space): the text goes to the field.
+                // Once that has started, every key joins the queue until it is flushed, so the order is kept.
                 let blocked: NSEvent.ModifierFlags = [.command, .control]
-                if event.modifierFlags.intersection(blocked).isEmpty, !(NSApp.keyWindow?.firstResponder is NSText),
+                if event.modifierFlags.intersection(blocked).isEmpty, (self.flushScheduled || !(self.panel.firstResponder is NSText)),
                    let text = event.characters, let scalar = text.unicodeScalars.first {
                     if Int(event.keyCode) == kVK_Delete {
                         self.queueTyping(nil)

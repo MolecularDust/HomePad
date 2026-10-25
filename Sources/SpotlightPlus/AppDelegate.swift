@@ -79,10 +79,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     static var shared: AppDelegate? { NSApp.delegate as? AppDelegate }
 }
 
+/// Brings the app to the front. The polite form (`NSApp.activate()`, macOS 14 and later) is often declined when
+/// another app is in front, which left the panel without keyboard focus; this form is not, and it's what
+/// launcher-style apps use. It is only called in response to the user: the shortcut, a click, a menu item.
 func activateSelf() {
-    if #available(macOS 14.0, *) {
-        NSApp.activate()
-    } else {
-        NSApp.activate(ignoringOtherApps: true)
-    }
+    NSApp.activate(ignoringOtherApps: true)
 }

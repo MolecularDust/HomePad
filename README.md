@@ -46,7 +46,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
 - **Window**: drag any edge or corner of the panel to resize it (the edges have wide grab strips and show resize
-  cursors), or drag any empty part to move it (not the tile grid itself, where dragging rearranges tiles). Clicking empty space takes focus out of the search field; typing puts it back. Settings → Window has **Remember window size** (on by default) and
+  cursors), or drag any empty part to move it (not the tile grid itself, where dragging rearranges tiles). The search field has the focus whenever the panel opens, so you can type at once; after you click elsewhere, the next key you type goes back into it. Settings → Window has **Remember window size** (on by default) and
   **Remember window position** (off by default). The ↺ button beside the settings cogwheel puts the panel back to the
   standard size, centred. The Add App and Add File or Folder windows can be resized too (they always open at their
   standard size).
