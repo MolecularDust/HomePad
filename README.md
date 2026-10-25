@@ -32,8 +32,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
   ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
 - **Category order**: a category's name turns green when you point at it. Press it and the whole row is selected
-  (green fill and outline); drag and the row itself comes along, a little see-through, while the other rows slide
-  aside to make room. Let go and it stays where it is. Or right-click inside a category and choose **Move Up** /
+  (green fill and outline); drag and the row itself comes along while the other rows slide aside to make
+  room (the panel stays where it is). Let go and it stays where it is. Or right-click inside a category and choose **Move Up** /
   **Move Down**. While something is being dragged, hover effects and window previews stay off. Essentials can be
   moved too; it stays the default place for new items and can't be deleted. Thin gray lines separate the categories.
 - **Right-click to add**: right-click empty space inside a category (its title, or the gaps between and after its

@@ -105,6 +105,7 @@ struct MovesWindowWhenDragged: ViewModifier {
     func body(content: Content) -> some View {
         content.gesture(DragGesture(minimumDistance: 4)
             .onChanged { _ in
+                guard PanelState.shared.pressedCategory == nil else { return }      // a category row is being carried instead
                 let panel = PanelController.shared
                 if !drag.active { drag.active = true; drag.mouse = NSEvent.mouseLocation; drag.origin = panel.frame.origin }
                 let mouse = NSEvent.mouseLocation
@@ -250,6 +251,21 @@ extension View {
     }
 }
 
+/// Draws a category row where the drag puts it. Only this small view watches the drag, so a mouse move redraws
+/// nothing but the rows' positions.
+struct CarriedRow<Content: View>: View {
+    let id: UUID
+    @ViewBuilder let content: Content
+    @ObservedObject private var drag = RowDrag.shared
+
+    var body: some View {
+        let carried = drag.carried == id
+        content
+            .offset(y: drag.shift(for: id))
+            .animation(carried ? nil : .easeInOut(duration: 0.18), value: drag.target)    // the others slide; the carried one sticks to the pointer
+    }
+}
+
 struct HomeView: View {
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var running = RunningApps.shared
@@ -283,17 +299,14 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
                         ForEach(Array(store.categories.enumerated()), id: \.element.id) { index, category in
-                            CategorySection(category: category, grid: grid, running: running)
-                                .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
-                                .background(GeometryReader { geo in
-                                    Color.clear.preference(key: RowFramesKey.self, value: [category.id: geo.frame(in: .named("rows"))])
-                                })
-                                .offset(y: state.rowShift(for: category.id))
-                                .zIndex(state.draggingCategory == category.id ? 1 : 0)
-                                .opacity(state.draggingCategory == category.id ? 0.92 : 1)
-                                .shadow(color: .black.opacity(state.draggingCategory == category.id ? 0.25 : 0), radius: 10, y: 4)
-                                .animation(.easeInOut(duration: 0.18), value: state.rowShift(for: category.id))
-                                .transaction { if state.draggingCategory == category.id { $0.animation = nil } }       // the carried row follows the pointer exactly
+                            CarriedRow(id: category.id) {
+                                CategorySection(category: category, grid: grid, running: running)
+                                    .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
+                                    .background(GeometryReader { geo in
+                                        Color.clear.preference(key: RowFramesKey.self, value: [category.id: geo.frame(in: .named("rows"))])
+                                    })
+                            }
+                            .zIndex(state.draggingCategory == category.id ? 1 : 0)
                         }
 
                         if showRunning && !runningApps.isEmpty {
@@ -315,7 +328,7 @@ struct HomeView: View {
                     }
                     .coordinateSpace(name: "rows")
                     .onPreferenceChange(RowFramesKey.self) { frames in
-                        if state.draggingCategory == nil { state.rowFrames = frames }     // where the rows rest, not where one is carried
+                        if state.draggingCategory == nil { RowDrag.shared.frames = frames }     // where the rows rest, not where one is carried
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
@@ -366,34 +379,31 @@ struct CategoryDragHandle: NSViewRepresentable {
 
 final class CategoryDragSourceView: NSView {
     var category = Category(name: "")
-    private var downY: CGFloat?
-    private var carrying = false
 
     override var mouseDownCanMoveWindow: Bool { false }
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
+    /// Follows the mouse itself until the button comes up. Taking every drag event here keeps them from SwiftUI,
+    /// whose window-moving gesture would otherwise move the whole panel along with the row.
     override func mouseDown(with event: NSEvent) {
-        downY = event.locationInWindow.y
-        PanelState.shared.pressedCategory = category.id
-    }
-
-    override func mouseDragged(with event: NSEvent) {
-        guard let downY else { return }
-        let offset = downY - event.locationInWindow.y                  // window coordinates grow upwards
+        guard let window else { return }
         let state = PanelState.shared
-        if !carrying {
-            guard abs(offset) > 4 else { return }
-            carrying = true
-            state.draggingCategory = category.id
-            state.beginDrag()
+        let drag = RowDrag.shared
+        state.pressedCategory = category.id
+        let startY = event.locationInWindow.y
+        var carrying = false
+        while let next = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp]), next.type == .leftMouseDragged {
+            let offset = startY - next.locationInWindow.y          // window coordinates grow upwards
+            if !carrying {
+                guard abs(offset) > 3 else { continue }
+                carrying = true
+                state.draggingCategory = category.id
+                state.beginDrag()
+                drag.begin(category.id)
+            }
+            drag.move(to: offset)
         }
-        state.rowOffset = offset
-    }
-
-    override func mouseUp(with event: NSEvent) {
-        if carrying { PanelState.shared.dropCarriedRow() } else { PanelState.shared.pressedCategory = nil }
-        carrying = false
-        downY = nil
+        if carrying { state.dropCarriedRow() } else { state.pressedCategory = nil }
     }
 }
 
@@ -430,7 +440,13 @@ struct CategorySection: View {
             .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
         }
         .padding(6)
-        .background(RoundedRectangle(cornerRadius: 12).fill(isSelected ? Color.green.opacity(0.12) : .clear))
+        .background {
+            // Solid underneath the green tint, so a carried row hides the rows it passes over.
+            if isSelected {
+                RoundedRectangle(cornerRadius: 12).fill(Color(nsColor: .windowBackgroundColor))
+                    .overlay(RoundedRectangle(cornerRadius: 12).fill(Color.green.opacity(0.12)))
+            }
+        }
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: isSelected ? 2 : 0))
         .padding(-6)
         .animation(.easeInOut(duration: 0.12), value: isSelected)

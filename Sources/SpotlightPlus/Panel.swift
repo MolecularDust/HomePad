@@ -19,8 +19,6 @@ final class PanelState: ObservableObject {
     var draggingItem: URL?                  // pinned tile being reordered
     @Published var pressedCategory: UUID?   // category row selected by pressing its title
     @Published var draggingCategory: UUID?  // category row being carried to a new place in the order
-    @Published var rowOffset: CGFloat = 0   // how far the carried row is from where it rests (down is positive)
-    var rowFrames: [UUID: CGRect] = [:]     // where the category rows rest
     @Published var isDragging = false       // a tile or a category title is in the air
     private var dragWatcher: Timer?
     private var lastDragActivity = Date()
@@ -55,48 +53,16 @@ final class PanelState: ObservableObject {
         draggingItem = nil
         draggingCategory = nil
         pressedCategory = nil
-        rowOffset = 0
+        RowDrag.shared.reset()
     }
 
-    /// Where the carried row would land: past every row whose middle it has crossed.
-    private func carriedTarget() -> (from: Int, to: Int)? {
-        let order = CategoryStore.shared.categories.map(\.id)
-        guard let id = draggingCategory, let from = order.firstIndex(of: id), let frame = rowFrames[id] else { return nil }
-        let middle = frame.midY + rowOffset
-        var to = from
-        for (index, other) in order.enumerated() where index != from {
-            guard let rest = rowFrames[other] else { continue }
-            if index > from, middle > rest.midY { to = max(to, index) }
-            if index < from, middle < rest.midY { to = min(to, index) }
-        }
-        return (from, to)
-    }
-
-    /// How far a category row is moved from its resting place: the carried one follows the pointer, the ones it has
-    /// passed slide a row's height out of the way.
-    func rowShift(for id: UUID) -> CGFloat {
-        guard let dragging = draggingCategory else { return 0 }
-        if id == dragging { return rowOffset }
-        let order = CategoryStore.shared.categories.map(\.id)
-        guard let index = order.firstIndex(of: id), let (from, to) = carriedTarget(), let carried = rowFrames[dragging] else { return 0 }
-        // A row's height plus the gap to the next one (the gap is the same all the way down).
-        let gap = order.count > 1 ? (rowFrames[order[1]]?.minY ?? 0) - (rowFrames[order[0]]?.maxY ?? 0) : 0
-        let pitch = carried.height + gap
-        if to > from, index > from, index <= to { return -pitch }
-        if to < from, index >= to, index < from { return pitch }
-        return 0
-    }
-
-    /// The carried row is let go: it takes the place it has reached.
+    /// The carried row is let go: it takes the place it has reached, at once (it is already drawn there).
     func dropCarriedRow() {
-        if let id = draggingCategory, let (_, to) = carriedTarget() {
-            var instant = Transaction()
-            instant.disablesAnimations = true
-            withTransaction(instant) {
-                CategoryStore.shared.moveCategory(id, toIndex: to)
-                endDrag()
-            }
-        } else {
+        let landing = RowDrag.shared.landing
+        var instant = Transaction()
+        instant.disablesAnimations = true
+        withTransaction(instant) {
+            if let (id, index) = landing { CategoryStore.shared.moveCategory(id, toIndex: index) }
             endDrag()
         }
     }
@@ -231,8 +197,8 @@ final class SpotlightPanel: NSPanel {
         minSize = NSSize(width: 520, height: 400)   // drag any edge to resize
 
         let effect = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
-        effect.material = .popover
-        effect.blendingMode = .behindWindow
+        effect.material = .windowBackground      // solid: nothing behind the panel shows through
+        effect.blendingMode = .withinWindow
         effect.state = .active
         effect.maskImage = Self.roundedMask(radius: 18)
         content.frame = effect.bounds
@@ -491,5 +457,61 @@ final class PanelController: NSObject, NSWindowDelegate {
     private func removeKeyMonitor() {
         if let m = keyMonitor { NSEvent.removeMonitor(m) }
         keyMonitor = nil
+    }
+}
+
+/// The category row being carried. Kept apart from PanelState on purpose: the offset changes with every mouse move,
+/// and only the rows' positions should be redrawn for that, not the whole panel (every tile, the running apps...).
+final class RowDrag: ObservableObject {
+    static let shared = RowDrag()
+    @Published private(set) var offset: CGFloat = 0     // how far the carried row is from where it rests (down is positive)
+    @Published private(set) var target: Int?            // the place in the order it would land in
+    private(set) var carried: UUID?
+    var frames: [UUID: CGRect] = [:]                    // where the rows rest, measured when nothing is carried
+    private var order: [UUID] = []
+    private var from = 0
+
+    func begin(_ id: UUID) {
+        order = CategoryStore.shared.categories.map(\.id)
+        guard let index = order.firstIndex(of: id) else { return }
+        from = index
+        carried = id
+        offset = 0
+        target = index
+    }
+
+    func move(to offset: CGFloat) {
+        guard let carried, let frame = frames[carried] else { return }
+        self.offset = offset
+        // Past every row whose middle the carried row's middle has crossed.
+        let middle = frame.midY + offset
+        var to = from
+        for (index, other) in order.enumerated() where index != from {
+            guard let rest = frames[other] else { continue }
+            if index > from, middle > rest.midY { to = max(to, index) }
+            if index < from, middle < rest.midY { to = min(to, index) }
+        }
+        if to != target { target = to }
+    }
+
+    /// How far a row is drawn from its resting place: the carried one follows the pointer, the ones it has passed
+    /// slide one row (its height plus the gap) out of the way.
+    func shift(for id: UUID) -> CGFloat {
+        guard let carried, let target else { return 0 }
+        if id == carried { return offset }
+        guard let index = order.firstIndex(of: id), let frame = frames[carried] else { return 0 }
+        let gap = order.count > 1 ? (frames[order[1]]?.minY ?? 0) - (frames[order[0]]?.maxY ?? 0) : 0
+        if target > from, index > from, index <= target { return -(frame.height + gap) }
+        if target < from, index >= target, index < from { return frame.height + gap }
+        return 0
+    }
+
+    var landing: (UUID, Int)? { carried.flatMap { id in target.map { (id, $0) } } }
+
+    func reset() {
+        guard carried != nil || offset != 0 else { return }
+        carried = nil
+        target = nil
+        offset = 0
     }
 }
