@@ -4,8 +4,9 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var settingsWindow: NSWindow?
-    /// Settings was opened from the panel (its gear): closing Settings brings the panel back, with keyboard focus.
-    private var reopenPanelAfterSettings = false
+    /// Settings was opened from the panel (its gear): the panel stays behind it, and gets keyboard focus back when
+    /// Settings closes.
+    private var panelBehindSettings = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LegacyMigration.run()
@@ -54,8 +55,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func quit() { NSApp.terminate(nil) }
 
     @objc func openSettings() {
-        if settingsWindow?.isVisible != true { reopenPanelAfterSettings = PanelController.shared.isVisible }
-        PanelController.shared.hide(restoreFocus: false)
+        if settingsWindow?.isVisible != true, PanelController.shared.isVisible {
+            panelBehindSettings = true
+            PanelController.shared.stayBehind(true)
+        }
         if settingsWindow == nil {
             let host = NSHostingController(rootView: SettingsView())
             host.sizingOptions = []           // the window is sized below, not by the content
@@ -76,10 +79,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // from here, only while it is open.
             NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { [weak self] _ in
                 PermissionStatus.shared.watch(false)
-                guard let self, self.reopenPanelAfterSettings else { return }
-                self.reopenPanelAfterSettings = false
+                guard let self, self.panelBehindSettings else { return }
+                self.panelBehindSettings = false
                 // After the window has gone, so the panel takes focus rather than the closing window keeping it.
-                DispatchQueue.main.async { PanelController.shared.show() }
+                DispatchQueue.main.async { PanelController.shared.stayBehind(false) }
             }
             settingsWindow = window
         }

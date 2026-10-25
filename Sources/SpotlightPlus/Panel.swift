@@ -311,6 +311,25 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     func performDrag(with event: NSEvent) { panel.performDrag(with: event) }
 
+    /// An ordinary window (Settings) opened from the panel: the panel stays on screen behind it as an ordinary
+    /// window too, so other apps (System Settings, to allow a permission) can come in front of both. When that window
+    /// closes, the panel floats on top again and takes focus.
+    func stayBehind(_ behind: Bool) {
+        if behind {
+            suppressAutoHide = true
+            WindowPreviewController.shared.hideNow()
+            panel.level = .normal
+            panel.orderFrontRegardless()   // at the front of the ordinary windows, just under the one being opened
+        } else {
+            suppressAutoHide = false
+            panel.level = .modalPanel
+            guard panel.isVisible else { return }
+            activateSelf()
+            panel.makeKeyAndOrderFront(nil)
+            PanelState.shared.focusToken += 1        // the cursor back in the search field
+        }
+    }
+
     /// Keeps the panel from hiding when it loses focus (a picker window is open next to it).
     func holdOpen(_ hold: Bool) {
         suppressAutoHide = hold
