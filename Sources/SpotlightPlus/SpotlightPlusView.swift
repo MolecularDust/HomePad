@@ -232,8 +232,16 @@ enum RowMetrics {
 
     static func padding(_ rowHeight: Int) -> CGFloat { max(0, (CGFloat(rowHeight) - tileContent - rowGap) / 2) }
 
-    /// The space between categories follows along, so the whole layout loosens or tightens together.
-    static func categoryGap(_ rowHeight: Int) -> CGFloat { min(20, max(6, 14 + CGFloat(rowHeight - standard) * 0.4)) }
+    /// How far the green selection box reaches past a category's contents, on every side.
+    static let selectionOutset: CGFloat = 6
+
+    /// The space between categories, with the separator line in its middle. It follows the row height so the layout
+    /// loosens or tightens together, but never gets so small that the selection box (which reaches `selectionOutset`
+    /// into it from either side) touches the line: at least 4 pt stay clear on each side of it.
+    static func categoryGap(_ rowHeight: Int) -> CGFloat {
+        let minimum = (selectionOutset + 4) * 2
+        return min(26, max(minimum, 22 + CGFloat(rowHeight - standard) * 0.4))
+    }
 }
 
 struct RowFramesKey: PreferenceKey {
@@ -246,7 +254,7 @@ extension View {
     /// so that every category row measures the same.
     func separatedAbove(_ show: Bool, gap: CGFloat) -> some View {
         overlay(alignment: .top) {
-            if show { Rectangle().fill(Color.gray.opacity(0.28)).frame(height: 1).offset(y: -gap / 2 - 6).allowsHitTesting(false) }
+            if show { Rectangle().fill(Color.gray.opacity(0.28)).frame(height: 1).offset(y: -gap / 2 - 0.5).allowsHitTesting(false) }
         }
     }
 }
@@ -262,7 +270,7 @@ struct CarriedRow<Content: View>: View {
         let carried = drag.carried == id
         let selected = drag.pressed == id
         content
-            .padding(6)
+            .padding(RowMetrics.selectionOutset)
             .background {
                 // Solid underneath the green tint, so a carried row hides the rows it passes over.
                 if selected {
@@ -271,7 +279,7 @@ struct CarriedRow<Content: View>: View {
                 }
             }
             .overlay { if selected { RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: 2) } }
-            .padding(-6)
+            .padding(-RowMetrics.selectionOutset)
             .offset(y: drag.shift(for: id))
             .animation(carried ? nil : .easeInOut(duration: 0.18), value: drag.target)    // the others slide; the carried one sticks to the pointer
             .zIndex(carried ? 1 : 0)
