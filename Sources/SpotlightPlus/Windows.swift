@@ -39,6 +39,46 @@ enum Permissions {
     }
 }
 
+/// The three permissions, shared by Settings, the Setup Guide and the search hint. Checked again whenever the app
+/// comes to the front (after a visit to System Settings, say), and every two seconds only while a window that shows
+/// them is open, so its buttons turn green while you switch a permission on next to it. (Each view used to check for
+/// itself: three times per keystroke in search, and every second in Settings.)
+final class PermissionStatus: ObservableObject {
+    static let shared = PermissionStatus()
+    @Published private(set) var accessibility = Permissions.accessibility
+    @Published private(set) var screenRecording = Permissions.screenRecording
+    @Published private(set) var fullDiskAccess = Permissions.fullDiskAccess
+    private var watchers = 0
+    private var timer: Timer?
+
+    private init() {
+        NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.refresh()
+        }
+    }
+
+    func refresh() {
+        let a = Permissions.accessibility, s = Permissions.screenRecording, f = Permissions.fullDiskAccess
+        if a != accessibility { accessibility = a }
+        if s != screenRecording { screenRecording = s }
+        if f != fullDiskAccess { fullDiskAccess = f }
+    }
+
+    /// A window showing the permissions opened (true) or closed (false).
+    func watch(_ on: Bool) {
+        watchers = max(0, watchers + (on ? 1 : -1))
+        if watchers > 0, timer == nil {
+            refresh()
+            timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in self?.refresh() }
+        } else if watchers == 0 {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+
+    var allGranted: Bool { accessibility && screenRecording && fullDiskAccess }
+}
+
 /// Red while the permission is missing or switched off, green once it's on.
 /// Missing: asks for it. Allowed: opens that permission's pane in System Settings, to review or switch it off.
 struct PermissionButton: View {

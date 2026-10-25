@@ -37,19 +37,44 @@ struct FooterIcon: View {
         .foregroundStyle(hovering ? Color.primary : Color.secondary)
         .onHover { hovering = $0 && !PanelState.shared.isDragging }
         .accessibilityLabel(name)
-        .overlay(alignment: .topTrailing) {
-            if hovering {
-                Text(name)
-                    .font(.system(size: 11, weight: .medium))
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(.regularMaterial))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
-                    .fixedSize()
-                    .offset(y: -30)
-                    .allowsHitTesting(false)
-            }
-        }
+        .overlay(alignment: .topTrailing) { if hovering { HoverLabel(text: name).offset(y: -30) } }
         .zIndex(1)
+    }
+}
+
+/// The small label above a footer button, shown at once under the pointer.
+struct HoverLabel: View {
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.system(size: 11, weight: .medium))
+            .padding(.horizontal, 8).padding(.vertical, 4)
+            .background(RoundedRectangle(cornerRadius: 6).fill(.regularMaterial))
+            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
+            .fixedSize()
+            .allowsHitTesting(false)
+    }
+}
+
+/// An item's icon at tile size, with a check mark when it is picked (in the Add windows).
+struct TileIcon: View {
+    let url: URL
+    var picked = false
+
+    var body: some View {
+        Image(nsImage: IconCache.icon(for: url))
+            .resizable()
+            .interpolation(.high)
+            .frame(width: 52, height: 52)
+            .overlay(alignment: .topTrailing) {
+                if picked {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 18))
+                        .foregroundStyle(.white, Color.accentColor)
+                        .offset(x: 6, y: -6)
+                }
+            }
     }
 }
 
@@ -78,18 +103,7 @@ struct FooterProfile: View {
         .buttonStyle(.plain)
         .onHover { hovering = $0 && !PanelState.shared.isDragging }
         .accessibilityLabel("Apple Account")
-        .overlay(alignment: .topLeading) {
-            if hovering {
-                Text("Apple Account")
-                    .font(.system(size: 11, weight: .medium))
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(.regularMaterial))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
-                    .fixedSize()
-                    .offset(y: -34)
-                    .allowsHitTesting(false)
-            }
-        }
+        .overlay(alignment: .topLeading) { if hovering { HoverLabel(text: "Apple Account").offset(y: -34) } }
         .zIndex(1)
     }
 }
@@ -555,10 +569,7 @@ struct AppTile: View, Equatable {
 
     var body: some View {
         VStack(spacing: 5) {
-            Image(nsImage: IconCache.icon(for: url))
-                .resizable()
-                .interpolation(.high)
-                .frame(width: 52, height: 52)
+            TileIcon(url: url)
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(1)
@@ -770,10 +781,10 @@ struct SearchResultsView: View {
 /// looks like files that don't exist. This says so, and takes you to the switch.
 struct FullDiskAccessHint: View {
     @AppStorage("hideFullDiskHint") private var hidden = false
-    @State private var granted = Permissions.fullDiskAccess
+    @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
-        if !granted && !hidden {
+        if !permissions.fullDiskAccess && !hidden {
             HStack(spacing: 12) {
                 Image(systemName: "lock.shield").font(.system(size: 18)).foregroundStyle(.secondary).frame(width: 30)
                 VStack(alignment: .leading, spacing: 1) {

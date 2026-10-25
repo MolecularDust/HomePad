@@ -357,7 +357,13 @@ enum Launcher {
 // MARK: - Icons & names
 
 enum IconCache {
-    private static var cache: [String: NSImage] = [:]
+    /// Limited: search results and the file picker show icons of any number of files, and keeping all of them grew
+    /// without end. Pinned items are asked for constantly, so they stay.
+    private static let cache: NSCache<NSString, NSImage> = {
+        let cache = NSCache<NSString, NSImage>()
+        cache.countLimit = 400
+        return cache
+    }()
 
     private static var trashFull: Bool?
     private static var trashChecked = Date.distantPast
@@ -368,9 +374,9 @@ enum IconCache {
             return NSImage(systemSymbolName: "globe", accessibilityDescription: nil) ?? NSImage()
         }
         if url.path == trashURL.path { return trashIcon() }
-        if let cached = cache[url.path] { return cached }
+        if let cached = cache.object(forKey: url.path as NSString) { return cached }
         let image = NSWorkspace.shared.icon(forFile: url.path)
-        cache[url.path] = image
+        cache.setObject(image, forKey: url.path as NSString)
         return image
     }
 
@@ -404,14 +410,18 @@ enum IconCache {
                                        options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])?.nextObject() != nil
     }
 
-    private static var names: [String: String] = [:]
+    private static let names: NSCache<NSString, NSString> = {
+        let cache = NSCache<NSString, NSString>()
+        cache.countLimit = 2000
+        return cache
+    }()
 
-    /// Remembered: the file system lookup is slow enough to matter when every tile asks on every redraw.
+    /// Remembered (up to a limit): the file system lookup is slow enough to matter when every tile asks on every redraw.
     static func name(for url: URL) -> String {
-        if let known = names[url.path] { return known }
+        if let known = names.object(forKey: url.path as NSString) { return known as String }
         let display = FileManager.default.displayName(atPath: url.path)
         let name = display.hasSuffix(".app") ? String(display.dropLast(4)) : display
-        names[url.path] = name
+        names.setObject(name as NSString, forKey: url.path as NSString)
         return name
     }
 }

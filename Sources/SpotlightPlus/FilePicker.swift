@@ -369,18 +369,7 @@ private struct FileTile: View {
 
     var body: some View {
         VStack(spacing: 5) {
-            Image(nsImage: IconCache.icon(for: url))
-                .resizable()
-                .interpolation(.high)
-                .frame(width: 52, height: 52)
-                .overlay(alignment: .topTrailing) {
-                    if selected {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 18))
-                            .foregroundStyle(.white, Color.accentColor)
-                            .offset(x: 6, y: -6)
-                    }
-                }
+            TileIcon(url: url, picked: selected)
             Text(IconCache.name(for: url))
                 .font(.system(size: 11))
                 .lineLimit(2)

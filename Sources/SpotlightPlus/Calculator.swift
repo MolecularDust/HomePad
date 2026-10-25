@@ -28,13 +28,17 @@ enum Calculator {
         return Answer(expression: typed + " =", value: format(result))
     }
 
-    private static func format(_ value: Double) -> String {
-        if value == value.rounded(), abs(value) < 1e15 { return String(Int64(value)) }
+    private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.usesGroupingSeparator = false
         formatter.maximumFractionDigits = 10
         formatter.maximumSignificantDigits = 12
+        return formatter
+    }()
+
+    private static func format(_ value: Double) -> String {
+        if value == value.rounded(), abs(value) < 1e15 { return String(Int64(value)) }
         return formatter.string(from: NSNumber(value: value)) ?? String(value)
     }
 

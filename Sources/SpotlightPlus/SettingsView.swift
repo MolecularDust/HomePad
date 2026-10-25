@@ -16,9 +16,7 @@ struct SettingsView: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
-    @State private var hasAccessibility = Permissions.accessibility
-    @State private var hasScreenRecording = Permissions.screenRecording
-    @State private var hasFullDisk = Permissions.fullDiskAccess
+    @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
         Form {
@@ -43,7 +41,7 @@ struct SettingsView: View {
                 }
                 .onChange(of: doubleTap) { _ in
                     DoubleTapMonitor.shared.apply()
-                    hasAccessibility = Permissions.accessibility
+                    permissions.refresh()
                 }
                 Text("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the Accessibility permission.")
                     .font(.caption).foregroundStyle(.secondary)
@@ -73,20 +71,20 @@ struct SettingsView: View {
             }
 
             Section("Permissions") {
-                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: hasAccessibility,
+                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: permissions.accessibility,
                               detail: "Jump to a specific window and double-tap a modifier key.") {
                     Permissions.requestAccessibility()
                 }
-                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: hasScreenRecording,
+                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
                               detail: "Window previews when you hover a running app.") {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
-                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: hasFullDisk,
+                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
                               detail: "Find files in Documents, Desktop and Downloads. Add SpotlightPlus with + if it isn't listed, then relaunch it.") {
                     Permissions.openSettings("Privacy_AllFiles")
                 }
-                if !hasAccessibility || !hasScreenRecording || !hasFullDisk {
+                if !permissions.allGranted {
                     Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                     .font(.caption).foregroundStyle(.secondary)
                 }
@@ -126,11 +124,6 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .frame(width: 480)
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-            hasAccessibility = Permissions.accessibility
-            hasScreenRecording = Permissions.screenRecording
-            hasFullDisk = Permissions.fullDiskAccess
-        }
     }
 
     private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {

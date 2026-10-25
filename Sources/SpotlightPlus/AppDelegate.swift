@@ -69,8 +69,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             window.toolbar = NSToolbar(identifier: "SettingsWindow")
             window.toolbarStyle = .unified
             window.isReleasedWhenClosed = false
+            // The window is kept when closed, so its view never goes away: the permission buttons are kept current
+            // from here, only while it is open.
+            NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { _ in
+                PermissionStatus.shared.watch(false)
+            }
             settingsWindow = window
         }
+        if settingsWindow?.isVisible == false { PermissionStatus.shared.watch(true) }
         settingsWindow?.center()
         activateSelf()
         settingsWindow?.makeKeyAndOrderFront(nil)

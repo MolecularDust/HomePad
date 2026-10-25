@@ -43,10 +43,7 @@ struct OnboardingView: View {
     let finish: () -> Void
     @ObservedObject private var shortcuts = ShortcutStore.shared
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
-    @State private var hasAccessibility = Permissions.accessibility
-    @State private var hasScreenRecording = Permissions.screenRecording
-    @State private var hasFullDisk = Permissions.fullDiskAccess
-    private let poll = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -57,22 +54,22 @@ struct OnboardingView: View {
             }
 
             step("1. Allow access") {
-                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: hasScreenRecording,
+                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
                               detail: "Shows a preview of each window when you hover a running app.") {
                     Permissions.requestScreenRecording()
                     Permissions.openSettings("Privacy_ScreenCapture")
                 }
-                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: hasAccessibility,
+                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: permissions.accessibility,
                               detail: "Jumps to the window you pick, and powers the double-tap shortcut.") {
                     Permissions.requestAccessibility()
                 }
-                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: hasFullDisk,
+                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
                               detail: "Finds files in Documents, Desktop and Downloads. Add SpotlightPlus with + if it isn't listed.") {
                     Permissions.openSettings("Privacy_AllFiles")
                 }
                 Text("macOS may ask you to reopen SpotlightPlus after you allow Screen Recording or Full Disk Access.")
                     .font(.caption).foregroundStyle(.secondary)
-                if !hasAccessibility || !hasScreenRecording || !hasFullDisk {
+                if !permissions.allGranted {
                     Text("Already switched on in System Settings but still red? Select SpotlightPlus there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
@@ -98,7 +95,7 @@ struct OnboardingView: View {
                     .fixedSize()
                     .onChange(of: doubleTap) { _ in
                         DoubleTapMonitor.shared.apply()
-                        hasAccessibility = Permissions.accessibility
+                        permissions.refresh()
                     }
                 }
             }
@@ -110,11 +107,8 @@ struct OnboardingView: View {
         }
         .padding(24)
         .frame(width: 480)
-        .onReceive(poll) { _ in
-            hasAccessibility = Permissions.accessibility
-            hasScreenRecording = Permissions.screenRecording
-            hasFullDisk = Permissions.fullDiskAccess
-        }
+        .onAppear { PermissionStatus.shared.watch(true) }
+        .onDisappear { PermissionStatus.shared.watch(false) }
     }
 
     private func step<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
