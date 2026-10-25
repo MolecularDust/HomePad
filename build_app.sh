@@ -28,6 +28,14 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
     <key>LSMinimumSystemVersion</key>    <string>13.0</string>
     <key>LSUIElement</key>               <true/>
     <key>NSHighResolutionCapable</key>   <true/>
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>  <string>com.spotlightplus.category-row</string>
+            <key>UTTypeDescription</key> <string>SpotlightPlus category row</string>
+            <key>UTTypeConformsTo</key>  <array><string>public.data</string></array>
+        </dict>
+    </array>
 </dict>
 </plist>
 PLIST

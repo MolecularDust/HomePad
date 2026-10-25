@@ -161,6 +161,14 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
+    /// Two categories trade places, each with everything in it (dropping one row on another).
+    func swapCategories(_ a: UUID, _ b: UUID) {
+        guard a != b, let i = categories.firstIndex(where: { $0.id == a }),
+              let j = categories.firstIndex(where: { $0.id == b }) else { return }
+        categories.swapAt(i, j)
+        save()
+    }
+
     /// Moves a category one place up (-1) or down (+1), from its right-click menu.
     func moveCategory(_ id: UUID, by offset: Int) {
         guard let from = categories.firstIndex(where: { $0.id == id }), categories.indices.contains(from + offset) else { return }

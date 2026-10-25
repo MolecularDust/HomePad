@@ -8,7 +8,7 @@ struct SettingsView: View {
     @ObservedObject private var shortcuts = ShortcutStore.shared
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
-    @AppStorage("tightRows") private var tightRows = false
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
     @AppStorage(PanelController.rememberSizeKey) private var rememberSize = true
     @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
@@ -50,7 +50,7 @@ struct SettingsView: View {
 
             Section("Layout") {
                 Stepper("Icons per row: \(columns)", value: $columns, in: 4...10)
-                Toggle("Tighter rows", isOn: $tightRows)
+                Stepper("Row height: \(rowHeight) pt", value: $rowHeight, in: RowMetrics.range, step: 2)
                 Toggle("Show the Running section", isOn: $showRunning)
             }
 
@@ -152,7 +152,7 @@ struct SettingsView: View {
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
         columns = 8
-        tightRows = false
+        rowHeight = RowMetrics.standard
         rememberSize = true
         rememberPosition = false
         showRunning = true

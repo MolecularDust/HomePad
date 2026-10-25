@@ -222,12 +222,25 @@ struct HoverLink: View {
 
 // MARK: - Categories + running apps
 
+/// The "Row height" setting: the distance in points from one row of tiles to the next. 101 is the standard layout.
+/// A tile is about 79 pt tall and 6 pt separates the rows; the rest is padding above and below each tile.
+enum RowMetrics {
+    static let standard = 101
+    static let range = 85...125
+    private static let tileContent: CGFloat = 79, rowGap: CGFloat = 6
+
+    static func padding(_ rowHeight: Int) -> CGFloat { max(0, (CGFloat(rowHeight) - tileContent - rowGap) / 2) }
+
+    /// The space between categories follows along, so the whole layout loosens or tightens together.
+    static func categoryGap(_ rowHeight: Int) -> CGFloat { min(20, max(6, 14 + CGFloat(rowHeight - standard) * 0.4)) }
+}
+
 struct HomeView: View {
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var running = RunningApps.shared
     @AppStorage("columns") private var columns = 8
     @AppStorage("showRunning") private var showRunning = true
-    @AppStorage("tightRows") private var tight = false
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
 
     private var grid: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 6), count: max(columns, 3))
@@ -252,20 +265,20 @@ struct HomeView: View {
 
             GeometryReader { geo in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: tight ? 8 : 14) {
+                    VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
                         ForEach(store.categories) { category in
                             CategorySection(category: category, grid: grid, running: running)
                         }
 
                         if showRunning && !runningApps.isEmpty {
-                            VStack(alignment: .leading, spacing: tight ? 3 : 6) {
+                            VStack(alignment: .leading, spacing: 6) {
                                 HStack {
                                     Text("Running").font(.system(size: 14, weight: .semibold))
                                     Spacer()
                                     Label("Managed automatically", systemImage: "lock")
                                         .font(.system(size: 11)).foregroundStyle(.tertiary)
                                 }
-                                LazyVGrid(columns: grid, spacing: tight ? 2 : 6) {
+                                LazyVGrid(columns: grid, spacing: 6) {
                                     ForEach(runningApps, id: \.self) { url in
                                         AppTile(url: url, isRunning: true, categoryID: nil)
                                     }
@@ -292,8 +305,14 @@ struct HomeView: View {
     }
 }
 
-/// A category's name. It turns green under the pointer, and dragging it moves the whole category to a new place in
-/// the order, the way tiles are rearranged.
+extension UTType {
+    /// What a dragged category row is on the pasteboard. Its own type, so that the tiles' drop targets (which take
+    /// plain text and file URLs) leave it alone, and the whole band, icons included, takes the drop.
+    static let categoryRow = UTType(exportedAs: "com.spotlightplus.category-row")
+}
+
+/// A category's name. It turns green under the pointer. Dragging it picks up the whole row (the name and its icons)
+/// and trades places with the row it is dropped on.
 struct CategoryTitle: View {
     let category: Category
     @ObservedObject private var state = PanelState.shared
@@ -303,39 +322,124 @@ struct CategoryTitle: View {
         Text(category.name)
             .font(.system(size: 14, weight: .semibold))
             .foregroundStyle(hovering && !state.isDragging ? Color.green : Color.primary)
-            .opacity(state.draggingCategory == category.id ? 0.35 : 1)       // the one in the air
             .contentShape(Rectangle())
             .onHover { hovering = $0 && !PanelState.shared.isDragging }
-            .onDrag({
-                PanelState.shared.draggingCategory = category.id
-                PanelState.shared.beginDrag()
-                hovering = false
-                return NSItemProvider(object: "spotlightplus-category:\(category.id.uuidString)" as NSString)
-            }, preview: {
-                Text(category.name)
-                    .font(.system(size: 14, weight: .semibold))
-                    .padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(Color(nsColor: .windowBackgroundColor)))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.2), lineWidth: 0.5))
-            })
-            .help("Drag to change the order of the categories")
+            .overlay(CategoryDragHandle(category: category))
+            .help("Drag to swap this category with another")
     }
 }
 
-/// While a category title is being dragged, the band it is over shows where it would land; it moves when dropped.
-/// (Moving it while it is still in the air changes the very view being dragged, and leaves a stray copy behind.)
+/// The row as it is carried: a miniature of it (its name and its first icons) on a plain card. Kept small because the
+/// system shrinks wide drag images anyway. Drawn with fixed colours, since the system's adaptive ones come out
+/// wrong outside the window.
+struct CategoryRowImage: View {
+    let category: Category
+    private let shown = 6
+
+    var body: some View {
+        let urls = CategoryStore.shared.urls(in: category.id)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(verbatim: category.name)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(.black)
+                .lineLimit(1)
+            HStack(spacing: 6) {
+                if urls.isEmpty {
+                    Text(verbatim: "Empty").font(.system(size: 12)).foregroundColor(.gray)
+                }
+                ForEach(Array(urls.prefix(shown)), id: \.self) { url in
+                    Image(nsImage: IconCache.icon(for: url)).resizable().frame(width: 34, height: 34)
+                }
+                if urls.count > shown {
+                    Text(verbatim: "+\(urls.count - shown)").font(.system(size: 12, weight: .medium)).foregroundColor(.gray)
+                }
+            }
+        }
+        .padding(12)
+        .frame(minWidth: 130, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: 1.5))
+        .fixedSize()
+    }
+}
+
+/// An invisible layer over a category's name that starts the drag. SwiftUI's own drag support draws its drag image
+/// in a way that, here, comes out blank, so the drag is started with AppKit and given the image of the whole row.
+struct CategoryDragHandle: NSViewRepresentable {
+    let category: Category
+
+    func makeNSView(context: Context) -> CategoryDragSourceView { CategoryDragSourceView() }
+
+    func updateNSView(_ view: CategoryDragSourceView, context: Context) { view.category = category }
+}
+
+final class CategoryDragSourceView: NSView, NSDraggingSource {
+    var category = Category(name: "")
+    private var mouseDownEvent: NSEvent?
+
+    override var mouseDownCanMoveWindow: Bool { false }
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+
+    override func mouseDown(with event: NSEvent) { mouseDownEvent = event }
+
+    override func mouseDragged(with event: NSEvent) {
+        guard let down = mouseDownEvent,
+              hypot(event.locationInWindow.x - down.locationInWindow.x, event.locationInWindow.y - down.locationInWindow.y) > 4 else { return }
+        mouseDownEvent = nil
+        pickUp(with: down)
+    }
+
+    override func mouseUp(with event: NSEvent) { mouseDownEvent = nil }
+
+    private func pickUp(with event: NSEvent) {
+        let state = PanelState.shared
+        state.draggingCategory = category.id
+        state.beginDrag()
+
+        let renderer = ImageRenderer(content: CategoryRowImage(category: category))
+        renderer.scale = window?.backingScaleFactor ?? 2
+        let image = renderer.nsImage ?? NSImage(size: NSSize(width: 120, height: 30))
+
+        let pasteboardItem = NSPasteboardItem()
+        pasteboardItem.setString(category.id.uuidString, forType: NSPasteboard.PasteboardType(UTType.categoryRow.identifier))
+        let item = NSDraggingItem(pasteboardWriter: pasteboardItem)
+        // The picture starts beside the name it was picked up from, then follows the pointer.
+        item.setDraggingFrame(NSRect(x: -12, y: bounds.height + 12 - image.size.height,
+                                     width: image.size.width, height: image.size.height), contents: image)
+        beginDraggingSession(with: [item], event: event, source: self)
+    }
+
+    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation { .move }
+
+    /// Dropped somewhere that doesn't take it, or released: either way the drag is over.
+    func draggingSession(_ session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+        DispatchQueue.main.async { PanelState.shared.endDrag() }
+    }
+}
+
+/// While a category row is being dragged, the row it is over is marked as the one it will trade places with; the
+/// swap happens when it is dropped. (Moving things while the drag is still in the air changes the very view being
+/// dragged, and leaves a stray copy behind.)
 enum CategoryReorder {
     static func enter(target: UUID) {
         guard PanelState.shared.draggingCategory != nil else { return }
         PanelState.shared.dropTarget = target
     }
 
-    /// Dropped on a band: the category goes there. True if a category was being dragged.
+    /// Dropped on a band: the two rows trade places. True if a category was being dragged.
     static func drop(on target: UUID) -> Bool {
         guard let dragging = PanelState.shared.draggingCategory else { return false }
-        withAnimation(.easeInOut(duration: 0.2)) { CategoryStore.shared.moveCategory(dragging, to: target) }
+        withAnimation(.easeInOut(duration: 0.25)) { CategoryStore.shared.swapCategories(dragging, target) }
         PanelState.shared.endDrag()
         return true
+    }
+}
+
+extension View {
+    /// Tile and Finder-item drops. Off while a category row is carried: a nested destination that doesn't take the
+    /// row would refuse it, so the row's own band-wide destination would never see the drop.
+    @ViewBuilder func itemDrop(enabled: Bool, delegate: some DropDelegate) -> some View {
+        if enabled { onDrop(of: [.plainText, .fileURL], delegate: delegate) } else { self }
     }
 }
 
@@ -344,33 +448,28 @@ struct CategoryReorderDelegate: DropDelegate {
 
     func dropEntered(info: DropInfo) { CategoryReorder.enter(target: target) }
     func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
-    func performDrop(info: DropInfo) -> Bool { CategoryReorder.drop(on: target) }
+    func performDrop(info: DropInfo) -> Bool { return CategoryReorder.drop(on: target) }
 }
 
 struct CategorySection: View {
     let category: Category
-    @AppStorage("tightRows") private var tight = false
     let grid: [GridItem]
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var state = PanelState.shared
 
-    /// While a title is dragged over this band: a green line where it would land (below if it is coming from
-    /// above, above if it is coming from below).
-    private var dropLine: (show: Bool, atBottom: Bool) {
-        guard state.dropTarget == category.id, let dragging = state.draggingCategory, dragging != category.id,
-              let from = store.categories.firstIndex(where: { $0.id == dragging }),
-              let to = store.categories.firstIndex(where: { $0.id == category.id }) else { return (false, false) }
-        return (true, from < to)
+    /// While a row is dragged over this one: this is the row it would trade places with.
+    private var isSwapTarget: Bool {
+        guard state.dropTarget == category.id, let dragging = state.draggingCategory else { return false }
+        return dragging != category.id
     }
 
     var body: some View {
         let urls = store.urls(in: category.id)
-        let line = dropLine
-        VStack(alignment: .leading, spacing: tight ? 3 : 6) {
+        VStack(alignment: .leading, spacing: 6) {
             CategoryTitle(category: category)
 
-            LazyVGrid(columns: grid, spacing: tight ? 2 : 6) {
+            LazyVGrid(columns: grid, spacing: 6) {
                 ForEach(urls, id: \.self) { url in
                     AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id)
                         .onDrag {
@@ -378,24 +477,23 @@ struct CategorySection: View {
                             PanelState.shared.beginDrag()
                             return NSItemProvider(object: url.path as NSString)
                         }
-                        .onDrop(of: [.plainText, .fileURL], delegate: TileDropDelegate(target: url))
+                        .itemDrop(enabled: state.draggingCategory == nil, delegate: TileDropDelegate(target: url))
                 }
                 if urls.isEmpty {
                     PlaceholderTile(categoryID: category.id)
                 }
             }
             // Drop a tile or Finder items onto the category's empty space to append them.
-            .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
+            .itemDrop(enabled: state.draggingCategory == nil, delegate: CategoryDropDelegate(category: category.id))
         }
-        .overlay(alignment: line.atBottom ? .bottom : .top) {
-            if line.show {
-                Capsule().fill(Color.green).frame(height: 3)
-                    .offset(y: line.atBottom ? 8 : -8)
-                    .allowsHitTesting(false)
-            }
-        }
-        // A category title dragged over this band takes this band's place in the order.
-        .onDrop(of: [.plainText], delegate: CategoryReorderDelegate(target: category.id))
+        .padding(6)
+        .background(RoundedRectangle(cornerRadius: 12).fill(isSwapTarget ? Color.green.opacity(0.12) : .clear))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.green, lineWidth: isSwapTarget ? 2 : 0))
+        .padding(-6)
+        .opacity(state.draggingCategory == category.id ? 0.35 : 1)             // the row in the air stays here, dimmed
+        .animation(.easeInOut(duration: 0.12), value: isSwapTarget)
+        // A category row dragged over this band trades places with this one.
+        .onDrop(of: [.categoryRow], delegate: CategoryReorderDelegate(target: category.id))
         // A right-click anywhere in this category's band that isn't on a tile (its title, the gaps between and
         // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -429,14 +527,14 @@ private struct TileFrameKey: PreferenceKey {
 /// categoryID is nil for tiles in the Running section, which can't be edited.
 struct AppTile: View {
     let url: URL
-    @AppStorage("tightRows") private var tight = false
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     let isRunning: Bool
     let categoryID: UUID?
     @State private var hovering = false
     @State private var frame = CGRect.zero
 
     var body: some View {
-        VStack(spacing: tight ? 2 : 5) {
+        VStack(spacing: 5) {
             Image(nsImage: IconCache.icon(for: url))
                 .resizable()
                 .interpolation(.high)
@@ -451,7 +549,7 @@ struct AppTile: View {
                 .frame(width: 18, height: 3)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, tight ? 3 : 8)
+        .padding(.vertical, RowMetrics.padding(rowHeight))
         .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
         .background(GeometryReader { Color.clear.preference(key: TileFrameKey.self, value: $0.frame(in: .global)) })
         .onPreferenceChange(TileFrameKey.self) { frame = $0 }
@@ -514,10 +612,10 @@ struct PinMenu: View {
 /// Grayed-out stand-in shown in a category that has no apps yet.
 struct PlaceholderTile: View {
     let categoryID: UUID
-    @AppStorage("tightRows") private var tight = false
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
 
     var body: some View {
-        VStack(spacing: tight ? 2 : 5) {
+        VStack(spacing: 5) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -533,7 +631,7 @@ struct PlaceholderTile: View {
             Color.clear.frame(width: 18, height: 3)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, tight ? 3 : 8)
+        .padding(.vertical, RowMetrics.padding(rowHeight))
         .contentShape(Rectangle())
         .onTapGesture { Launcher.chooseAppsToPin(to: categoryID) }
     }
@@ -545,10 +643,6 @@ struct TileDropDelegate: DropDelegate {
 
     func dropEntered(info: DropInfo) {
         let store = CategoryStore.shared
-        if PanelState.shared.draggingCategory != nil {            // a category title is being carried over this tile
-            if let category = store.location(of: target)?.category { CategoryReorder.enter(target: category) }
-            return
-        }
         guard let dragging = PanelState.shared.draggingItem, dragging != target,
               let to = store.location(of: target) else { return }
         withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, toCategory: to.category, at: to.index) }
@@ -557,7 +651,6 @@ struct TileDropDelegate: DropDelegate {
     func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
-        if let category = CategoryStore.shared.location(of: target)?.category, CategoryReorder.drop(on: category) { return true }
         if PanelState.shared.draggingItem != nil {
             PanelState.shared.endDrag()
             PanelState.shared.draggingItem = nil
@@ -577,12 +670,9 @@ struct TileDropDelegate: DropDelegate {
 struct CategoryDropDelegate: DropDelegate {
     let category: UUID
 
-    func dropEntered(info: DropInfo) { CategoryReorder.enter(target: category) }
-
     func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
-        if CategoryReorder.drop(on: category) { return true }
         if let dragging = PanelState.shared.draggingItem {
             CategoryStore.shared.move(dragging, toCategory: category)
             PanelState.shared.endDrag()
