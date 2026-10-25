@@ -11,6 +11,41 @@ struct WindowDragArea: NSViewRepresentable {
     func updateNSView(_ nsView: NSView, context: Context) {}
 }
 
+/// An icon button in the panel's footer that shows its name in a small label at once when the pointer is over it
+/// (the system's tooltip waits a second or more, and is easy to miss).
+struct FooterIcon: View {
+    let symbol: String
+    let name: String
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: 15))
+                .frame(width: 28, height: 28)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(hovering ? Color.primary : Color.secondary)
+        .onHover { hovering = $0 }
+        .accessibilityLabel(name)
+        .overlay(alignment: .topTrailing) {
+            if hovering {
+                Text(name)
+                    .font(.system(size: 11, weight: .medium))
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 6).fill(.regularMaterial))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 0.5))
+                    .fixedSize()
+                    .offset(y: -30)
+                    .allowsHitTesting(false)
+            }
+        }
+        .zIndex(1)
+    }
+}
+
 struct SpotlightPlusView: View {
     @ObservedObject private var state = PanelState.shared
     @FocusState private var searchFocused: Bool
@@ -85,16 +120,8 @@ struct SpotlightPlusView: View {
                 .foregroundStyle(.secondary)
             Text(NSFullUserName()).font(.system(size: 13))
             Spacer()
-            Button { PanelController.shared.resetFrame() } label: {
-                Image(systemName: "arrow.counterclockwise").font(.system(size: 14))
-            }
-            .buttonStyle(.plain)
-            .help("Reset window size and position")
-            Button { AppDelegate.shared?.openSettings() } label: {
-                Image(systemName: "gearshape").font(.system(size: 15))
-            }
-            .buttonStyle(.plain)
-            .help("Settings")
+            FooterIcon(symbol: "arrow.counterclockwise", name: "Reset window") { PanelController.shared.resetFrame() }
+            FooterIcon(symbol: "gearshape", name: "Settings") { AppDelegate.shared?.openSettings() }
         }
         .padding(.horizontal, 24)
         .frame(height: 52)

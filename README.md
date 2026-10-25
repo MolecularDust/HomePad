@@ -23,7 +23,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Option-Space** opens and closes the panel (change it in Settings), or double-tap Control, Option
   or Command (Settings → Shortcut; needs the Accessibility permission).
 - **Categories**: apps live in named categories. **Essentials** comes first and is seeded from your Dock on
-  first launch, plus a **Files** category with Downloads and the Trash, like the right end of the Dock. Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
+  first launch, plus a **Files** category with the Trash and Downloads, like the right end of the Dock (only on the very first run; if you delete it, it stays deleted). Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click a category name to rename or delete
   it (everything in it is unpinned too; the apps and files themselves are untouched).
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,

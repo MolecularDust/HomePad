@@ -60,30 +60,17 @@ final class CategoryStore: ObservableObject {
         if let data = d.data(forKey: key),
            let saved = try? JSONDecoder().decode([Category].self, from: data), !saved.isEmpty {
             categories = saved
-        } else {
-            // First launch (or upgrade from the single pinned list): everything goes into Essentials.
-            let paths = d.stringArray(forKey: "pinnedPaths") ?? DockImporter.pinnedApps().map(\.path)
+        } else if let paths = d.stringArray(forKey: "pinnedPaths") {
+            // Upgrade from the single pinned list: everything goes into Essentials.
             categories = [Category(name: "Essentials", paths: paths)]
+        } else {
+            // The very first run: the Dock's apps in Essentials, plus a "Files" category with the Trash and
+            // Downloads, like the right end of the Dock. Only ever created here, so deleting it keeps it deleted.
+            categories = [Category(name: "Essentials", paths: DockImporter.pinnedApps().map(\.path))]
+            if let files = Self.filesCategory(avoiding: categories) { categories.append(files) }
         }
         for i in categories.indices {
             categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
-        }
-        // Once: a "Files" category with the Trash and Downloads, like the right end of the Dock. Not brought
-        // back if you delete it later.
-        if !d.bool(forKey: "seededFilesCategory") {
-            d.set(true, forKey: "seededFilesCategory")
-            if !categories.contains(where: { $0.name == "Files" }), let files = Self.filesCategory(avoiding: categories) {
-                categories.append(files)
-            }
-        }
-        // Once: the first version of that category had Downloads before the Trash. Swap it, if it's still untouched.
-        if !d.bool(forKey: "filesTrashFirst") {
-            d.set(true, forKey: "filesTrashFirst")
-            let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.path
-                ?? NSHomeDirectory() + "/Downloads"
-            if let i = categories.firstIndex(where: { $0.name == "Files" }), categories[i].paths == [downloads, trashURL.path] {
-                categories[i].paths = [trashURL.path, downloads]
-            }
         }
         save()
     }
