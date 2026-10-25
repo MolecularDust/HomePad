@@ -336,7 +336,7 @@ final class WindowPreviewController {
     func hover(app: NSRunningApplication?, over: Bool, tile: CGRect) {
         overTile = over
         // With a mouse button down the user is clicking or dragging the tile, not looking for its windows.
-        if over, NSEvent.pressedMouseButtons != 0 { return }
+        if over, NSEvent.pressedMouseButtons != 0 || PanelState.shared.isDragging { return }
         if over, let app {
             hideWork?.cancel()
             if panel.isVisible, model.app?.processIdentifier == app.processIdentifier { return }

@@ -17,7 +17,43 @@ final class PanelState: ObservableObject {
     @Published var selection = 0
     @Published var focusToken = 0          // bumped each time the panel opens, to refocus the field
     var draggingItem: URL?                  // pinned tile being reordered
-    var draggingCategory: UUID?             // category title being dragged to a new place in the order
+    @Published var draggingCategory: UUID?  // category title being dragged to a new place in the order
+    @Published var dropTarget: UUID?        // the category band a dragged title is over: where it would land
+    @Published var isDragging = false       // a tile or a category title is in the air
+    private var dragWatcher: Timer?
+    private var lastDragActivity = Date()
+
+    /// Called by drop targets whenever a drag moves over them, so a drag that is still moving is never taken for dead.
+    func noteDragActivity() { lastDragActivity = Date() }
+
+    /// A tile or category title was picked up. While dragging, passing over other things must not trigger them
+    /// (hover colours, window previews).
+    func beginDrag() {
+        isDragging = true
+        lastDragActivity = Date()
+        WindowPreviewController.shared.hideNow()
+        dragWatcher?.invalidate()
+        let started = Date()
+        // SwiftUI has no callback for a drag that ends without a drop. It counts as over when the mouse button is up
+        // and no drop target has seen the pointer for a second. (Added for all run-loop modes: a drag runs the loop
+        // in tracking mode.)
+        let timer = Timer(timeInterval: 0.2, repeats: true) { [weak self] _ in
+            guard let self, Date().timeIntervalSince(started) > 0.4, NSEvent.pressedMouseButtons == 0,
+                  Date().timeIntervalSince(self.lastDragActivity) > 1.0 else { return }
+            self.endDrag()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        dragWatcher = timer
+    }
+
+    func endDrag() {
+        dragWatcher?.invalidate()
+        dragWatcher = nil
+        isDragging = false
+        draggingItem = nil
+        draggingCategory = nil
+        dropTarget = nil
+    }
 
     /// Back to the pinned apps.
     func goHome() { query = "" }
@@ -25,8 +61,7 @@ final class PanelState: ObservableObject {
     func reset() {
         query = ""
         selection = 0
-        draggingItem = nil
-        draggingCategory = nil
+        endDrag()
         focusToken += 1
     }
 }

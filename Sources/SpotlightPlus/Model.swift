@@ -161,6 +161,13 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
+    /// Moves a category one place up (-1) or down (+1), from its right-click menu.
+    func moveCategory(_ id: UUID, by offset: Int) {
+        guard let from = categories.firstIndex(where: { $0.id == id }), categories.indices.contains(from + offset) else { return }
+        categories.swapAt(from, from + offset)
+        save()
+    }
+
     /// Puts a category where another one is, moving the others along (dragging a category title).
     func moveCategory(_ id: UUID, to targetID: UUID) {
         guard id != targetID, let from = categories.firstIndex(where: { $0.id == id }),

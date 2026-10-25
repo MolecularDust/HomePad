@@ -35,7 +35,7 @@ struct FooterIcon: View {
         }
         .buttonStyle(.plain)
         .foregroundStyle(hovering ? Color.primary : Color.secondary)
-        .onHover { hovering = $0 }
+        .onHover { hovering = $0 && !PanelState.shared.isDragging }
         .accessibilityLabel(name)
         .overlay(alignment: .topTrailing) {
             if hovering {
@@ -76,7 +76,7 @@ struct FooterProfile: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .onHover { hovering = $0 }
+        .onHover { hovering = $0 && !PanelState.shared.isDragging }
         .accessibilityLabel("Apple Account")
         .overlay(alignment: .topLeading) {
             if hovering {
@@ -216,7 +216,7 @@ struct HoverLink: View {
                 .foregroundStyle(hovering ? Color.green : Color.secondary)
         }
         .buttonStyle(.plain)
-        .onHover { hovering = $0 }
+        .onHover { hovering = $0 && !PanelState.shared.isDragging }
     }
 }
 
@@ -296,33 +296,45 @@ struct HomeView: View {
 /// the order, the way tiles are rearranged.
 struct CategoryTitle: View {
     let category: Category
+    @ObservedObject private var state = PanelState.shared
     @State private var hovering = false
 
     var body: some View {
         Text(category.name)
             .font(.system(size: 14, weight: .semibold))
-            .foregroundStyle(hovering ? Color.green : Color.primary)
+            .foregroundStyle(hovering && !state.isDragging ? Color.green : Color.primary)
+            .opacity(state.draggingCategory == category.id ? 0.35 : 1)       // the one in the air
             .contentShape(Rectangle())
-            .onHover { hovering = $0 }
-            .onDrag {
+            .onHover { hovering = $0 && !PanelState.shared.isDragging }
+            .onDrag({
                 PanelState.shared.draggingCategory = category.id
+                PanelState.shared.beginDrag()
+                hovering = false
                 return NSItemProvider(object: "spotlightplus-category:\(category.id.uuidString)" as NSString)
-            }
+            }, preview: {
+                Text(category.name)
+                    .font(.system(size: 14, weight: .semibold))
+                    .padding(.horizontal, 10).padding(.vertical, 4)
+                    .background(RoundedRectangle(cornerRadius: 6).fill(Color(nsColor: .windowBackgroundColor)))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.2), lineWidth: 0.5))
+            })
             .help("Drag to change the order of the categories")
     }
 }
 
-/// While a category title is being dragged, whatever it is carried over decides its new place.
+/// While a category title is being dragged, the band it is over shows where it would land; it moves when dropped.
+/// (Moving it while it is still in the air changes the very view being dragged, and leaves a stray copy behind.)
 enum CategoryReorder {
     static func enter(target: UUID) {
-        guard let dragging = PanelState.shared.draggingCategory, dragging != target else { return }
-        withAnimation(.easeInOut(duration: 0.18)) { CategoryStore.shared.moveCategory(dragging, to: target) }
+        guard PanelState.shared.draggingCategory != nil else { return }
+        PanelState.shared.dropTarget = target
     }
 
-    /// Ends a category drag; true if one was in progress.
-    static func finish() -> Bool {
-        guard PanelState.shared.draggingCategory != nil else { return false }
-        PanelState.shared.draggingCategory = nil
+    /// Dropped on a band: the category goes there. True if a category was being dragged.
+    static func drop(on target: UUID) -> Bool {
+        guard let dragging = PanelState.shared.draggingCategory else { return false }
+        withAnimation(.easeInOut(duration: 0.2)) { CategoryStore.shared.moveCategory(dragging, to: target) }
+        PanelState.shared.endDrag()
         return true
     }
 }
@@ -331,8 +343,8 @@ struct CategoryReorderDelegate: DropDelegate {
     let target: UUID
 
     func dropEntered(info: DropInfo) { CategoryReorder.enter(target: target) }
-    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
-    func performDrop(info: DropInfo) -> Bool { CategoryReorder.finish() }
+    func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
+    func performDrop(info: DropInfo) -> Bool { CategoryReorder.drop(on: target) }
 }
 
 struct CategorySection: View {
@@ -341,9 +353,20 @@ struct CategorySection: View {
     let grid: [GridItem]
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
+    @ObservedObject private var state = PanelState.shared
+
+    /// While a title is dragged over this band: a green line where it would land (below if it is coming from
+    /// above, above if it is coming from below).
+    private var dropLine: (show: Bool, atBottom: Bool) {
+        guard state.dropTarget == category.id, let dragging = state.draggingCategory, dragging != category.id,
+              let from = store.categories.firstIndex(where: { $0.id == dragging }),
+              let to = store.categories.firstIndex(where: { $0.id == category.id }) else { return (false, false) }
+        return (true, from < to)
+    }
 
     var body: some View {
         let urls = store.urls(in: category.id)
+        let line = dropLine
         VStack(alignment: .leading, spacing: tight ? 3 : 6) {
             CategoryTitle(category: category)
 
@@ -352,6 +375,7 @@ struct CategorySection: View {
                     AppTile(url: url, isRunning: running.isRunning(url), categoryID: category.id)
                         .onDrag {
                             PanelState.shared.draggingItem = url
+                            PanelState.shared.beginDrag()
                             return NSItemProvider(object: url.path as NSString)
                         }
                         .onDrop(of: [.plainText, .fileURL], delegate: TileDropDelegate(target: url))
@@ -362,6 +386,13 @@ struct CategorySection: View {
             }
             // Drop a tile or Finder items onto the category's empty space to append them.
             .onDrop(of: [.plainText, .fileURL], delegate: CategoryDropDelegate(category: category.id))
+        }
+        .overlay(alignment: line.atBottom ? .bottom : .top) {
+            if line.show {
+                Capsule().fill(Color.green).frame(height: 3)
+                    .offset(y: line.atBottom ? 8 : -8)
+                    .allowsHitTesting(false)
+            }
         }
         // A category title dragged over this band takes this band's place in the order.
         .onDrop(of: [.plainText], delegate: CategoryReorderDelegate(target: category.id))
@@ -375,6 +406,13 @@ struct CategorySection: View {
             Button("Add File or Folder to \(category.name)…") { Launcher.chooseFilesToPin(to: category.id) }
             Divider()
             Button("Add Category…") { Launcher.addCategory() }
+            let position = store.categories.firstIndex { $0.id == category.id } ?? 0
+            if position > 0 {
+                Button("Move \(category.name) Up") { withAnimation(.easeInOut(duration: 0.2)) { store.moveCategory(category.id, by: -1) } }
+            }
+            if position < store.categories.count - 1 {
+                Button("Move \(category.name) Down") { withAnimation(.easeInOut(duration: 0.2)) { store.moveCategory(category.id, by: 1) } }
+            }
             Button("Rename \(category.name)…") { Launcher.renameCategory(category) }
             if category.id != store.essentialsID {
                 Button("Delete \(category.name)") { store.delete(category.id) }
@@ -419,6 +457,7 @@ struct AppTile: View {
         .onPreferenceChange(TileFrameKey.self) { frame = $0 }
         .contentShape(Rectangle())
         .onHover { inside in
+            guard !PanelState.shared.isDragging else { hovering = false; return }      // passing over it with something in hand
             hovering = inside
             if isRunning {
                 WindowPreviewController.shared.hover(app: RunningApps.shared.app(for: url), over: inside, tile: frame)
@@ -515,11 +554,12 @@ struct TileDropDelegate: DropDelegate {
         withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, toCategory: to.category, at: to.index) }
     }
 
-    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+    func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
-        if CategoryReorder.finish() { return true }
+        if let category = CategoryStore.shared.location(of: target)?.category, CategoryReorder.drop(on: category) { return true }
         if PanelState.shared.draggingItem != nil {
+            PanelState.shared.endDrag()
             PanelState.shared.draggingItem = nil
             return true
         }
@@ -539,13 +579,13 @@ struct CategoryDropDelegate: DropDelegate {
 
     func dropEntered(info: DropInfo) { CategoryReorder.enter(target: category) }
 
-    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+    func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
 
     func performDrop(info: DropInfo) -> Bool {
-        if CategoryReorder.finish() { return true }
+        if CategoryReorder.drop(on: category) { return true }
         if let dragging = PanelState.shared.draggingItem {
             CategoryStore.shared.move(dragging, toCategory: category)
-            PanelState.shared.draggingItem = nil
+            PanelState.shared.endDrag()
             return true
         }
         let providers = info.itemProviders(for: [.fileURL])

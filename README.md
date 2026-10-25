@@ -31,7 +31,9 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
   Clicking a place in the sidebar (Documents, Downloads, Trash ...) opens it and picks the folder itself, so **Add** is
   ready. These windows don't block the panel: move one aside and drag any tile from it into the panel.
-- **Category order**: a category's name turns green when you point at it; drag it onto another category to move it
+- **Category order**: a category's name turns green when you point at it; drag it onto another category (a green
+  line shows where it will land; it moves when you let go), or right-click inside it and choose **Move Up** or
+  **Move Down**. While something is being dragged, hover effects and window previews stay off. Dragging moves it
   to that place in the order (Essentials can be moved too; it stays the default place for new items and can't be deleted).
 - **Right-click to add**: right-click empty space inside a category (its title, or the gaps between and after its
   tiles) and the menu adds to *that* category: "Add App to Files…", "Add File or Folder to Files…", plus Add Category,
