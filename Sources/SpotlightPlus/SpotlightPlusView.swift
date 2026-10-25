@@ -263,7 +263,7 @@ struct AppTile: View {
         .help(IconCache.name(for: url))
         .contextMenu {
             Button("Open") { Launcher.open(url) }
-            Button("Show in Finder") { Launcher.reveal(url) }
+            if url.path != trashURL.path { Button("Show in Finder") { Launcher.reveal(url) } }
             Divider()
             if let categoryID {
                 Button("Move Left") { CategoryStore.shared.shift(url, by: -1) }

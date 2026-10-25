@@ -54,9 +54,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func openSettings() {
         PanelController.shared.hide(restoreFocus: false)
         if settingsWindow == nil {
-            let window = NSWindow(contentViewController: NSHostingController(rootView: SettingsView()))
+            let host = NSHostingController(rootView: SettingsView())
+            host.sizingOptions = []           // the window is sized below, not by the content
+            let window = NSWindow(contentViewController: host)
             window.title = "SpotlightPlus Settings"
-            window.styleMask = [.titled, .closable]
+            window.styleMask = [.titled, .closable, .resizable]
+            // As tall as the settings need, but never taller than the screen: the form scrolls inside.
+            let natural = NSHostingView(rootView: SettingsView().fixedSize(horizontal: false, vertical: true)).fittingSize.height
+            let available = (NSScreen.main?.visibleFrame.height ?? 800) - 110      // leaves room for the title bar
+            window.setContentSize(NSSize(width: 480, height: min(natural, available)))
+            window.contentMinSize = NSSize(width: 480, height: 300)
+            window.contentMaxSize = NSSize(width: 480, height: CGFloat.greatestFiniteMagnitude)
             // An empty toolbar gives the full-height title bar regular Mac apps have.
             window.toolbar = NSToolbar(identifier: "SettingsWindow")
             window.toolbarStyle = .unified

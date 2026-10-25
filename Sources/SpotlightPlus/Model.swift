@@ -237,23 +237,9 @@ enum Launcher {
         DispatchQueue.main.async { AppPicker.show(for: category) }
     }
 
-    /// Pins any files or folders. The standard open dialog is used here, so Documents and the like can be browsed.
+    /// Pins any files or folders, from a browser window styled like Add Apps (with a Trash entry).
     static func chooseFilesToPin(to category: UUID? = nil) {
-        DispatchQueue.main.async {
-            PanelController.shared.keepVisible {
-                activateSelf()
-                let panel = NSOpenPanel()
-                panel.title = "Add Files or Folders"
-                panel.prompt = "Add"
-                panel.allowsMultipleSelection = true
-                panel.canChooseFiles = true
-                panel.canChooseDirectories = true
-                panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
-                if panel.runModal() == .OK {
-                    panel.urls.forEach { CategoryStore.shared.add($0, to: category) }
-                }
-            }
-        }
+        DispatchQueue.main.async { FilePicker.show(for: category) }
     }
 
     static func addCategory() {

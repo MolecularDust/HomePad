@@ -27,7 +27,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   A new category shows a grayed-out "Add your app here" tile. Right-click a category name to rename or delete
   it (its apps move to Essentials).
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
-  or right-click a search result → Pin. They open when clicked; folders open in Finder.
+  or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
+  window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
 - **Add apps**: the Add App button (double-click an app in the picker to add it and close the picker), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
 - **Remove / reorder**: right-click a tile → Unpin App / Move Left / Move Right / Move to, or drag tiles
