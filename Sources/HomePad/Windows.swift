@@ -25,6 +25,10 @@ enum Permissions {
         clearFloatingWindows()
         PermissionStatus.shared.expectGrant()
         _ = CGRequestScreenCaptureAccess()
+        // On recent macOS the call above doesn't always put HomePad in System Settings' Screen & System Audio
+        // Recording list (after a permissions reset it often doesn't), so the switch can't be turned on. Asking
+        // ScreenCaptureKit for the windows on screen does list the app, reliably.
+        SCShareableContent.getExcludingDesktopWindows(false, onScreenWindowsOnly: true) { _, _ in }
     }
 
     static func requestAccessibility() {

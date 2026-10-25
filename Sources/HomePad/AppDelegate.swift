@@ -20,10 +20,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             PanelController.shared.toggle()
         }
         ShortcutStore.shared.registerCurrent(report: true)
-        DoubleTapMonitor.shared.apply()
+        DoubleTapMonitor.shared.apply(ask: false)
 
         setUpStatusItem()
-        PermissionStatus.shared.onGranted = { [weak self] in self?.bringBack() }
+        PermissionStatus.shared.onGranted = { [weak self] in
+            // Accessibility may be what just came on: start listening for the double tap again with it.
+            DoubleTapMonitor.shared.apply(ask: false)
+            self?.bringBack()
+        }
         // Back from a Quit & Reopen: the window you were in opens again.
         switch Relaunch.windowToReopen() {
         case "settings": openSettings()

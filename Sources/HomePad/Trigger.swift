@@ -39,13 +39,15 @@ final class DoubleTapMonitor {
     }
 
     /// Call at launch and whenever the setting changes.
-    func apply() {
+    /// `ask`: the user just chose a key, so Accessibility may be asked for. At launch it isn't: macOS's "would like
+    /// to control this Mac" prompt would appear out of nowhere, before the Setup Guide has explained anything.
+    func apply(ask: Bool = true) {
         for m in monitors { NSEvent.removeMonitor(m) }
         monitors = []
         pressedAt = nil
         lastTapAt = 0
         guard Self.current != .off else { return }
-        if !Permissions.accessibility { Permissions.requestAccessibility() }
+        if ask, !Permissions.accessibility { Permissions.requestAccessibility() }
 
         let handler: (NSEvent) -> Void = { [weak self] event in self?.handle(event) }
         if let m = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handler) { monitors.append(m) }
