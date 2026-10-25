@@ -101,6 +101,9 @@ struct SettingsView: View {
                 Button("Reset to Defaults…") { confirmReset() }
                 Text("Puts the shortcut, double-tap, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
                     .font(.caption).foregroundStyle(.secondary)
+                Button("Start Over…") { StartOver.confirm() }
+                Text("As if HomePad had just been installed: its permissions are taken back in macOS, the Setup Guide shows again and HomePad restarts. You can choose to also forget your categories and settings.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
 
             Section("General") {
@@ -266,5 +269,48 @@ struct NumberSetting: View {
     /// Takes the typed number, kept within the range; anything that isn't a number goes back to the current value.
     private func commit() {
         if let typed = Int(text.trimmingCharacters(in: .whitespaces)) { set(typed) } else { text = String(value) }
+    }
+}
+
+/// Settings → Start Over: back to a first launch, to go through the Setup Guide and the permission requests again.
+enum StartOver {
+    static func confirm() {
+        let alert = NSAlert()
+        alert.messageText = "Start over as if HomePad were new?"
+        alert.informativeText = "macOS takes back HomePad's permissions (Accessibility, Screen Recording, Full Disk Access), so it will ask for them again. The Setup Guide shows once more, and HomePad restarts."
+        let erase = NSButton(checkboxWithTitle: "Also forget my categories and settings", target: nil, action: nil)
+        alert.accessoryView = erase
+        alert.addButton(withTitle: "Start Over")
+        alert.addButton(withTitle: "Cancel")
+        guard PanelController.shared.keepVisible(during: { alert.runModal() }) == .alertFirstButtonReturn else { return }
+        run(erasingSettings: erase.state == .on)
+    }
+
+    private static func run(erasingSettings: Bool) {
+        let id = Bundle.main.bundleIdentifier ?? "local.mike.HomePad"
+        let reset = Process()
+        reset.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+        reset.arguments = ["reset", "All", id]
+        try? reset.run()
+        reset.waitUntilExit()
+        if reset.terminationStatus != 0 {
+            let note = NSAlert()
+            note.messageText = "macOS didn't take the permissions back"
+            note.informativeText = "Remove HomePad yourself in System Settings → Privacy & Security, under Accessibility, Screen Recording and Full Disk Access (select it, then press −). HomePad starts over anyway."
+            PanelController.shared.keepVisible { _ = note.runModal() }
+        }
+        let defaults = UserDefaults.standard
+        if erasingSettings {
+            try? SMAppService.mainApp.unregister()
+            defaults.removePersistentDomain(forName: id)
+            // A fresh start stays fresh: the settings of the app's earlier names aren't copied back in.
+            defaults.set(true, forKey: "migratedFromSpotlightPlus")
+            defaults.set(true, forKey: "migratedFromStartMenu")
+        } else {
+            Onboarding.reset()
+        }
+        defaults.synchronize()
+        Relaunch.afterQuitting(reopening: nil)
+        NSApp.terminate(nil)
     }
 }

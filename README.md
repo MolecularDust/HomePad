@@ -101,6 +101,10 @@ on in System Settings and comes back to the front as soon as it is. Screen Recor
 a restart: when System Settings offers **Quit & Reopen**, HomePad quits, starts again on its own and reopens the window
 you were in.
 
+The Setup Guide shows on first launch only if a permission is missing. To go through it again from scratch, use
+**Settings → Reset → Start Over…**: macOS takes back HomePad's permissions, the guide shows again and HomePad restarts
+(tick the box to also forget your categories and settings, as on a fresh install).
+
 ## App icon
 
 The icon is `Resources/AppIcon.svg`. After changing it, run `./tools/make_icon.sh` to rebuild `Resources/AppIcon.icns`

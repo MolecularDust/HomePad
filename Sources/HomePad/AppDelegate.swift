@@ -28,7 +28,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         switch Relaunch.windowToReopen() {
         case "settings": openSettings()
         case "setupGuide": Onboarding.show()
-        default: if !Onboarding.completed { Onboarding.show() }
+        default:
+            // The first time only, and only when something is missing: with every permission already on, the
+            // guide has nothing to do.
+            if !Onboarding.completed {
+                if PermissionStatus.shared.allGranted { Onboarding.markCompleted() } else { Onboarding.show() }
+            }
         }
     }
 

@@ -11,6 +11,12 @@ enum Onboarding {
     static var completed: Bool { UserDefaults.standard.bool(forKey: doneKey) }
     static var isOpen: Bool { window?.isVisible == true }
 
+    /// Done without showing it: every permission is already on (after a reinstall or a rename, say).
+    static func markCompleted() { UserDefaults.standard.set(true, forKey: doneKey) }
+
+    /// It shows again at the next launch (Start Over).
+    static func reset() { UserDefaults.standard.removeObject(forKey: doneKey) }
+
     static func show() {
         if window == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish)))
