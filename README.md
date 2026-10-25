@@ -94,6 +94,13 @@ any time from the menu-bar icon → Setup Guide…
 | `Model.swift` | Dock import, categories, running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
 
+## Setting up permissions
+
+When you allow a permission (in the Setup Guide, Settings or a window preview), HomePad watches for it to be switched
+on in System Settings and comes back to the front as soon as it is. Screen Recording and Full Disk Access usually need
+a restart: when System Settings offers **Quit & Reopen**, HomePad quits, starts again on its own and reopens the window
+you were in.
+
 ## App icon
 
 The icon is `Resources/AppIcon.svg`. After changing it, run `./tools/make_icon.sh` to rebuild `Resources/AppIcon.icns`

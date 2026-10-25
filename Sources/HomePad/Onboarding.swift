@@ -9,6 +9,7 @@ enum Onboarding {
     private static var closer: WindowCloser?
 
     static var completed: Bool { UserDefaults.standard.bool(forKey: doneKey) }
+    static var isOpen: Bool { window?.isVisible == true }
 
     static func show() {
         if window == nil {

@@ -23,16 +23,19 @@ enum Permissions {
     static func requestScreenRecording() {
         guard !screenRecording else { return }      // already allowed: never ask again
         clearFloatingWindows()
+        PermissionStatus.shared.expectGrant()
         _ = CGRequestScreenCaptureAccess()
     }
 
     static func requestAccessibility() {
         guard !accessibility else { return }        // already allowed: never ask again
         clearFloatingWindows()
+        PermissionStatus.shared.expectGrant()
         _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
     }
 
     static func openSettings(_ pane: String) {
+        PermissionStatus.shared.expectGrant()
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?\(pane)") {
             NSWorkspace.shared.open(url)
         }
@@ -50,6 +53,12 @@ final class PermissionStatus: ObservableObject {
     @Published private(set) var fullDiskAccess = Permissions.fullDiskAccess
     private var watchers = 0
     private var timer: Timer?
+    /// What HomePad does when a permission it asked for is switched on (bring itself back to the front).
+    var onGranted: (() -> Void)?
+    private var waitTimer: Timer?
+    private var waitUntil = Date.distantPast
+    /// Waiting for a permission asked for: System Settings is in front, and HomePad comes back once it's on.
+    private(set) var isWaiting = false
 
     private init() {
         NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
@@ -59,9 +68,33 @@ final class PermissionStatus: ObservableObject {
 
     func refresh() {
         let a = Permissions.accessibility, s = Permissions.screenRecording, f = Permissions.fullDiskAccess
+        let newlyGranted = (a && !accessibility) || (s && !screenRecording) || (f && !fullDiskAccess)
         if a != accessibility { accessibility = a }
         if s != screenRecording { screenRecording = s }
         if f != fullDiskAccess { fullDiskAccess = f }
+        if newlyGranted, isWaiting {
+            stopWaiting()
+            onGranted?()
+        }
+    }
+
+    /// A permission was asked for. For the next five minutes it's checked every second, so HomePad comes back to the
+    /// front as soon as the switch is turned on in System Settings. (Screen Recording and Full Disk Access usually
+    /// only count after a restart; System Settings then offers Quit & Reopen, and HomePad relaunches itself.)
+    func expectGrant() {
+        waitUntil = Date().addingTimeInterval(300)
+        isWaiting = true
+        guard waitTimer == nil else { return }
+        waitTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            if Date() > self.waitUntil { self.stopWaiting() } else { self.refresh() }
+        }
+    }
+
+    private func stopWaiting() {
+        isWaiting = false
+        waitTimer?.invalidate()
+        waitTimer = nil
     }
 
     /// A window showing the permissions opened (true) or closed (false).

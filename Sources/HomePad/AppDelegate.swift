@@ -23,7 +23,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DoubleTapMonitor.shared.apply()
 
         setUpStatusItem()
-        if !Onboarding.completed { Onboarding.show() }
+        PermissionStatus.shared.onGranted = { [weak self] in self?.bringBack() }
+        // Back from a Quit & Reopen: the window you were in opens again.
+        switch Relaunch.windowToReopen() {
+        case "settings": openSettings()
+        case "setupGuide": Onboarding.show()
+        default: if !Onboarding.completed { Onboarding.show() }
+        }
+    }
+
+    /// A permission was just switched on in System Settings: HomePad comes back to the front, in the window that
+    /// asked for it (the Setup Guide or Settings), or with its panel.
+    private func bringBack() {
+        if Onboarding.isOpen {
+            Onboarding.show()
+        } else if settingsWindow?.isVisible == true {
+            activateSelf()
+            settingsWindow?.makeKeyAndOrderFront(nil)
+        } else {
+            PanelController.shared.show()
+        }
+    }
+
+    /// System Settings' "Quit & Reopen" (after Screen Recording or Full Disk Access is switched on) quits HomePad but
+    /// didn't start it again, so HomePad relaunches itself when System Settings is what asked it to quit.
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        if Relaunch.quitAskedBySystemSettings() || (PermissionStatus.shared.isWaiting && Relaunch.quitAskedByAnotherApp()) {
+            Relaunch.afterQuitting(reopening: Onboarding.isOpen ? "setupGuide" : (settingsWindow?.isVisible == true ? "settings" : nil))
+        }
+        return .terminateNow
     }
 
     // MARK: Menu bar icon
@@ -103,4 +131,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 /// launcher-style apps use. It is only called in response to the user: the shortcut, a click, a menu item.
 func activateSelf() {
     NSApp.activate(ignoringOtherApps: true)
+}
+
+/// Starting HomePad again after it quits, for System Settings' "Quit & Reopen".
+enum Relaunch {
+    private static let reopenKey = "reopenAfterRelaunch"
+    private static let settingsApps: Set<String> = ["com.apple.systempreferences", "com.apple.Settings"]
+
+    /// The process that sent the quit request being handled, if it came as an Apple event from another process.
+    private static var quitSender: pid_t? {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent, event.eventClass == kCoreEventClass,
+              event.eventID == kAEQuitApplication,
+              let pid = event.attributeDescriptor(forKeyword: AEKeyword(keySenderPIDAttr))?.int32Value,
+              pid != ProcessInfo.processInfo.processIdentifier else { return nil }
+        return pid
+    }
+
+    static func quitAskedBySystemSettings() -> Bool {
+        quitSender.flatMap { NSRunningApplication(processIdentifier: $0)?.bundleIdentifier }.map(settingsApps.contains) ?? false
+    }
+
+    /// Any other process (not only an app: macOS's privacy service may send it on System Settings' behalf).
+    static func quitAskedByAnotherApp() -> Bool { quitSender != nil }
+
+    /// Starts a tiny helper that waits for this process to end, then opens the app again; `window` is what to show.
+    static func afterQuitting(reopening window: String?) {
+        UserDefaults.standard.set(window, forKey: reopenKey)
+        let helper = Process()
+        helper.executableURL = URL(fileURLWithPath: "/bin/sh")
+        helper.arguments = ["-c", "while /bin/kill -0 \(ProcessInfo.processInfo.processIdentifier) 2>/dev/null; do /bin/sleep 0.2; done; /usr/bin/open \"$0\"",
+                            Bundle.main.bundlePath]
+        try? helper.run()
+    }
+
+    /// What to show after such a relaunch, once (nil normally).
+    static func windowToReopen() -> String? {
+        defer { UserDefaults.standard.removeObject(forKey: reopenKey) }
+        return UserDefaults.standard.string(forKey: reopenKey)
+    }
 }
