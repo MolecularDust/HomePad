@@ -328,7 +328,11 @@ struct HomeView: View {
 
     /// Every running app, like the Dock's running indicators, pinned or not.
     private var runningApps: [URL] {
-        running.apps.compactMap { $0.bundleURL.map(normalized) }
+        // Once per app: some apps run as more than one process (Firefox), and two tiles with the same URL confused
+        // the grid, which left an empty slot and dropped another app (Claude).
+        var seen = Set<URL>()
+        return running.apps.compactMap { $0.bundleURL.map(normalized) }
+            .filter { seen.insert($0).inserted }
             .sorted { IconCache.name(for: $0).localizedCaseInsensitiveCompare(IconCache.name(for: $1)) == .orderedAscending }
     }
 
