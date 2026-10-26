@@ -15,7 +15,7 @@ chmod +x build_app.sh
 This creates `build/HomePad.app`. Move it to **/Applications** and open it. Because it's signed
 locally rather than by a registered developer, the first launch may need right-click → Open.
 
-It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own.
+It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own. Click the icon to open or close the panel; right-click (or Control-click) it for Settings, the Setup Guide and Quit.
 
 **Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
 with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's

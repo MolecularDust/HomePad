@@ -331,6 +331,9 @@ final class PanelController: NSObject, NSWindowDelegate {
     }
 
     var isVisible: Bool { panel.isVisible }
+    /// When the panel last closed. A click on the menu-bar icon takes focus from the panel, which closes it just
+    /// before the click arrives; the click then counts as "close", not "open again".
+    private(set) var hiddenAt = Date.distantPast
     var frame: NSRect { panel.frame }
 
     func toggle() { isVisible ? hide(restoreFocus: true) : show() }
@@ -434,6 +437,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         removeKeyMonitor()
         WindowPreviewController.shared.hideNow()
         panel.orderOut(nil)
+        hiddenAt = Date()
         isHiding = false
         if restoreFocus { previous?.activate(options: []) }
     }

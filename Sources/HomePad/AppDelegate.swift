@@ -3,6 +3,7 @@ import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
+    private var statusMenu: NSMenu?
     private var settingsWindow: NSWindow?
     /// Settings was opened from the panel (its gear): the panel stays behind it, and gets keyboard focus back when
     /// Settings closes.
@@ -89,8 +90,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
         menu.addItem(.separator())
         menu.addItem(withTitle: "Quit HomePad", action: #selector(quit), keyEquivalent: "q").target = self
-        statusItem.menu = menu
+        // A click opens (or closes) the panel; a right click or Control-click shows this menu. With `menu` set on
+        // the status item, every click would show the menu, so it's shown by hand instead.
+        statusMenu = menu
+        statusItem.button?.target = self
+        statusItem.button?.action = #selector(statusItemClicked)
+        // On mouse down, as menu-bar icons respond, so the panel opens without waiting for the button to come up.
+        statusItem.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         statusItem.isVisible = UserDefaults.standard.object(forKey: "showMenuBarIcon") as? Bool ?? true
+    }
+
+    @objc private func statusItemClicked() {
+        let event = NSApp.currentEvent
+        if event?.type == .rightMouseDown || event?.modifierFlags.contains(.control) == true {
+            showStatusMenu()
+        } else if Date().timeIntervalSince(PanelController.shared.hiddenAt) < 0.3 {
+            // The panel was open and closed itself as this click took focus: leave it closed.
+        } else {
+            PanelController.shared.toggle()
+        }
+    }
+
+    private func showStatusMenu() {
+        guard let button = statusItem.button, let statusMenu else { return }
+        // Set for the duration only: the system then places and highlights the menu as for any menu-bar icon.
+        statusItem.menu = statusMenu
+        button.performClick(nil)
+        statusItem.menu = nil
     }
 
     func setStatusItemVisible(_ visible: Bool) { statusItem.isVisible = visible }

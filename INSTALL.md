@@ -62,8 +62,8 @@ started**.
 
 - Press **Option-Space** to open HomePad and press it again to close it. Then start typing to search, or click an
   app.
-- HomePad lives in the **menu bar** at the top of the screen (the grid icon), not in the Dock. Its menu has
-  **Settings…**, **Setup Guide…** and **Quit HomePad**.
+- HomePad lives in the **menu bar** at the top of the screen (the grid icon), not in the Dock. Click the icon to
+  open HomePad. Right-click it for **Settings…**, **Setup Guide…** and **Quit HomePad**.
 - In **Settings**, you can turn on **Launch at login** so HomePad is always there, or **Hide the Dock** if you want
   HomePad to replace it.
 
@@ -71,7 +71,7 @@ started**.
 
 ## Installing a newer version
 
-1. Quit HomePad (menu-bar icon → **Quit HomePad**).
+1. Quit HomePad (right-click the menu-bar icon → **Quit HomePad**).
 2. Drag the new **HomePad** into Applications and choose **Replace**.
 3. Open it. If your Mac blocks it again, repeat step 2 ("Open it the first time").
 
@@ -95,7 +95,7 @@ xattr -dr com.apple.quarantine /Applications/HomePad.app
 ```
 
 **Nothing seems to happen when I open it**
-HomePad has no window of its own. Look for the grid icon in the menu bar, or press Option-Space.
+HomePad has no window of its own. Click the grid icon in the menu bar, or press Option-Space.
 
 **Option-Space doesn't work**
 Another app may be using that shortcut. HomePad tells you in Settings → Shortcut when it can tell who. Pick another
