@@ -60,7 +60,8 @@ started**.
 
 ## 4. Using it
 
-- Press **Option-Space** to open HomePad and press it again to close it. Then start typing to search, or click an
+- Press **Option-Space** to open HomePad and press it again to close it. Or pick a **hot corner** in Settings: then
+  pushing the pointer into that corner of the screen opens HomePad there. Then start typing to search, or click an
   app.
 - HomePad lives in the **menu bar** at the top of the screen (the grid icon), not in the Dock. Click the icon to
   open HomePad. Right-click it for **Settings…**, **Setup Guide…** and **Quit HomePad**.

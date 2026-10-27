@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
+    @AppStorage(HotCornerMonitor.defaultsKey) private var hotCorners = ""
     @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
@@ -45,6 +46,7 @@ struct SettingsView: View {
                 }
                 Text("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the Accessibility permission.")
                     .font(.caption).foregroundStyle(.secondary)
+                HotCornerSetting()
             }
 
             Section("Layout") {
@@ -98,7 +100,7 @@ struct SettingsView: View {
 
             Section("Reset") {
                 Button("Reset to Defaults…") { confirmReset() }
-                Text("Puts the shortcut, double-tap, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
+                Text("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("Start Over…") { StartOver.confirm() }
                 Text("As if HomePad had just been installed: its permissions are taken back in macOS, the Setup Guide shows again and HomePad restarts. You can choose to also forget your categories and settings.")
@@ -142,12 +144,13 @@ struct SettingsView: View {
     private func confirmReset() {
         let alert = NSAlert()
         alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap off, sets 8 icons per row and the standard row height and icon spacing, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
+        hotCorners = ""
         columns = 8
         rowHeight = RowMetrics.standard
         iconSpacing = TileMetrics.standardSpacing
@@ -311,5 +314,87 @@ enum StartOver {
         defaults.synchronize()
         Relaunch.afterQuitting(reopening: nil)
         NSApp.terminate(nil)
+    }
+}
+
+/// Pick any of the four corners: a small screen with a spot in each corner to click.
+struct HotCornerSetting: View {
+    @AppStorage(HotCornerMonitor.defaultsKey) private var stored = ""
+    private var chosen: Set<HotCorner> { HotCornerMonitor.decode(stored) }
+    /// Read again when Settings opens: it is macOS's setting and may have changed meanwhile.
+    @State private var clashes: [HotCorner: String] = [:]
+
+    var body: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Or hot corners")
+                Text(summary).font(.caption).foregroundStyle(.secondary)
+            }
+            Spacer()
+            screen
+        }
+        .onAppear(perform: readClashes)
+        .onChange(of: stored) { _ in
+            HotCornerMonitor.shared.apply()
+            readClashes()
+        }
+        let clashing = HotCorner.allCases.filter { chosen.contains($0) && clashes[$0] != nil }
+        if !clashing.isEmpty {
+            Text(clashing.map { "macOS also uses the \($0.title.lowercased()) corner for \(clashes[$0]!)." }.joined(separator: " ")
+                 + " Both will happen there. Change it in System Settings → Desktop & Dock → Hot Corners, or pick another corner here.")
+                .font(.caption).foregroundStyle(.red)
+        }
+        Text("Rest the pointer in a corner you picked and HomePad opens in that corner; do it again to close it. The shortcut and double-tap still open it in the middle.")
+            .font(.caption).foregroundStyle(.secondary)
+    }
+
+    private var summary: String {
+        let names = HotCorner.allCases.filter(chosen.contains).map(\.title)
+        return names.isEmpty ? "Off. Click a corner to use it." : names.joined(separator: ", ")
+    }
+
+    private var screen: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color.primary.opacity(0.05))
+                .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color.primary.opacity(0.25)))
+            // The menu bar, so top and bottom read at a glance.
+            VStack { Rectangle().fill(Color.primary.opacity(0.12)).frame(height: 7); Spacer() }
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+            ForEach(HotCorner.allCases) { corner in
+                cornerButton(corner)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity,
+                           alignment: Alignment(horizontal: corner.isLeft ? .leading : .trailing,
+                                                vertical: corner.isTop ? .top : .bottom))
+                    .padding(4)
+            }
+        }
+        .frame(width: 132, height: 84)
+    }
+
+    private func cornerButton(_ corner: HotCorner) -> some View {
+        let on = chosen.contains(corner)
+        return Button {
+            var corners = chosen
+            if on { corners.remove(corner) } else { corners.insert(corner) }
+            stored = HotCornerMonitor.encode(corners)
+        } label: {
+            Image(systemName: on ? "checkmark.circle.fill" : "circle")
+                .font(.system(size: 16))
+                .foregroundStyle(on ? Color.accentColor : Color.secondary)
+                .frame(width: 24, height: 24)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .help(corner.title + (on ? " (on)" : ""))
+        .accessibilityLabel(corner.title)
+        .accessibilityValue(on ? "on" : "off")
+    }
+
+    private func readClashes() {
+        CFPreferencesAppSynchronize("com.apple.dock" as CFString)
+        var found: [HotCorner: String] = [:]
+        for corner in HotCorner.allCases { found[corner] = corner.systemAction }
+        clashes = found
     }
 }

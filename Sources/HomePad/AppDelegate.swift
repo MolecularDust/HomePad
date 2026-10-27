@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         ShortcutStore.shared.registerCurrent(report: true)
         DoubleTapMonitor.shared.apply(ask: false)
+        HotCornerMonitor.shared.apply()
 
         setUpStatusItem()
         PermissionStatus.shared.onGranted = { [weak self] restartComing in

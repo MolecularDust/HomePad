@@ -15,7 +15,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 - Search uses **`NSMetadataQuery`** (Spotlight index), debounced 80 ms, scope `NSMetadataQueryLocalComputerScope`.
 - Initial pinned list comes from the Dock's **`com.apple.dock` `persistent-apps`** preference (via `CFPreferences`), Finder prepended.
 - "Hide the Dock" sets `autohide` + `autohide-delay=1000` in `com.apple.dock` and restarts the Dock.
-- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`categories`, `columns`, `showRunning`, `hotkey*`, `doubleTapKey`). Bundle id is `local.mike.HomePad`.
+- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`categories`, `columns`, `showRunning`, `hotkey*`, `doubleTapKey`, `hotCorners` as "topLeft,bottomRight"). Bundle id is `local.mike.HomePad`.
 - Permissions (prompted at runtime): Screen Recording (window thumbnails), Accessibility (raise or close a specific window, double-tap trigger), Full Disk Access (no API to request it; without it NSMetadataQuery silently omits files in Documents, Desktop and Downloads). Ad-hoc signing means macOS may re-ask after a rebuild.
 
 ## Layout
@@ -24,6 +24,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 |---|---|
 | `main.swift`, `AppDelegate.swift` | App startup, menu-bar icon, settings window |
 | `Trigger.swift` | Double-tap-modifier trigger (global `NSEvent` monitor), `LegacyMigration` from the earlier bundle ids `local.mike.SpotlightPlus` and `local.mike.StartMenu` |
+| `HotCorners.swift` | `HotCorner` (frame in a corner, macOS's own `wvous-*` corner action for the clash warning) and `HotCornerMonitor`: polls `NSEvent.mouseLocation` at 20 Hz only while a corner is chosen (no permission needed), 0.2 s dwell, re-arms after leaving by 40 pt, ignores drags; opens the panel in that corner |
 | `ShortcutConflict.swift` | Detects who else uses the global shortcut (macOS shortcuts exactly, known launcher apps as a guess) and shows the explanation dialog; Carbon registration does NOT fail on clashes |
 | `Onboarding.swift` | First-run welcome window (permissions + shortcut); reopen via menu bar → Setup Guide… |
 | `FilePicker.swift` | "Add File or Folder": our own file browser window (sidebar, grid, back, hidden-items toggle) with a Trash entry; `~/.Trash` is hidden so the system open dialog never shows it |

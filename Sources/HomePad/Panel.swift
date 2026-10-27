@@ -338,13 +338,18 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     func toggle() { isVisible ? hide(restoreFocus: true) : show() }
 
-    func show() {
+    /// Opened from a hot corner: in that corner of that screen, whatever the remembered position.
+    func show(in corner: HotCorner, of screen: NSScreen) {
+        show(frame: corner.frame(for: rememberedSize ?? panelSize, on: screen))
+    }
+
+    /// `frame`: where to put it (a hot corner); otherwise where you left it, if that's still on a screen, or centred
+    /// on the screen with the mouse pointer, slightly above the middle (like Spotlight).
+    func show(frame given: NSRect? = nil) {
         PanelState.shared.reset()
         RunningApps.shared.refresh()
         ClosableWindows.shared.refresh()
 
-        // Where you left it, if that's still on a screen; otherwise centred on the screen with the mouse pointer,
-        // slightly above the middle (like Spotlight).
         placing = true
         let mouse = NSEvent.mouseLocation
         let size = rememberedSize ?? panelSize
@@ -353,6 +358,7 @@ final class PanelController: NSObject, NSWindowDelegate {
             let remembered = NSRect(origin: origin, size: size)
             if NSScreen.screens.contains(where: { $0.visibleFrame.intersects(remembered) }) { frame = remembered }
         }
+        if let given { frame = given }
         panel.setFrame(frame, display: false)
         placing = false
 

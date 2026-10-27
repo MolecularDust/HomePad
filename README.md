@@ -26,6 +26,10 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 
 - **Option-Space** opens and closes the panel (change it in Settings), or double-tap Control, Option
   or Command (Settings → Shortcut; needs the Accessibility permission).
+- **Hot corners**: Settings → Shortcut → hot corners. Click any of the four corners of the little screen (one, several or
+  all). Rest the pointer in a chosen corner for a moment and the panel opens in that corner; do it again to close it.
+  A quick brush past the corner, or a drag with the mouse button held, does nothing. The shortcut and double-tap
+  still open it in the middle. If macOS uses the same corner for one of its own actions, Settings says so.
 - **Categories**: apps live in named categories. **Essentials** comes first and is seeded from your Dock on
   first launch, plus a **Files** category with the Trash and Downloads, like the right end of the Dock (only on the very first run; if you delete it, it stays deleted). Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click inside a category to rename or delete
