@@ -46,6 +46,7 @@ enum DockImporter {
 struct Category: Identifiable, Codable, Equatable {
     var id = UUID()
     var name: String
+    /// File paths, and folders as `FolderRef` keys ("homepad-folder:<id>").
     var paths: [String] = []
     /// The category that things are added to by default, and that can't be deleted. It starts out first, but a
     /// category can be dragged above it, so it is marked rather than found by position.
@@ -67,16 +68,56 @@ struct Category: Identifiable, Codable, Equatable {
     }
 }
 
+/// A folder of tiles inside a category, as in the Windows Start menu: its tile shows the first four, a click opens
+/// it. It holds apps and files, not other folders.
+struct Folder: Identifiable, Codable, Equatable {
+    var id = UUID()
+    var name: String
+    var paths: [String]
+}
+
+/// A folder stands in a category's list (and as a tile) by a URL of its own: "homepad-folder:<id>".
+enum FolderRef {
+    static let scheme = "homepad-folder"
+
+    static func url(_ id: UUID) -> URL { URL(string: "\(scheme):\(id.uuidString)")! }
+
+    static func id(_ url: URL) -> UUID? {
+        guard url.scheme == scheme else { return nil }
+        return UUID(uuidString: String(url.absoluteString.dropFirst(scheme.count + 1)))
+    }
+
+    static func id(key: String) -> UUID? {
+        key.hasPrefix(scheme + ":") ? UUID(uuidString: String(key.dropFirst(scheme.count + 1))) : nil
+    }
+}
+
+/// How an item is written in a list: a file by its path, a folder by its reference.
+func itemKey(_ url: URL) -> String { FolderRef.id(url) != nil ? url.absoluteString : normalized(url).path }
+
+func itemURL(_ key: String) -> URL { FolderRef.id(key: key).map(FolderRef.url) ?? URL(fileURLWithPath: key) }
+
+/// Where an item sits: straight in a category, or in a folder.
+enum Container: Equatable {
+    case category(UUID)
+    case folder(UUID)
+}
+
 final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
     /// The first category is Essentials: it can be renamed but never deleted.
     @Published private(set) var categories: [Category] = []
+    @Published private(set) var folders: [Folder] = []
     /// Where the Running section sits among the categories: just above this one, or at the end when nil. Kept as a
     /// neighbour rather than a number so that a new category (added at the end) lands above Running when Running is
     /// last, and below it when Running was moved higher.
     @Published private(set) var runningAbove: UUID?
     private let key = "categories"
+    private let foldersKey = "folders"
     private let runningKey = "runningAbove"
+    /// While a tile is being dragged, a folder emptied down to one item (or none) stays a folder, so the drag can still
+    /// put the item back (Esc); it is tidied when the drag ends.
+    var holdsFolders = false
 
     /// Stands for the Running section in the row order, next to the categories' own ids.
     static let runningID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
@@ -95,9 +136,13 @@ final class CategoryStore: ObservableObject {
             categories = [Category(name: "Essentials", paths: DockImporter.pinnedApps().map(\.path), isEssentials: true)]
             if let files = Self.filesCategory(avoiding: categories) { categories.append(files) }
         }
-        for i in categories.indices {
-            categories[i].paths = categories[i].paths.filter { itemExists(atPath: $0) }
+        if let data = d.data(forKey: foldersKey), let saved = try? JSONDecoder().decode([Folder].self, from: data) {
+            folders = saved
         }
+        // Gone from the disk: unpinned. Folders aren't on the disk, so they stay.
+        let present = { (key: String) in FolderRef.id(key: key) != nil || itemExists(atPath: key) }
+        for i in categories.indices { categories[i].paths = categories[i].paths.filter(present) }
+        for i in folders.indices { folders[i].paths = folders[i].paths.filter(present) }
         if !categories.contains(where: \.isEssentials) { categories[0].isEssentials = true }   // saved before it existed
         runningAbove = d.string(forKey: runningKey).flatMap(UUID.init(uuidString:))
         save()
@@ -153,40 +198,175 @@ final class CategoryStore: ObservableObject {
     var essentialsID: UUID { categories[essentialsIndex].id }
     var essentialsName: String { categories[essentialsIndex].name }
 
+    /// A category's tiles, folders included.
     func urls(in id: UUID) -> [URL] {
-        (categories.first { $0.id == id }?.paths ?? []).map { URL(fileURLWithPath: $0) }
+        (categories.first { $0.id == id }?.paths ?? []).map(itemURL)
+    }
+
+    // MARK: Lists, whether a category's or a folder's
+
+    private func paths(of container: Container) -> [String] {
+        switch container {
+        case .category(let id): return categories.first { $0.id == id }?.paths ?? []
+        case .folder(let id): return folders.first { $0.id == id }?.paths ?? []
+        }
+    }
+
+    private func setPaths(_ paths: [String], of container: Container) {
+        switch container {
+        case .category(let id): if let i = categories.firstIndex(where: { $0.id == id }) { categories[i].paths = paths }
+        case .folder(let id): if let i = folders.firstIndex(where: { $0.id == id }) { folders[i].paths = paths }
+        }
+    }
+
+    private func exists(_ container: Container) -> Bool {
+        switch container {
+        case .category(let id): return categories.contains { $0.id == id }
+        case .folder(let id): return folders.contains { $0.id == id }
+        }
+    }
+
+    /// Takes an item out of every list (it is only ever in one).
+    private func detach(_ key: String) {
+        for i in categories.indices { categories[i].paths.removeAll { $0 == key } }
+        for i in folders.indices { folders[i].paths.removeAll { $0 == key } }
+    }
+
+    private func insert(_ key: String, in container: Container, at index: Int?) {
+        let target = exists(container) ? container : .category(essentialsID)
+        var list = paths(of: target)
+        list.insert(key, at: min(max(index ?? list.count, 0), list.count))
+        setPaths(list, of: target)
     }
 
     func contains(_ url: URL) -> Bool { location(of: url) != nil }
 
-    func location(of url: URL) -> (category: UUID, index: Int)? {
-        let path = normalized(url).path
-        for c in categories {
-            if let i = c.paths.firstIndex(of: path) { return (c.id, i) }
-        }
+    func location(of url: URL) -> (container: Container, index: Int)? {
+        let key = itemKey(url)
+        for c in categories { if let i = c.paths.firstIndex(of: key) { return (.category(c.id), i) } }
+        for f in folders { if let i = f.paths.firstIndex(of: key) { return (.folder(f.id), i) } }
         return nil
     }
 
-    /// Adds to a category (Essentials by default). An app lives in one category at a time.
+    /// The category an item is shown in: its own, or the one holding its folder.
+    func category(of url: URL) -> UUID? {
+        switch location(of: url)?.container {
+        case .category(let id): return id
+        case .folder(let id): return category(of: FolderRef.url(id))
+        case nil: return nil
+        }
+    }
+
+    /// Adds to a category (Essentials by default). An app lives in one place at a time.
     func add(_ url: URL, to id: UUID? = nil, at index: Int? = nil) {
         guard !contains(url) else { return }
-        insert(normalized(url).path, in: id ?? essentialsID, at: index)
+        insert(itemKey(url), in: .category(id ?? essentialsID), at: index)
         save()
     }
 
+    /// Unpins an item. A folder goes with everything in it.
     func remove(_ url: URL) {
-        let path = normalized(url).path
-        for i in categories.indices { categories[i].paths.removeAll { $0 == path } }
+        detach(itemKey(url))
+        if let id = FolderRef.id(url) { folders.removeAll { $0.id == id } }
         save()
     }
 
-    func move(_ url: URL, toCategory id: UUID, at index: Int? = nil) {
-        let path = normalized(url).path
-        guard contains(url) else { return }
-        for i in categories.indices { categories[i].paths.removeAll { $0 == path } }
-        insert(path, in: id, at: index)
+    func move(_ url: URL, toCategory id: UUID, at index: Int? = nil) { move(url, to: .category(id), at: index) }
+
+    /// Moves an item to a place in a category or a folder (folders don't go into folders).
+    func move(_ url: URL, to container: Container, at index: Int? = nil) {
+        let key = itemKey(url)
+        guard contains(url), exists(container) else { return }
+        if case .folder = container, FolderRef.id(url) != nil { return }
+        detach(key)
+        insert(key, in: container, at: index)
         save()
     }
+
+    // MARK: Folders
+
+    func folder(_ id: UUID) -> Folder? { folders.first { $0.id == id } }
+
+    func urls(inFolder id: UUID) -> [URL] { (folder(id)?.paths ?? []).map(itemURL) }
+
+    /// Dropping one tile onto another: onto a folder, it goes in; onto a tile in a category, the two become a folder
+    /// in that tile's place; onto a tile already in a folder, it joins that folder. Returns the folder.
+    @discardableResult
+    func merge(_ dragged: URL, onto target: URL) -> UUID? {
+        let draggedKey = itemKey(dragged), targetKey = itemKey(target)
+        guard draggedKey != targetKey, FolderRef.id(dragged) == nil, contains(dragged) else { return nil }
+        if let id = FolderRef.id(target) {
+            move(dragged, to: .folder(id))
+            return id
+        }
+        guard let place = location(of: target) else { return nil }
+        if case .folder(let id) = place.container {
+            move(dragged, to: .folder(id), at: place.index + 1)
+            return id
+        }
+        let folder = Folder(name: "Folder", paths: [targetKey, draggedKey])
+        detach(draggedKey)
+        guard let index = paths(of: place.container).firstIndex(of: targetKey) else { return nil }
+        var list = paths(of: place.container)
+        list[index] = FolderRef.url(folder.id).absoluteString
+        folders.append(folder)
+        setPaths(list, of: place.container)
+        save()
+        return folder.id
+    }
+
+    func renameFolder(_ id: UUID, to name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let i = folders.firstIndex(where: { $0.id == id }), !trimmed.isEmpty, folders[i].name != trimmed else { return }
+        folders[i].name = trimmed
+        save()
+    }
+
+    /// The folder goes; its items take its place in the category, in their order.
+    func ungroup(_ id: UUID) {
+        guard let folder = folder(id) else { return }
+        replace(FolderRef.url(id).absoluteString, with: folder.paths)
+        folders.removeAll { $0.id == id }
+        save()
+    }
+
+    /// Takes an item out of its folder and puts it just after the folder.
+    func takeOutOfFolder(_ url: URL) {
+        guard case .folder(let id)? = location(of: url)?.container,
+              let place = location(of: FolderRef.url(id)) else { return }
+        move(url, to: place.container, at: place.index + 1)
+    }
+
+    private func replace(_ key: String, with keys: [String]) {
+        for i in categories.indices {
+            if let at = categories[i].paths.firstIndex(of: key) { categories[i].paths.replaceSubrange(at...at, with: keys) }
+        }
+    }
+
+    /// As in Windows, a folder left with one item becomes that item again, and an empty one goes. Folders no category
+    /// shows (its category was deleted) go too, and so do references to folders that no longer exist.
+    private func tidyFolders() {
+        let shown = Set(categories.flatMap(\.paths).compactMap { FolderRef.id(key: $0) })
+        folders.removeAll { !shown.contains($0.id) }
+        let known = Set(folders.map(\.id))
+        for i in categories.indices {
+            categories[i].paths.removeAll { key in FolderRef.id(key: key).map { !known.contains($0) } ?? false }
+        }
+        guard !holdsFolders else { return }
+        for folder in folders where folder.paths.count <= 1 {
+            replace(FolderRef.url(folder.id).absoluteString, with: folder.paths)
+            folders.removeAll { $0.id == folder.id }
+        }
+    }
+
+    /// The drag is over: tidy what it left (see `holdsFolders`).
+    func endHoldingFolders() {
+        guard holdsFolders else { return }
+        holdsFolders = false
+        save()
+    }
+
+    // MARK: Categories
 
     @discardableResult
     func addCategory(named name: String) -> UUID {
@@ -202,7 +382,8 @@ final class CategoryStore: ObservableObject {
         save()
     }
 
-    /// Deleting a category unpins everything in it too (the apps and files themselves are untouched).
+    /// Deleting a category unpins everything in it too, its folders included (the apps and files themselves are
+    /// untouched).
     func delete(_ id: UUID) {
         guard id != essentialsID, let i = categories.firstIndex(where: { $0.id == id }) else { return }
         categories.remove(at: i)
@@ -214,19 +395,18 @@ final class CategoryStore: ObservableObject {
     func replaceWithDock() {
         let dock = DockImporter.pinnedApps().map(\.path)
         for i in categories.indices { categories[i].paths.removeAll { dock.contains($0) } }
+        for i in folders.indices { folders[i].paths.removeAll { dock.contains($0) } }
         categories[essentialsIndex].paths = dock
         save()
     }
 
-    private func insert(_ path: String, in id: UUID, at index: Int?) {
-        let i = categories.firstIndex { $0.id == id } ?? essentialsIndex
-        let at = min(index ?? categories[i].paths.count, categories[i].paths.count)
-        categories[i].paths.insert(path, at: at)
-    }
-
     private func save() {
+        tidyFolders()
         if let data = try? JSONEncoder().encode(categories) {
             UserDefaults.standard.set(data, forKey: key)
+        }
+        if let data = try? JSONEncoder().encode(folders) {
+            UserDefaults.standard.set(data, forKey: foldersKey)
         }
         UserDefaults.standard.set(runningAbove?.uuidString, forKey: runningKey)
     }
@@ -290,6 +470,7 @@ final class QuitRequests: ObservableObject {
 
 enum Launcher {
     static func open(_ url: URL) {
+        if let id = FolderRef.id(url) { FolderPopup.shared.open(id); return }
         guard url.isFileURL, let app = RunningApps.shared.app(for: url) else {
             PanelController.shared.hide(restoreFocus: false)
             openNow(url)
@@ -510,6 +691,7 @@ enum IconCache {
 
     /// Remembered (up to a limit): the file system lookup is slow enough to matter when every tile asks on every redraw.
     static func name(for url: URL) -> String {
+        if let id = FolderRef.id(url) { return CategoryStore.shared.folder(id)?.name ?? "Folder" }   // renamed at will: not cached
         if let known = names.object(forKey: url.path as NSString) { return known as String }
         let display = FileManager.default.displayName(atPath: url.path)
         let name = display.hasSuffix(".app") ? String(display.dropLast(4)) : display

@@ -63,9 +63,15 @@ struct TileIcon: View {
     var picked = false
 
     var body: some View {
-        Image(nsImage: IconCache.icon(for: url))
-            .resizable()
-            .interpolation(.high)
+        Group {
+            if let id = FolderRef.id(url) {
+                FolderIcon(id: id)
+            } else {
+                Image(nsImage: IconCache.icon(for: url))
+                    .resizable()
+                    .interpolation(.high)
+            }
+        }
             .frame(width: 52, height: 52)
             .overlay(alignment: .topTrailing) {
                 if picked {
@@ -349,6 +355,7 @@ struct HomeView: View {
 
             GeometryReader { geo in
                 let grid = TileMetrics.columns(count: columns, spacing: iconSpacing, width: geo.size.width - 48)    // 24 pt margins
+                let tileWidth = grid.first.map { item -> CGFloat in if case .fixed(let w) = item.size { return w }; return TileMetrics.tileWidth } ?? TileMetrics.tileWidth
                 ScrollView {
                     VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
                         // The categories and the Running section, in the order they were put in.
@@ -359,7 +366,7 @@ struct HomeView: View {
                                     if id == CategoryStore.runningID {
                                         RunningSection(apps: runningApps, grid: grid)
                                     } else if let category = store.categories.first(where: { $0.id == id }) {
-                                        CategorySection(category: category, grid: grid, running: running)
+                                        CategorySection(category: category, grid: grid, tileWidth: tileWidth, running: running)
                                     }
                                 }
                                 .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
@@ -388,6 +395,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .overlay { FolderPopupView() }
         }
     }
 }
@@ -506,6 +514,7 @@ final class RowDragSourceView: NSView {
 struct CategorySection: View {
     let category: Category
     let grid: [GridItem]
+    let tileWidth: CGFloat
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
 
@@ -526,7 +535,7 @@ struct CategorySection: View {
                             // highlight and name included), above the empty slot it leaves behind.
                             TileIcon(url: url)
                         }
-                        .onDrop(of: [.plainText, .fileURL], delegate: TileDropDelegate(target: url))
+                        .onDrop(of: [.plainText, .fileURL], delegate: TileDropDelegate(target: url, tileWidth: tileWidth))
                 }
                 if urls.isEmpty {
                     PlaceholderTile(categoryID: category.id)
@@ -562,12 +571,17 @@ private final class FrameBox { var rect = CGRect.zero }
 /// Compared by what it shows, so a category redrawn for another reason (the panel being resized) skips its unchanged
 /// tiles; changes the tile watches itself (hover, row height, the Close Windows check) still redraw it.
 struct AppTile: View, Equatable {
-    static func == (a: AppTile, b: AppTile) -> Bool { a.url == b.url && a.isRunning == b.isRunning && a.categoryID == b.categoryID }
+    static func == (a: AppTile, b: AppTile) -> Bool {
+        a.url == b.url && a.isRunning == b.isRunning && a.categoryID == b.categoryID && a.folderID == b.folderID
+    }
 
     let url: URL
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     let isRunning: Bool
     let categoryID: UUID?
+    /// Set for a tile inside an open folder.
+    var folderID: UUID? = nil
+    @ObservedObject private var mergeTarget = MergeTarget.shared
     @State private var hovering = false
     @State private var frame = FrameBox()
     @ObservedObject private var closable = ClosableWindows.shared
@@ -582,8 +596,21 @@ struct AppTile: View, Equatable {
         // The running mark right under the icon, and the name under that, so the mark stays clear of the text.
         // The mark belongs to the icon: its gap to the artwork is half its distance to the middle of the name (see
         // RunningMark).
+        let merging = mergeTarget.url == url && !inTheAir
         VStack(spacing: 0) {
-            if inTheAir { DashedSlot() } else { TileIcon(url: url) }
+            Group {
+                if inTheAir { DashedSlot() } else { TileIcon(url: url) }
+            }
+            // The tile a dragged one would make a folder with (or go into) if let go now.
+            .background {
+                if merging {
+                    RoundedRectangle(cornerRadius: 16).fill(Color.accentColor.opacity(0.22))
+                        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.accentColor, lineWidth: 2))
+                        .padding(-7)
+                }
+            }
+            .scaleEffect(merging ? 1.06 : 1)
+            .animation(.easeOut(duration: 0.12), value: merging)
             RoundedRectangle(cornerRadius: 1.5)
                 .fill(isRunning && !inTheAir ? Color.red : Color.clear)
                 .frame(width: 18, height: RunningMark.height)
@@ -620,6 +647,9 @@ struct AppTile: View, Equatable {
         .onTapGesture { Launcher.open(url) }
         .help(IconCache.name(for: url))
         .contextMenu {
+          if let folder = FolderRef.id(url) {
+            FolderMenu(id: folder, categoryID: categoryID)
+          } else {
             // Laid out like the Dock's menu. A running app's windows and "New …" commands come from what was read in the
             // background when the pointer arrived (see AppMenus); asking the app here would hold up drawing the tile.
             let app = isRunning ? RunningApps.shared.app(for: url) : nil
@@ -643,6 +673,11 @@ struct AppTile: View, Equatable {
             if url.path != trashURL.path { Button("Show in Finder") { Launcher.reveal(url) } }
             if url.path == trashURL.path {
                 Button("Empty Trash…") { Launcher.emptyTrash() }.disabled(!IconCache.trashIsFull)
+            }
+            if let folderID {
+                Button("Remove from \(CategoryStore.shared.folder(folderID)?.name ?? "Folder")") {
+                    CategoryStore.shared.takeOutOfFolder(url)
+                }
             }
             if let categoryID {
                 let others = CategoryStore.shared.categories.filter { $0.id != categoryID }
@@ -670,7 +705,30 @@ struct AppTile: View, Equatable {
                     Button(quitRequests.ignored.contains(app.processIdentifier) ? "Force Quit" : "Quit") { Launcher.quit(url) }
                 }
             }
+          }
         }
+    }
+}
+
+/// A folder tile's menu.
+struct FolderMenu: View {
+    let id: UUID
+    let categoryID: UUID?
+
+    var body: some View {
+        let store = CategoryStore.shared
+        Button("Open") { FolderPopup.shared.open(id) }
+        Button("Rename Folder…") { Launcher.renameFolder(id) }
+        if let categoryID {
+            let others = store.categories.filter { $0.id != categoryID }
+            if !others.isEmpty {
+                Menu("Move to") {
+                    ForEach(others) { c in Button(c.name) { store.move(FolderRef.url(id), toCategory: c.id) } }
+                }
+            }
+        }
+        Divider()
+        Button("Ungroup") { withAnimation(.easeInOut(duration: 0.15)) { store.ungroup(id) } }
     }
 }
 
@@ -737,33 +795,77 @@ struct PlaceholderTile: View {
     }
 }
 
-/// Drag a tile over another to reorder (or move it into that tile's category); drop a Finder item on a tile to insert it there.
+/// Drag a tile over another: over its edges, the tiles make room (after a moment, so the pointer can cross an edge on
+/// its way to the middle); over the middle of its icon, the target lights up, and letting go there makes a folder of
+/// the two (or puts the tile into the folder). Finder items dropped on a tile are pinned at its place.
 struct TileDropDelegate: DropDelegate {
     let target: URL
+    /// Off inside an open folder: folders don't go into folders.
+    var allowsMerge = true
+    var tileWidth: CGFloat = TileMetrics.tileWidth
 
-    func dropEntered(info: DropInfo) {
-        PanelState.shared.noteDragActivity()
-        let store = CategoryStore.shared
-        guard !PanelState.shared.tileDragCancelled, let dragging = PanelState.shared.draggingItem, dragging != target,
-              let to = store.location(of: target) else { return }
-        withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, toCategory: to.category, at: to.index) }
+    /// Over the middle of the target's icon, with a tile (not a folder) in hand.
+    private func overMiddle(_ info: DropInfo) -> Bool {
+        guard allowsMerge, let dragging = PanelState.shared.draggingItem, dragging != target,
+              FolderRef.id(dragging) == nil else { return false }
+        let rowHeight = UserDefaults.standard.object(forKey: "rowHeight") as? Int ?? RowMetrics.standard
+        let icon = CGRect(x: tileWidth / 2 - 26, y: RowMetrics.padding(rowHeight), width: 52, height: 52)
+        return icon.insetBy(dx: 9, dy: 9).contains(info.location)
     }
 
-    func dropUpdated(info: DropInfo) -> DropProposal? { PanelState.shared.noteDragActivity(); return DropProposal(operation: .move) }
+    private func reorder() {
+        let store = CategoryStore.shared
+        guard let dragging = PanelState.shared.draggingItem, dragging != target,
+              let to = store.location(of: target) else { return }
+        if case .folder = to.container, FolderRef.id(dragging) != nil { return }
+        withAnimation(.easeInOut(duration: 0.15)) { store.move(dragging, to: to.container, at: to.index) }
+    }
 
-    func dropExited(info: DropInfo) { PanelState.shared.noteDragLeft() }
+    func dropEntered(info: DropInfo) { PanelState.shared.noteDragActivity() }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        PanelState.shared.noteDragActivity()
+        guard !PanelState.shared.tileDragCancelled, PanelState.shared.draggingItem != nil else { return DropProposal(operation: .move) }
+        if overMiddle(info) {
+            MergeTarget.shared.set(target)
+            EdgeHover.shared.reset()
+        } else {
+            if MergeTarget.shared.url == target { MergeTarget.shared.set(nil) }
+            if EdgeHover.shared.settled(on: target) { reorder() }
+        }
+        return DropProposal(operation: .move)
+    }
+
+    func dropExited(info: DropInfo) {
+        if MergeTarget.shared.url == target { MergeTarget.shared.set(nil) }
+        EdgeHover.shared.reset()
+        PanelState.shared.noteDragLeft()
+    }
 
     func performDrop(info: DropInfo) -> Bool {
-        if PanelState.shared.draggingItem != nil {
+        let store = CategoryStore.shared
+        if let dragging = PanelState.shared.draggingItem {
             // After Esc nothing lands: ending the drag puts the tile back.
-            if PanelState.shared.tileDragCancelled { PanelState.shared.endDrag() } else { PanelState.shared.finishTileDrop() }
+            if PanelState.shared.tileDragCancelled { PanelState.shared.endDrag(); return true }
+            if MergeTarget.shared.url == target {
+                MergeTarget.shared.set(nil)
+                withAnimation(.easeInOut(duration: 0.18)) { _ = store.merge(dragging, onto: target) }
+            } else {
+                reorder()            // let go over an edge before the tiles had moved
+            }
+            PanelState.shared.finishTileDrop()
             return true
         }
         let providers = info.itemProviders(for: [.fileURL])
-        let location = CategoryStore.shared.location(of: target)
+        let location = store.location(of: target)
         FileDrop.load(providers) { urls in
             for (offset, url) in urls.enumerated() {
-                CategoryStore.shared.add(url, to: location?.category, at: location.map { $0.index + offset })
+                if let location, case .folder(let id) = location.container {
+                    if !store.contains(url) { store.add(url) }
+                    store.move(url, to: .folder(id), at: location.index + offset)
+                } else {
+                    store.add(url, to: store.category(of: target), at: location.map { $0.index + offset })
+                }
             }
         }
         return !providers.isEmpty

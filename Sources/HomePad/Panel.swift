@@ -20,13 +20,14 @@ final class PanelState: ObservableObject {
         didSet {
             guard let item = draggingItem, oldValue != item else { return }
             dragOrigin = CategoryStore.shared.location(of: item)
+            CategoryStore.shared.holdsFolders = true
             // Shown a moment later, so the picture the system takes of the tile for the pointer is still the icon.
             DispatchQueue.main.async { if PanelState.shared.draggingItem == item { TileDrag.shared.show(item) } }
         }
     }
     /// Where the dragged tile was picked up. The other tiles make room for it as it passes over them, so this is where
     /// it goes back to if the drag doesn't end in a drop (Esc, or let go elsewhere).
-    private var dragOrigin: (category: UUID, index: Int)?
+    private var dragOrigin: (container: Container, index: Int)?
     private var leaveWork: DispatchWorkItem?
     /// Esc was pressed during the tile drag: everything is already back, and what the drag still reports is ignored.
     private(set) var tileDragCancelled = false
@@ -69,8 +70,8 @@ final class PanelState: ObservableObject {
 
     private func returnDraggedTile(animated: Bool) {
         guard let item = draggingItem, let origin = dragOrigin,
-              let now = CategoryStore.shared.location(of: item), now.category != origin.category || now.index != origin.index else { return }
-        let move = { CategoryStore.shared.move(item, toCategory: origin.category, at: origin.index) }
+              let now = CategoryStore.shared.location(of: item), now.container != origin.container || now.index != origin.index else { return }
+        let move = { CategoryStore.shared.move(item, to: origin.container, at: origin.index) }
         if animated { withAnimation(.easeInOut(duration: 0.15), move) } else { move() }
     }
 
@@ -95,9 +96,16 @@ final class PanelState: ObservableObject {
             if self.draggingItem != nil, !self.tileDragCancelled,
                CGEventSource.keyState(.combinedSessionState, key: CGKeyCode(kVK_Escape)) {
                 self.tileDragCancelled = true
+                MergeTarget.shared.set(nil)
                 self.leaveWork?.cancel()
                 self.returnDraggedTile(animated: true)
                 TileDrag.shared.show(nil)
+            }
+            // A tile carried out of the open folder's card closes the folder, so it can land among the other tiles.
+            if self.draggingItem != nil, !self.tileDragCancelled, FolderPopup.shared.openID != nil,
+               let pointer = PanelController.shared.pointerInContent,
+               !FolderPopup.shared.cardFrame.insetBy(dx: -6, dy: -6).contains(pointer) {
+                FolderPopup.shared.close()
             }
             guard Date().timeIntervalSince(started) > 0.4 else { return }
             let quiet = Date().timeIntervalSince(self.lastDragActivity)
@@ -125,6 +133,8 @@ final class PanelState: ObservableObject {
         tileDragCancelled = false
         isDragging = false
         draggingItem = nil
+        MergeTarget.shared.set(nil)
+        CategoryStore.shared.endHoldingFolders()
         TileDrag.shared.show(nil)
         draggingCategory = nil
         RowDrag.shared.reset()
@@ -148,6 +158,7 @@ final class PanelState: ObservableObject {
         query = ""
         selection = 0
         endDrag()
+        FolderPopup.shared.close()
         focusToken += 1
     }
 }
@@ -394,6 +405,13 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     func performDrag(with event: NSEvent) { panel.performDrag(with: event) }
 
+    /// The pointer in SwiftUI's global space for the panel (from its top left, y down).
+    var pointerInContent: CGPoint? {
+        guard panel.isVisible, let content = panel.contentView else { return nil }
+        let inWindow = panel.convertPoint(fromScreen: NSEvent.mouseLocation)
+        return CGPoint(x: inWindow.x, y: content.bounds.height - inWindow.y)
+    }
+
     /// An ordinary window (Settings) opened from the panel: the panel stays on screen behind it as an ordinary
     /// window too, so other apps (System Settings, to allow a permission) can come in front of both. When that window
     /// closes, the panel floats on top again and takes focus.
@@ -517,7 +535,8 @@ final class PanelController: NSObject, NSWindowDelegate {
             let results = SearchEngine.shared.results
             switch Int(event.keyCode) {
             case kVK_Escape:
-                if state.query.isEmpty { self.hide(restoreFocus: true) } else { state.query = "" }
+                if FolderPopup.shared.openID != nil { FolderPopup.shared.close() }
+                else if state.query.isEmpty { self.hide(restoreFocus: true) } else { state.query = "" }
                 return nil
             case kVK_DownArrow where !results.isEmpty:
                 state.selection = min(state.selection + 1, results.count - 1)
