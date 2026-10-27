@@ -51,8 +51,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   Rename and Delete for it. Right-click outside every category (below the last one) and it adds to Essentials.
 - **Add apps**: the Add App button (double-click an app in the picker to add it and close the picker), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
-- **Folders** (as in the Windows Start menu): drag a tile onto the middle of another tile's icon (it lights up) and
-  let go: the two become a folder in that place, named "Folder", whose tile shows its first four items. Drop more
+- **Folders** (as in the Windows Start menu): drag a tile onto the middle of another tile's icon, hold it there for
+  half a second until that icon lights up, and let go: the two become a folder in that place, named "Folder", whose tile shows its first four items. Drop more
   tiles on a folder to add them. Click a folder to open it over the panel: click its name to rename it, click an item
   to open it, drag items to rearrange them or out of the folder (it closes so you can drop the item among the other
   tiles). Esc or a click outside closes it. A folder left with one item turns back into that item. Right-click a

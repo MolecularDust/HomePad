@@ -796,8 +796,9 @@ struct PlaceholderTile: View {
 }
 
 /// Drag a tile over another: over its edges, the tiles make room (after a moment, so the pointer can cross an edge on
-/// its way to the middle); over the middle of its icon, the target lights up, and letting go there makes a folder of
-/// the two (or puts the tile into the folder). Finder items dropped on a tile are pinned at its place.
+/// its way to the middle); resting on the middle of its icon for half a second lights the target up, and letting go
+/// then makes a folder of the two (or puts the tile into the folder). Passing over a tile, or letting go before it
+/// lights up, only reorders. Finder items dropped on a tile are pinned at its place.
 struct TileDropDelegate: DropDelegate {
     let target: URL
     /// Off inside an open folder: folders don't go into folders.
@@ -827,9 +828,10 @@ struct TileDropDelegate: DropDelegate {
         PanelState.shared.noteDragActivity()
         guard !PanelState.shared.tileDragCancelled, PanelState.shared.draggingItem != nil else { return DropProposal(operation: .move) }
         if overMiddle(info) {
-            MergeTarget.shared.set(target)
             EdgeHover.shared.reset()
+            if MiddleHover.shared.settled(on: target) { MergeTarget.shared.set(target) }
         } else {
+            MiddleHover.shared.reset()
             if MergeTarget.shared.url == target { MergeTarget.shared.set(nil) }
             if EdgeHover.shared.settled(on: target) { reorder() }
         }
@@ -839,6 +841,7 @@ struct TileDropDelegate: DropDelegate {
     func dropExited(info: DropInfo) {
         if MergeTarget.shared.url == target { MergeTarget.shared.set(nil) }
         EdgeHover.shared.reset()
+        MiddleHover.shared.reset()
         PanelState.shared.noteDragLeft()
     }
 

@@ -49,6 +49,23 @@ final class EdgeHover {
     func reset() { target = nil }
 }
 
+/// How long the pointer has rested on the middle of one tile's icon. Forming a folder waits half a second, so a tile
+/// carried across others (or over a folder) on its way somewhere else doesn't start one.
+final class MiddleHover {
+    static let shared = MiddleHover()
+    static let delay: TimeInterval = 0.5
+    private var target: URL?
+    private var since = Date()
+
+    /// True once the pointer has rested on this tile's middle long enough.
+    func settled(on url: URL) -> Bool {
+        if target != url { target = url; since = Date(); return false }
+        return Date().timeIntervalSince(since) >= Self.delay
+    }
+
+    func reset() { target = nil }
+}
+
 /// A folder's tile picture: a soft rounded square holding its first four items, small, two by two. The square is the
 /// size of an app icon's artwork (app icons leave a transparent margin around it), so it lines up with its neighbours.
 struct FolderIcon: View {
