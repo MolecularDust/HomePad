@@ -106,6 +106,7 @@ struct OnboardingView: View {
                         permissions.refresh()
                     }
                 }
+                HotCornerSetting(showsHelp: false)
             }
 
             HStack {

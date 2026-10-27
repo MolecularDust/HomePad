@@ -319,6 +319,8 @@ enum StartOver {
 
 /// Pick any of the four corners: a small screen with a spot in each corner to click.
 struct HotCornerSetting: View {
+    /// The explanation below it (Settings); the Setup Guide keeps to the essentials.
+    var showsHelp = true
     @AppStorage(HotCornerMonitor.defaultsKey) private var stored = ""
     private var chosen: Set<HotCorner> { HotCornerMonitor.decode(stored) }
     /// Read again when Settings opens: it is macOS's setting and may have changed meanwhile.
@@ -329,23 +331,37 @@ struct HotCornerSetting: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Or hot corners")
                 Text(summary).font(.caption).foregroundStyle(.secondary)
+                if !showsHelp {
+                    Text("HomePad opens in the corner you push the pointer into.")
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             Spacer()
             screen
         }
         .onAppear(perform: readClashes)
+        // macOS's setting may change in System Settings beside this window: read it again every couple of seconds
+        // (a quick preferences read) and when HomePad comes back to the front.
+        .onReceive(Timer.publish(every: 2, on: .main, in: .common).autoconnect()) { _ in readClashes() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in readClashes() }
         .onChange(of: stored) { _ in
             HotCornerMonitor.shared.apply()
             readClashes()
         }
         let clashing = HotCorner.allCases.filter { chosen.contains($0) && clashes[$0] != nil }
         if !clashing.isEmpty {
-            Text(clashing.map { "macOS also uses the \($0.title.lowercased()) corner for \(clashes[$0]!)." }.joined(separator: " ")
-                 + " Both will happen there. Change it in System Settings → Desktop & Dock → Hot Corners, or pick another corner here.")
-                .font(.caption).foregroundStyle(.red)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(clashing.map { "macOS also uses the \($0.title.lowercased()) corner for \(clashes[$0]!)." }.joined(separator: " ")
+                     + " Both will happen there. Set that corner to “–” in macOS's Hot Corners, or pick another corner here.")
+                    .font(.caption).foregroundStyle(.red)
+                Button("Open macOS Hot Corners…") { SystemHotCorners.open() }
+            }
         }
-        Text("Rest the pointer in a corner you picked and HomePad opens in that corner; do it again to close it. The shortcut and double-tap still open it in the middle.")
-            .font(.caption).foregroundStyle(.secondary)
+        if showsHelp {
+            Text("Rest the pointer in a corner you picked and HomePad opens in that corner; do it again to close it. The shortcut and double-tap still open it in the middle.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
     }
 
     private var summary: String {

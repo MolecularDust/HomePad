@@ -52,8 +52,8 @@ best with all three. Go from top to bottom:
    the list, then turn its switch on.
 3. Click **Quit & Reopen**.
 
-When all three are green, choose how to open HomePad (the standard shortcut is **Option-Space**) and click **Get
-started**.
+When all three are green, choose how to open HomePad (the standard shortcut is **Option-Space**; you can also pick
+hot corners) and click **Get started**.
 
 > Don't worry about the screen recording wording: HomePad only makes small window previews on your own screen.
 > Nothing is recorded, saved or sent anywhere.

@@ -132,3 +132,55 @@ final class HotCornerMonitor {
         if panel.isVisible { panel.hide(restoreFocus: true) } else { panel.show(in: corner, of: screen) }
     }
 }
+
+/// macOS's own hot corners: System Settings → Desktop & Dock → Hot Corners…, for when a corner is used by both.
+enum SystemHotCorners {
+    /// Opens Desktop & Dock and, with the Accessibility permission, presses its Hot Corners… button, so the sheet
+    /// with the four corners is what you see. Without the permission (or if the button can't be found), the page.
+    static func open() {
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.Desktop-Settings.extension") else { return }
+        NSWorkspace.shared.open(url)
+        guard Permissions.accessibility else { return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            // The page takes a moment to appear; give up after about 4 s.
+            for _ in 0..<40 {
+                Thread.sleep(forTimeInterval: 0.1)
+                if let button = hotCornersButton() {
+                    AXUIElementPerformAction(button, kAXPressAction as CFString)
+                    return
+                }
+            }
+        }
+    }
+
+    private static func hotCornersButton() -> AXUIElement? {
+        guard let settings = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systempreferences").first
+                ?? NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Settings").first else { return nil }
+        let app = AXUIElementCreateApplication(settings.processIdentifier)
+        var windows: CFTypeRef?
+        AXUIElementCopyAttributeValue(app, kAXWindowsAttribute as CFString, &windows)
+        for window in (windows as? [AXUIElement]) ?? [] {
+            if let button = find(in: window, depth: 0) { return button }
+        }
+        return nil
+    }
+
+    private static func find(in element: AXUIElement, depth: Int) -> AXUIElement? {
+        guard depth < 40 else { return nil }
+        func text(_ name: String) -> String? {
+            var value: CFTypeRef?
+            AXUIElementCopyAttributeValue(element, name as CFString, &value)
+            return value as? String
+        }
+        if text(kAXRoleAttribute) == "AXButton",
+           [text(kAXTitleAttribute), text(kAXDescriptionAttribute)].contains(where: { $0?.hasPrefix("Hot Corners") == true }) {
+            return element
+        }
+        var children: CFTypeRef?
+        AXUIElementCopyAttributeValue(element, kAXChildrenAttribute as CFString, &children)
+        for child in (children as? [AXUIElement]) ?? [] {
+            if let found = find(in: child, depth: depth + 1) { return found }
+        }
+        return nil
+    }
+}

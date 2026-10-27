@@ -29,7 +29,9 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 - **Hot corners**: Settings → Shortcut → hot corners. Click any of the four corners of the little screen (one, several or
   all). Rest the pointer in a chosen corner for a moment and the panel opens in that corner; do it again to close it.
   A quick brush past the corner, or a drag with the mouse button held, does nothing. The shortcut and double-tap
-  still open it in the middle. If macOS uses the same corner for one of its own actions, Settings says so.
+  still open it in the middle. Also in the Setup Guide's second step. If macOS uses the same corner for one of its
+  own actions, HomePad says so, with an **Open macOS Hot Corners…** button that opens System Settings → Desktop & Dock
+  with its Hot Corners sheet already showing (pressing that button needs Accessibility; without it, the page).
 - **Categories**: apps live in named categories. **Essentials** comes first and is seeded from your Dock on
   first launch, plus a **Files** category with the Trash and Downloads, like the right end of the Dock (only on the very first run; if you delete it, it stays deleted). Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click inside a category to rename or delete
