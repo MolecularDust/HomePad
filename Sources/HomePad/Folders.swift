@@ -39,14 +39,32 @@ final class EdgeHover {
     static let shared = EdgeHover()
     private var target: URL?
     private var since = Date()
+    /// Where the pointer was at the last reorder. The tiles slide after a reorder, which can put another tile's edge
+    /// under a pointer that hasn't moved; reordering again for that swapped the same two tiles back and forth
+    /// (jitter). So after a reorder the pointer has to move on a little before the next one.
+    private var lastReorder: CGPoint?
+    private let moveOn: CGFloat = 12
 
-    /// True once the pointer has rested over this tile's edge long enough.
+    /// True once the pointer has rested over this tile's edge long enough, and has moved on since the last reorder.
     func settled(on url: URL) -> Bool {
+        if let last = lastReorder {
+            let now = NSEvent.mouseLocation
+            guard hypot(now.x - last.x, now.y - last.y) > moveOn else { return false }
+            lastReorder = nil
+        }
         if target != url { target = url; since = Date(); return false }
         return Date().timeIntervalSince(since) >= 0.12
     }
 
+    func noteReorder() {
+        lastReorder = NSEvent.mouseLocation
+        target = nil
+    }
+
     func reset() { target = nil }
+
+    /// A new drag starts with no history.
+    func clear() { target = nil; lastReorder = nil }
 }
 
 /// How long the pointer has rested on the middle of one tile's icon. Forming a folder waits half a second, so a tile

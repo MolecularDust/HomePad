@@ -135,7 +135,7 @@ final class PanelState: ObservableObject {
         draggingItem = nil
         MergeTarget.shared.set(nil)
         MiddleHover.shared.reset()
-        EdgeHover.shared.reset()
+        EdgeHover.shared.clear()
         CategoryStore.shared.endHoldingFolders()
         TileDrag.shared.show(nil)
         draggingCategory = nil

@@ -833,7 +833,10 @@ struct TileDropDelegate: DropDelegate {
         } else {
             MiddleHover.shared.reset()
             if MergeTarget.shared.url == target { MergeTarget.shared.set(nil) }
-            if EdgeHover.shared.settled(on: target) { reorder() }
+            if EdgeHover.shared.settled(on: target) {
+                reorder()
+                EdgeHover.shared.noteReorder()
+            }
         }
         return DropProposal(operation: .move)
     }
