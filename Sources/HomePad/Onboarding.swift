@@ -39,7 +39,12 @@ enum Onboarding {
         window?.makeKeyAndOrderFront(nil)
     }
 
-    private static func finish() { window?.close() }
+    /// "Get started": the guide closes and HomePad's panel opens, so the first thing you see is the app itself.
+    private static func finish() {
+        window?.close()
+        // After the window has gone, so the panel takes focus rather than the closing window keeping it.
+        DispatchQueue.main.async { PanelController.shared.show() }
+    }
 
     private final class WindowCloser: NSObject, NSWindowDelegate {
         let onClose: () -> Void
