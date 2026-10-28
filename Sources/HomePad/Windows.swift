@@ -245,7 +245,7 @@ struct AppWindow: Identifiable {
     var canClose = true
     /// 1, 2, 3 ... in Mission Control's order; 0 when unknown.
     var spaceNumber = 0
-    /// Minimised into the Dock (the preview marks it with a yellow minus).
+    /// Minimised into the Dock (the preview marks it with a minus).
     var isMinimised = false
 }
 
@@ -840,20 +840,18 @@ struct WindowThumbnail: View {
     }
 }
 
-/// The small red cross in a thumbnail's corner: closes that one window.
+/// The small cross in a thumbnail's corner: closes that one window.
 private struct CloseCross: View {
     let action: () -> Void
     @State private var hovering = false
 
     var body: some View {
-        // The red of a window's own close button, next to the yellow minimised mark; a little deeper under the pointer.
         Button(action: action) {
             Image(systemName: "xmark")
-                .font(.system(size: 9, weight: .heavy))
-                .foregroundStyle(Color(red: 0.45, green: 0.04, blue: 0.02))
+                .font(.system(size: 9, weight: .bold))
+                .foregroundStyle(.white)
                 .frame(width: 18, height: 18)
-                .background(Circle().fill(hovering ? Color(red: 0.88, green: 0.24, blue: 0.2) : Color(red: 1.0, green: 0.37, blue: 0.34)))
-                .overlay(Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 0.5))
+                .background(Circle().fill(hovering ? Color.red : Color.black.opacity(0.55)))
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 }
@@ -861,16 +859,15 @@ private struct CloseCross: View {
     }
 }
 
-/// A minimised window's mark: the yellow of a window's minimise button, with its minus. Not a button: clicking the
-/// thumbnail brings the window back.
+/// A minimised window's mark: a minus in the same grey circle as the close cross beside it. Not a button: clicking
+/// the thumbnail brings the window back.
 private struct MinimisedMark: View {
     var body: some View {
         Image(systemName: "minus")
-            .font(.system(size: 10, weight: .heavy))
-            .foregroundStyle(Color(red: 0.55, green: 0.33, blue: 0.0))
+            .font(.system(size: 9, weight: .bold))
+            .foregroundStyle(.white)
             .frame(width: 18, height: 18)
-            .background(Circle().fill(Color(red: 1.0, green: 0.74, blue: 0.18)))
-            .overlay(Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 0.5))
+            .background(Circle().fill(Color.black.opacity(0.55)))
             .help("Minimized")
             .allowsHitTesting(false)
     }
