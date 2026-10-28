@@ -245,6 +245,8 @@ struct AppWindow: Identifiable {
     var canClose = true
     /// 1, 2, 3 ... in Mission Control's order; 0 when unknown.
     var spaceNumber = 0
+    /// Minimised into the Dock (the preview marks it with a yellow minus).
+    var isMinimised = false
 }
 
 enum WindowCatalog {
@@ -272,7 +274,7 @@ enum WindowCatalog {
         let result = found.map { item in
             AppWindow(id: item.window.windowID, title: item.window.title ?? "", frame: item.window.frame,
                       image: images[item.window.windowID].map { NSImage(cgImage: $0, size: NSSize(width: $0.width / 2, height: $0.height / 2)) },
-                      onOtherSpace: item.real.onOtherSpace, spaceNumber: item.real.spaceNumber)
+                      onOtherSpace: item.real.onOtherSpace, spaceNumber: item.real.spaceNumber, isMinimised: item.real.isMinimised)
         }
         // Whether each window has a close button to press. A window on another Space can only be reached by a long
         // search (see RemoteAX), so its cross is shown and the search happens only if it is clicked.
@@ -307,7 +309,7 @@ enum WindowCatalog {
             }
             for (id, image) in taken { images[id] = NSImage(cgImage: image, size: NSSize(width: image.width / 2, height: image.height / 2)) }
         }
-        return real.map { AppWindow(id: $0.id, title: $0.title, frame: $0.frame, image: images[$0.id], spaceNumber: $0.spaceNumber) }
+        return real.map { AppWindow(id: $0.id, title: $0.title, frame: $0.frame, image: images[$0.id], spaceNumber: $0.spaceNumber, isMinimised: true) }
     }
 
     private static func thumbnail(of window: SCWindow) async -> CGImage? {
@@ -822,7 +824,12 @@ struct WindowThumbnail: View {
             .overlay(RoundedRectangle(cornerRadius: 6)
                 .stroke(hovering ? Color.accentColor : Color.primary.opacity(0.15), lineWidth: hovering ? 2 : 0.5))
             .overlay(alignment: .topLeading) {
-                if window.canClose { CloseCross { WindowPreviewController.shared.closeWindow(window) } }
+                // Like a window's own buttons: the cross (close), then yellow (minimised) beside it.
+                HStack(spacing: 4) {
+                    if window.canClose { CloseCross { WindowPreviewController.shared.closeWindow(window) } }
+                    if window.isMinimised { MinimisedMark() }
+                }
+                .padding(5)
             }
             Text(window.title.isEmpty ? (app?.localizedName ?? "Window") : window.title)
                 .font(.system(size: 11)).lineLimit(1).frame(width: size.width, alignment: .leading)
@@ -848,8 +855,22 @@ private struct CloseCross: View {
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 }
-        .padding(5)
         .help("Close this window")
+    }
+}
+
+/// A minimised window's mark: the yellow of a window's minimise button, with its minus. Not a button: clicking the
+/// thumbnail brings the window back.
+private struct MinimisedMark: View {
+    var body: some View {
+        Image(systemName: "minus")
+            .font(.system(size: 10, weight: .heavy))
+            .foregroundStyle(Color(red: 0.55, green: 0.33, blue: 0.0))
+            .frame(width: 18, height: 18)
+            .background(Circle().fill(Color(red: 1.0, green: 0.74, blue: 0.18)))
+            .overlay(Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 0.5))
+            .help("Minimized")
+            .allowsHitTesting(false)
     }
 }
 
