@@ -443,7 +443,8 @@ struct RunningSection: View {
     let grid: [GridItem]
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var minimised = MinimisedWindows.shared
-    @AppStorage(MinimisedWindows.settingKey) private var showMinimised = true
+    @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
+    @AppStorage("showRunning") private var showRunning = true
 
     /// An app's tile, or one of its minimised windows (right after it).
     private enum Item: Hashable {
@@ -453,7 +454,7 @@ struct RunningSection: View {
 
     private var items: [Item] {
         apps.flatMap { url -> [Item] in
-            guard showMinimised, let app = RunningApps.shared.app(for: url),
+            guard !hideMinimised, let app = RunningApps.shared.app(for: url),
                   let windows = minimised.byApp[app.processIdentifier] else { return [.app(url)] }
             return [.app(url)] + windows.map { .window(app.processIdentifier, $0.id) }
         }
@@ -491,6 +492,13 @@ struct RunningSection: View {
             Divider()
             Button("Add Category…") { Launcher.addCategory() }
             MoveRowItems(id: CategoryStore.runningID, name: "Running")
+            Divider()
+            Button(hideMinimised ? "Show Minimized Windows" : "Hide Minimized Windows") {
+                hideMinimised.toggle()
+                MinimisedWindows.shared.refresh()
+            }
+            // Back from Settings → Layout.
+            Button("Hide Running") { withAnimation(.easeInOut(duration: 0.2)) { showRunning = false } }
         }
     }
 }

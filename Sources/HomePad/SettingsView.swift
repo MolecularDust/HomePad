@@ -17,7 +17,7 @@ struct SettingsView: View {
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
     @AppStorage(HotCornerMonitor.defaultsKey) private var hotCorners = ""
-    @AppStorage(MinimisedWindows.settingKey) private var showMinimised = true
+    @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
     @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
@@ -54,11 +54,11 @@ struct SettingsView: View {
                 NumberSetting(title: "Icons per row", value: $columns, range: 4...10)
                 NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
                 NumberSetting(title: "Icon spacing", value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
-                Toggle("Show the Running section", isOn: $showRunning)
-                Toggle("Show minimized windows in Running", isOn: $showMinimised)
+                Toggle("Hide the Running section", isOn: Binding(get: { !showRunning }, set: { showRunning = !$0 }))
+                Toggle("Hide minimized windows in Running", isOn: $hideMinimised)
                     .disabled(!showRunning)
-                    .onChange(of: showMinimised) { _ in MinimisedWindows.shared.refresh() }
-                Text("Each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures.")
+                    .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
+                Text("Turned off, each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures. Both can also be changed by right-clicking the Running section.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 
@@ -150,7 +150,7 @@ struct SettingsView: View {
     private func confirmReset() {
         let alert = NSAlert()
         alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows running apps, shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
+        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")
         guard alert.runModal() == .alertFirstButtonReturn else { return }
@@ -163,7 +163,7 @@ struct SettingsView: View {
         rememberSize = true
         rememberPosition = false
         showRunning = true
-        showMinimised = true
+        hideMinimised = true
         showMenuBarIcon = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }

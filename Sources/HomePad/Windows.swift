@@ -1007,12 +1007,13 @@ final class AppMenus: ObservableObject {
 /// panel never waits for it. Needs Accessibility; thumbnails need Screen Recording (without it, the app's icon).
 final class MinimisedWindows: ObservableObject {
     static let shared = MinimisedWindows()
-    static let settingKey = "showMinimised"
+    /// "Hide minimized windows in Running" (Settings → Layout, and Running's right-click menu). On by default.
+    static let settingKey = "hideMinimised"
     @Published private(set) var byApp: [pid_t: [AppWindow]] = [:]
     private var images: [CGWindowID: NSImage] = [:]
     private var refreshing = false
 
-    static var enabled: Bool { UserDefaults.standard.object(forKey: settingKey) as? Bool ?? true }
+    static var enabled: Bool { !(UserDefaults.standard.object(forKey: settingKey) as? Bool ?? true) }
 
     func refresh() {
         guard Self.enabled, Permissions.accessibility else {
