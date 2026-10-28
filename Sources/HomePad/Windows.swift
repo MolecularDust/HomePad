@@ -824,7 +824,7 @@ struct WindowThumbnail: View {
             .overlay(RoundedRectangle(cornerRadius: 6)
                 .stroke(hovering ? Color.accentColor : Color.primary.opacity(0.15), lineWidth: hovering ? 2 : 0.5))
             .overlay(alignment: .topLeading) {
-                // Like a window's own buttons: the cross (close), then yellow (minimised) beside it.
+                // Like a window's own buttons: the cross (close), then the minus (minimised) beside it.
                 HStack(spacing: 4) {
                     if window.canClose { CloseCross { WindowPreviewController.shared.closeWindow(window) } }
                     if window.isMinimised { MinimisedMark() }
