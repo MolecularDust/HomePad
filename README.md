@@ -15,7 +15,7 @@ chmod +x build_app.sh
 This creates `build/HomePad.app`. Move it to **/Applications** and open it. Because it's signed
 locally rather than by a registered developer, the first launch may need right-click → Open.
 
-It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own. Click the icon to open or close the panel; right-click (or Control-click) it for Settings, the Setup Guide and Quit.
+It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own. Click the icon to open or close the panel; right-click (or Control-click) it for Settings, the Setup Guide, Uninstall HomePad… and Quit. Uninstalling brings the Dock back if HomePad hid it, takes back its permissions, erases its settings and categories, moves the app to the Trash and forgets the installer's record (asking for an administrator password only when the installer put the app there). The same steps are in `Resources/uninstall.sh`, which also runs on its own (`bash Resources/uninstall.sh --dry-run` shows what it would do).
 
 **Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
 with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's

@@ -737,6 +737,9 @@ enum DockControl {
         DispatchQueue.global(qos: .userInitiated).async { apply(hidden) }
     }
 
+    /// Brings the Dock back and waits until that's done (for uninstalling, just before HomePad quits).
+    static func showNow() { apply(false) }
+
     /// The very long reveal delay is only read when the Dock starts, so the Dock is restarted. But a Dock that starts
     /// already auto-hidden doesn't always give back the space it took on screen: windows snapped to that edge kept a
     /// gap where the Dock had been. So it restarts with auto-hide off, and auto-hide is then switched on live, the

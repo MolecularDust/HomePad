@@ -1,4 +1,5 @@
 import AppKit
+import ServiceManagement
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -90,6 +91,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
         menu.addItem(.separator())
+        menu.addItem(withTitle: "Uninstall HomePad…", action: #selector(uninstall), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Quit HomePad", action: #selector(quit), keyEquivalent: "q").target = self
         // A click opens (or closes) the panel; a right click or Control-click shows this menu. With `menu` set on
         // the status item, every click would show the menu, so it's shown by hand instead.
@@ -132,6 +134,39 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func openPanel() { PanelController.shared.show() }
     @objc private func openSetupGuide() { Onboarding.show() }
     @objc private func quit() { NSApp.terminate(nil) }
+
+    /// Asks first, then does what only the running app can (brings the Dock back if HomePad hid it, turns off launch
+    /// at login), starts uninstall.sh from the app's Resources and quits. The script waits for HomePad to quit, then
+    /// takes back its permissions, erases its settings, moves the app to the Trash and says when it's done.
+    @objc private func uninstall() {
+        activateSelf()
+        let alert = NSAlert()
+        alert.messageText = "Uninstall HomePad?"
+        alert.informativeText = "HomePad quits and goes to the Trash. Its categories and settings are erased, the permissions you gave it are taken back, and the Dock comes back if HomePad was hiding it. Your apps and files aren't touched."
+        alert.addButton(withTitle: "Uninstall")
+        alert.addButton(withTitle: "Cancel")
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        guard let bundled = Bundle.main.url(forResource: "uninstall", withExtension: "sh") else {
+            let missing = NSAlert()
+            missing.messageText = "The uninstall script is missing from this copy of HomePad"
+            missing.informativeText = "Quit HomePad and drag it from Applications to the Trash."
+            missing.runModal()
+            return
+        }
+        // A copy outside the app: the app (and the script inside it) is about to go to the Trash.
+        let script = FileManager.default.temporaryDirectory.appendingPathComponent("HomePad-uninstall.sh")
+        try? FileManager.default.removeItem(at: script)
+        guard (try? FileManager.default.copyItem(at: bundled, to: script)) != nil else { return }
+
+        if DockControl.isHidden { DockControl.showNow() }
+        try? SMAppService.mainApp.unregister()
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/bin/bash")
+        process.arguments = [script.path, "--wait", String(ProcessInfo.processInfo.processIdentifier), "--notify", Bundle.main.bundlePath]
+        guard (try? process.run()) != nil else { return }
+        NSApp.terminate(nil)
+    }
 
     @objc func openSettings() {
         if settingsWindow?.isVisible != true, PanelController.shared.isVisible {

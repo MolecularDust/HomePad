@@ -20,6 +20,8 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/HomePad"
 # The icon, made from Resources/AppIcon.svg (see README: rebuilding the icon).
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
+# Run by the menu-bar menu's Uninstall HomePad… (and usable on its own: see the script).
+cp Resources/uninstall.sh "$APP/Contents/Resources/uninstall.sh"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>

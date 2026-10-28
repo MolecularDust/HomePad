@@ -84,10 +84,9 @@ Your apps, categories and settings are kept.
 
 ## Removing HomePad
 
-1. If you turned on **Hide the Dock**, turn it off first in HomePad's Settings, so your Dock comes back.
-2. Quit HomePad and drag it from Applications to the Trash.
-3. Optional: in System Settings → Privacy & Security, remove HomePad from Screen & System Audio Recording,
-   Accessibility and Full Disk Access with the **−** button.
+Right-click the grid icon in the menu bar and choose **Uninstall HomePad…**, then **Uninstall**. HomePad brings
+your Dock back if it was hiding it, takes back its permissions, erases its settings and moves itself to the Trash.
+If you installed it with HomePad.pkg, your Mac asks for your password once. A message says when it's done.
 
 ## If something goes wrong
 
