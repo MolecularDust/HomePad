@@ -41,12 +41,12 @@ MOUNT="$(hdiutil attach "$WORK/rw.dmg" -readwrite -noverify -noautoopen | awk -F
 
 # The blue button: a shortcut to the Privacy & Security page of System Settings (where Open Anyway is). It leads to a
 # file macOS ships with, not to anything downloaded, so it opens without a block. A Finder alias rather than a symbolic
-# link, so it can carry its own picture. Its name is a no-break space: Finder writes every item's name under it, and
+# link, so it can carry its own picture. Its name is a zero-width space: Finder writes every item's name under it (and highlights it when clicked), and
 # the button already says what it does.
 ICON_SIZE=184
-osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:(character id 160)}" >/dev/null
+osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:(character id 8203)}" >/dev/null
 swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
-"$WORK/render_icons" "$MOUNT/"$'\xc2\xa0' "$MOUNT/Install HomePad.pkg" "$ICON_SIZE"
+"$WORK/render_icons" "$MOUNT/"$'\xe2\x80\x8b' "$MOUNT/Install HomePad.pkg" "$ICON_SIZE"
 
 # Window 660 × 490 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
 osascript <<OSA
@@ -64,7 +64,7 @@ tell application "Finder"
         set background picture of opts to file ".background:steps.tiff"
         -- The installer's picture sits at the bottom of its square, so this puts it mid-card.
         set position of item "Install HomePad.pkg" of container window to {130, 190}
-        set position of item (character id 160) of container window to {390, 250}
+        set position of item (character id 8203) of container window to {390, 250}
         update without registering applications
         delay 1
         close
