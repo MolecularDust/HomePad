@@ -1007,7 +1007,7 @@ final class AppMenus: ObservableObject {
 /// panel never waits for it. Needs Accessibility; thumbnails need Screen Recording (without it, the app's icon).
 final class MinimisedWindows: ObservableObject {
     static let shared = MinimisedWindows()
-    /// "Hide minimized windows in Running" (Settings → Layout, and Running's right-click menu). On by default.
+    /// Stored as "hide" (true by default); Settings → Layout shows it as "Show minimized windows in Running", off.
     static let settingKey = "hideMinimised"
     @Published private(set) var byApp: [pid_t: [AppWindow]] = [:]
     private var images: [CGWindowID: NSImage] = [:]

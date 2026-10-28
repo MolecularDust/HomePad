@@ -497,7 +497,7 @@ struct RunningSection: View {
                 hideMinimised.toggle()
                 MinimisedWindows.shared.refresh()
             }
-            // Back from Settings → Layout.
+            // Back from Settings → Layout → Show the Running section.
             Button("Hide Running") { withAnimation(.easeInOut(duration: 0.2)) { showRunning = false } }
         }
     }

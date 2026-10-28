@@ -54,11 +54,11 @@ struct SettingsView: View {
                 NumberSetting(title: "Icons per row", value: $columns, range: 4...10)
                 NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
                 NumberSetting(title: "Icon spacing", value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
-                Toggle("Hide the Running section", isOn: Binding(get: { !showRunning }, set: { showRunning = !$0 }))
-                Toggle("Hide minimized windows in Running", isOn: $hideMinimised)
+                Toggle("Show the Running section", isOn: $showRunning)
+                Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
                     .disabled(!showRunning)
                     .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
-                Text("Turned off, each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures. Both can also be changed by right-clicking the Running section.")
+                Text("Each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures. Both can also be changed by right-clicking the Running section.")
                     .font(.caption).foregroundStyle(.secondary)
             }
 
