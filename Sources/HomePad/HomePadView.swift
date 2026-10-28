@@ -282,6 +282,116 @@ enum TileMetrics {
     }
 }
 
+/// Where a scroll view's content is, for HomePad's scroll indicator.
+struct ScrollMetrics: Equatable {
+    var offset: CGFloat = 0          // how far the content has been scrolled up
+    var content: CGFloat = 0         // the content's height
+    var viewport: CGFloat = 0        // the height of the part showing
+}
+
+/// What the indicator draws from. A view that only holds it (in @State) isn't redrawn when it changes, so scrolling
+/// redraws the indicator and nothing else.
+final class ScrollIndicatorModel: ObservableObject {
+    @Published fileprivate(set) var metrics = ScrollMetrics()
+
+    fileprivate func update(_ new: ScrollMetrics) {
+        // Not during the layout pass that measured it.
+        DispatchQueue.main.async { if self.metrics != new { self.metrics = new } }
+    }
+}
+
+/// Reads a scroll view's position from the scroll view itself: its content's height, the part showing and how far it
+/// has scrolled. (SwiftUI's own measurements never reached the indicator from inside a scroll view on macOS.) Put it
+/// in the scroll view's content.
+struct ScrollObserver: NSViewRepresentable {
+    let model: ScrollIndicatorModel
+
+    func makeNSView(context: Context) -> ObserverView { ObserverView(model: model) }
+    func updateNSView(_ view: ObserverView, context: Context) { view.attach() }
+
+    final class ObserverView: NSView {
+        let model: ScrollIndicatorModel
+        private weak var scrollView: NSScrollView?
+        private var observers: [NSObjectProtocol] = []
+
+        init(model: ScrollIndicatorModel) {
+            self.model = model
+            super.init(frame: .zero)
+            // The scroll view only contains this view once SwiftUI has laid it out: asked again a little later.
+            for delay in [0.0, 0.1, 0.4] { DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in self?.attach() } }
+        }
+
+        required init?(coder: NSCoder) { fatalError("not used") }
+
+        override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); attach() }
+
+        deinit { observers.forEach(NotificationCenter.default.removeObserver) }
+
+        func attach() {
+            guard let found = enclosingScrollView, found !== scrollView, let document = found.documentView else { return }
+            observers.forEach(NotificationCenter.default.removeObserver)
+            scrollView = found
+            found.contentView.postsBoundsChangedNotifications = true
+            document.postsFrameChangedNotifications = true
+            found.postsFrameChangedNotifications = true
+            let center = NotificationCenter.default
+            observers = [
+                center.addObserver(forName: NSView.boundsDidChangeNotification, object: found.contentView, queue: .main) { [weak self] _ in self?.read() },
+                center.addObserver(forName: NSView.frameDidChangeNotification, object: document, queue: .main) { [weak self] _ in self?.read() },
+                center.addObserver(forName: NSView.frameDidChangeNotification, object: found, queue: .main) { [weak self] _ in self?.read() },
+            ]
+            read()
+        }
+
+        private func read() {
+            guard let scrollView, let document = scrollView.documentView else { return }
+            let clip = scrollView.contentView.bounds
+            let content = document.frame.height
+            let offset = document.isFlipped ? clip.minY : content - clip.height - clip.minY
+            model.update(ScrollMetrics(offset: offset, content: content, viewport: clip.height))
+        }
+    }
+}
+
+extension View {
+    /// For a scroll view's content: tells `model` its height and how far it has scrolled.
+    func reportsScrollMetrics(to model: ScrollIndicatorModel) -> some View {
+        background(ScrollObserver(model: model))
+    }
+
+    /// For the area around a scroll view (not the scroll view itself: SwiftUI can lay a scroll view out wider than the
+    /// panel, by the width of macOS's classic scroll bar when a mouse is connected, which put both that bar and this
+    /// one outside the window): a thin bar down its right edge while some of the content is out of sight, so you can tell
+    /// there is more below. macOS hides its own scroll bars until you scroll, which left a new user with no sign of
+    /// the icons further down. This one sits over the content (nothing moves for it), lets clicks through, and
+    /// shows where you are; scrolling works as before.
+    func showsScrollIndicator(_ model: ScrollIndicatorModel) -> some View {
+        overlay { ScrollIndicatorBar(model: model).allowsHitTesting(false) }
+    }
+}
+
+struct ScrollIndicatorBar: View {
+    @ObservedObject var model: ScrollIndicatorModel
+
+    var body: some View {
+        GeometryReader { geo in
+            let metrics = model.metrics
+            let viewport = geo.size.height
+            if metrics.content > metrics.viewport + 1, viewport > 0 {
+                let thumb = max(28, viewport * metrics.viewport / metrics.content)
+                let travel = max(1, metrics.content - metrics.viewport)
+                let position = (viewport - thumb) * min(max(metrics.offset / travel, 0), 1)
+                Capsule()
+                    .fill(Color.primary.opacity(0.32))
+                    .frame(width: 5, height: thumb)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, 3)
+                    .offset(y: position)
+            }
+        }
+    }
+}
+
 struct RowFramesKey: PreferenceKey {
     static var defaultValue: [UUID: CGRect] = [:]
     static func reduce(value: inout [UUID: CGRect], nextValue: () -> [UUID: CGRect]) { value.merge(nextValue()) { $1 } }
@@ -331,6 +441,7 @@ struct HomeView: View {
     @AppStorage("showRunning") private var showRunning = true
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
+    @State private var scrollModel = ScrollIndicatorModel()
 
     /// Every running app, like the Dock's running indicators, pinned or not.
     private var runningApps: [URL] {
@@ -384,6 +495,7 @@ struct HomeView: View {
                     .padding(.bottom, 16)
                     // Fill the whole scroll area so a right-click on empty space lands here.
                     .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
+                    .reportsScrollMetrics(to: scrollModel)
                     .contentShape(Rectangle())
                     .movesWindowWhenDragged()          // inside the scroll view, which takes its own mouse events
                     .contextMenu {
@@ -395,6 +507,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .showsScrollIndicator(scrollModel)
             .overlay { FolderPopupView() }
         }
     }
@@ -1007,6 +1120,7 @@ struct CategoryDropDelegate: DropDelegate {
 // MARK: - Search results
 
 struct SearchResultsView: View {
+    @State private var scrollModel = ScrollIndicatorModel()
     @ObservedObject private var search = SearchEngine.shared
     @ObservedObject private var state = PanelState.shared
 
@@ -1051,6 +1165,7 @@ struct SearchResultsView: View {
                     .padding(.bottom, 12)
                     // Fill the area, so a click on the empty space goes back to the pinned apps.
                     .frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .topLeading)
+                    .reportsScrollMetrics(to: scrollModel)
                     .contentShape(Rectangle())
                     .onTapGesture { state.goHome() }
                     .movesWindowWhenDragged()
@@ -1060,6 +1175,7 @@ struct SearchResultsView: View {
                 }
             }
         }
+        .showsScrollIndicator(scrollModel)
     }
 }
 
