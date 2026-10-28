@@ -1,6 +1,7 @@
 // Draws the installer disk image's window background: the steps to get past the "can't be opened" block.
-// render_dmg_background <out.png> <scale>   (scale 1 or 2; 660 × 470 points. The bottom 60 stay empty: a Finder with its tab bar and status bar showing has that much less room)
-// The installer's icon sits in the left card at (130, 205) points from the top left; make_installer_dmg.sh puts it there.
+// render_dmg_background <out.png> <scale>   (scale 1 or 2; 660 × 480 points. The bottom 60 stay empty: a Finder with its tab bar and status bar showing has that much less room)
+// Finder draws two icons on top, which make_installer_dmg.sh places (centres, points from the top left): the installer
+// in the left card at (130, 245), and the Privacy & Security shortcut beside step 3 at (545, 240).
 import AppKit
 
 let args = CommandLine.arguments
@@ -8,7 +9,7 @@ guard args.count == 3, let scale = Int(args[2]) else {
     print("usage: render_dmg_background <out.png> <scale>")
     exit(1)
 }
-let W: CGFloat = 660, H: CGFloat = 470
+let W: CGFloat = 660, H: CGFloat = 480
 let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(W) * scale, pixelsHigh: Int(H) * scale,
                            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
                            colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
@@ -93,30 +94,27 @@ text("HomePad isn't from the App Store, so your Mac stops the installer once. To
      at: CGPoint(x: 30, y: 56), width: 600, size: 13, color: soft)
 
 // Step 1: the card holding the installer's icon (Finder draws the icon and its name on top).
-card(NSRect(x: 30, y: 98, width: 200, height: 252))
+card(NSRect(x: 30, y: 98, width: 200, height: 282))
 badge(1, at: CGPoint(x: 56, y: 124))
 text("**Double-click** the installer", at: CGPoint(x: 76, y: 116), width: 150, size: 13)
 
-// Steps 2 to 4.
-card(NSRect(x: 250, y: 98, width: 380, height: 252))
-var y: CGFloat = 116
-badge(2, at: CGPoint(x: 276, y: y + 8))
-y += text("A message says it can't be opened. Click **Done** (not Move to Trash).",
-          at: CGPoint(x: 298, y: y), width: 316, size: 13) + 8
-button("Done", at: CGPoint(x: 298, y: y), filled: true)
-y += 40
-badge(3, at: CGPoint(x: 276, y: y + 8))
-y += text("Open \u{F8FF} menu › **System Settings** › **Privacy & Security**. Scroll down and click **Open Anyway**.",
-          at: CGPoint(x: 298, y: y), width: 316, size: 13) + 8
-button("Open Anyway", at: CGPoint(x: 298, y: y), filled: false)
-y += 40
-badge(4, at: CGPoint(x: 276, y: y + 8))
+// Steps 2 to 4. Step 3 is narrower: the Privacy & Security shortcut sits to its right.
+card(NSRect(x: 250, y: 98, width: 380, height: 282))
+badge(2, at: CGPoint(x: 276, y: 124))
+let h2 = text("A message says it can't be opened. Click **Done** (not Move to Trash).",
+              at: CGPoint(x: 298, y: 116), width: 316, size: 13)
+button("Done", at: CGPoint(x: 298, y: 116 + h2 + 8), filled: true)
+badge(3, at: CGPoint(x: 276, y: 204))
+let h3 = text("Double-click **Privacy & Security**, scroll to the bottom and click **Open Anyway**.",
+              at: CGPoint(x: 298, y: 196), width: 186, size: 13)
+button("Open Anyway", at: CGPoint(x: 298, y: 196 + h3 + 8), filled: false)
+badge(4, at: CGPoint(x: 276, y: 324))
 text("Confirm with **Open Anyway** and your password. The installer opens: click **Continue**, then **Install**.",
-     at: CGPoint(x: 298, y: y), width: 316, size: 13)
+     at: CGPoint(x: 298, y: 316), width: 316, size: 13)
 
 // Footnote.
 text("On macOS 13 or 14 it's quicker: right-click the installer, choose **Open**, then **Open** again.",
-     at: CGPoint(x: 30, y: 370), width: 600, size: 12, color: soft, align: .center)
+     at: CGPoint(x: 30, y: 394), width: 600, size: 12, color: soft, align: .center)
 
 NSGraphicsContext.restoreGraphicsState()
 try rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: args[1]))

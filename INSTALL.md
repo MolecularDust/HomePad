@@ -11,8 +11,8 @@ minutes and you only do them once.
 ## 1. Put HomePad in Applications
 
 **From the installer disk image (HomePad-Installer.dmg):** double-click it. Its window shows the steps: double-click
-**Install HomePad**, click **Done** when your Mac stops it, then **Open Anyway** in System Settings → Privacy & Security
-(more detail in step 2 below, where the same block is described for the app). The installer then puts HomePad in
+**Install HomePad**, click **Done** when your Mac stops it, then double-click **Privacy & Security** in the same window
+and click **Open Anyway** at the bottom of the page that opens (more detail in step 2 below, where the same block is described for the app). The installer then puts HomePad in
 Applications and opens it, so skip to step 3.
 
 **From a disk image (HomePad.dmg):** double-click it. A window opens with the **HomePad** app (a blue grid icon),
