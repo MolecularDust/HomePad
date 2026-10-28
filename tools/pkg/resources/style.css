@@ -1,9 +1,9 @@
-body { font: 13px -apple-system, "Helvetica Neue", sans-serif; line-height: 1.45; color: #1d1d1f; margin: 22px 26px; }
-@media (prefers-color-scheme: dark) { body { color: #f5f5f7; } .step .n { background: #0a84ff; } }
+/* Installer turns these pages into plain styled text: no positioning, rounded corners or dark-mode rules survive.
+   Keep to fonts, colours, margins and lists. No text colour, so it follows light and dark mode. */
+body { font: 13px -apple-system, "Helvetica Neue", sans-serif; line-height: 1.45; margin: 22px 26px; }
 h1 { font-size: 21px; margin: 0 0 6px; }
 h2 { font-size: 14px; margin: 18px 0 4px; }
 p { margin: 6px 0; }
+ol { margin: 6px 0; padding-left: 22px; }
+li { margin: 4px 0; }
 .muted { color: #86868b; }
-.step { margin: 9px 0 9px 0; padding-left: 30px; position: relative; }
-.step .n { position: absolute; left: 0; top: 0; width: 21px; height: 21px; border-radius: 50%; background: #0071e3; color: #fff;
-          text-align: center; line-height: 21px; font-size: 12px; }

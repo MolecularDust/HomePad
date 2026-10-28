@@ -39,21 +39,16 @@ cp dist/HomePad.pkg "$WORK/stage/Install HomePad.pkg"
 hdiutil create -volname "$VOLUME" -srcfolder "$WORK/stage" -fs HFS+ -format UDRW -size 60m "$WORK/rw.dmg" >/dev/null
 MOUNT="$(hdiutil attach "$WORK/rw.dmg" -readwrite -noverify -noautoopen | awk -F'\t' '/\/Volumes\// {print $NF}')"
 
-# A shortcut to the Privacy & Security page of System Settings (where Open Anyway is). It leads to a file macOS ships
-# with, not to anything downloaded, so it opens without a block. A Finder alias rather than a symbolic link, so it can
-# carry System Settings' icon (that settings file has none of its own).
-SHORTCUT="Privacy & Security"
-osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:\"$SHORTCUT\"}" >/dev/null
-osascript -l JavaScript - "$MOUNT/$SHORTCUT" <<'JXA' >/dev/null
-ObjC.import("AppKit")
-function run(argv) {
-    const ws = $.NSWorkspace.sharedWorkspace
-    const icon = ws.iconForFile("/System/Applications/System Settings.app")
-    if (!ws.setIconForFileOptions(icon, argv[0], 0)) throw new Error("could not set the icon")
-}
-JXA
+# The blue button: a shortcut to the Privacy & Security page of System Settings (where Open Anyway is). It leads to a
+# file macOS ships with, not to anything downloaded, so it opens without a block. A Finder alias rather than a symbolic
+# link, so it can carry its own picture. Its name is a no-break space: Finder writes every item's name under it, and
+# the button already says what it does.
+ICON_SIZE=184
+osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:(character id 160)}" >/dev/null
+swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
+"$WORK/render_icons" "$MOUNT/"$'\xc2\xa0' "$MOUNT/Install HomePad.pkg" "$ICON_SIZE"
 
-# Window 660 × 480 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
+# Window 660 × 490 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
 osascript <<OSA
 tell application "Finder"
     tell disk "$VOLUME"
@@ -61,14 +56,15 @@ tell application "Finder"
         set current view of container window to icon view
         set toolbar visible of container window to false
         set statusbar visible of container window to false
-        set bounds of container window to {200, 120, 860, 628}
+        set bounds of container window to {200, 120, 860, 638}
         set opts to the icon view options of container window
         set arrangement of opts to not arranged
-        set icon size of opts to 80
+        set icon size of opts to $ICON_SIZE
         set text size of opts to 13
         set background picture of opts to file ".background:steps.tiff"
-        set position of item "Install HomePad.pkg" of container window to {130, 245}
-        set position of item "$SHORTCUT" of container window to {545, 240}
+        -- The installer's picture sits at the bottom of its square, so this puts it mid-card.
+        set position of item "Install HomePad.pkg" of container window to {130, 190}
+        set position of item (character id 160) of container window to {390, 250}
         update without registering applications
         delay 1
         close
