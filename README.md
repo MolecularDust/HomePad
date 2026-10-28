@@ -19,7 +19,9 @@ It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its 
 
 **Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
 with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's
-block on apps that aren't registered with Apple, and through the Setup Guide.
+block on apps that aren't registered with Apple, and through the Setup Guide. `tools/make_dmg.sh` makes
+`dist/HomePad.dmg` instead: a disk image with the app, a shortcut to Applications to drag it onto, and the same guide
+as "READ ME FIRST - How to install HomePad.txt".
 To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
 
 ## Using it

@@ -10,11 +10,15 @@ minutes and you only do them once.
 
 ## 1. Put HomePad in Applications
 
-1. Download **HomePad.zip** and double-click it if it wasn't unzipped already. You get a **HomePad** folder with
-   the app (a blue grid icon) and these instructions.
-2. Open a Finder window, click **Applications** in the sidebar, and drag the **HomePad** app into it.
+**From a disk image (HomePad.dmg):** double-click it. A window opens with the **HomePad** app (a blue grid icon),
+a shortcut to your **Applications** folder, and these instructions. Drag **HomePad** onto **Applications**. When
+it has copied, eject the disk image: click the small eject button next to it in Finder's sidebar.
 
-Do this before opening the app. Started from Downloads, it can lose its permissions later.
+**From a zip (HomePad.zip):** double-click it if it wasn't unzipped already. You get a **HomePad** folder with the
+app and these instructions. Open a Finder window, click **Applications** in the sidebar, and drag the **HomePad**
+app into it.
+
+Do this before opening the app. Started from the disk image or from Downloads, it can lose its permissions later.
 
 ## 2. Open it the first time
 
