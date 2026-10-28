@@ -1,41 +1,51 @@
-// Gives the installer disk image's two items their pictures: render_dmg_icons <button file> <installer file> <size>
+// Gives the installer disk image's Privacy & Security shortcut its picture: render_dmg_icons <file> <size>
 //
-// A Finder window can't hold a real button, only file icons, and every icon in it is drawn at one size. So the
-// Privacy & Security shortcut gets a picture of a blue button (as wide as that size), and the installer gets its usual
-// icon drawn smaller at the bottom of the same square, so it keeps its size and its name stays right under it.
+// A Finder window can't hold a real button, only file icons, and Finder highlights an icon's whole square when it is
+// clicked. So the button is a square blue tile filling its icon, the same size as the installer's icon: the highlight
+// then hugs it like a pressed button.
 import AppKit
 
 let args = CommandLine.arguments
-guard args.count == 4, let size = Double(args[3]) else {
-    print("usage: render_dmg_icons <button file> <installer file> <size>")
+guard args.count == 3, let size = Double(args[2]) else {
+    print("usage: render_dmg_icons <file> <size>")
     exit(1)
 }
 let S = CGFloat(size)
 
-let button = NSImage(size: NSSize(width: S, height: S), flipped: false) { _ in
-    let h: CGFloat = 40
-    let r = NSRect(x: 1, y: (S - h) / 2, width: S - 2, height: h)
+let tile = NSImage(size: NSSize(width: S, height: S), flipped: false) { _ in
+    let r = NSRect(x: 0, y: 0, width: S, height: S).insetBy(dx: S * 0.04, dy: S * 0.04)
     NSColor(srgbRed: 0x2a / 255.0, green: 0x6d / 255.0, blue: 0xf4 / 255.0, alpha: 1).setFill()
-    NSBezierPath(roundedRect: r, xRadius: 10, yRadius: 10).fill()
+    NSBezierPath(roundedRect: r, xRadius: S * 0.19, yRadius: S * 0.19).fill()
+
     let para = NSMutableParagraphStyle()
     para.alignment = .center
-    let title = NSAttributedString(string: "Open Privacy & Security", attributes: [
-        .font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: NSColor.white, .paragraphStyle: para])
-    let th = title.size().height
-    title.draw(in: NSRect(x: r.minX, y: r.midY - th / 2, width: r.width, height: th))
+    para.lineSpacing = 1
+    let title = NSAttributedString(string: "Open Privacy\n& Security", attributes: [
+        .font: NSFont.systemFont(ofSize: S * 0.118, weight: .semibold), .foregroundColor: NSColor.white,
+        .paragraphStyle: para])
+    let th = title.boundingRect(with: NSSize(width: r.width, height: S), options: [.usesLineFragmentOrigin]).height
+
+    // An open padlock above the words.
+    let config = NSImage.SymbolConfiguration(pointSize: S * 0.2, weight: .semibold)
+    let lock = NSImage(systemSymbolName: "lock.open.fill", accessibilityDescription: nil)?.withSymbolConfiguration(config)
+    let gap = S * 0.06
+    let lockSize = lock?.size ?? .zero
+    let total = lockSize.height + gap + th
+    let top = r.midY + total / 2
+    if let lock {
+        let white = NSImage(size: lockSize, flipped: false) { rect in
+            lock.draw(in: rect)
+            NSColor.white.set()
+            rect.fill(using: .sourceAtop)
+            return true
+        }
+        white.draw(in: NSRect(x: r.midX - lockSize.width / 2, y: top - lockSize.height, width: lockSize.width, height: lockSize.height))
+    }
+    title.draw(with: NSRect(x: r.minX, y: top - lockSize.height - gap - th, width: r.width, height: th), options: [.usesLineFragmentOrigin])
     return true
 }
 
-// The installer's own icon (before any custom one), 112 points, at the bottom centre of the square.
-let pkgIcon = NSWorkspace.shared.icon(forFile: args[2])
-let art: CGFloat = 112
-let installer = NSImage(size: NSSize(width: S, height: S), flipped: false) { _ in
-    pkgIcon.draw(in: NSRect(x: (S - art) / 2, y: 0, width: art, height: art))
-    return true
-}
-
-guard NSWorkspace.shared.setIcon(button, forFile: args[1]),
-      NSWorkspace.shared.setIcon(installer, forFile: args[2]) else {
-    print("could not set the icons")
+guard NSWorkspace.shared.setIcon(tile, forFile: args[1]) else {
+    print("could not set the icon")
     exit(1)
 }

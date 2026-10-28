@@ -39,16 +39,16 @@ cp dist/HomePad.pkg "$WORK/stage/Install HomePad.pkg"
 hdiutil create -volname "$VOLUME" -srcfolder "$WORK/stage" -fs HFS+ -format UDRW -size 60m "$WORK/rw.dmg" >/dev/null
 MOUNT="$(hdiutil attach "$WORK/rw.dmg" -readwrite -noverify -noautoopen | awk -F'\t' '/\/Volumes\// {print $NF}')"
 
-# The blue button: a shortcut to the Privacy & Security page of System Settings (where Open Anyway is). It leads to a
+# The blue tile: a shortcut to the Privacy & Security page of System Settings (where Open Anyway is). It leads to a
 # file macOS ships with, not to anything downloaded, so it opens without a block. A Finder alias rather than a symbolic
-# link, so it can carry its own picture. Its name is a zero-width space: Finder writes every item's name under it (and highlights it when clicked), and
-# the button already says what it does.
-ICON_SIZE=184
-osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:(character id 8203)}" >/dev/null
+# link, so it can carry its own picture (tools/render_dmg_icons.swift).
+ICON_SIZE=112
+SHORTCUT="Double-click"
+osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:\"$SHORTCUT\"}" >/dev/null
 swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
-"$WORK/render_icons" "$MOUNT/"$'\xe2\x80\x8b' "$MOUNT/Install HomePad.pkg" "$ICON_SIZE"
+"$WORK/render_icons" "$MOUNT/$SHORTCUT" "$ICON_SIZE"
 
-# Window 660 × 490 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
+# Window 660 × 550 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
 osascript <<OSA
 tell application "Finder"
     tell disk "$VOLUME"
@@ -56,15 +56,14 @@ tell application "Finder"
         set current view of container window to icon view
         set toolbar visible of container window to false
         set statusbar visible of container window to false
-        set bounds of container window to {200, 120, 860, 638}
+        set bounds of container window to {200, 120, 860, 698}
         set opts to the icon view options of container window
         set arrangement of opts to not arranged
         set icon size of opts to $ICON_SIZE
         set text size of opts to 13
         set background picture of opts to file ".background:steps.tiff"
-        -- The installer's picture sits at the bottom of its square, so this puts it mid-card.
-        set position of item "Install HomePad.pkg" of container window to {130, 190}
-        set position of item (character id 8203) of container window to {390, 250}
+        set position of item "Install HomePad.pkg" of container window to {130, 248}
+        set position of item "$SHORTCUT" of container window to {354, 272}
         update without registering applications
         delay 1
         close
