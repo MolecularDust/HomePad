@@ -287,6 +287,29 @@ enum WindowCatalog {
     }
 
     /// At twice the thumbnail size, for sharp Retina display.
+    /// An app's minimised windows (asking the app, through Accessibility), with thumbnails. A minimised window
+    /// doesn't change, so pictures already taken (`known`) are kept rather than taken again.
+    static func minimisedWindows(for pid: pid_t, known: [CGWindowID: NSImage]) async -> [AppWindow] {
+        let real = await Task.detached(priority: .userInitiated) { realWindows(for: pid).filter(\.isMinimised) }.value
+        guard !real.isEmpty else { return [] }
+        var images = known.filter { id, _ in real.contains { $0.id == id } }
+        let missing = real.filter { images[$0.id] == nil }
+        if !missing.isEmpty, Permissions.screenRecording, let content = await ShareableWindows.shared.content(fresh: false) {
+            let shareable = Dictionary(content.windows.map { ($0.windowID, $0) }, uniquingKeysWith: { first, _ in first })
+            let taken = await withTaskGroup(of: (CGWindowID, CGImage?).self) { group -> [CGWindowID: CGImage] in
+                for window in missing {
+                    guard let item = shareable[window.id] else { continue }
+                    group.addTask { (window.id, await thumbnail(of: item)) }
+                }
+                var found: [CGWindowID: CGImage] = [:]
+                for await (id, image) in group { found[id] = image }
+                return found
+            }
+            for (id, image) in taken { images[id] = NSImage(cgImage: image, size: NSSize(width: image.width / 2, height: image.height / 2)) }
+        }
+        return real.map { AppWindow(id: $0.id, title: $0.title, frame: $0.frame, image: images[$0.id], spaceNumber: $0.spaceNumber) }
+    }
+
     private static func thumbnail(of window: SCWindow) async -> CGImage? {
         guard #available(macOS 14.0, *) else { return nil }   // SCScreenshotManager needs macOS 14
         let config = SCStreamConfiguration()
@@ -970,6 +993,55 @@ final class AppMenus: ObservableObject {
         DispatchQueue.global(qos: .userInteractive).async {
             AXUIElementPerformAction(command.element, kAXPressAction as CFString)
             DispatchQueue.main.async { app.activate(options: []) }
+        }
+    }
+}
+
+/// Every running app's minimised windows, shown in the Running section right after the app's tile. Gathered in the
+/// background each time the panel opens (asking apps takes a moment; DaVinci Resolve can take half a second), so the
+/// panel never waits for it. Needs Accessibility; thumbnails need Screen Recording (without it, the app's icon).
+final class MinimisedWindows: ObservableObject {
+    static let shared = MinimisedWindows()
+    static let settingKey = "showMinimised"
+    @Published private(set) var byApp: [pid_t: [AppWindow]] = [:]
+    private var images: [CGWindowID: NSImage] = [:]
+    private var refreshing = false
+
+    static var enabled: Bool { UserDefaults.standard.object(forKey: settingKey) as? Bool ?? true }
+
+    func refresh() {
+        guard Self.enabled, Permissions.accessibility else {
+            if !byApp.isEmpty { byApp = [:] }
+            return
+        }
+        guard !refreshing else { return }
+        refreshing = true
+        let pids = RunningApps.shared.apps.map(\.processIdentifier)
+        let known = images
+        Task.detached(priority: .userInitiated) {
+            _ = await ShareableWindows.shared.content(fresh: true)       // one fresh list, shared by every app below
+            let found = await withTaskGroup(of: (pid_t, [AppWindow]).self) { group -> [pid_t: [AppWindow]] in
+                for pid in pids { group.addTask { (pid, await WindowCatalog.minimisedWindows(for: pid, known: known)) } }
+                var result: [pid_t: [AppWindow]] = [:]
+                for await (pid, windows) in group where !windows.isEmpty { result[pid] = windows }
+                return result
+            }
+            await MainActor.run {
+                let self_ = MinimisedWindows.shared
+                self_.refreshing = false
+                self_.images = Dictionary(found.values.flatMap { $0 }.compactMap { w in w.image.map { (w.id, $0) } }, uniquingKeysWith: { a, _ in a })
+                // Published only when something changed, since it redraws the Running section.
+                let summary = { (d: [pid_t: [AppWindow]]) in d.mapValues { $0.map { "\($0.id)|\($0.title)|\($0.image != nil)" } } }
+                if summary(found) != summary(self_.byApp) { self_.byApp = found }
+            }
+        }
+    }
+
+    /// The window was just restored or closed: its tile goes at once, without waiting for the next look.
+    func forget(_ id: CGWindowID) {
+        for (pid, windows) in byApp where windows.contains(where: { $0.id == id }) {
+            let rest = windows.filter { $0.id != id }
+            byApp[pid] = rest.isEmpty ? nil : rest
         }
     }
 }

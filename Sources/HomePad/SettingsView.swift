@@ -17,6 +17,7 @@ struct SettingsView: View {
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
     @AppStorage(HotCornerMonitor.defaultsKey) private var hotCorners = ""
+    @AppStorage(MinimisedWindows.settingKey) private var showMinimised = true
     @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
@@ -54,6 +55,11 @@ struct SettingsView: View {
                 NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
                 NumberSetting(title: "Icon spacing", value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
+                Toggle("Show minimized windows in Running", isOn: $showMinimised)
+                    .disabled(!showRunning)
+                    .onChange(of: showMinimised) { _ in MinimisedWindows.shared.refresh() }
+                Text("Each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
 
             Section("Window") {
@@ -157,6 +163,7 @@ struct SettingsView: View {
         rememberSize = true
         rememberPosition = false
         showRunning = true
+        showMinimised = true
         showMenuBarIcon = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }

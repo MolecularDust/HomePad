@@ -442,6 +442,22 @@ struct RunningSection: View {
     let apps: [URL]
     let grid: [GridItem]
     @ObservedObject private var store = CategoryStore.shared
+    @ObservedObject private var minimised = MinimisedWindows.shared
+    @AppStorage(MinimisedWindows.settingKey) private var showMinimised = true
+
+    /// An app's tile, or one of its minimised windows (right after it).
+    private enum Item: Hashable {
+        case app(URL)
+        case window(pid_t, CGWindowID)
+    }
+
+    private var items: [Item] {
+        apps.flatMap { url -> [Item] in
+            guard showMinimised, let app = RunningApps.shared.app(for: url),
+                  let windows = minimised.byApp[app.processIdentifier] else { return [.app(url)] }
+            return [.app(url)] + windows.map { .window(app.processIdentifier, $0.id) }
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -452,8 +468,16 @@ struct RunningSection: View {
                     .font(.system(size: 11)).foregroundStyle(.tertiary)
             }
             LazyVGrid(columns: grid, alignment: .leading, spacing: 6) {
-                ForEach(apps, id: \.self) { url in
-                    AppTile(url: url, isRunning: true, categoryID: nil).equatable()
+                ForEach(items, id: \.self) { item in
+                    switch item {
+                    case .app(let url):
+                        AppTile(url: url, isRunning: true, categoryID: nil).equatable()
+                    case .window(let pid, let id):
+                        if let app = NSRunningApplication(processIdentifier: pid),
+                           let window = minimised.byApp[pid]?.first(where: { $0.id == id }) {
+                            MinimisedTile(window: window, app: app)
+                        }
+                    }
                 }
             }
         }
@@ -468,6 +492,78 @@ struct RunningSection: View {
             Button("Add Category…") { Launcher.addCategory() }
             MoveRowItems(id: CategoryStore.runningID, name: "Running")
         }
+    }
+}
+
+/// A minimised window, after its app's tile in Running: its picture with the app's icon in the corner (as the Dock
+/// shows minimised windows) and its title. A click brings it back.
+struct MinimisedTile: View {
+    let window: AppWindow
+    let app: NSRunningApplication
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
+    @State private var hovering = false
+
+    private var title: String { window.title.isEmpty ? (app.localizedName ?? "Window") : window.title }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ZStack(alignment: .bottomTrailing) {
+                Group {
+                    if let image = window.image {
+                        Image(nsImage: image)
+                            .resizable()
+                            .interpolation(.high)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 60, maxHeight: 44)
+                            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(Color.primary.opacity(0.18), lineWidth: 0.5))
+                            .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
+                    } else {
+                        RoundedRectangle(cornerRadius: 5, style: .continuous)
+                            .fill(Color.primary.opacity(0.08))
+                            .frame(width: 56, height: 38)
+                    }
+                }
+                .frame(width: 64, height: 52)
+                if let url = app.bundleURL {
+                    Image(nsImage: IconCache.icon(for: url))
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .offset(x: 2, y: 2)
+                }
+            }
+            .frame(width: 64, height: 52)
+            // No running mark (the window isn't an app), but its space, so the names line up.
+            Color.clear
+                .frame(width: 18, height: RunningMark.height)
+                .padding(.top, RunningMark.above)
+                .padding(.bottom, RunningMark.below)
+            Text(title)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .padding(.horizontal, 4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, RowMetrics.padding(rowHeight))
+        .background(RoundedRectangle(cornerRadius: 10).fill(hovering ? Color.primary.opacity(0.09) : .clear))
+        .contentShape(Rectangle())
+        .onHover { hovering = $0 && !PanelState.shared.isDragging }
+        .onTapGesture { restore() }
+        .help("\(title) (minimized)")
+        .contextMenu {
+            Button("Restore") { restore() }
+            Button("Close Window") {
+                MinimisedWindows.shared.forget(window.id)
+                DispatchQueue.global(qos: .userInitiated).async { _ = WindowCatalog.close(window, of: app) }
+            }
+        }
+    }
+
+    private func restore() {
+        MinimisedWindows.shared.forget(window.id)
+        WindowCatalog.focus(window, of: app)
     }
 }
 

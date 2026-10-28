@@ -362,6 +362,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         PanelState.shared.reset()
         RunningApps.shared.refresh()
         ClosableWindows.shared.refresh()
+        MinimisedWindows.shared.refresh()
 
         placing = true
         let mouse = NSEvent.mouseLocation

@@ -15,7 +15,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 - Search uses **`NSMetadataQuery`** (Spotlight index), debounced 80 ms, scope `NSMetadataQueryLocalComputerScope`.
 - Initial pinned list comes from the Dock's **`com.apple.dock` `persistent-apps`** preference (via `CFPreferences`), Finder prepended.
 - "Hide the Dock" sets `autohide` + `autohide-delay=1000` in `com.apple.dock` and restarts the Dock.
-- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`categories`, `columns`, `showRunning`, `hotkey*`, `doubleTapKey`, `hotCorners` as "topLeft,bottomRight", `folders` as JSON). Bundle id is `local.mike.HomePad`.
+- Launch at login via `SMAppService.mainApp`. Settings are stored in `UserDefaults` (`categories`, `columns`, `showRunning`, `hotkey*`, `doubleTapKey`, `hotCorners` as "topLeft,bottomRight", `folders` as JSON, `showMinimised`). Bundle id is `local.mike.HomePad`.
 - Permissions (prompted at runtime): Screen Recording (window thumbnails), Accessibility (raise or close a specific window, double-tap trigger), Full Disk Access (no API to request it; without it NSMetadataQuery silently omits files in Documents, Desktop and Downloads). Ad-hoc signing means macOS may re-ask after a rebuild.
 
 ## Layout
@@ -31,7 +31,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `FilePicker.swift` | "Add File or Folder": our own file browser window (sidebar, grid, back, hidden-items toggle) with a Trash entry; `~/.Trash` is hidden so the system open dialog never shows it |
 | `Dialogs.swift` | `ModalWindow` (titled, closable, runs via `NSApp.runModal`), `TextPrompt`, `AppPicker`; replaces NSAlert/NSOpenPanel so dialogs have a close button |
 | `Spaces.swift` | Private SkyLight calls, looked up with `dlsym`: which Space a window is on (hidden helper windows are on none), bringing a window forward, and `RemoteAX` (Accessibility elements for windows on other Spaces, found by scanning element ids; windows sit at ids in the thousands). OK because the app is unsandboxed and not on the App Store |
-| `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility |
+| `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility, `MinimisedWindows` (each running app's minimised windows with thumbnails, gathered in the background on every panel open; shown after the app's tile in Running as `MinimisedTile`) |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |
 | `HomePadView.swift` | The UI: search bar, category grids, placeholder tiles, running apps, results list |
