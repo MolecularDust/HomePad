@@ -350,7 +350,11 @@ enum WindowCatalog {
     /// Finding minimised windows means asking the app itself, which waits for its answer (DaVinci Resolve took up to
     /// 425 ms); `askingApp: false` leaves them out and only asks the window server, which takes a few ms.
     static func realWindows(for pid: pid_t, askingApp: Bool = true) -> [RealWindow] {
-        let minimised = askingApp ? axWindows(pid).filter { axBool($0, kAXMinimizedAttribute) == true }.compactMap(axFrame) : []
+        // Minimised windows, by window number where macOS gives it: windows of the same size in the same place are
+        // common (Opera's), and matching by frame alone took an open window for a minimised one.
+        let minimisedElements = askingApp ? axWindows(pid).filter { axBool($0, kAXMinimizedAttribute) == true } : []
+        let minimisedIDs = Set(minimisedElements.compactMap(RemoteAX.windowID(of:)))
+        let minimisedFrames = minimisedElements.filter { RemoteAX.windowID(of: $0) == nil }.compactMap(axFrame)
         let infos = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]] ?? []
         let activeSpace = SkyLight.activeSpace
         let numbers = SkyLight.spaceNumbers()
@@ -367,7 +371,8 @@ enum WindowCatalog {
             let onScreen = (info[kCGWindowIsOnscreen as String] as? Bool) ?? ((info[kCGWindowIsOnscreen as String] as? Int) == 1)
             let spaces = SkyLight.spaces(of: number)
             let placed = SkyLight.isOrderedIn(number)
-            let isMinimised = minimised.contains(where: near(rect))
+            // A window showing on screen is never minimised.
+            let isMinimised = !onScreen && (minimisedIDs.contains(number) || minimisedFrames.contains(where: near(rect)))
             // Seen from another Space every window there is off screen, so whether it is placed on its Space is what
             // tells a shown window from a hidden one. A window that belongs to a Space but isn't placed on it is left
             // out, from every Space alike: the app no longer counts it (Opera's own Window menu leaves such windows out

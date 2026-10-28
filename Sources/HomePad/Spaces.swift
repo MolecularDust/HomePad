@@ -101,6 +101,13 @@ enum RemoteAX {
     private static let getWindow = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "_AXUIElementGetWindow")
         .map { unsafeBitCast($0, to: GetWindow.self) }
 
+    /// The window number of a window's Accessibility element (nil if macOS doesn't say).
+    static func windowID(of element: AXUIElement) -> CGWindowID? {
+        var id: CGWindowID = 0
+        guard let getWindow, getWindow(element, &id) == .success, id != 0 else { return nil }
+        return id
+    }
+
     private static let lock = NSLock()
     private static var knownIDs: [pid_t: [CGWindowID: UInt64]] = [:]
     private static var highWater: [pid_t: UInt64] = [:]
