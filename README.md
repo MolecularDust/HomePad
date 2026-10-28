@@ -21,7 +21,10 @@ It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its 
 with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's
 block on apps that aren't registered with Apple, and through the Setup Guide. `tools/make_dmg.sh` makes
 `dist/HomePad.dmg` instead: a disk image with the app, a shortcut to Applications to drag it onto, and the same guide
-as "READ ME FIRST - How to install HomePad.txt".
+as "READ ME FIRST - How to install HomePad.txt". `tools/make_pkg.sh` makes `dist/HomePad.pkg`, an installer wizard
+(Welcome, What to expect, Install, Done) that puts the app in Applications and opens it, so nothing has to be read or
+dragged. It isn't signed, so macOS blocks the package once (System Settings → Privacy & Security → Open Anyway); an app
+installed by Installer is not marked "downloaded from the internet", so HomePad itself opens without a block.
 To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
 
 ## Using it

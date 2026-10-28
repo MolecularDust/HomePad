@@ -1,0 +1,8 @@
+#!/bin/sh
+# Opens HomePad for the person at the keyboard (this script runs as root), so its Setup Guide is the next thing
+# they see.
+uid=$(/usr/bin/stat -f%u /dev/console)
+if [ -n "$uid" ] && [ "$uid" -gt 0 ] 2>/dev/null; then
+    /bin/launchctl asuser "$uid" /usr/bin/open /Applications/HomePad.app >/dev/null 2>&1 &
+fi
+exit 0

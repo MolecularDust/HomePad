@@ -1,0 +1,4 @@
+#!/bin/sh
+# An older HomePad that is running is closed first (by its exact name), so the new one replaces it cleanly.
+/usr/bin/pkill -x HomePad >/dev/null 2>&1
+exit 0
