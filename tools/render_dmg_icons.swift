@@ -1,5 +1,6 @@
 // Pictures for the installer disk image's items:
-//   render_dmg_icons <file> <size>        the Privacy & Security shortcut's blue tile
+//   render_dmg_icons <file> <size> [text]  the Privacy & Security shortcut's blue tile, with its words (\n for a
+//                                          line break; made smaller until they fit)
 //   render_dmg_icons <file> --from <icns>  an existing icon, e.g. the classic package box for the installer
 //
 // A Finder window can't hold a real button, only file icons, and Finder highlights an icon's whole square when it is
@@ -15,8 +16,8 @@ if args.count == 4, args[2] == "--from" {
     }
     exit(0)
 }
-guard args.count == 3, let size = Double(args[2]) else {
-    print("usage: render_dmg_icons <file> <size> | render_dmg_icons <file> --from <icns>")
+guard args.count == 3 || args.count == 4, let size = Double(args[2]) else {
+    print("usage: render_dmg_icons <file> <size> [text] | render_dmg_icons <file> --from <icns>")
     exit(1)
 }
 let S = CGFloat(size)
@@ -29,10 +30,27 @@ let tile = NSImage(size: NSSize(width: S, height: S), flipped: false) { _ in
     let para = NSMutableParagraphStyle()
     para.alignment = .center
     para.lineSpacing = 1
-    let title = NSAttributedString(string: "Open Privacy\n& Security", attributes: [
-        .font: NSFont.systemFont(ofSize: S * 0.118, weight: .semibold), .foregroundColor: NSColor.white,
-        .paragraphStyle: para])
-    let th = title.boundingRect(with: NSSize(width: r.width, height: S), options: [.usesLineFragmentOrigin]).height
+    let words = args.count == 4 ? args[3] : "Open Privacy\n& Security"
+    func title(_ points: CGFloat) -> NSAttributedString {
+        NSAttributedString(string: words, attributes: [
+            .font: NSFont.systemFont(ofSize: points, weight: .semibold), .foregroundColor: NSColor.white, .paragraphStyle: para])
+    }
+    // Smaller until it fits the tile: some languages need longer words or three lines.
+    var points = S * 0.118
+    func box(_ p: CGFloat) -> NSRect {
+        title(p).boundingRect(with: NSSize(width: r.width * 0.88, height: S * 2), options: [.usesLineFragmentOrigin])
+    }
+    // Each of its lines (\n) on one line, and not taller than the space under the padlock.
+    func widest(_ p: CGFloat) -> CGFloat {
+        words.components(separatedBy: "\n").map {
+            NSAttributedString(string: $0, attributes: [.font: NSFont.systemFont(ofSize: p, weight: .semibold)]).size().width
+        }.max() ?? 0
+    }
+    while points > S * 0.07, widest(points) > r.width * 0.88 || box(points).height > S * 0.42 {
+        points -= 0.5
+    }
+    let text = title(points)
+    let th = box(points).height
 
     // An open padlock above the words.
     let config = NSImage.SymbolConfiguration(pointSize: S * 0.2, weight: .semibold)
@@ -50,7 +68,8 @@ let tile = NSImage(size: NSSize(width: S, height: S), flipped: false) { _ in
         }
         white.draw(in: NSRect(x: r.midX - lockSize.width / 2, y: top - lockSize.height, width: lockSize.width, height: lockSize.height))
     }
-    title.draw(with: NSRect(x: r.minX, y: top - lockSize.height - gap - th, width: r.width, height: th), options: [.usesLineFragmentOrigin])
+    text.draw(with: NSRect(x: r.midX - r.width * 0.44, y: top - lockSize.height - gap - th, width: r.width * 0.88, height: th),
+              options: [.usesLineFragmentOrigin])
     return true
 }
 

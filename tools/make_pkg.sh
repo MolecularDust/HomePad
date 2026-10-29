@@ -1,6 +1,6 @@
 #!/bin/bash
 # Makes dist/HomePad.pkg to share with friends: an installer wizard (Welcome, What to expect, Install, Done) that puts
-# HomePad.app (Apple silicon and Intel) in /Applications and opens it. Wizard text: tools/pkg/resources/*.html;
+# HomePad.app (Apple silicon and Intel) in /Applications and opens it. Wizard text: tools/pkg/text/<code>.json (tools/pkg/make_pages.py);
 # scripts: tools/pkg/scripts. Usage: tools/make_pkg.sh
 #
 # The package is not signed (that takes an Apple Developer ID), so macOS blocks it once, before the wizard opens.
@@ -33,18 +33,11 @@ pkgbuild --root "$WORK/root" --component-plist "$WORK/components.plist" --instal
          --identifier local.mike.HomePad --version 1.0 --ownership recommended \
          --scripts tools/pkg/scripts "$WORK/HomePad-component.pkg" >/dev/null
 
-# The wizard's pages with style.css written into each one: productbuild only takes the files the distribution names,
-# so a linked stylesheet would be left out and the pages would show unstyled.
+# The wizard's pages in every language (tools/pkg/text/<code>.json), each with style.css written into it: productbuild
+# only takes the files the distribution names, so a linked stylesheet would be left out. Installer shows the language
+# of the Mac (it has no language menu of its own), English when it has no match.
 mkdir "$WORK/resources"
-python3 - tools/pkg/resources "$WORK/resources" <<'PY'
-import os, sys
-src, dst = sys.argv[1:3]
-css = open(os.path.join(src, "style.css")).read()
-for name in os.listdir(src):
-    if name.endswith(".html"):
-        html = open(os.path.join(src, name)).read()
-        open(os.path.join(dst, name), "w").write(html.replace('<link rel="stylesheet" href="style.css">', "<style>\n" + css + "</style>"))
-PY
+python3 tools/pkg/make_pages.py "$WORK/resources"
 
 mkdir -p dist
 rm -f dist/HomePad.pkg

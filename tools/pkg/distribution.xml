@@ -20,10 +20,9 @@ function checkTrash() {
     var home = system.env.HOME;
     if (home && system.files.fileExistsAtPath(home + "/.Trash/HomePad-Installer.dmg")) {
         my.result.type = "Warning";
-        my.result.title = "An earlier HomePad installer is in your Trash";
-        my.result.message = "When the installation finishes, your Mac may say it can't move the installer to the Trash. "
-            + "That's harmless: click OK, then delete HomePad-Installer.dmg from Downloads yourself. "
-            + "To avoid the message, empty the Trash before you continue.";
+        // In the Mac's language: <code>.lproj/Localizable.strings, from tools/pkg/text (make_pages.py).
+        my.result.title = system.localizedString("trash_title");
+        my.result.message = system.localizedString("trash_message");
         return false;
     }
     return true;

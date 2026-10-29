@@ -25,7 +25,7 @@ as "READ ME FIRST - How to install HomePad.txt". `tools/make_pkg.sh` makes `dist
 (Welcome, What to expect, Install, Done) that puts the app in Applications and opens it, so nothing has to be read or
 dragged. It isn't signed, so macOS blocks the package once (System Settings → Privacy & Security → Open Anyway); an app
 installed by Installer is not marked "downloaded from the internet", so HomePad itself opens without a block.
-`tools/make_installer_dmg.sh` wraps that package in `dist/HomePad-Installer.dmg`, whose window shows the Open Anyway
+`tools/make_installer_dmg.sh` wraps that package in `dist/HomePad-Installer.dmg` (or `tools/make_installer_dmg.sh ru` for a Russian one in `dist/ru/`, `all` for every language), whose window shows the Open Anyway
 steps as a picture beside the installer, so they are on screen before the block (opening a disk image isn't blocked; a
 script would be). This is the one to send.
 To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
