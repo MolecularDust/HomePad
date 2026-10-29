@@ -12,22 +12,6 @@
             <os-version min="13.0"/>
         </allowed-os-versions>
     </volume-check>
-    <!-- An earlier HomePad-Installer.dmg in the Trash makes Installer's "move the installer to the Trash" fail at the
-         end (it replaces a file of the same name there, which macOS doesn't let it do). Say so up front. -->
-    <installation-check script="checkTrash()"/>
-    <script><![CDATA[
-function checkTrash() {
-    var home = system.env.HOME;
-    if (home && system.files.fileExistsAtPath(home + "/.Trash/HomePad-Installer.dmg")) {
-        my.result.type = "Warning";
-        // In the Mac's language: <code>.lproj/Localizable.strings, from tools/pkg/text (make_pages.py).
-        my.result.title = system.localizedString("trash_title");
-        my.result.message = system.localizedString("trash_message");
-        return false;
-    }
-    return true;
-}
-    ]]></script>
     <choices-outline>
         <line choice="default">
             <line choice="local.mike.HomePad"/>

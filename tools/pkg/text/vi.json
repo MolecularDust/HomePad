@@ -28,8 +28,6 @@
  "c_trash_h": "Nếu máy Mac không thể chuyển trình cài đặt vào Thùng rác",
  "c_trash": "Điều đó xảy ra khi một <b>HomePad-Installer.dmg</b> cũ đã có trong Thùng rác. Không sao cả: bấm <b>OK</b>, rồi xóa <b>HomePad-Installer.dmg</b> khỏi Tải về.",
  "c_muted": "Bạn có thể đóng cửa sổ này.",
- "trash_title": "Có một trình cài đặt HomePad cũ trong Thùng rác",
- "trash_message": "Khi cài đặt xong, máy Mac có thể báo không thể chuyển trình cài đặt vào Thùng rác. Không sao cả: bấm OK, rồi tự xóa HomePad-Installer.dmg khỏi Tải về. Để tránh thông báo này, hãy dọn sạch Thùng rác trước khi tiếp tục.",
  "d_title": "Cài đặt HomePad",
  "d_subtitle": "HomePad không đến từ App Store, nên máy Mac sẽ chặn trình cài đặt một lần. Để cho phép nó:",
  "d_step1": "**Bấm hai lần** vào trình cài đặt bên dưới.",

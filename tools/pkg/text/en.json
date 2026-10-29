@@ -28,8 +28,6 @@
  "c_trash_h": "If your Mac can't move the installer to the Trash",
  "c_trash": "That happens when an earlier <b>HomePad-Installer.dmg</b> is already in the Trash. It's harmless: click <b>OK</b>, then delete <b>HomePad-Installer.dmg</b> from Downloads.",
  "c_muted": "You can close this window.",
- "trash_title": "An earlier HomePad installer is in your Trash",
- "trash_message": "When the installation finishes, your Mac may say it can't move the installer to the Trash. That's harmless: click OK, then delete HomePad-Installer.dmg from Downloads yourself. To avoid the message, empty the Trash before you continue.",
  "d_title": "Install HomePad",
  "d_subtitle": "HomePad isn't from the App Store, so your Mac stops the installer once. To let it through:",
  "d_step1": "**Double-click** the installer below.",

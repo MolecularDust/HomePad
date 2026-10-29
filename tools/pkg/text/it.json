@@ -28,8 +28,6 @@
  "c_trash_h": "Se il Mac non riesce a spostare il programma di installazione nel Cestino",
  "c_trash": "Succede quando nel Cestino c’è già un <b>HomePad-Installer.dmg</b> precedente. Non è un problema: fai clic su <b>OK</b>, poi elimina <b>HomePad-Installer.dmg</b> da Download.",
  "c_muted": "Puoi chiudere questa finestra.",
- "trash_title": "Nel Cestino c’è un programma di installazione di HomePad precedente",
- "trash_message": "Al termine dell’installazione il Mac potrebbe dire che non riesce a spostare il programma di installazione nel Cestino. Non è un problema: fai clic su OK, poi elimina tu HomePad-Installer.dmg da Download. Per evitare il messaggio, svuota il Cestino prima di continuare.",
  "d_title": "Installa HomePad",
  "d_subtitle": "HomePad non viene dall’App Store, quindi il Mac ferma il programma di installazione una volta. Per lasciarlo passare:",
  "d_step1": "Fai **doppio clic** sul programma di installazione qui sotto.",

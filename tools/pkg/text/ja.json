@@ -28,8 +28,6 @@
  "c_trash_h": "Macがインストーラをゴミ箱に入れられない場合",
  "c_trash": "以前の<b>HomePad-Installer.dmg</b>がすでにゴミ箱にあると起こります。問題はありません。<b>OK</b>をクリックし、ダウンロードから<b>HomePad-Installer.dmg</b>を削除してください。",
  "c_muted": "このウインドウは閉じてかまいません。",
- "trash_title": "以前のHomePadインストーラがゴミ箱にあります",
- "trash_message": "インストールが終わると、Macがインストーラをゴミ箱に入れられないと表示することがあります。問題はありません。OKをクリックし、ダウンロードからHomePad-Installer.dmgをご自身で削除してください。このメッセージを避けるには、続ける前にゴミ箱を空にしてください。",
  "d_title": "HomePadをインストール",
  "d_subtitle": "HomePadはApp Storeのアプリではないため、Macがインストーラを一度止めます。通すには：",
  "d_step1": "下のインストーラを**ダブルクリック**します。",

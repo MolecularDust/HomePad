@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """The installer's text in every language, from tools/pkg/text/<code>.json (English: en.json).
 
-    make_pages.py <out-dir>        writes <out-dir>/<code>.lproj/{welcome,readme,conclusion}.html and
-                                   Localizable.strings (the Trash warning in distribution.xml). Nothing at the top level:
+    make_pages.py <out-dir>        writes <out-dir>/<code>.lproj/{welcome,readme,conclusion}.html. Nothing at the top level:
                                    Installer prefers a top-level page over the Mac's language and would always show it;
                                    without one it uses en.lproj when it has no match
     make_pages.py --check          reports keys missing from a language, or <b> tags that don't match English
@@ -50,11 +49,6 @@ def page(blocks, t, rtl, lang="en"):
     return "\n".join(out) + "\n</body></html>\n"
 
 
-def strings(t):
-    esc = lambda s: s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
-    return "".join(f'"{k}" = "{esc(t[k])}";\n' for k in ("trash_title", "trash_message"))
-
-
 def main():
     langs = languages()
     en = langs["en"]
@@ -76,7 +70,6 @@ def main():
         for name, blocks in PAGES.items():
             html = page(blocks, t, code in RTL, code)
             open(os.path.join(folder, name + ".html"), "w").write(html)
-        open(os.path.join(folder, "Localizable.strings"), "w").write(strings(t))
 
 
 if __name__ == "__main__":

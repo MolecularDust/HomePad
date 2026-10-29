@@ -28,8 +28,6 @@
  "c_trash_h": "اگر Mac نتوانست نصب‌کننده را به Trash ببرد",
  "c_trash": "این وقتی پیش می‌آید که یک <b>HomePad-Installer.dmg</b> قبلی در Trash باشد. مشکلی نیست: روی <b>OK</b> کلیک کنید، سپس <b>HomePad-Installer.dmg</b> را از Downloads حذف کنید.",
  "c_muted": "می‌توانید این پنجره را ببندید.",
- "trash_title": "یک نصب‌کننده قبلی HomePad در Trash شماست",
- "trash_message": "پس از پایان نصب، ممکن است Mac بگوید نمی‌تواند نصب‌کننده را به Trash ببرد. مشکلی نیست: روی OK کلیک کنید، سپس خودتان HomePad-Installer.dmg را از Downloads حذف کنید. برای جلوگیری از این پیام، پیش از ادامه Trash را خالی کنید.",
  "d_title": "نصب HomePad",
  "d_subtitle": "HomePad از App Store نیست، پس Mac یک بار نصب‌کننده را متوقف می‌کند. برای عبور دادنش:",
  "d_step1": "روی نصب‌کننده پایین **دوبار کلیک** کنید.",

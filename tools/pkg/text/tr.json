@@ -28,8 +28,6 @@
  "c_trash_h": "Mac’iniz yükleyiciyi Çöp Sepeti’ne taşıyamazsa",
  "c_trash": "Bu, Çöp Sepeti’nde önceden bir <b>HomePad-Installer.dmg</b> varsa olur. Zararsızdır: <b>Tamam</b>’ı tıklayın, sonra <b>HomePad-Installer.dmg</b> dosyasını İndirilenler’den silin.",
  "c_muted": "Bu pencereyi kapatabilirsiniz.",
- "trash_title": "Çöp Sepeti’nizde önceki bir HomePad yükleyicisi var",
- "trash_message": "Yükleme bittiğinde Mac’iniz yükleyiciyi Çöp Sepeti’ne taşıyamadığını söyleyebilir. Zararsızdır: Tamam’ı tıklayın, sonra HomePad-Installer.dmg dosyasını İndirilenler’den kendiniz silin. Mesajı önlemek için devam etmeden önce Çöp Sepeti’ni boşaltın.",
  "d_title": "HomePad’i Yükle",
  "d_subtitle": "HomePad App Store’dan gelmiyor, bu yüzden Mac’iniz yükleyiciyi bir kez durdurur. Geçmesine izin vermek için:",
  "d_step1": "Aşağıdaki yükleyiciye **çift tıklayın**.",

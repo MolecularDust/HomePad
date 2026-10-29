@@ -28,8 +28,6 @@
  "c_trash_h": "Si votre Mac ne peut pas placer le programme d’installation dans la corbeille",
  "c_trash": "Cela arrive quand un ancien <b>HomePad-Installer.dmg</b> se trouve déjà dans la corbeille. C’est sans gravité : cliquez sur <b>OK</b>, puis supprimez <b>HomePad-Installer.dmg</b> de Téléchargements.",
  "c_muted": "Vous pouvez fermer cette fenêtre.",
- "trash_title": "Un ancien programme d’installation de HomePad est dans la corbeille",
- "trash_message": "À la fin de l’installation, votre Mac indiquera peut-être qu’il ne peut pas placer le programme d’installation dans la corbeille. C’est sans gravité : cliquez sur OK, puis supprimez vous-même HomePad-Installer.dmg de Téléchargements. Pour éviter ce message, videz la corbeille avant de continuer.",
  "d_title": "Installer HomePad",
  "d_subtitle": "HomePad ne vient pas de l’App Store, votre Mac arrête donc le programme d’installation une fois. Pour le laisser passer :",
  "d_step1": "**Double-cliquez** sur le programme d’installation ci-dessous.",

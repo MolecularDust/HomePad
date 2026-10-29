@@ -28,8 +28,6 @@
  "c_trash_h": "Kung hindi mailipat ng Mac mo ang installer sa Trash",
  "c_trash": "Nangyayari iyon kapag may naunang <b>HomePad-Installer.dmg</b> na sa Trash. Walang masama: i-click ang <b>OK</b>, pagkatapos ay burahin ang <b>HomePad-Installer.dmg</b> sa Downloads.",
  "c_muted": "Maaari mo nang isara ang window na ito.",
- "trash_title": "May naunang HomePad installer sa Trash mo",
- "trash_message": "Pagkatapos ng pag-install, maaaring sabihin ng Mac mo na hindi nito mailipat ang installer sa Trash. Walang masama: i-click ang OK, pagkatapos ay ikaw mismo ang magbura ng HomePad-Installer.dmg sa Downloads. Para maiwasan ang mensahe, alisan ng laman ang Trash bago magpatuloy.",
  "d_title": "I-install ang HomePad",
  "d_subtitle": "Hindi galing sa App Store ang HomePad, kaya pinipigilan ng Mac mo ang installer nang isang beses. Para palusutin ito:",
  "d_step1": "**I-double click** ang installer sa ibaba.",

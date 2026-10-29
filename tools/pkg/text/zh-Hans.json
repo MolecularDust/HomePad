@@ -28,8 +28,6 @@
  "c_trash_h": "如果 Mac 无法将安装器移到废纸篓",
  "c_trash": "这发生在废纸篓中已有之前的 <b>HomePad-Installer.dmg</b> 时。这无害：点按<b>好</b>，然后从“下载”中删除 <b>HomePad-Installer.dmg</b>。",
  "c_muted": "你可以关闭此窗口。",
- "trash_title": "废纸篓中有之前的 HomePad 安装器",
- "trash_message": "安装完成时，Mac 可能会提示无法将安装器移到废纸篓。这无害：点按“好”，然后自行从“下载”中删除 HomePad-Installer.dmg。为避免此提示，请在继续前清倒废纸篓。",
  "d_title": "安装 HomePad",
  "d_subtitle": "HomePad 并非来自 App Store，因此 Mac 会拦截一次安装器。要放行它：",
  "d_step1": "**连按**下方的安装器。",

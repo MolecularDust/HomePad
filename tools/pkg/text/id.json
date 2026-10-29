@@ -28,8 +28,6 @@
  "c_trash_h": "Jika Mac tidak dapat memindahkan penginstal ke Tempat Sampah",
  "c_trash": "Itu terjadi jika <b>HomePad-Installer.dmg</b> yang lebih lama sudah ada di Tempat Sampah. Tidak berbahaya: klik <b>OKE</b>, lalu hapus <b>HomePad-Installer.dmg</b> dari Unduhan.",
  "c_muted": "Anda dapat menutup jendela ini.",
- "trash_title": "Penginstal HomePad lama ada di Tempat Sampah",
- "trash_message": "Saat instalasi selesai, Mac mungkin mengatakan tidak dapat memindahkan penginstal ke Tempat Sampah. Tidak berbahaya: klik OKE, lalu hapus sendiri HomePad-Installer.dmg dari Unduhan. Untuk menghindari pesan itu, kosongkan Tempat Sampah sebelum melanjutkan.",
  "d_title": "Instal HomePad",
  "d_subtitle": "HomePad bukan dari App Store, jadi Mac Anda menghentikan penginstal sekali. Untuk mengizinkannya:",
  "d_step1": "**Klik dua kali** penginstal di bawah.",

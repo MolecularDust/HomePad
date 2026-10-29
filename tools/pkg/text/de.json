@@ -28,8 +28,6 @@
  "c_trash_h": "Falls dein Mac das Installationsprogramm nicht in den Papierkorb legen kann",
  "c_trash": "Das passiert, wenn eine frühere <b>HomePad-Installer.dmg</b> schon im Papierkorb liegt. Es ist harmlos: Klicke auf <b>OK</b> und lösche dann <b>HomePad-Installer.dmg</b> aus Downloads.",
  "c_muted": "Du kannst dieses Fenster schließen.",
- "trash_title": "Ein früheres HomePad-Installationsprogramm liegt im Papierkorb",
- "trash_message": "Nach der Installation meldet dein Mac vielleicht, dass er das Installationsprogramm nicht in den Papierkorb legen kann. Das ist harmlos: Klicke auf OK und lösche HomePad-Installer.dmg selbst aus Downloads. Um die Meldung zu vermeiden, leere den Papierkorb, bevor du fortfährst.",
  "d_title": "HomePad installieren",
  "d_subtitle": "HomePad stammt nicht aus dem App Store, daher hält dein Mac das Installationsprogramm einmal an. So lässt du es durch:",
  "d_step1": "**Doppelklicke** unten auf das Installationsprogramm.",

@@ -28,8 +28,6 @@
  "c_trash_h": "Si tu Mac no puede mover el instalador a la papelera",
  "c_trash": "Ocurre cuando ya hay un <b>HomePad-Installer.dmg</b> anterior en la papelera. No pasa nada: haz clic en <b>OK</b> y luego borra <b>HomePad-Installer.dmg</b> de Descargas.",
  "c_muted": "Puedes cerrar esta ventana.",
- "trash_title": "Hay un instalador anterior de HomePad en tu papelera",
- "trash_message": "Al terminar la instalación, puede que tu Mac diga que no puede mover el instalador a la papelera. No pasa nada: haz clic en OK y borra tú HomePad-Installer.dmg de Descargas. Para evitar el mensaje, vacía la papelera antes de continuar.",
  "d_title": "Instalar HomePad",
  "d_subtitle": "HomePad no viene del App Store, así que tu Mac detiene el instalador una vez. Para dejarlo pasar:",
  "d_step1": "Haz **doble clic** en el instalador de abajo.",
