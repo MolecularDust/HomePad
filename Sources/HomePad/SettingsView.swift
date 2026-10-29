@@ -38,7 +38,7 @@ struct SettingsView: View {
                         .font(.caption).foregroundStyle(.red)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                Text("To use ⌘Space, first turn off Spotlight's shortcut in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.")
+                Text(L("To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 Picker("Or double-tap", selection: $doubleTap) {
@@ -48,21 +48,21 @@ struct SettingsView: View {
                     DoubleTapMonitor.shared.apply()
                     permissions.refresh()
                 }
-                Text("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the Accessibility permission.")
+                Text(L("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the ⟦Accessibility⟧ permission."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 HotCornerSetting()
             }
 
             Section("Layout") {
-                NumberSetting(title: String(localized: "Icons per row"), value: $columns, range: 4...10)
-                NumberSetting(title: String(localized: "Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
-                NumberSetting(title: String(localized: "Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
+                NumberSetting(title: L("Icons per row"), value: $columns, range: 4...10)
+                NumberSetting(title: L("Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
+                NumberSetting(title: L("Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
                 Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
                     .disabled(!showRunning)
                     .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
-                Text("Each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures. Both can also be changed by right-clicking the Running section.")
+                Text(L("Each minimized window gets a tile right after its app; click it to bring the window back. Needs ⟦Accessibility⟧, and ⟦Screen Recording⟧ for the pictures. Both can also be changed by right-clicking the Running section."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -88,36 +88,36 @@ struct SettingsView: View {
             }
 
             Section("Permissions") {
-                permissionRow(String(localized: "Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
-                              detail: String(localized: "Jump to a specific window and double-tap a modifier key.")) {
+                permissionRow(Mac("Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
+                              detail: L("Jump to a specific window and double-tap a modifier key.")) {
                     Permissions.requestAccessibility()
                 }
-                permissionRow(String(localized: "Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: String(localized: "Window previews when you hover a running app.")) {
+                permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
+                              detail: L("Window previews when you hover a running app.")) {
                     Permissions.requestScreenRecording()
                 }
-                permissionRow(String(localized: "Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: String(localized: "Find files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.")) {
+                permissionRow(Mac("Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
+                              detail: L("Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.")) {
                     Permissions.requestFullDiskAccess()
                 }
                 if !permissions.allGranted {
-                    Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                    Text(L("Already switched on in ⟦System Settings⟧ but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
-            Section("Dock") {
-                Toggle("Hide the Dock", isOn: $dockHidden)
+            Section(Mac("Dock")) {
+                Toggle(L("Hide the ⟦Dock⟧"), isOn: $dockHidden)
                     .onChange(of: dockHidden) { DockControl.setHidden($0) }
-                Text("Turns on auto-hide with a very long delay, so the Dock never pops up. Cmd-Tab and Mission Control keep working.")
+                Text(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Reset") {
                 Button("Reset to Defaults…") { confirmReset() }
-                Text("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
+                Text(L("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 Button("Start Over…") { StartOver.confirm() }
@@ -173,10 +173,10 @@ struct SettingsView: View {
 
     private func confirmReset() {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Reset settings to their defaults?")
-        alert.informativeText = String(localized: "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept.")
-        alert.addButton(withTitle: String(localized: "Reset"))
-        alert.addButton(withTitle: String(localized: "Cancel"))
+        alert.messageText = L("Reset settings to their defaults?")
+        alert.informativeText = L("This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.")
+        alert.addButton(withTitle: L("Reset"))
+        alert.addButton(withTitle: L("Cancel"))
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -196,14 +196,14 @@ struct SettingsView: View {
     private var addApp: some View { Button("Add App…") { Launcher.chooseAppsToPin() }.fixedSize() }
     private var addFile: some View { Button("Add File or Folder…") { Launcher.chooseFilesToPin() }.fixedSize() }
     private var addCategory: some View { Button("Add Category…") { Launcher.addCategory() }.fixedSize() }
-    private var reimport: some View { Button("Re-import from Dock…") { confirmReimport() }.fixedSize() }
+    private var reimport: some View { Button(L("Re-import from ⟦Dock⟧…")) { confirmReimport() }.fixedSize() }
 
     private func confirmReimport() {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Replace Essentials with the Dock's apps?")
-        alert.informativeText = String(localized: "Your current Essentials list and its order will be replaced. Other categories are kept.")
-        alert.addButton(withTitle: String(localized: "Replace"))
-        alert.addButton(withTitle: String(localized: "Cancel"))
+        alert.messageText = L("Replace Essentials with the apps in the ⟦Dock⟧?")
+        alert.informativeText = L("Your current Essentials list and its order will be replaced. Other categories are kept.")
+        alert.addButton(withTitle: L("Replace"))
+        alert.addButton(withTitle: L("Cancel"))
         if alert.runModal() == .alertFirstButtonReturn {
             CategoryStore.shared.replaceWithDock()
         }
@@ -219,7 +219,7 @@ struct ShortcutRecorder: View {
     var body: some View {
         HStack(spacing: 6) {
             Button(action: { recording ? stop() : start() }) {
-                Text(recording ? String(localized: "Press keys…") : (store.isNone ? String(localized: "None") : store.shortcut.displayString))
+                Text(recording ? L("Press keys…") : (store.isNone ? L("None") : store.shortcut.displayString))
                     .frame(minWidth: 110)
             }
             if !recording && !store.isNone {
@@ -314,12 +314,12 @@ struct NumberSetting: View {
 enum StartOver {
     static func confirm() {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Start over as if HomePad were new?")
-        alert.informativeText = String(localized: "macOS takes back HomePad's permissions (Accessibility, Screen Recording, Full Disk Access), so it will ask for them again. The Setup Guide shows once more, and HomePad restarts.")
-        let erase = NSButton(checkboxWithTitle: String(localized: "Also forget my categories and settings"), target: nil, action: nil)
+        alert.messageText = L("Start over as if HomePad were new?")
+        alert.informativeText = L("macOS takes back HomePad's permissions (⟦Accessibility⟧, ⟦Screen Recording⟧, ⟦Full Disk Access⟧), so it will ask for them again. The Setup Guide shows once more, and HomePad restarts.")
+        let erase = NSButton(checkboxWithTitle: L("Also forget my categories and settings"), target: nil, action: nil)
         alert.accessoryView = erase
-        alert.addButton(withTitle: String(localized: "Start Over"))
-        alert.addButton(withTitle: String(localized: "Cancel"))
+        alert.addButton(withTitle: L("Start Over"))
+        alert.addButton(withTitle: L("Cancel"))
         guard PanelController.shared.keepVisible(during: { alert.runModal() }) == .alertFirstButtonReturn else { return }
         run(erasingSettings: erase.state == .on)
     }
@@ -333,8 +333,8 @@ enum StartOver {
         reset.waitUntilExit()
         if reset.terminationStatus != 0 {
             let note = NSAlert()
-            note.messageText = String(localized: "macOS didn't take the permissions back")
-            note.informativeText = String(localized: "Remove HomePad yourself in System Settings → Privacy & Security, under Accessibility, Screen Recording and Full Disk Access (select it, then press −). HomePad starts over anyway.")
+            note.messageText = L("macOS didn't take the permissions back")
+            note.informativeText = L("Remove HomePad yourself in ⟦System Settings⟧ → ⟦Privacy & Security⟧, under ⟦Accessibility⟧, ⟦Screen Recording⟧ and ⟦Full Disk Access⟧ (select it, then press −). HomePad starts over anyway.")
             PanelController.shared.keepVisible { _ = note.runModal() }
         }
         let defaults = UserDefaults.standard
@@ -389,11 +389,11 @@ struct HotCornerSetting: View {
         let clashing = HotCorner.allCases.filter { chosen.contains($0) && clashes[$0] != nil }
         if !clashing.isEmpty {
             VStack(alignment: .leading, spacing: 6) {
-                Text(clashing.map { String(localized: "macOS also uses the corner “\($0.title)” for \(clashes[$0]!).") }.joined(separator: " ")
-                     + " " + String(localized: "Both will happen there. Set that corner to “–” in macOS's Hot Corners, or pick another corner here."))
+                Text(clashing.map { L("macOS also uses the corner “\($0.title)” for \(clashes[$0]!).") }.joined(separator: " ")
+                     + " " + L("Both will happen there. Set that corner to “–” in macOS's ⟦Hot Corners⟧, or pick another corner here."))
                     .font(.caption).foregroundStyle(.red)
                     .fixedSize(horizontal: false, vertical: true)
-                Button("Open macOS Hot Corners…") { SystemHotCorners.open() }
+                Button(L("Open macOS ⟦Hot Corners⟧…")) { SystemHotCorners.open() }
             }
         }
         if showsHelp {
@@ -405,7 +405,7 @@ struct HotCornerSetting: View {
 
     private var summary: String {
         let names = HotCorner.allCases.filter(chosen.contains).map(\.title)
-        return names.isEmpty ? String(localized: "Off. Click a corner to use it.") : names.joined(separator: String(localized: ", "))
+        return names.isEmpty ? L("Off. Click a corner to use it.") : names.joined(separator: L(", "))
     }
 
     private var screen: some View {
@@ -441,9 +441,9 @@ struct HotCornerSetting: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .help(on ? String(localized: "\(corner.title) (on)") : corner.title)
+        .help(on ? L("\(corner.title) (on)") : corner.title)
         .accessibilityLabel(corner.title)
-        .accessibilityValue(on ? String(localized: "on") : String(localized: "off"))
+        .accessibilityValue(on ? L("on") : L("off"))
     }
 
     private func readClashes() {

@@ -10,10 +10,10 @@ final class DoubleTapMonitor {
         var id: String { rawValue }
         var title: String {
             switch self {
-            case .off: return String(localized: "Off")
-            case .control: return String(localized: "Control ⌃")
-            case .option: return String(localized: "Option ⌥")
-            case .command: return String(localized: "Command ⌘")
+            case .off: return L("Off")
+            case .control: return L("Control ⌃")
+            case .option: return L("Option ⌥")
+            case .command: return L("Command ⌘")
             }
         }
         var flag: NSEvent.ModifierFlags? {

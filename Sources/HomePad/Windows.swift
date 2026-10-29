@@ -228,7 +228,7 @@ struct PermissionButton: View {
                 .background(Capsule().fill(granted ? Color.green : Color.red))
         }
         .buttonStyle(.plain)
-        .help(granted ? "Open this permission in System Settings" : "Allow this permission")
+        .help(granted ? L("Open this permission in ⟦System Settings⟧") : L("Allow this permission"))
     }
 }
 
@@ -549,7 +549,7 @@ final class WindowPreviewController {
 
     private let model = WindowPreviewModel()
     private var panel: NSPanel!
-    private var host: NSHostingView<WindowPreviewView>!
+    private var host: NSView!
     private var overTile = false
     private var overPreview = false
     private var showWork: DispatchWorkItem?
@@ -562,7 +562,7 @@ final class WindowPreviewController {
     private var loaded: (pid: pid_t, windows: [AppWindow], titles: [String])?
 
     private init() {
-        host = NSHostingView(rootView: WindowPreviewView(model: model))
+        host = NSHostingView(rootView: WindowPreviewView(model: model).localized())
         let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 200, height: 100),
                         styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         p.isFloatingPanel = true
@@ -782,15 +782,15 @@ struct WindowPreviewView: View {
     }
 
     private func headline(_ app: NSRunningApplication) -> String {
-        let name = app.localizedName ?? String(localized: "App")
+        let name = app.localizedName ?? L("App")
         if model.needsPermission || model.loading { return name }
         let n = model.windows.count
-        return n == 1 ? String(localized: "\(name) · 1 window") : String(localized: "\(name) · \(n) windows")
+        return n == 1 ? L("\(name) · 1 window") : L("\(name) · \(n) windows")
     }
 
     private var permissionHint: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Allow Screen Recording to see window previews.")
+            Text(L("Allow ⟦Screen Recording⟧ to see window previews."))
                 .font(.system(size: 11)).foregroundStyle(.secondary)
             ForEach(model.fallbackTitles, id: \.self) { Text($0).font(.system(size: 11)).lineLimit(1) }
             HStack {
@@ -831,7 +831,7 @@ struct WindowThumbnail: View {
                 }
                 .padding(5)
             }
-            Text(window.title.isEmpty ? (app?.localizedName ?? String(localized: "Window")) : window.title)
+            Text(window.title.isEmpty ? (app?.localizedName ?? L("Window")) : window.title)
                 .font(.system(size: 11)).lineLimit(1).frame(width: size.width, alignment: .leading)
         }
         .contentShape(Rectangle())
@@ -934,7 +934,7 @@ final class AppMenus: ObservableObject {
         let pid = app.processIdentifier
         guard CACurrentMediaTime() - (lastRead[pid] ?? 0) > 2 else { return }
         lastRead[pid] = CACurrentMediaTime()
-        let name = app.localizedName ?? String(localized: "Window")
+        let name = app.localizedName ?? L("Window")
         queue.async {
             let found = Self.read(pid: pid, appName: name)
             DispatchQueue.main.async { self.info[pid] = found }

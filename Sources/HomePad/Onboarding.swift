@@ -19,8 +19,8 @@ enum Onboarding {
 
     static func show() {
         if window == nil {
-            let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish)))
-            w.title = String(localized: "Welcome to HomePad")
+            let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish).localized()))
+            w.title = L("Welcome to HomePad")
             w.styleMask = [.titled, .closable]
             // An empty toolbar gives the full-height title bar regular Mac apps have.
             w.toolbar = NSToolbar(identifier: "OnboardingWindow")
@@ -67,30 +67,30 @@ struct OnboardingView: View {
                     .foregroundStyle(.secondary)
             }
 
-            step(String(localized: "1. Allow access")) {
-                permissionRow(String(localized: "Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: String(localized: "Shows a preview of each window when you hover a running app.")) {
+            step(L("1. Allow access")) {
+                permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
+                              detail: L("Shows a preview of each window when you hover a running app.")) {
                     Permissions.requestScreenRecording()
                 }
-                permissionRow(String(localized: "Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
-                              detail: String(localized: "Jumps to the window you pick, and powers the double-tap shortcut.")) {
+                permissionRow(Mac("Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
+                              detail: L("Jumps to the window you pick, and powers the double-tap shortcut.")) {
                     Permissions.requestAccessibility()
                 }
-                permissionRow(String(localized: "Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: String(localized: "Finds files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.")) {
+                permissionRow(Mac("Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
+                              detail: L("Finds files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.")) {
                     Permissions.requestFullDiskAccess()
                 }
-                Text("macOS may ask you to reopen HomePad after you allow Screen Recording or Full Disk Access.")
+                Text(L("macOS may ask you to reopen HomePad after you allow ⟦Screen Recording⟧ or ⟦Full Disk Access⟧."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 if !permissions.allGranted {
-                    Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
+                    Text(L("Already switched on in ⟦System Settings⟧ but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature."))
                         .font(.caption).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
-            step(String(localized: "2. Choose how to open it")) {
+            step(L("2. Choose how to open it")) {
                 HStack {
                     Text("Keyboard shortcut")
                     Spacer()

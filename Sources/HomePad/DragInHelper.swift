@@ -9,7 +9,7 @@ enum DragInHelper {
 
     static func show() {
         close()
-        let host = NSHostingView(rootView: DragInView(close: close))
+        let host = NSHostingView(rootView: DragInView(close: close).localized())
         host.frame.size = host.fittingSize
         let p = NSPanel(contentRect: host.frame, styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
                         backing: .buffered, defer: false)
@@ -79,7 +79,7 @@ private struct DragInView: View {
             // the text covers both.
             Text("Turn on HomePad in this list")
                 .font(.system(size: 13, weight: .semibold))
-            AppIconDragSource().frame(width: 64, height: 64).help("Drag into the Full Disk Access list")
+            AppIconDragSource().frame(width: 64, height: 64).help(L("Drag into the ⟦Full Disk Access⟧ list"))
             Text("Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad.")
                 .font(.system(size: 11)).foregroundStyle(.secondary).multilineTextAlignment(.center)
         }

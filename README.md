@@ -107,11 +107,14 @@ any time from the menu-bar icon → Setup Guide…
   languages (Arabic, Bengali, Chinese (Simplified), English, Filipino, French, German, Hindi, Indonesian, Italian,
   Japanese, Korean, Persian, Portuguese (Brazil), Russian, Spanish, Telugu, Thai, Turkish, Vietnamese), listed
   alphabetically in the current language. HomePad restarts in the new one; Arabic and Persian lay out right to left.
+  Names of apps, folders and System Settings sections stay as the Mac shows them.
 
 ## Translations
 
 The English in the code is the text to translate; `tools/translations/<code>.json` holds each language and
-`tools/localize.py write` turns them into `Resources/<code>.lproj` (which `build_app.sh` copies into the app). After
+`tools/localize.py write` turns them into `Resources/<code>.lproj` (which `build_app.sh` copies into the app). Names
+macOS uses (apps, folders, System Settings and its sections…) are never translated: they're written `⟦Trash⟧` and
+appear as the Mac shows them, in the Mac's own language, whatever language HomePad is set to. After
 changing or adding text in the code, run `tools/localize.py check`: it lists every text without a translation, and
 translations whose `%@` placeholders don't match. `tools/snapshot.sh <code>` saves pictures of Settings, the panel and
 the Setup Guide in that language to `build/snapshots/<code>`, to check that nothing is cut off.

@@ -8,10 +8,10 @@ enum HotCorner: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .topLeft: return String(localized: "Top left")
-        case .topRight: return String(localized: "Top right")
-        case .bottomLeft: return String(localized: "Bottom left")
-        case .bottomRight: return String(localized: "Bottom right")
+        case .topLeft: return L("Top left")
+        case .topRight: return L("Top right")
+        case .bottomLeft: return L("Bottom left")
+        case .bottomRight: return L("Bottom right")
         }
     }
 
@@ -45,17 +45,17 @@ enum HotCorner: String, CaseIterable, Identifiable {
         guard let action = CFPreferencesCopyAppValue("wvous-\(key)-corner" as CFString, dock) as? Int, action > 1 else { return nil }
         if let modifier = CFPreferencesCopyAppValue("wvous-\(key)-modifier" as CFString, dock) as? Int, modifier != 0 { return nil }
         switch action {
-        case 2: return String(localized: "Mission Control")
-        case 3: return String(localized: "Application Windows")
-        case 4: return String(localized: "Desktop")
-        case 5: return String(localized: "Start Screen Saver")
-        case 6: return String(localized: "Disable Screen Saver")
-        case 10: return String(localized: "Put Display to Sleep")
-        case 11: return String(localized: "Launchpad")
-        case 12: return String(localized: "Notification Centre")
-        case 13: return String(localized: "Lock Screen")
-        case 14: return String(localized: "Quick Note")
-        default: return String(localized: "another action")
+        case 2: return Mac("Mission Control")
+        case 3: return Mac("Application Windows")
+        case 4: return Mac("Desktop")
+        case 5: return Mac("Start Screen Saver")
+        case 6: return Mac("Disable Screen Saver")
+        case 10: return Mac("Put Display to Sleep")
+        case 11: return Mac("Launchpad")
+        case 12: return Mac("Notification Centre")
+        case 13: return Mac("Lock Screen")
+        case 14: return Mac("Quick Note")
+        default: return L("another action")
         }
     }
 }

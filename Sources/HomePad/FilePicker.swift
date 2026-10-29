@@ -9,8 +9,8 @@ enum FilePicker {
     static func show(for category: UUID?) {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? String(localized: "Essentials")
-        let modal = ModalWindow(title: String(localized: "Add Files and Folders to \(name)"), resizable: true, initialSize: panelSize) { modal in
+        let name = store.categories.first { $0.id == target }?.name ?? L("Essentials")
+        let modal = ModalWindow(title: L("Add Files and Folders to \(name)"), resizable: true, initialSize: panelSize) { modal in
             FilePickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -62,7 +62,7 @@ private struct SidebarRow: View {
             .buttonStyle(.plain)
             .opacity(visible ? 1 : 0)
             .allowsHitTesting(visible)
-            .help(added ? String(localized: "\(item.title) is already added") : String(localized: "Add \(item.title) itself"))
+            .help(added ? L("\(item.title) is already added") : L("Add \(item.title) itself"))
         }
         .padding(.horizontal, 8)
         .frame(height: 30)
@@ -94,7 +94,7 @@ private struct FilePickerView: View {
             SidebarItem(title: title, symbol: symbol, place: .folder(URL(fileURLWithPath: path)))
         }
         return [
-            SidebarItem(title: String(localized: "Home"), symbol: "house", place: .folder(home)),
+            SidebarItem(title: Mac("Home"), symbol: "house", place: .folder(home)),
             item("Desktop", "menubar.dock.rectangle", home.path + "/Desktop"),
             item("Documents", "doc", home.path + "/Documents"),
             item("Downloads", "arrow.down.circle", home.path + "/Downloads"),
@@ -102,7 +102,7 @@ private struct FilePickerView: View {
             item("Movies", "film", home.path + "/Movies"),
             item("Music", "music.note", home.path + "/Music"),
             item("Applications", "square.grid.2x2", "/Applications"),
-            SidebarItem(title: String(localized: "Trash"), symbol: "trash", place: .trash),
+            SidebarItem(title: Mac("Trash"), symbol: "trash", place: .trash),
         ]
     }
 
@@ -125,7 +125,7 @@ private struct FilePickerView: View {
 
     private var placeTitle: String {
         switch place {
-        case .trash: return String(localized: "Trash")
+        case .trash: return Mac("Trash")
         case .folder(let url): return url.path == "/" ? "Macintosh HD" : IconCache.name(for: url)
         }
     }
@@ -165,8 +165,8 @@ private struct FilePickerView: View {
     private var sidebar: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 2) {
-                sidebarSection(String(localized: "Places"), places)
-                if !volumes.isEmpty { sidebarSection(String(localized: "Locations"), volumes).padding(.top, 10) }
+                sidebarSection(L("Places"), places)
+                if !volumes.isEmpty { sidebarSection(L("Locations"), volumes).padding(.top, 10) }
             }
             .padding(10)
         }
@@ -233,7 +233,7 @@ private struct FilePickerView: View {
             VStack(spacing: 8) {
                 Image(systemName: "lock").font(.system(size: 26)).foregroundStyle(.secondary)
                 Text("HomePad can't look inside this folder.").font(.system(size: 13, weight: .medium))
-                Text("Allow access if macOS asks, or turn on Full Disk Access in Settings. You can still add the folder itself.")
+                Text(L("Allow access if macOS asks, or turn on ⟦Full Disk Access⟧ in Settings. You can still add the folder itself."))
                     .font(.system(size: 11)).foregroundStyle(.secondary).multilineTextAlignment(.center)
             }
             .padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -265,7 +265,7 @@ private struct FilePickerView: View {
                      toggle: { toggle(trashURL) },
                      open: { add([trashURL]) })
                 .frame(width: 150)
-            Text("Pins your Trash. Clicking the tile opens it in Finder.")
+            Text(L("Pins your ⟦Trash⟧. Clicking the tile opens it in ⟦Finder⟧."))
                 .font(.system(size: 12)).foregroundStyle(.secondary)
             if added { Text("Already added.").font(.system(size: 11)).foregroundStyle(.tertiary) }
         }

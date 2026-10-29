@@ -108,8 +108,8 @@ struct FooterProfile: View {
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 && !PanelState.shared.isDragging }
-        .accessibilityLabel("Apple Account")
-        .overlay(alignment: .topLeading) { if hovering { HoverLabel(text: String(localized: "Apple Account")).offset(y: -34) } }
+        .accessibilityLabel(Mac("Apple Account"))
+        .overlay(alignment: .topLeading) { if hovering { HoverLabel(text: Mac("Apple Account")).offset(y: -34) } }
         .zIndex(1)
     }
 }
@@ -214,8 +214,8 @@ struct HomePadView: View {
         HStack(spacing: 10) {
             FooterProfile()
             Spacer()
-            FooterIcon(symbol: "arrow.counterclockwise", name: String(localized: "Reset window")) { PanelController.shared.resetFrame() }
-            FooterIcon(symbol: "gearshape", name: String(localized: "Settings")) { AppDelegate.shared?.openSettings() }
+            FooterIcon(symbol: "arrow.counterclockwise", name: L("Reset window")) { PanelController.shared.resetFrame() }
+            FooterIcon(symbol: "gearshape", name: L("Settings")) { AppDelegate.shared?.openSettings() }
         }
         .padding(.horizontal, 24)
         .frame(height: 52)
@@ -457,9 +457,9 @@ struct HomeView: View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Spacer()
-                HoverLink(title: String(localized: "Add App")) { Launcher.chooseAppsToPin() }
-                HoverLink(title: String(localized: "Add File or Folder")) { Launcher.chooseFilesToPin() }
-                HoverLink(title: String(localized: "Add Category")) { Launcher.addCategory() }
+                HoverLink(title: L("Add App")) { Launcher.chooseAppsToPin() }
+                HoverLink(title: L("Add File or Folder")) { Launcher.chooseFilesToPin() }
+                HoverLink(title: L("Add Category")) { Launcher.addCategory() }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
@@ -576,7 +576,7 @@ struct RunningSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                RowTitle(id: CategoryStore.runningID, name: String(localized: "Running"))
+                RowTitle(id: CategoryStore.runningID, name: L("Running"))
                 Spacer()
                 Label("Managed automatically", systemImage: "lock")
                     .font(.system(size: 11)).foregroundStyle(.tertiary)
@@ -604,7 +604,7 @@ struct RunningSection: View {
             Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
             Divider()
             Button("Add Category…") { Launcher.addCategory() }
-            MoveRowItems(id: CategoryStore.runningID, name: String(localized: "Running"))
+            MoveRowItems(id: CategoryStore.runningID, name: L("Running"))
             Divider()
             Button(hideMinimised ? "Show Minimized Windows" : "Hide Minimized Windows") {
                 hideMinimised.toggle()
@@ -624,7 +624,7 @@ struct MinimisedTile: View {
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     @State private var hovering = false
 
-    private var title: String { window.title.isEmpty ? (app.localizedName ?? String(localized: "Window")) : window.title }
+    private var title: String { window.title.isEmpty ? (app.localizedName ?? L("Window")) : window.title }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -887,9 +887,9 @@ struct AppTile: View, Equatable {
                 Divider()
             }
             if app == nil { Button("Open") { Launcher.open(url) } }
-            if url.path != trashURL.path { Button("Show in Finder") { Launcher.reveal(url) } }
+            if url.path != trashURL.path { Button(L("Show in ⟦Finder⟧")) { Launcher.reveal(url) } }
             if url.path == trashURL.path {
-                Button("Empty Trash…") { Launcher.emptyTrash() }.disabled(!IconCache.trashIsFull)
+                Button(L("Empty ⟦Trash⟧…")) { Launcher.emptyTrash() }.disabled(!IconCache.trashIsFull)
             }
             if let folderID {
                 Button("Remove from \(CategoryStore.shared.folder(folderID)?.name ?? "Folder")") {
@@ -1190,9 +1190,9 @@ struct FullDiskAccessHint: View {
             HStack(spacing: 12) {
                 Image(systemName: "lock.shield").font(.system(size: 18)).foregroundStyle(.secondary).frame(width: 30)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text("Files in Documents, Desktop and Downloads aren't searched yet")
+                    Text(L("Files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧ aren't searched yet"))
                         .font(.system(size: 12, weight: .medium))
-                    Text("Click to allow Full Disk Access, then relaunch HomePad")
+                    Text(L("Click to allow ⟦Full Disk Access⟧, then relaunch HomePad"))
                         .font(.system(size: 11)).foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -1280,7 +1280,7 @@ struct ResultRow: View {
         .contextMenu {
             if result.url.isFileURL {
                 Button("Open") { Launcher.open(result.url) }
-                Button("Show in Finder") { Launcher.reveal(result.url) }
+                Button(L("Show in ⟦Finder⟧")) { Launcher.reveal(result.url) }
                 Divider()
                 if CategoryStore.shared.contains(result.url) {
                     Button(result.url.pathExtension == "app" ? "Unpin App" : "Unpin") { CategoryStore.shared.remove(result.url) }

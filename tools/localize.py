@@ -9,7 +9,8 @@
                                 order of `keys`), and en.lproj with the English itself
 
 The English text in the code is the key. A translation keeps the placeholders of its key, in any order, written
-%1$@, %2$lld … when they move. Run `check` after changing any text in the code.
+%1$@, %2$lld … when they move, and its ⟦macOS names⟧ exactly as they are (in English): HomePad fills them in from the
+Mac's own language. Each such name is also a text of its own, translated as macOS shows it in that language. Run `check` after changing any text in the code.
 """
 import glob, json, os, re, subprocess, sys, tempfile
 
@@ -34,11 +35,18 @@ def keys():
         ordered = dict(sorted(found.items(), key=lambda kv: (kv[1].split(":")[0], int(kv[1].split(":")[1]))))
         for k, text in INFO_PLIST.items():
             ordered.setdefault(text, "Info.plist:" + k)
+        # Each ⟦macOS name⟧ is a text of its own: the name as macOS shows it in that language (Localization.Mac).
+        for k in list(ordered):
+            for name in MAC_NAME.findall(k):
+                ordered.setdefault(name, "macOS name in: " + ordered[k])
         return ordered
 
 
 # Texts outside the Swift code: Info.plist keys (written to InfoPlist.strings), with their English.
 INFO_PLIST = {"NSAppleEventsUsageDescription": "HomePad asks Finder to empty the Trash, as the Dock does."}
+
+
+MAC_NAME = re.compile(r"⟦([^⟧]+)⟧")
 
 
 PLACEHOLDER = re.compile(r"%(?:(\d+)\$)?(@|lld|ld|d|f|\.\df)")
@@ -78,8 +86,9 @@ def main():
         table = json.load(open(path)) if os.path.exists(path) else {}
         missing = [k for k in all_keys if k not in table]
         unused = [k for k in table if k not in all_keys]
-        wrong = [k for k in all_keys if k in table and placeholders(k) != placeholders(table[k])]
-        for label, items in (("no translation", missing), ("unused", unused), ("placeholders differ", wrong)):
+        wrong = [k for k in all_keys if k in table and (placeholders(k) != placeholders(table[k])
+                 or sorted(MAC_NAME.findall(k)) != sorted(MAC_NAME.findall(table[k])))]
+        for label, items in (("no translation", missing), ("unused", unused), ("placeholders or ⟦macOS names⟧ differ", wrong)):
             for k in items:
                 problems += 1
                 print(f"{code}: {label}: {k!r}" + (f" ({all_keys[k]})" if k in all_keys else ""))

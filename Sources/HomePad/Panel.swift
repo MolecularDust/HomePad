@@ -329,7 +329,7 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     private override init() {
         super.init()
-        panel = SpotlightPanel(content: NSHostingView(rootView: HomePadView()))
+        panel = SpotlightPanel(content: NSHostingView(rootView: HomePadView().localized()))
         panel.delegate = self
         panel.onResizeEnd = { [weak self] in self?.rememberFrame() }
         // Lay the panel out once now, while nothing is waiting for it. (The first opening is still slower than the

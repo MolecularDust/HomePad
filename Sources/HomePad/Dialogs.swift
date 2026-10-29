@@ -16,7 +16,7 @@ final class ModalWindow: NSObject, NSWindowDelegate {
         window = NSWindow(contentRect: .zero, styleMask: resizable ? [.titled, .closable, .resizable] : [.titled, .closable],
                           backing: .buffered, defer: false)
         super.init()
-        let host = NSHostingView(rootView: content(self))
+        let host = NSHostingView(rootView: content(self).localized())
         window.contentView = host
         if resizable { window.contentMinSize = minimumSize }
         window.title = title
@@ -149,8 +149,8 @@ enum AppPicker {
     static func show(for category: UUID?) {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? String(localized: "Essentials")
-        let modal = ModalWindow(title: String(localized: "Add Apps to \(name)"), resizable: true, initialSize: panelSize) { modal in
+        let name = store.categories.first { $0.id == target }?.name ?? L("Essentials")
+        let modal = ModalWindow(title: L("Add Apps to \(name)"), resizable: true, initialSize: panelSize) { modal in
             AppPickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -257,8 +257,8 @@ private struct AppPickerView: View {
     /// For apps outside the usual folders.
     private func browse() {
         let panel = NSOpenPanel()
-        panel.title = String(localized: "Choose Apps")
-        panel.prompt = String(localized: "Choose")
+        panel.title = L("Choose Apps")
+        panel.prompt = L("Choose")
         panel.allowsMultipleSelection = true
         panel.canChooseDirectories = false
         panel.allowedContentTypes = [.application]

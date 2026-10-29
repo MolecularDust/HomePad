@@ -4,10 +4,10 @@ struct SearchResult: Identifiable, Hashable {
     enum Section: Int { case calculator, apps, files, web
         var title: String {
             switch self {
-            case .calculator: return String(localized: "Calculator")
-            case .apps: return String(localized: "Apps")
-            case .files: return String(localized: "Documents & Folders")
-            case .web: return String(localized: "Web")
+            case .calculator: return L("Calculator")
+            case .apps: return L("Apps")
+            case .files: return L("Documents & Folders")
+            case .web: return L("Web")
             }
         }
     }
@@ -171,6 +171,6 @@ final class SearchEngine: ObservableObject {
     private func webResult(_ text: String) -> SearchResult {
         var c = URLComponents(string: "https://www.google.com/search")!
         c.queryItems = [URLQueryItem(name: "q", value: text)]
-        return SearchResult(url: c.url!, name: String(localized: "Search the web for “\(text)”"), subtitle: "Google", section: .web)
+        return SearchResult(url: c.url!, name: L("Search the web for “\(text)”"), subtitle: "Google", section: .web)
     }
 }
