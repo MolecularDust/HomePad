@@ -12,6 +12,23 @@
             <os-version min="13.0"/>
         </allowed-os-versions>
     </volume-check>
+    <!-- An earlier HomePad-Installer.dmg in the Trash makes Installer's "move the installer to the Trash" fail at the
+         end (it replaces a file of the same name there, which macOS doesn't let it do). Say so up front. -->
+    <installation-check script="checkTrash()"/>
+    <script><![CDATA[
+function checkTrash() {
+    var home = system.env.HOME;
+    if (home && system.files.fileExistsAtPath(home + "/.Trash/HomePad-Installer.dmg")) {
+        my.result.type = "Warning";
+        my.result.title = "An earlier HomePad installer is in your Trash";
+        my.result.message = "When the installation finishes, your Mac may say it can't move the installer to the Trash. "
+            + "That's harmless: click OK, then delete HomePad-Installer.dmg from Downloads yourself. "
+            + "To avoid the message, empty the Trash before you continue.";
+        return false;
+    }
+    return true;
+}
+    ]]></script>
     <choices-outline>
         <line choice="default">
             <line choice="local.mike.HomePad"/>
