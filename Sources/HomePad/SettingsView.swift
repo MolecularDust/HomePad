@@ -26,18 +26,21 @@ struct SettingsView: View {
                 HStack {
                     Text("Open HomePad")
                     Spacer()
-                    ShortcutRecorder()
+                    ShortcutRecorder().fixedSize()
                 }
                 if shortcuts.isNone && doubleTap == DoubleTapMonitor.Key.off.rawValue {
                     Text("No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below.")
                         .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 if let owner = shortcuts.conflict {
                     Text("That shortcut is already in use by \(owner.summary). Pick a different one.")
                         .font(.caption).foregroundStyle(.red)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 Text("To use ⌘Space, first turn off Spotlight's shortcut in System Settings → Keyboard → Keyboard Shortcuts → Spotlight.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 Picker("Or double-tap", selection: $doubleTap) {
                     ForEach(DoubleTapMonitor.Key.allCases) { Text($0.title).tag($0.rawValue) }
                 }
@@ -47,19 +50,21 @@ struct SettingsView: View {
                 }
                 Text("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the Accessibility permission.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 HotCornerSetting()
             }
 
             Section("Layout") {
-                NumberSetting(title: "Icons per row", value: $columns, range: 4...10)
-                NumberSetting(title: "Row height", value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
-                NumberSetting(title: "Icon spacing", value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
+                NumberSetting(title: String(localized: "Icons per row"), value: $columns, range: 4...10)
+                NumberSetting(title: String(localized: "Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
+                NumberSetting(title: String(localized: "Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
                 Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
                     .disabled(!showRunning)
                     .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
                 Text("Each minimized window gets a tile right after its app; click it to bring the window back. Needs Accessibility, and Screen Recording for the pictures. Both can also be changed by right-clicking the Running section.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Window") {
@@ -67,33 +72,38 @@ struct SettingsView: View {
                 Toggle("Remember window position", isOn: $rememberPosition)
                 Text("For the main window, which you can resize by dragging its edges. The ↺ button in its corner goes back to the standard size, centred. The Add windows can be resized too, but always open at their standard size.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Items") {
-                HStack {
-                    Button("Add App…") { Launcher.chooseAppsToPin() }
-                    Button("Add File or Folder…") { Launcher.chooseFilesToPin() }
-                    Button("Add Category…") { Launcher.addCategory() }
-                    Button("Re-import from Dock…") { confirmReimport() }
+                // One row when the names fit (English); two rows in languages with longer words.
+                ViewThatFits(in: .horizontal) {
+                    HStack { addApp; addFile; addCategory; reimport }
+                    VStack(alignment: .leading) {
+                        HStack { addApp; addFile }
+                        HStack { addCategory; reimport }
+                    }
+                    VStack(alignment: .leading) { addApp; addFile; addCategory; reimport }
                 }
             }
 
             Section("Permissions") {
-                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: permissions.accessibility,
-                              detail: "Jump to a specific window and double-tap a modifier key.") {
+                permissionRow(String(localized: "Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
+                              detail: String(localized: "Jump to a specific window and double-tap a modifier key.")) {
                     Permissions.requestAccessibility()
                 }
-                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: "Window previews when you hover a running app.") {
+                permissionRow(String(localized: "Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
+                              detail: String(localized: "Window previews when you hover a running app.")) {
                     Permissions.requestScreenRecording()
                 }
-                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Find files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.") {
+                permissionRow(String(localized: "Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
+                              detail: String(localized: "Find files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.")) {
                     Permissions.requestFullDiskAccess()
                 }
                 if !permissions.allGranted {
                     Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
@@ -102,23 +112,36 @@ struct SettingsView: View {
                     .onChange(of: dockHidden) { DockControl.setHidden($0) }
                 Text("Turns on auto-hide with a very long delay, so the Dock never pops up. Cmd-Tab and Mission Control keep working.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Reset") {
                 Button("Reset to Defaults…") { confirmReset() }
                 Text("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, Dock hiding and launch at login back to how they were at first. Your apps and categories are kept.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 Button("Start Over…") { StartOver.confirm() }
                 Text("As if HomePad had just been installed: its permissions are taken back in macOS, the Setup Guide shows again and HomePad restarts. You can choose to also forget your categories and settings.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("General") {
+                Picker("Language", selection: Binding(get: { Localization.chosen ?? "" },
+                                                      set: { Localization.choose($0.isEmpty ? nil : $0) })) {
+                    Text("Same as the Mac").tag("")
+                    Divider()
+                    ForEach(Localization.options, id: \.code) { Text(verbatim: $0.title).tag($0.code) }
+                }
+                Text("HomePad restarts in the language you choose.")
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 Toggle("Show menu-bar icon", isOn: $showMenuBarIcon)
                     .onChange(of: showMenuBarIcon) { AppDelegate.shared?.setStatusItemVisible($0) }
                 if !showMenuBarIcon {
                     Text("With the icon hidden, open HomePad with your shortcut or double-tap, or by launching the app again.")
                         .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 Toggle("Launch at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { on in
@@ -144,15 +167,16 @@ struct SettingsView: View {
                 PermissionButton(granted: granted, pane: pane, request: request)
             }
             Text(detail).font(.caption).foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
         }
     }
 
     private func confirmReset() {
         let alert = NSAlert()
-        alert.messageText = "Reset settings to their defaults?"
-        alert.informativeText = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept."
-        alert.addButton(withTitle: "Reset")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "Reset settings to their defaults?")
+        alert.informativeText = String(localized: "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the Dock again and turns off launch at login. Your apps and categories are kept.")
+        alert.addButton(withTitle: String(localized: "Reset"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         shortcuts.update(.default)
         doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -169,12 +193,17 @@ struct SettingsView: View {
         if launchAtLogin { launchAtLogin = false }
     }
 
+    private var addApp: some View { Button("Add App…") { Launcher.chooseAppsToPin() }.fixedSize() }
+    private var addFile: some View { Button("Add File or Folder…") { Launcher.chooseFilesToPin() }.fixedSize() }
+    private var addCategory: some View { Button("Add Category…") { Launcher.addCategory() }.fixedSize() }
+    private var reimport: some View { Button("Re-import from Dock…") { confirmReimport() }.fixedSize() }
+
     private func confirmReimport() {
         let alert = NSAlert()
-        alert.messageText = "Replace Essentials with the Dock's apps?"
-        alert.informativeText = "Your current Essentials list and its order will be replaced. Other categories are kept."
-        alert.addButton(withTitle: "Replace")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "Replace Essentials with the Dock's apps?")
+        alert.informativeText = String(localized: "Your current Essentials list and its order will be replaced. Other categories are kept.")
+        alert.addButton(withTitle: String(localized: "Replace"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         if alert.runModal() == .alertFirstButtonReturn {
             CategoryStore.shared.replaceWithDock()
         }
@@ -190,7 +219,7 @@ struct ShortcutRecorder: View {
     var body: some View {
         HStack(spacing: 6) {
             Button(action: { recording ? stop() : start() }) {
-                Text(recording ? "Press keys…" : (store.isNone ? "None" : store.shortcut.displayString))
+                Text(recording ? String(localized: "Press keys…") : (store.isNone ? String(localized: "None") : store.shortcut.displayString))
                     .frame(minWidth: 110)
             }
             if !recording && !store.isNone {
@@ -285,12 +314,12 @@ struct NumberSetting: View {
 enum StartOver {
     static func confirm() {
         let alert = NSAlert()
-        alert.messageText = "Start over as if HomePad were new?"
-        alert.informativeText = "macOS takes back HomePad's permissions (Accessibility, Screen Recording, Full Disk Access), so it will ask for them again. The Setup Guide shows once more, and HomePad restarts."
-        let erase = NSButton(checkboxWithTitle: "Also forget my categories and settings", target: nil, action: nil)
+        alert.messageText = String(localized: "Start over as if HomePad were new?")
+        alert.informativeText = String(localized: "macOS takes back HomePad's permissions (Accessibility, Screen Recording, Full Disk Access), so it will ask for them again. The Setup Guide shows once more, and HomePad restarts.")
+        let erase = NSButton(checkboxWithTitle: String(localized: "Also forget my categories and settings"), target: nil, action: nil)
         alert.accessoryView = erase
-        alert.addButton(withTitle: "Start Over")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Start Over"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         guard PanelController.shared.keepVisible(during: { alert.runModal() }) == .alertFirstButtonReturn else { return }
         run(erasingSettings: erase.state == .on)
     }
@@ -304,8 +333,8 @@ enum StartOver {
         reset.waitUntilExit()
         if reset.terminationStatus != 0 {
             let note = NSAlert()
-            note.messageText = "macOS didn't take the permissions back"
-            note.informativeText = "Remove HomePad yourself in System Settings → Privacy & Security, under Accessibility, Screen Recording and Full Disk Access (select it, then press −). HomePad starts over anyway."
+            note.messageText = String(localized: "macOS didn't take the permissions back")
+            note.informativeText = String(localized: "Remove HomePad yourself in System Settings → Privacy & Security, under Accessibility, Screen Recording and Full Disk Access (select it, then press −). HomePad starts over anyway.")
             PanelController.shared.keepVisible { _ = note.runModal() }
         }
         let defaults = UserDefaults.standard
@@ -338,6 +367,7 @@ struct HotCornerSetting: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Or hot corners")
                 Text(summary).font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
                 if !showsHelp {
                     Text("HomePad opens in the corner you push the pointer into.")
                         .font(.caption).foregroundStyle(.secondary)
@@ -359,21 +389,23 @@ struct HotCornerSetting: View {
         let clashing = HotCorner.allCases.filter { chosen.contains($0) && clashes[$0] != nil }
         if !clashing.isEmpty {
             VStack(alignment: .leading, spacing: 6) {
-                Text(clashing.map { "macOS also uses the \($0.title.lowercased()) corner for \(clashes[$0]!)." }.joined(separator: " ")
-                     + " Both will happen there. Set that corner to “–” in macOS's Hot Corners, or pick another corner here.")
+                Text(clashing.map { String(localized: "macOS also uses the corner “\($0.title)” for \(clashes[$0]!).") }.joined(separator: " ")
+                     + " " + String(localized: "Both will happen there. Set that corner to “–” in macOS's Hot Corners, or pick another corner here."))
                     .font(.caption).foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
                 Button("Open macOS Hot Corners…") { SystemHotCorners.open() }
             }
         }
         if showsHelp {
             Text("Rest the pointer in a corner you picked and HomePad opens in that corner; do it again to close it. The shortcut and double-tap still open it in the middle.")
                 .font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
     private var summary: String {
         let names = HotCorner.allCases.filter(chosen.contains).map(\.title)
-        return names.isEmpty ? "Off. Click a corner to use it." : names.joined(separator: ", ")
+        return names.isEmpty ? String(localized: "Off. Click a corner to use it.") : names.joined(separator: String(localized: ", "))
     }
 
     private var screen: some View {
@@ -409,9 +441,9 @@ struct HotCornerSetting: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .help(corner.title + (on ? " (on)" : ""))
+        .help(on ? String(localized: "\(corner.title) (on)") : corner.title)
         .accessibilityLabel(corner.title)
-        .accessibilityValue(on ? "on" : "off")
+        .accessibilityValue(on ? String(localized: "on") : String(localized: "off"))
     }
 
     private func readClashes() {

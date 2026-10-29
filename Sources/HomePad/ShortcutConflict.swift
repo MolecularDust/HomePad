@@ -15,9 +15,9 @@ enum ShortcutConflict {
 
         var summary: String {
             switch self {
-            case .system(let name): return "macOS (“\(name)”)"
-            case .app(let name, _): return "\(name) (probably)"
-            case .unknown: return "another app"
+            case .system(let name): return String(localized: "macOS (“\(name)”)")
+            case .app(let name, _): return String(localized: "\(name) (probably)")
+            case .unknown: return String(localized: "another app")
             }
         }
     }
@@ -30,8 +30,8 @@ enum ShortcutConflict {
     /// macOS shortcuts that are switched on (ids from the com.apple.symbolichotkeys preference).
     static func systemOwner(of shortcut: Shortcut) -> Owner? {
         let names: [Int: String] = [
-            60: "Select the previous input source", 61: "Select next source in Input menu",
-            64: "Show Spotlight search", 65: "Show Finder search window",
+            60: String(localized: "Select the previous input source"), 61: String(localized: "Select next source in Input menu"),
+            64: String(localized: "Show Spotlight search"), 65: String(localized: "Show Finder search window"),
         ]
         // Spotlight's two shortcuts are on by default and only appear in the preferences once changed.
         let defaults: [Int: (key: Int, mods: UInt)] = [
@@ -111,19 +111,19 @@ enum ShortcutConflict {
 
         switch owner {
         case .system(let name):
-            alert.messageText = "\(keys) is already used by macOS"
-            alert.informativeText = "It's the shortcut for “\(name)”. To use \(keys) here, turn that shortcut off yourself in System Settings → Keyboard → Keyboard Shortcuts. HomePad won't change your system settings."
-            button("Open Keyboard Settings", openKeyboardSettings)
+            alert.messageText = String(localized: "\(keys) is already used by macOS")
+            alert.informativeText = String(localized: "It's the shortcut for “\(name)”. To use \(keys) here, turn that shortcut off yourself in System Settings → Keyboard → Keyboard Shortcuts. HomePad won't change your system settings.")
+            button(String(localized: "Open Keyboard Settings"), openKeyboardSettings)
         case .app(let name, let url):
-            alert.messageText = "\(keys) is probably used by \(name)"
-            alert.informativeText = "A test press of \(keys) didn't reach HomePad, so another app handles it first. \(name) is running and uses \(keys) by default, so it's the likely one, but macOS doesn't say which app owns a shortcut. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here."
-            button("Open \(name)") { if let url { NSWorkspace.shared.open(url) } }
+            alert.messageText = String(localized: "\(keys) is probably used by \(name)")
+            alert.informativeText = String(localized: "A test press of \(keys) didn't reach HomePad, so another app handles it first. \(name) is running and uses \(keys) by default, so it's the likely one, but macOS doesn't say which app owns a shortcut. To free it, change or turn off the shortcut in \(name)'s own settings, or choose a different shortcut here.")
+            button(String(localized: "Open \(name)")) { if let url { NSWorkspace.shared.open(url) } }
         case .unknown:
-            alert.messageText = "\(keys) may already be in use"
-            alert.informativeText = "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here."
+            alert.messageText = String(localized: "\(keys) may already be in use")
+            alert.informativeText = String(localized: "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here.")
         }
-        button("Choose Another Shortcut") { AppDelegate.shared?.openSettings() }
-        alert.addButton(withTitle: "Cancel")
+        button(String(localized: "Choose Another Shortcut")) { AppDelegate.shared?.openSettings() }
+        alert.addButton(withTitle: String(localized: "Cancel"))
 
         let index = PanelController.shared.keepVisible { alert.runModal() }.rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
         if actions.indices.contains(index) {

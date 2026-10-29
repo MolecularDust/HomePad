@@ -13,6 +13,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LegacyMigration.run()
+        #if DEBUG
+        Snapshot.startIfAsked()
+        #endif
         // Touch singletons so they start observing right away.
         _ = CategoryStore.shared
         _ = RunningApps.shared
@@ -85,14 +88,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = NSImage(systemSymbolName: "square.grid.3x3.fill",
                                            accessibilityDescription: "HomePad")
         let menu = NSMenu()
-        menu.addItem(withTitle: "Open HomePad", action: #selector(openPanel), keyEquivalent: "").target = self
+        menu.addItem(withTitle: String(localized: "Open HomePad"), action: #selector(openPanel), keyEquivalent: "").target = self
         // No ⌘, here: HomePad is never the app in front when this menu is open, so the shortcut went to that app
         // (Finder's settings, say), not to HomePad.
-        menu.addItem(withTitle: "Settings…", action: #selector(openSettings), keyEquivalent: "").target = self
-        menu.addItem(withTitle: "Setup Guide…", action: #selector(openSetupGuide), keyEquivalent: "").target = self
+        menu.addItem(withTitle: String(localized: "Settings…"), action: #selector(openSettings), keyEquivalent: "").target = self
+        menu.addItem(withTitle: String(localized: "Setup Guide…"), action: #selector(openSetupGuide), keyEquivalent: "").target = self
+        let language = NSMenuItem(title: String(localized: "Language"), action: nil, keyEquivalent: "")
+        language.submenu = Localization.menu()
+        menu.addItem(language)
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Uninstall HomePad…", action: #selector(uninstall), keyEquivalent: "").target = self
-        menu.addItem(withTitle: "Quit HomePad", action: #selector(quit), keyEquivalent: "q").target = self
+        menu.addItem(withTitle: String(localized: "Uninstall HomePad…"), action: #selector(uninstall), keyEquivalent: "").target = self
+        menu.addItem(withTitle: String(localized: "Quit HomePad"), action: #selector(quit), keyEquivalent: "q").target = self
         // A click opens (or closes) the panel; a right click or Control-click shows this menu. With `menu` set on
         // the status item, every click would show the menu, so it's shown by hand instead.
         statusMenu = menu
@@ -123,6 +129,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setStatusItemVisible(_ visible: Bool) { statusItem.isVisible = visible }
+    var settingsWindowIsOpen: Bool { settingsWindow?.isVisible == true }
 
     /// Launching the app again opens the panel, so it can't get lost when the menu-bar icon is hidden. With the
     /// Setup Guide or Settings open, that window comes forward instead: the panel must not cover it.
@@ -141,15 +148,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func uninstall() {
         activateSelf()
         let alert = NSAlert()
-        alert.messageText = "Uninstall HomePad?"
-        alert.informativeText = "HomePad quits and goes to the Trash. Its categories and settings are erased, the permissions you gave it are taken back, and the Dock comes back if HomePad was hiding it. Your apps and files aren't touched."
-        alert.addButton(withTitle: "Uninstall")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "Uninstall HomePad?")
+        alert.informativeText = String(localized: "HomePad quits and goes to the Trash. Its categories and settings are erased, the permissions you gave it are taken back, and the Dock comes back if HomePad was hiding it. Your apps and files aren't touched.")
+        alert.addButton(withTitle: String(localized: "Uninstall"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         guard let bundled = Bundle.main.url(forResource: "uninstall", withExtension: "sh") else {
             let missing = NSAlert()
-            missing.messageText = "The uninstall script is missing from this copy of HomePad"
-            missing.informativeText = "Quit HomePad and drag it from Applications to the Trash."
+            missing.messageText = String(localized: "The uninstall script is missing from this copy of HomePad")
+            missing.informativeText = String(localized: "Quit HomePad and drag it from Applications to the Trash.")
             missing.runModal()
             return
         }
@@ -163,7 +170,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/bash")
-        process.arguments = [script.path, "--wait", String(ProcessInfo.processInfo.processIdentifier), "--notify", Bundle.main.bundlePath]
+        process.arguments = [script.path, "--wait", String(ProcessInfo.processInfo.processIdentifier), "--notify",
+                             "--text-done", String(localized: "HomePad has been uninstalled. It is in the Trash, in case you want it back."),
+                             "--text-password", String(localized: "HomePad needs your password to finish uninstalling."),
+                             Bundle.main.bundlePath]
         guard (try? process.run()) != nil else { return }
         NSApp.terminate(nil)
     }
@@ -177,7 +187,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let host = NSHostingController(rootView: SettingsView())
             host.sizingOptions = []           // the window is sized below, not by the content
             let window = NSWindow(contentViewController: host)
-            window.title = "HomePad Settings"
+            window.title = String(localized: "HomePad Settings")
             window.styleMask = [.titled, .closable, .resizable]
             // As tall as the settings need, but never taller than the screen: the form scrolls inside.
             let natural = NSHostingView(rootView: SettingsView().fixedSize(horizontal: false, vertical: true)).fittingSize.height

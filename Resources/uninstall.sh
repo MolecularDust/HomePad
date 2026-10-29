@@ -6,8 +6,9 @@
 #     bash uninstall.sh                 # uninstall /Applications/HomePad.app
 #     bash uninstall.sh --dry-run       # only show what would be done
 #
-# Options: --dry-run, --notify (show a message when done), --wait PID (wait for HomePad to quit first), and the app's
-# path if it isn't /Applications/HomePad.app. Asks for an administrator password only if the app or the installer's
+# Options: --dry-run, --notify (show a message when done), --wait PID (wait for HomePad to quit first),
+# --text-done TEXT and --text-password TEXT (that message and the password prompt's text, which HomePad passes in its
+# current language), and the app's path if it isn't /Applications/HomePad.app. Asks for an administrator password only if the app or the installer's
 # record belongs to the system (as after installing with HomePad.pkg).
 set -u
 
@@ -16,11 +17,15 @@ DRY=0
 NOTIFY=0
 WAIT=""
 APP=""
+TEXT_DONE="HomePad has been uninstalled. It is in the Trash, in case you want it back."
+TEXT_PASSWORD="HomePad needs your password to finish uninstalling."
 while [ $# -gt 0 ]; do
     case "$1" in
         --dry-run) DRY=1 ;;
         --notify) NOTIFY=1 ;;
         --wait) WAIT="${2:-}"; shift ;;
+        --text-done) TEXT_DONE="${2:-$TEXT_DONE}"; shift ;;
+        --text-password) TEXT_PASSWORD="${2:-$TEXT_PASSWORD}"; shift ;;
         *) APP="$1" ;;
     esac
     shift
@@ -83,12 +88,15 @@ if /usr/sbin/pkgutil --pkg-info "$ID" >/dev/null 2>&1; then
     else ADMIN="${ADMIN:+$ADMIN; }/usr/sbin/pkgutil --forget $ID"; fi
 fi
 if [ -n "$ADMIN" ]; then
-    /usr/bin/osascript -e "do shell script \"$ADMIN\" with prompt \"HomePad needs your password to finish uninstalling.\" with administrator privileges" >/dev/null \
+    # The texts go in as arguments, so quotes in a translation can't break the script.
+    /usr/bin/osascript -e 'on run argv' -e 'do shell script (item 1 of argv) with prompt (item 2 of argv) with administrator privileges' \
+        -e 'end run' "$ADMIN" "$TEXT_PASSWORD" >/dev/null \
         || say "that step was cancelled; drag HomePad from Applications to the Trash yourself"
 fi
 
 say "done"
 if [ "$NOTIFY" = 1 ] && [ "$DRY" = 0 ]; then
-    /usr/bin/osascript -e 'display dialog "HomePad has been uninstalled. It is in the Trash, in case you want it back." buttons {"OK"} default button 1 with title "HomePad" with icon note' >/dev/null 2>&1
+    /usr/bin/osascript -e 'on run argv' -e 'display dialog (item 1 of argv) buttons {"OK"} default button 1 with title "HomePad" with icon note' \
+        -e 'end run' "$TEXT_DONE" >/dev/null 2>&1
 fi
 exit 0

@@ -22,12 +22,15 @@ cp "$BIN" "$APP/Contents/MacOS/HomePad"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 # Run by the menu-bar menu's Uninstall HomePad… (and usable on its own: see the script).
 cp Resources/uninstall.sh "$APP/Contents/Resources/uninstall.sh"
+# The translations (tools/localize.py writes them from tools/translations).
+for lproj in Resources/*.lproj; do cp -R "$lproj" "$APP/Contents/Resources/"; done
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleDevelopmentRegion</key> <string>en</string>
     <key>CFBundleExecutable</key>        <string>HomePad</string>
     <key>CFBundleIdentifier</key>        <string>local.mike.HomePad</string>
     <key>CFBundleName</key>              <string>HomePad</string>

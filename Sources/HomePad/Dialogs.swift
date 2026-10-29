@@ -149,8 +149,8 @@ enum AppPicker {
     static func show(for category: UUID?) {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? "Essentials"
-        let modal = ModalWindow(title: "Add Apps to \(name)", resizable: true, initialSize: panelSize) { modal in
+        let name = store.categories.first { $0.id == target }?.name ?? String(localized: "Essentials")
+        let modal = ModalWindow(title: String(localized: "Add Apps to \(name)"), resizable: true, initialSize: panelSize) { modal in
             AppPickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -257,8 +257,8 @@ private struct AppPickerView: View {
     /// For apps outside the usual folders.
     private func browse() {
         let panel = NSOpenPanel()
-        panel.title = "Choose Apps"
-        panel.prompt = "Choose"
+        panel.title = String(localized: "Choose Apps")
+        panel.prompt = String(localized: "Choose")
         panel.allowsMultipleSelection = true
         panel.canChooseDirectories = false
         panel.allowedContentTypes = [.application]

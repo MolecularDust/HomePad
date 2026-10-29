@@ -76,6 +76,8 @@ hot corners) and click **Get started**.
   open HomePad. Right-click it for **Settings…**, **Setup Guide…** and **Quit HomePad**.
 - In **Settings**, you can turn on **Launch at login** so HomePad is always there, or **Hide the Dock** if you want
   HomePad to replace it.
+- HomePad speaks your Mac's language if it's one of its 20. To pick another, right-click the grid icon → **Language**,
+  or use Settings → General → Language.
 
 ---
 

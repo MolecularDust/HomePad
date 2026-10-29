@@ -129,11 +129,11 @@ final class CategoryStore: ObservableObject {
             categories = saved
         } else if let paths = d.stringArray(forKey: "pinnedPaths") {
             // Upgrade from the single pinned list: everything goes into Essentials.
-            categories = [Category(name: "Essentials", paths: paths, isEssentials: true)]
+            categories = [Category(name: String(localized: "Essentials"), paths: paths, isEssentials: true)]
         } else {
             // The very first run: the Dock's apps in Essentials, plus a "Files" category with the Trash and
             // Downloads, like the right end of the Dock. Only ever created here, so deleting it keeps it deleted.
-            categories = [Category(name: "Essentials", paths: DockImporter.pinnedApps().map(\.path), isEssentials: true)]
+            categories = [Category(name: String(localized: "Essentials"), paths: DockImporter.pinnedApps().map(\.path), isEssentials: true)]
             if let files = Self.filesCategory(avoiding: categories) { categories.append(files) }
         }
         if let data = d.data(forKey: foldersKey), let saved = try? JSONDecoder().decode([Folder].self, from: data) {
@@ -144,6 +144,10 @@ final class CategoryStore: ObservableObject {
         for i in categories.indices { categories[i].paths = categories[i].paths.filter(present) }
         for i in folders.indices { folders[i].paths = folders[i].paths.filter(present) }
         if !categories.contains(where: \.isEssentials) { categories[0].isEssentials = true }   // saved before it existed
+        // The first category keeps its default name in the current language, until the user renames it.
+        if let i = categories.firstIndex(where: \.isEssentials), Localization.defaultNames(for: "Essentials").contains(categories[i].name) {
+            categories[i].name = String(localized: "Essentials")
+        }
         runningAbove = d.string(forKey: runningKey).flatMap(UUID.init(uuidString:))
         save()
     }
@@ -191,7 +195,7 @@ final class CategoryStore: ObservableObject {
         let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.path
             ?? NSHomeDirectory() + "/Downloads"
         let paths = [trashURL.path, downloads].filter { path in !existing.contains { $0.paths.contains(path) } }
-        return paths.isEmpty ? nil : Category(name: "Files", paths: paths)
+        return paths.isEmpty ? nil : Category(name: String(localized: "Files"), paths: paths)
     }
 
     private var essentialsIndex: Int { categories.firstIndex(where: \.isEssentials) ?? 0 }
@@ -304,7 +308,7 @@ final class CategoryStore: ObservableObject {
             move(dragged, to: .folder(id), at: place.index + 1)
             return id
         }
-        let folder = Folder(name: "Folder", paths: [targetKey, draggedKey])
+        let folder = Folder(name: String(localized: "Folder"), paths: [targetKey, draggedKey])
         detach(draggedKey)
         guard let index = paths(of: place.container).firstIndex(of: targetKey) else { return nil }
         var list = paths(of: place.container)
@@ -530,10 +534,10 @@ enum Launcher {
     static func emptyTrash() {
         let confirmed = PanelController.shared.keepVisible { () -> Bool in
             let alert = NSAlert()
-            alert.messageText = "Empty the Trash?"
-            alert.informativeText = "The items in the Trash will be erased permanently. You can't undo this action."
-            alert.addButton(withTitle: "Empty Trash")
-            alert.addButton(withTitle: "Cancel")
+            alert.messageText = String(localized: "Empty the Trash?")
+            alert.informativeText = String(localized: "The items in the Trash will be erased permanently. You can't undo this action.")
+            alert.addButton(withTitle: String(localized: "Empty Trash"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
             return alert.runModal() == .alertFirstButtonReturn
         }
         guard confirmed else { return }
@@ -546,12 +550,12 @@ enum Launcher {
                 let notAllowed = (error[NSAppleScript.errorNumber] as? Int) == -1743
                 PanelController.shared.keepVisible {
                     let alert = NSAlert()
-                    alert.messageText = notAllowed ? "HomePad isn't allowed to control Finder" : "The Trash couldn't be emptied"
+                    alert.messageText = notAllowed ? String(localized: "HomePad isn't allowed to control Finder") : String(localized: "The Trash couldn't be emptied")
                     alert.informativeText = notAllowed
-                        ? "HomePad asks Finder to empty the Trash, as the Dock does. Turn on Finder under HomePad in System Settings › Privacy & Security › Automation."
-                        : (error[NSAppleScript.errorMessage] as? String ?? "Finder reported an error.")
-                    alert.addButton(withTitle: notAllowed ? "Open System Settings" : "OK")
-                    if notAllowed { alert.addButton(withTitle: "Cancel") }
+                        ? String(localized: "HomePad asks Finder to empty the Trash, as the Dock does. Turn on Finder under HomePad in System Settings › Privacy & Security › Automation.")
+                        : (error[NSAppleScript.errorMessage] as? String ?? String(localized: "Finder reported an error."))
+                    alert.addButton(withTitle: notAllowed ? String(localized: "Open System Settings") : String(localized: "OK"))
+                    if notAllowed { alert.addButton(withTitle: String(localized: "Cancel")) }
                     if alert.runModal() == .alertFirstButtonReturn, notAllowed { Permissions.openSettings("Privacy_Automation") }
                 }
             }
@@ -601,8 +605,8 @@ enum Launcher {
 
     static func addCategory() {
         DispatchQueue.main.async {
-            if let name = TextPrompt.ask(title: "New Category", message: "Name the category, for example Browsers.",
-                                         button: "Add") {
+            if let name = TextPrompt.ask(title: String(localized: "New Category"), message: String(localized: "Name the category, for example Browsers."),
+                                         button: String(localized: "Add")) {
                 CategoryStore.shared.addCategory(named: name)
             }
         }
@@ -610,7 +614,7 @@ enum Launcher {
 
     static func renameCategory(_ category: Category) {
         DispatchQueue.main.async {
-            if let name = TextPrompt.ask(title: "Rename Category", initial: category.name, button: "Rename") {
+            if let name = TextPrompt.ask(title: String(localized: "Rename Category"), initial: category.name, button: String(localized: "Rename")) {
                 CategoryStore.shared.rename(category.id, to: name)
             }
         }
@@ -691,7 +695,7 @@ enum IconCache {
 
     /// Remembered (up to a limit): the file system lookup is slow enough to matter when every tile asks on every redraw.
     static func name(for url: URL) -> String {
-        if let id = FolderRef.id(url) { return CategoryStore.shared.folder(id)?.name ?? "Folder" }   // renamed at will: not cached
+        if let id = FolderRef.id(url) { return CategoryStore.shared.folder(id)?.name ?? String(localized: "Folder") }   // renamed at will: not cached
         if let known = names.object(forKey: url.path as NSString) { return known as String }
         let display = FileManager.default.displayName(atPath: url.path)
         let name = display.hasSuffix(".app") ? String(display.dropLast(4)) : display

@@ -255,7 +255,7 @@ extension Launcher {
     static func renameFolder(_ id: UUID) {
         guard let folder = CategoryStore.shared.folder(id) else { return }
         DispatchQueue.main.async {
-            if let name = TextPrompt.ask(title: "Rename Folder", initial: folder.name, button: "Rename") {
+            if let name = TextPrompt.ask(title: String(localized: "Rename Folder"), initial: folder.name, button: String(localized: "Rename")) {
                 CategoryStore.shared.renameFolder(id, to: name)
             }
         }

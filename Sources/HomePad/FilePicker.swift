@@ -9,8 +9,8 @@ enum FilePicker {
     static func show(for category: UUID?) {
         let store = CategoryStore.shared
         let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? "Essentials"
-        let modal = ModalWindow(title: "Add Files and Folders to \(name)", resizable: true, initialSize: panelSize) { modal in
+        let name = store.categories.first { $0.id == target }?.name ?? String(localized: "Essentials")
+        let modal = ModalWindow(title: String(localized: "Add Files and Folders to \(name)"), resizable: true, initialSize: panelSize) { modal in
             FilePickerView(category: target, close: modal.close)
         }
         modal.show()
@@ -62,7 +62,7 @@ private struct SidebarRow: View {
             .buttonStyle(.plain)
             .opacity(visible ? 1 : 0)
             .allowsHitTesting(visible)
-            .help(added ? "\(item.title) is already added" : "Add \(item.title) itself")
+            .help(added ? String(localized: "\(item.title) is already added") : String(localized: "Add \(item.title) itself"))
         }
         .padding(.horizontal, 8)
         .frame(height: 30)
@@ -94,7 +94,7 @@ private struct FilePickerView: View {
             SidebarItem(title: title, symbol: symbol, place: .folder(URL(fileURLWithPath: path)))
         }
         return [
-            SidebarItem(title: "Home", symbol: "house", place: .folder(home)),
+            SidebarItem(title: String(localized: "Home"), symbol: "house", place: .folder(home)),
             item("Desktop", "menubar.dock.rectangle", home.path + "/Desktop"),
             item("Documents", "doc", home.path + "/Documents"),
             item("Downloads", "arrow.down.circle", home.path + "/Downloads"),
@@ -102,7 +102,7 @@ private struct FilePickerView: View {
             item("Movies", "film", home.path + "/Movies"),
             item("Music", "music.note", home.path + "/Music"),
             item("Applications", "square.grid.2x2", "/Applications"),
-            SidebarItem(title: "Trash", symbol: "trash", place: .trash),
+            SidebarItem(title: String(localized: "Trash"), symbol: "trash", place: .trash),
         ]
     }
 
@@ -125,7 +125,7 @@ private struct FilePickerView: View {
 
     private var placeTitle: String {
         switch place {
-        case .trash: return "Trash"
+        case .trash: return String(localized: "Trash")
         case .folder(let url): return url.path == "/" ? "Macintosh HD" : IconCache.name(for: url)
         }
     }
@@ -165,8 +165,8 @@ private struct FilePickerView: View {
     private var sidebar: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 2) {
-                sidebarSection("Places", places)
-                if !volumes.isEmpty { sidebarSection("Locations", volumes).padding(.top, 10) }
+                sidebarSection(String(localized: "Places"), places)
+                if !volumes.isEmpty { sidebarSection(String(localized: "Locations"), volumes).padding(.top, 10) }
             }
             .padding(10)
         }

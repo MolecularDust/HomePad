@@ -109,7 +109,7 @@ struct FooterProfile: View {
         .buttonStyle(.plain)
         .onHover { hovering = $0 && !PanelState.shared.isDragging }
         .accessibilityLabel("Apple Account")
-        .overlay(alignment: .topLeading) { if hovering { HoverLabel(text: "Apple Account").offset(y: -34) } }
+        .overlay(alignment: .topLeading) { if hovering { HoverLabel(text: String(localized: "Apple Account")).offset(y: -34) } }
         .zIndex(1)
     }
 }
@@ -214,8 +214,8 @@ struct HomePadView: View {
         HStack(spacing: 10) {
             FooterProfile()
             Spacer()
-            FooterIcon(symbol: "arrow.counterclockwise", name: "Reset window") { PanelController.shared.resetFrame() }
-            FooterIcon(symbol: "gearshape", name: "Settings") { AppDelegate.shared?.openSettings() }
+            FooterIcon(symbol: "arrow.counterclockwise", name: String(localized: "Reset window")) { PanelController.shared.resetFrame() }
+            FooterIcon(symbol: "gearshape", name: String(localized: "Settings")) { AppDelegate.shared?.openSettings() }
         }
         .padding(.horizontal, 24)
         .frame(height: 52)
@@ -457,9 +457,9 @@ struct HomeView: View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Spacer()
-                HoverLink(title: "Add App") { Launcher.chooseAppsToPin() }
-                HoverLink(title: "Add File or Folder") { Launcher.chooseFilesToPin() }
-                HoverLink(title: "Add Category") { Launcher.addCategory() }
+                HoverLink(title: String(localized: "Add App")) { Launcher.chooseAppsToPin() }
+                HoverLink(title: String(localized: "Add File or Folder")) { Launcher.chooseFilesToPin() }
+                HoverLink(title: String(localized: "Add Category")) { Launcher.addCategory() }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 4)
@@ -576,7 +576,7 @@ struct RunningSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                RowTitle(id: CategoryStore.runningID, name: "Running")
+                RowTitle(id: CategoryStore.runningID, name: String(localized: "Running"))
                 Spacer()
                 Label("Managed automatically", systemImage: "lock")
                     .font(.system(size: 11)).foregroundStyle(.tertiary)
@@ -604,7 +604,7 @@ struct RunningSection: View {
             Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
             Divider()
             Button("Add Category…") { Launcher.addCategory() }
-            MoveRowItems(id: CategoryStore.runningID, name: "Running")
+            MoveRowItems(id: CategoryStore.runningID, name: String(localized: "Running"))
             Divider()
             Button(hideMinimised ? "Show Minimized Windows" : "Hide Minimized Windows") {
                 hideMinimised.toggle()
@@ -624,7 +624,7 @@ struct MinimisedTile: View {
     @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
     @State private var hovering = false
 
-    private var title: String { window.title.isEmpty ? (app.localizedName ?? "Window") : window.title }
+    private var title: String { window.title.isEmpty ? (app.localizedName ?? String(localized: "Window")) : window.title }
 
     var body: some View {
         VStack(spacing: 0) {

@@ -782,10 +782,10 @@ struct WindowPreviewView: View {
     }
 
     private func headline(_ app: NSRunningApplication) -> String {
-        let name = app.localizedName ?? "App"
+        let name = app.localizedName ?? String(localized: "App")
         if model.needsPermission || model.loading { return name }
         let n = model.windows.count
-        return n == 1 ? "\(name) · 1 window" : "\(name) · \(n) windows"
+        return n == 1 ? String(localized: "\(name) · 1 window") : String(localized: "\(name) · \(n) windows")
     }
 
     private var permissionHint: some View {
@@ -831,7 +831,7 @@ struct WindowThumbnail: View {
                 }
                 .padding(5)
             }
-            Text(window.title.isEmpty ? (app?.localizedName ?? "Window") : window.title)
+            Text(window.title.isEmpty ? (app?.localizedName ?? String(localized: "Window")) : window.title)
                 .font(.system(size: 11)).lineLimit(1).frame(width: size.width, alignment: .leading)
         }
         .contentShape(Rectangle())
@@ -934,7 +934,7 @@ final class AppMenus: ObservableObject {
         let pid = app.processIdentifier
         guard CACurrentMediaTime() - (lastRead[pid] ?? 0) > 2 else { return }
         lastRead[pid] = CACurrentMediaTime()
-        let name = app.localizedName ?? "Window"
+        let name = app.localizedName ?? String(localized: "Window")
         queue.async {
             let found = Self.read(pid: pid, appName: name)
             DispatchQueue.main.async { self.info[pid] = found }

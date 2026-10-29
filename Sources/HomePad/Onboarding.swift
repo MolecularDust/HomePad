@@ -20,7 +20,7 @@ enum Onboarding {
     static func show() {
         if window == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView(finish: finish)))
-            w.title = "Welcome to HomePad"
+            w.title = String(localized: "Welcome to HomePad")
             w.styleMask = [.titled, .closable]
             // An empty toolbar gives the full-height title bar regular Mac apps have.
             w.toolbar = NSToolbar(identifier: "OnboardingWindow")
@@ -67,32 +67,34 @@ struct OnboardingView: View {
                     .foregroundStyle(.secondary)
             }
 
-            step("1. Allow access") {
-                permissionRow("Screen Recording", pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: "Shows a preview of each window when you hover a running app.") {
+            step(String(localized: "1. Allow access")) {
+                permissionRow(String(localized: "Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
+                              detail: String(localized: "Shows a preview of each window when you hover a running app.")) {
                     Permissions.requestScreenRecording()
                 }
-                permissionRow("Accessibility", pane: "Privacy_Accessibility", granted: permissions.accessibility,
-                              detail: "Jumps to the window you pick, and powers the double-tap shortcut.") {
+                permissionRow(String(localized: "Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
+                              detail: String(localized: "Jumps to the window you pick, and powers the double-tap shortcut.")) {
                     Permissions.requestAccessibility()
                 }
-                permissionRow("Full Disk Access", pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: "Finds files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.") {
+                permissionRow(String(localized: "Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
+                              detail: String(localized: "Finds files in Documents, Desktop and Downloads. Turn on HomePad in the list that opens.")) {
                     Permissions.requestFullDiskAccess()
                 }
                 Text("macOS may ask you to reopen HomePad after you allow Screen Recording or Full Disk Access.")
                     .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 if !permissions.allGranted {
                     Text("Already switched on in System Settings but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature.")
                         .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
-            step("2. Choose how to open it") {
+            step(String(localized: "2. Choose how to open it")) {
                 HStack {
                     Text("Keyboard shortcut")
                     Spacer()
-                    ShortcutRecorder()
+                    ShortcutRecorder().fixedSize()   // its buttons keep their full names; the label wraps instead
                 }
                 if let owner = shortcuts.conflict {
                     Text("That shortcut is already in use by \(owner.summary). Pick a different one.")
@@ -140,6 +142,7 @@ struct OnboardingView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                 Text(detail).font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)   // wraps: translations run longer than English
             }
             Spacer()
             PermissionButton(granted: granted, pane: pane, request: request)

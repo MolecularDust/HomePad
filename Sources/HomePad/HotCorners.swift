@@ -8,10 +8,10 @@ enum HotCorner: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .topLeft: return "Top left"
-        case .topRight: return "Top right"
-        case .bottomLeft: return "Bottom left"
-        case .bottomRight: return "Bottom right"
+        case .topLeft: return String(localized: "Top left")
+        case .topRight: return String(localized: "Top right")
+        case .bottomLeft: return String(localized: "Bottom left")
+        case .bottomRight: return String(localized: "Bottom right")
         }
     }
 
@@ -45,17 +45,17 @@ enum HotCorner: String, CaseIterable, Identifiable {
         guard let action = CFPreferencesCopyAppValue("wvous-\(key)-corner" as CFString, dock) as? Int, action > 1 else { return nil }
         if let modifier = CFPreferencesCopyAppValue("wvous-\(key)-modifier" as CFString, dock) as? Int, modifier != 0 { return nil }
         switch action {
-        case 2: return "Mission Control"
-        case 3: return "Application Windows"
-        case 4: return "Desktop"
-        case 5: return "Start Screen Saver"
-        case 6: return "Disable Screen Saver"
-        case 10: return "Put Display to Sleep"
-        case 11: return "Launchpad"
-        case 12: return "Notification Centre"
-        case 13: return "Lock Screen"
-        case 14: return "Quick Note"
-        default: return "another action"
+        case 2: return String(localized: "Mission Control")
+        case 3: return String(localized: "Application Windows")
+        case 4: return String(localized: "Desktop")
+        case 5: return String(localized: "Start Screen Saver")
+        case 6: return String(localized: "Disable Screen Saver")
+        case 10: return String(localized: "Put Display to Sleep")
+        case 11: return String(localized: "Launchpad")
+        case 12: return String(localized: "Notification Centre")
+        case 13: return String(localized: "Lock Screen")
+        case 14: return String(localized: "Quick Note")
+        default: return String(localized: "another action")
         }
     }
 }

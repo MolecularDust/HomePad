@@ -103,6 +103,18 @@ any time from the menu-bar icon → Setup Guide…
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
 - **Launch at login**.
+- **Language** (Settings → General, or right-click the menu-bar icon → Language): Same as the Mac, or one of 20
+  languages (Arabic, Bengali, Chinese (Simplified), English, Filipino, French, German, Hindi, Indonesian, Italian,
+  Japanese, Korean, Persian, Portuguese (Brazil), Russian, Spanish, Telugu, Thai, Turkish, Vietnamese), listed
+  alphabetically in the current language. HomePad restarts in the new one; Arabic and Persian lay out right to left.
+
+## Translations
+
+The English in the code is the text to translate; `tools/translations/<code>.json` holds each language and
+`tools/localize.py write` turns them into `Resources/<code>.lproj` (which `build_app.sh` copies into the app). After
+changing or adding text in the code, run `tools/localize.py check`: it lists every text without a translation, and
+translations whose `%@` placeholders don't match. `tools/snapshot.sh <code>` saves pictures of Settings, the panel and
+the Setup Guide in that language to `build/snapshots/<code>`, to check that nothing is cut off.
 
 ## Files
 
@@ -118,6 +130,7 @@ any time from the menu-bar icon → Setup Guide…
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, categories, running apps, launching, Dock hiding |
 | `SettingsView.swift` | Settings and the shortcut recorder |
+| `Localization.swift` | The language list and choice (Settings and the menu-bar menu) |
 
 ## Setting up permissions
 
