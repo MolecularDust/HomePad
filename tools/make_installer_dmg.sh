@@ -53,7 +53,7 @@ swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
 BOX=/System/Library/CoreServices/Installer.app/Contents/Resources/package.icns
 if [ -f "$BOX" ]; then "$WORK/render_icons" "$MOUNT/Install HomePad.pkg" --from "$BOX"; fi
 
-# Window 660 × 720 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
+# Window 660 × 676 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
 osascript <<OSA
 tell application "Finder"
     tell disk "$VOLUME"
@@ -61,14 +61,14 @@ tell application "Finder"
         set current view of container window to icon view
         set toolbar visible of container window to false
         set statusbar visible of container window to false
-        set bounds of container window to {200, 80, 860, 828}
+        set bounds of container window to {200, 80, 860, 784}
         set opts to the icon view options of container window
         set arrangement of opts to not arranged
         set icon size of opts to $ICON_SIZE
         set text size of opts to 13
         set background picture of opts to file ".background:steps.tiff"
         set position of item "Install HomePad.pkg" of container window to {140, 186}
-        set position of item "$SHORTCUT" of container window to {140, 438}
+        set position of item "$SHORTCUT" of container window to {140, 418}
         update without registering applications
         delay 1
         close
