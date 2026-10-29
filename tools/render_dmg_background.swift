@@ -1,7 +1,7 @@
 // Draws the installer disk image's window background: the steps to get past the "can't be opened" block.
-// render_dmg_background <out.png> <scale>   (scale 1 or 2; 660 × 640 points. The bottom 75 stay empty: a Finder with its tab bar and status bar showing has 52 less room)
+// render_dmg_background <out.png> <scale>   (scale 1 or 2; 660 × 720 points. The bottom 70 stay empty: a Finder with its tab bar and status bar showing has 52 less room)
 // Finder draws two items on top, which make_installer_dmg.sh places (pictures: render_dmg_icons.swift): the installer
-// beside step 1, and the blue Open Privacy & Security tile beside step 3 (both 112 points, named under them).
+// under step 1, and the blue Open Privacy & Security tile under step 3 (both 112 points, named under them).
 import AppKit
 
 let args = CommandLine.arguments
@@ -9,7 +9,7 @@ guard args.count == 3, let scale = Int(args[2]) else {
     print("usage: render_dmg_background <out.png> <scale>")
     exit(1)
 }
-let W: CGFloat = 660, H: CGFloat = 640
+let W: CGFloat = 660, H: CGFloat = 720
 let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(W) * scale, pixelsHigh: Int(H) * scale,
                            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
                            colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
@@ -82,22 +82,22 @@ text("Install HomePad", at: CGPoint(x: 30, y: 22), width: 600, size: 24, weight:
 text("HomePad isn't from the App Store, so your Mac stops the installer once. To let it through:",
      at: CGPoint(x: 30, y: 56), width: 600, size: 13, color: soft)
 
-// One card with the steps from top to bottom. Finder draws the installer beside step 1 and the blue tile beside step 3
-// (both centred at x 520; make_installer_dmg.sh places them), each with its name under it. Steps 1 and 3 are centred
-// on their pictures, which Finder draws 16 points below the position it is given (icon centres here: y 184 and 376).
-card(NSRect(x: 30, y: 98, width: 600, height: 430))
+// One card with the steps from top to bottom. Finder draws the installer under step 1 and the blue tile under step 3
+// (make_installer_dmg.sh places them at x 140, lined up with the text), each with its name under it. Finder draws an
+// icon's picture 16 points below the position it is given.
+card(NSRect(x: 30, y: 98, width: 600, height: 516))
 func step(_ n: Int, _ s: String, y: CGFloat) {
     badge(n, at: CGPoint(x: 56, y: y + 8))
-    text(s, at: CGPoint(x: 78, y: y), width: 340, size: 13)
+    text(s, at: CGPoint(x: 78, y: y), width: 530, size: 13)
 }
-step(1, "**Double-click** the installer on the right.", y: 175)
-step(2, "A message says it can't be opened. Click **Done** (not Move to Trash).", y: 282)
-step(3, "Double-click the blue button. In the page that opens, scroll to the bottom and click **Open Anyway**.", y: 358)
-step(4, "Confirm with **Open Anyway** and your password. The installer opens: click **Continue**, then **Install**.", y: 478)
+step(1, "**Double-click** the installer below.", y: 116)
+step(2, "A message says it can't be opened. Click **Done** (not Move to Trash).", y: 304)
+step(3, "Double-click the blue button below. In the page that opens, scroll to the bottom and click **Open Anyway**.", y: 344)
+step(4, "Confirm with **Open Anyway** and your password. The installer opens: click **Continue**, then **Install**.", y: 558)
 
 // Footnote.
 text("On macOS 13 or 14 it's quicker: right-click the installer, choose **Open**, then **Open** again.",
-     at: CGPoint(x: 30, y: 546), width: 600, size: 12, color: soft, align: .center)
+     at: CGPoint(x: 30, y: 632), width: 600, size: 12, color: soft, align: .center)
 
 NSGraphicsContext.restoreGraphicsState()
 try rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: args[1]))
