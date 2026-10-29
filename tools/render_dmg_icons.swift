@@ -1,4 +1,6 @@
-// Gives the installer disk image's Privacy & Security shortcut its picture: render_dmg_icons <file> <size>
+// Pictures for the installer disk image's items:
+//   render_dmg_icons <file> <size>        the Privacy & Security shortcut's blue tile
+//   render_dmg_icons <file> --from <icns>  an existing icon, e.g. the classic package box for the installer
 //
 // A Finder window can't hold a real button, only file icons, and Finder highlights an icon's whole square when it is
 // clicked. So the button is a square blue tile filling its icon, the same size as the installer's icon: the highlight
@@ -6,8 +8,15 @@
 import AppKit
 
 let args = CommandLine.arguments
+if args.count == 4, args[2] == "--from" {
+    guard let icon = NSImage(contentsOfFile: args[3]), NSWorkspace.shared.setIcon(icon, forFile: args[1]) else {
+        print("could not set the icon from \(args[3])")
+        exit(1)
+    }
+    exit(0)
+}
 guard args.count == 3, let size = Double(args[2]) else {
-    print("usage: render_dmg_icons <file> <size>")
+    print("usage: render_dmg_icons <file> <size> | render_dmg_icons <file> --from <icns>")
     exit(1)
 }
 let S = CGFloat(size)

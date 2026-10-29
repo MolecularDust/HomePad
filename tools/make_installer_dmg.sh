@@ -48,6 +48,11 @@ osascript -e "tell application \"Finder\" to make new alias file at (POSIX file 
 swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
 "$WORK/render_icons" "$MOUNT/$SHORTCUT" "$ICON_SIZE"
 
+# The installer gets the classic brown box with the yellow cube, which people know from other installers. Newer macOS
+# draws packages with a blue icon instead, but Installer still ships the classic one.
+BOX=/System/Library/CoreServices/Installer.app/Contents/Resources/package.icns
+if [ -f "$BOX" ]; then "$WORK/render_icons" "$MOUNT/Install HomePad.pkg" --from "$BOX"; fi
+
 # Window 660 × 550 points inside, like the picture (the title bar adds 28); icon positions are its centre, from the top left.
 osascript <<OSA
 tell application "Finder"
