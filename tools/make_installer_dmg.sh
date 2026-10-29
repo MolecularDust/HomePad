@@ -43,7 +43,7 @@ MOUNT="$(hdiutil attach "$WORK/rw.dmg" -readwrite -noverify -noautoopen | awk -F
 # file macOS ships with, not to anything downloaded, so it opens without a block. A Finder alias rather than a symbolic
 # link, so it can carry its own picture (tools/render_dmg_icons.swift).
 ICON_SIZE=112
-SHORTCUT="Double-click"
+SHORTCUT="Open System Settings"
 osascript -e "tell application \"Finder\" to make new alias file at (POSIX file \"$MOUNT\" as alias) to (POSIX file \"/System/Library/PreferencePanes/Security.prefPane\" as alias) with properties {name:\"$SHORTCUT\"}" >/dev/null
 swiftc -O tools/render_dmg_icons.swift -o "$WORK/render_icons" 2>/dev/null
 "$WORK/render_icons" "$MOUNT/$SHORTCUT" "$ICON_SIZE"
