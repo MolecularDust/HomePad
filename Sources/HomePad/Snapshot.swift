@@ -1,5 +1,6 @@
 #if DEBUG
 import AppKit
+import SwiftUI
 
 /// Debug builds only: `-HomePadSnapshotDir <folder>` draws HomePad's windows (Settings, the panel, the Setup Guide)
 /// into PNGs there and quits, to check layouts such as a translation or right-to-left without screen access.
@@ -11,6 +12,12 @@ enum Snapshot {
             ("settings", { AppDelegate.shared?.openSettings() }),
             ("panel", { PanelController.shared.show() }),
             ("setup", { Onboarding.show() }),
+            // Settings at full height, to see the sections that scroll out of its window.
+            ("settingsfull", {
+                let window = NSWindow(contentRect: NSRect(x: 40, y: 0, width: 480, height: 3000), styleMask: [.titled], backing: .buffered, defer: false)
+                window.contentView = NSHostingView(rootView: SettingsView().localized())
+                window.orderFrontRegardless()
+            }),
         ]
         func run(_ i: Int) {
             guard i < steps.count else { NSApp.terminate(nil); return }

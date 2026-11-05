@@ -372,6 +372,8 @@ final class PanelController: NSObject, NSWindowDelegate {
             let remembered = NSRect(origin: origin, size: size)
             if NSScreen.screens.contains(where: { $0.visibleFrame.intersects(remembered) }) { frame = remembered }
         }
+        // Settings → Dock → "Open above the HomePad icon in the Dock": by the icon, when it can be found.
+        if given == nil, DockIcon.isOn, let icon = DockIcon.frame() { frame = DockIcon.panelFrame(size: size, near: icon) }
         if let given { frame = given }
         panel.setFrame(frame, display: false)
         placing = false

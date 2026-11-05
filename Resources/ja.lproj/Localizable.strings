@@ -173,6 +173,7 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧”を隠す";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "非常に長い遅延で自動的に隠す設定をオンにし、“⟦Dock⟧”が表示されないようにします。Cmd-Tabと“⟦Mission Control⟧”は引き続き使えます。";
+"Open above the HomePad icon in the ⟦Dock⟧" = "“⟦Dock⟧”のHomePadアイコンの上に開く";
 "Reset" = "リセット";
 "Reset to Defaults…" = "デフォルトに戻す…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "ショートカット、ダブルタップ、ホットコーナー、レイアウト、メニューバーアイコン、“⟦Dock⟧”を隠す設定、ログイン時に開く設定を最初の状態に戻します。アプリとカテゴリはそのままです。";
@@ -185,6 +186,10 @@
 "Launch at login" = "ログイン時に開く";
 "Reset settings to their defaults?" = "設定をデフォルトに戻しますか？";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "ショートカット（⌥スペース）を戻し、ダブルタップとホットコーナーをオフにし、1行8アイコンと標準の行の高さとアイコン間隔にし、“実行中”セクションを表示し（しまわれたウインドウは非表示）、メニューバーアイコンと“⟦Dock⟧”を再び表示し、ログイン時に開く設定をオフにします。アプリとカテゴリはそのままです。";
+"Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windowsのスタートメニューのように、“⟦Dock⟧”のHomePadアイコンのすぐそばにパネルが開きます。アイコンをクリックしても、ショートカットやダブルタップを使っても同じです。ホットコーナーはこれまでどおりその隅に開きます。";
+"HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePadはまだ“⟦Dock⟧”にありません。そのアイコンを“⟦Applications⟧”から“⟦Dock⟧”にドラッグしてください。それまではパネルは中央に開きます。";
+"The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this." = "“⟦Dock⟧”が隠されているため、パネルは中央に開きます。これを使うには、上で“⟦Dock⟧”を隠す設定をオフにしてください。";
+"Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。上のアクセス権で許可してください。";
 "Add App…" = "アプリを追加…";
 "Add File or Folder…" = "ファイルまたはフォルダを追加…";
 "Re-import from ⟦Dock⟧…" = "“⟦Dock⟧”から再読み込み…";

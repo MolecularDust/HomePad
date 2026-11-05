@@ -173,6 +173,7 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Itago ang “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Ino-on ang auto-hide na may napakatagal na delay, kaya hindi kailanman lilitaw ang “⟦Dock⟧”. Gumagana pa rin ang Cmd-Tab at “⟦Mission Control⟧”.";
+"Open above the HomePad icon in the ⟦Dock⟧" = "Buksan sa itaas ng icon ng HomePad sa “⟦Dock⟧”";
 "Reset" = "I-reset";
 "Reset to Defaults…" = "I-reset sa Mga Default…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Ibinabalik sa dati ang shortcut, double-tap, hot corners, layout, icon sa menu bar, pagtatago ng “⟦Dock⟧” at pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.";
@@ -185,6 +186,10 @@
 "Launch at login" = "Buksan sa pag-login";
 "Reset settings to their defaults?" = "I-reset ang mga setting sa mga default?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ibinabalik nito ang shortcut (⌥Space), ino-off ang double-tap at hot corners, nagse-set ng 8 icon bawat hanay at ng karaniwang taas ng hanay at pagitan ng icon, ipinapakita ang seksyong Tumatakbo (nakatago ang mga naka-minimize na window), ipinapakita muli ang icon sa menu bar at ang “⟦Dock⟧”, at ino-off ang pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.";
+"Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Tulad ng Start menu ng Windows: bubukas ang panel mismo sa tabi ng icon ng HomePad sa “⟦Dock⟧”, i-click mo man ang icon na iyon o gamitin ang shortcut o double-tap. Binubuksan pa rin ito ng hot corners sa sarili nilang sulok.";
+"HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "Wala pa ang HomePad sa “⟦Dock⟧”. I-drag ang icon nito mula sa “⟦Applications⟧” papunta sa “⟦Dock⟧”; hanggang noon, bubukas ang panel sa gitna.";
+"The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this." = "Nakatago ang “⟦Dock⟧”, kaya bubukas ang panel sa gitna. Itigil ang pagtatago ng “⟦Dock⟧” sa itaas para magamit ito.";
+"Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa mga pahintulot sa itaas.";
 "Add App…" = "Magdagdag ng App…";
 "Add File or Folder…" = "Magdagdag ng File o Folder…";
 "Re-import from ⟦Dock⟧…" = "Muling I-import mula sa “⟦Dock⟧”…";

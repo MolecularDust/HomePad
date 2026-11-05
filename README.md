@@ -102,6 +102,11 @@ any time from the menu-bar icon → Setup Guide…
   too narrow for the gap, the gap shrinks first, then the icons): type a number or click − / +, **show running apps**, **re-import from Dock**.
 - **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
+- **Open above the HomePad icon in the Dock** (Settings → Dock; off by default): for a Windows Start-menu workflow. With
+  HomePad kept in the Dock, the panel opens right by its icon (above it for a bottom Dock, beside it for a side Dock,
+  kept on screen) whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot
+  corners still open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock,
+  the Dock is hidden, or the Accessibility permission is missing.
 - **Launch at login**.
 - **Language** (Settings → General, or right-click the menu-bar icon → Language): Same as the Mac, or one of 20
   languages (Arabic, Bengali, Chinese (Simplified), English, Filipino, French, German, Hindi, Indonesian, Italian,

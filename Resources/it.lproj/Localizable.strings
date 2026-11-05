@@ -173,6 +173,7 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Nascondi “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Attiva il nascondimento automatico con un ritardo molto lungo, così “⟦Dock⟧” non compare mai. Cmd-Tab e “⟦Mission Control⟧” continuano a funzionare.";
+"Open above the HomePad icon in the ⟦Dock⟧" = "Apri sopra l’icona di HomePad in “⟦Dock⟧”";
 "Reset" = "Ripristina";
 "Reset to Defaults…" = "Ripristina impostazioni predefinite…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Riporta abbreviazione, doppio tocco, angoli attivi, disposizione, icona della barra dei menu, “⟦Dock⟧” nascosto e apertura al login come all’inizio. Le tue app e categorie restano.";
@@ -185,6 +186,10 @@
 "Launch at login" = "Apri al login";
 "Reset settings to their defaults?" = "Ripristinare le impostazioni predefinite?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ripristina l’abbreviazione (⌥Spazio), disattiva doppio tocco e angoli attivi, imposta 8 icone per riga con altezza riga e spaziatura standard, mostra la sezione “In uso” (senza finestre ridotte), mostra l’icona della barra dei menu e di nuovo “⟦Dock⟧” e disattiva l’apertura al login. Le tue app e categorie restano.";
+"Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Come il menu Start di Windows: il pannello si apre accanto all’icona di HomePad in “⟦Dock⟧”, sia che tu faccia clic sull’icona sia che usi l’abbreviazione o il doppio tocco. Gli angoli attivi lo aprono ancora nel loro angolo.";
+"HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad non è ancora in “⟦Dock⟧”. Trascina la sua icona da “⟦Applications⟧” a “⟦Dock⟧”; fino ad allora il pannello si apre al centro.";
+"The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this." = "“⟦Dock⟧” è nascosto, quindi il pannello si apre al centro. Smetti di nascondere “⟦Dock⟧” qui sopra per usare questa opzione.";
+"Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Per trovare l’icona serve il permesso “⟦Accessibility⟧”, quindi per ora il pannello si apre al centro. Consentilo nei permessi qui sopra.";
 "Add App…" = "Aggiungi app…";
 "Add File or Folder…" = "Aggiungi file o cartella…";
 "Re-import from ⟦Dock⟧…" = "Importa di nuovo da “⟦Dock⟧”…";

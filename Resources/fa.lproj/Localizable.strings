@@ -173,6 +173,7 @@
 "Dock" = "داک";
 "Hide the ⟦Dock⟧" = "پنهان کردن «⟦Dock⟧»";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "پنهان‌سازی خودکار را با تأخیری بسیار طولانی روشن می‌کند تا «⟦Dock⟧» هرگز ظاهر نشود. Cmd-Tab و «⟦Mission Control⟧» همچنان کار می‌کنند.";
+"Open above the HomePad icon in the ⟦Dock⟧" = "باز کردن بالای نماد HomePad در «⟦Dock⟧»";
 "Reset" = "بازنشانی";
 "Reset to Defaults…" = "بازنشانی به پیش‌فرض‌ها…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "میان‌بر، دوبار زدن، گوشه‌های فعال، چیدمان، نماد نوار منو، پنهان‌سازی «⟦Dock⟧» و باز شدن هنگام ورود را به حالت اول برمی‌گرداند. برنامه‌ها و دسته‌های شما می‌مانند.";
@@ -185,6 +186,10 @@
 "Launch at login" = "باز شدن هنگام ورود";
 "Reset settings to their defaults?" = "تنظیمات به پیش‌فرض‌ها بازنشانی شوند؟";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "این کار میان‌بر (⌥فاصله) را برمی‌گرداند، دوبار زدن و گوشه‌های فعال را خاموش می‌کند، ۸ نماد در هر ردیف و ارتفاع ردیف و فاصله نماد استاندارد را تنظیم می‌کند، بخش «در حال اجرا» را (با پنجره‌های کوچک‌شده پنهان) نشان می‌دهد، نماد نوار منو و «⟦Dock⟧» را دوباره نشان می‌دهد و باز شدن هنگام ورود را خاموش می‌کند. برنامه‌ها و دسته‌های شما می‌مانند.";
+"Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "مانند منوی Start ویندوز: پنل درست کنار نماد HomePad در «⟦Dock⟧» باز می‌شود، چه روی آن نماد کلیک کنید چه از میان‌بر یا دوبار زدن استفاده کنید. گوشه‌های فعال همچنان آن را در گوشه خودشان باز می‌کنند.";
+"HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad هنوز در «⟦Dock⟧» نیست. نمادش را از «⟦Applications⟧» به «⟦Dock⟧» بکشید؛ تا آن موقع پنل در وسط باز می‌شود.";
+"The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this." = "«⟦Dock⟧» پنهان است، پس پنل در وسط باز می‌شود. برای استفاده از این، پنهان کردن «⟦Dock⟧» را در بالا متوقف کنید.";
+"Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "پیدا کردن نماد به مجوز «⟦Accessibility⟧» نیاز دارد، پس فعلاً پنل در وسط باز می‌شود. آن را در مجوزهای بالا بدهید.";
 "Add App…" = "افزودن برنامه…";
 "Add File or Folder…" = "افزودن فایل یا پوشه…";
 "Re-import from ⟦Dock⟧…" = "وارد کردن دوباره از «⟦Dock⟧»…";

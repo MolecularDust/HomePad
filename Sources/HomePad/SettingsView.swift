@@ -15,6 +15,9 @@ struct SettingsView: View {
     @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
+    @AppStorage(DockIcon.settingKey) private var aboveDockIcon = false
+    /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
+    @State private var dockIconProblem = DockIcon.problem
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
     @AppStorage(HotCornerMonitor.defaultsKey) private var hotCorners = ""
     @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
@@ -113,6 +116,10 @@ struct SettingsView: View {
                 Text(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                Toggle(L("Open above the HomePad icon in the ⟦Dock⟧"), isOn: $aboveDockIcon)
+                Text(aboveDockIconNote)
+                    .font(.caption).foregroundStyle(dockIconProblem == nil ? Color.secondary : Color.orange)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section("Reset") {
@@ -157,6 +164,9 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .frame(width: 480)
+        .onAppear { dockIconProblem = DockIcon.problem }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in dockIconProblem = DockIcon.problem }
+        .onChange(of: dockHidden) { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { dockIconProblem = DockIcon.problem } }
     }
 
     private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
@@ -191,6 +201,19 @@ struct SettingsView: View {
         showMenuBarIcon = true
         if dockHidden { dockHidden = false }
         if launchAtLogin { launchAtLogin = false }
+    }
+
+    private var aboveDockIconNote: String {
+        switch dockIconProblem {
+        case nil:
+            return L("Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.")
+        case .notInDock:
+            return L("HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.")
+        case .dockHidden:
+            return L("The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this.")
+        case .noAccessibility:
+            return L("Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.")
+        }
     }
 
     private var addApp: some View { Button("Add App…") { Launcher.chooseAppsToPin() }.fixedSize() }

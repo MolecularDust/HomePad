@@ -68,6 +68,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else if settingsWindow?.isVisible == true {
             activateSelf()
             settingsWindow?.makeKeyAndOrderFront(nil)
+        } else if DockIcon.isOn, Date().timeIntervalSince(PanelController.shared.hiddenAt) < 0.3 {
+            // A click on HomePad's Dock icon while the panel is open: the click took focus, which closed the panel
+            // just before; it counts as "close", not "open again" (as for the menu-bar icon).
         } else {
             PanelController.shared.show()
         }

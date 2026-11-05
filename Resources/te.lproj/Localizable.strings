@@ -173,6 +173,7 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” దాచండి";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "చాలా ఎక్కువ ఆలస్యంతో ఆటో-హైడ్ ఆన్ చేస్తుంది, కాబట్టి “⟦Dock⟧” ఎప్పుడూ కనిపించదు. Cmd-Tab, “⟦Mission Control⟧” పనిచేస్తూనే ఉంటాయి.";
+"Open above the HomePad icon in the ⟦Dock⟧" = "“⟦Dock⟧”లో HomePad ఐకాన్ పైన తెరవండి";
 "Reset" = "రీసెట్";
 "Reset to Defaults…" = "డిఫాల్ట్‌లకు రీసెట్ చేయండి…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "షార్ట్‌కట్, డబుల్-ట్యాప్, హాట్ కార్నర్‌లు, లేఅవుట్, మెనూ బార్ ఐకాన్, “⟦Dock⟧” దాచడం, లాగిన్‌లో తెరవడం మొదట్లో ఉన్నట్లు తిరిగి పెడుతుంది. మీ యాప్‌లు, వర్గాలు అలాగే ఉంటాయి.";
@@ -185,6 +186,10 @@
 "Launch at login" = "లాగిన్‌లో తెరవండి";
 "Reset settings to their defaults?" = "సెట్టింగ్‌లను డిఫాల్ట్‌లకు రీసెట్ చేయాలా?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "ఇది షార్ట్‌కట్‌ను (⌥Space) పునరుద్ధరిస్తుంది, డబుల్-ట్యాప్, హాట్ కార్నర్‌లను ఆఫ్ చేస్తుంది, ప్రతి వరుసకు 8 ఐకాన్‌లు, ప్రామాణిక వరుస ఎత్తు, ఐకాన్ దూరం సెట్ చేస్తుంది, నడుస్తున్నవి విభాగాన్ని (కనిష్టీకరించిన విండోలు దాచి) చూపుతుంది, మెనూ బార్ ఐకాన్, “⟦Dock⟧” మళ్లీ చూపుతుంది, లాగిన్‌లో తెరవడం ఆఫ్ చేస్తుంది. మీ యాప్‌లు, వర్గాలు అలాగే ఉంటాయి.";
+"Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windows Start మెనూ లాగా: ప్యానెల్ “⟦Dock⟧”లోని HomePad ఐకాన్ పక్కనే తెరుచుకుంటుంది, మీరు ఆ ఐకాన్‌పై క్లిక్ చేసినా షార్ట్‌కట్ లేదా డబుల్-ట్యాప్ వాడినా. హాట్ కార్నర్‌లు ఇప్పటికీ తమ మూలలో తెరుస్తాయి.";
+"HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ఇంకా “⟦Dock⟧”లో లేదు. దాని ఐకాన్‌ను “⟦Applications⟧” నుండి “⟦Dock⟧”లోకి లాగండి; అప్పటి వరకు ప్యానెల్ మధ్యలో తెరుచుకుంటుంది.";
+"The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this." = "“⟦Dock⟧” దాచబడింది, కాబట్టి ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. దీన్ని ఉపయోగించడానికి పైన “⟦Dock⟧” దాచడం ఆపండి.";
+"Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "ఐకాన్ కనుగొనడానికి “⟦Accessibility⟧” అనుమతి అవసరం, కాబట్టి ప్రస్తుతం ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. పై అనుమతులలో దాన్ని ఇవ్వండి.";
 "Add App…" = "యాప్ జోడించండి…";
 "Add File or Folder…" = "ఫైల్ లేదా ఫోల్డర్ జోడించండి…";
 "Re-import from ⟦Dock⟧…" = "“⟦Dock⟧” నుండి మళ్లీ దిగుమతి చేయండి…";
