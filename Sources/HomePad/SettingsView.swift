@@ -208,11 +208,11 @@ struct SettingsView: View {
         if launchAtLogin { launchAtLogin = false }
     }
 
-    /// The tint that makes a disabled "on" switch look like the grayed-out ones in System Settings (a disabled switch is
-    /// drawn at about 63% strength, so the tint is lighter than the gray you see). Measured: track (219,219,219) in light
-    /// mode; a darker gray in dark mode.
+    /// The tint that makes a disabled "on" switch look like an "off" one or a grayed-out one in System Settings. The track
+    /// is drawn in exactly this color (measured on screen: tint 203 gave a track of 203; an off switch's track is 226 in
+    /// light mode). Darker in dark mode.
     private static let inactiveSwitchGray = Color(nsColor: NSColor(name: nil) { appearance in
-        appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? NSColor(white: 0.46, alpha: 1) : NSColor(white: 0.795, alpha: 1)
+        appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? NSColor(white: 0.46, alpha: 1) : NSColor(white: 0.886, alpha: 1)
     })
 
     private var aboveDockIconNote: String? {
