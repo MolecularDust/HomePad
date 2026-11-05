@@ -119,6 +119,7 @@ struct SettingsView: View {
                 // With the Dock hidden there is no icon to go by: the switch is grayed out, with nothing more said.
                 Toggle(L("Open above the HomePad icon in the ⟦Dock⟧"), isOn: $aboveDockIcon)
                     .disabled(dockHidden || dockIconProblem == .dockHidden)
+                    .tint(dockHidden || dockIconProblem == .dockHidden ? .gray : nil)   // still on, but gray
                 if !dockHidden, let note = aboveDockIconNote {
                     Text(note)
                         .font(.caption).foregroundStyle(dockIconProblem == nil ? Color.secondary : Color.orange)
