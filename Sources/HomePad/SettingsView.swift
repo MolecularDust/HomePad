@@ -116,10 +116,14 @@ struct SettingsView: View {
                 Text(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                // With the Dock hidden there is no icon to go by: the switch is grayed out, with nothing more said.
                 Toggle(L("Open above the HomePad icon in the ⟦Dock⟧"), isOn: $aboveDockIcon)
-                Text(aboveDockIconNote)
-                    .font(.caption).foregroundStyle(dockIconProblem == nil ? Color.secondary : Color.orange)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .disabled(dockHidden || dockIconProblem == .dockHidden)
+                if !dockHidden, let note = aboveDockIconNote {
+                    Text(note)
+                        .font(.caption).foregroundStyle(dockIconProblem == nil ? Color.secondary : Color.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
 
             Section("Reset") {
@@ -203,14 +207,14 @@ struct SettingsView: View {
         if launchAtLogin { launchAtLogin = false }
     }
 
-    private var aboveDockIconNote: String {
+    private var aboveDockIconNote: String? {
         switch dockIconProblem {
         case nil:
             return L("Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.")
         case .notInDock:
             return L("HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.")
         case .dockHidden:
-            return L("The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this.")
+            return nil
         case .noAccessibility:
             return L("Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.")
         }

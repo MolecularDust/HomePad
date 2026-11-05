@@ -187,7 +187,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "ショートカット（⌥スペース）を戻し、ダブルタップとホットコーナーをオフにし、1行8アイコンと標準の行の高さとアイコン間隔にし、“実行中”セクションを表示し（しまわれたウインドウは非表示）、メニューバーアイコンと“⟦Dock⟧”を再び表示し、ログイン時に開く設定をオフにします。アプリとカテゴリはそのままです。",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Windowsのスタートメニューのように、“⟦Dock⟧”のHomePadアイコンのすぐそばにパネルが開きます。アイコンをクリックしても、ショートカットやダブルタップを使っても同じです。ホットコーナーはこれまでどおりその隅に開きます。",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePadはまだ“⟦Dock⟧”にありません。そのアイコンを“⟦Applications⟧”から“⟦Dock⟧”にドラッグしてください。それまではパネルは中央に開きます。",
- "The ⟦Dock⟧ is hidden, so the panel opens in the middle. Stop hiding the ⟦Dock⟧ above to use this.": "“⟦Dock⟧”が隠されているため、パネルは中央に開きます。これを使うには、上で“⟦Dock⟧”を隠す設定をオフにしてください。",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。上のアクセス権で許可してください。",
  "Add App…": "アプリを追加…",
  "Add File or Folder…": "ファイルまたはフォルダを追加…",
