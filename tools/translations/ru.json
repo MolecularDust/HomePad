@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "Завершите HomePad и перетащите его из папки «⟦Applications⟧» в «⟦Trash⟧».",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad удалён. Он лежит в «⟦Trash⟧», если захотите его вернуть.",
  "HomePad needs your password to finish uninstalling.": "HomePad нужен ваш пароль, чтобы завершить удаление.",
- "HomePad Settings": "Настройки HomePad",
  "Name": "Название",
  "Essentials": "Главное",
  "Add Apps to %@": "Добавить приложения в «%@»",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "Это вернёт сочетание клавиш (⌥Пробел), выключит двойное нажатие и активные углы, установит 8 значков в ряду и стандартные высоту ряда и интервал, покажет раздел «Запущенные» (без свёрнутых окон), значок в строке меню и снова «⟦Dock⟧», а также выключит запуск при входе. Ваши приложения и категории сохраняются.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Как меню «Пуск» в Windows: панель открывается прямо у значка HomePad в «⟦Dock⟧» — и при нажатии на этот значок, и при сочетании клавиш или двойном нажатии. Активные углы по-прежнему открывают её в своём углу.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad ещё нет в «⟦Dock⟧». Перетащите его значок из «⟦Applications⟧» в «⟦Dock⟧»; до тех пор панель открывается по центру.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его в разрешениях выше.",
  "Add App…": "Добавить приложение…",
  "Add File or Folder…": "Добавить файл или папку…",
  "Re-import from ⟦Dock⟧…": "Заново импортировать из «⟦Dock⟧»…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "Аккумулятор: %lld %%, заряжается",
  "Battery: %lld%%, plugged in": "Аккумулятор: %lld %%, подключён к сети",
  "Battery: %lld%%": "Аккумулятор: %lld %%",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "Открытие",
+ "Panel": "Панель",
+ "These settings are for Taskbar mode.": "Эти настройки действуют в режиме панели задач.",
+ "Use Taskbar Mode": "Включить режим панели задач",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения»."
 }

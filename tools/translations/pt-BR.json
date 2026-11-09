@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "Encerre o HomePad e arraste-o de “⟦Applications⟧” para “⟦Trash⟧”.",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "O HomePad foi desinstalado. Ele está em “⟦Trash⟧”, caso você queira recuperá-lo.",
  "HomePad needs your password to finish uninstalling.": "O HomePad precisa da sua senha para terminar a desinstalação.",
- "HomePad Settings": "Ajustes do HomePad",
  "Name": "Nome",
  "Essentials": "Essenciais",
  "Add Apps to %@": "Adicionar apps a “%@”",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "Isso restaura o atalho (⌥Espaço), desativa o toque duplo e os cantos ativos, define 8 ícones por linha e a altura de linha e o espaço entre ícones padrão, mostra a seção “Em uso” (sem janelas minimizadas), mostra o ícone da barra de menus e o “⟦Dock⟧” de novo e desativa a abertura ao iniciar sessão. Seus apps e categorias são mantidos.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Como o menu Iniciar do Windows: o painel abre junto ao ícone do HomePad no “⟦Dock⟧”, seja clicando nesse ícone ou usando o atalho ou o toque duplo. Os cantos ativos continuam abrindo no próprio canto.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "O HomePad ainda não está no “⟦Dock⟧”. Arraste o ícone dele de “⟦Applications⟧” para o “⟦Dock⟧”; até lá, o painel abre no centro.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "Encontrar o ícone precisa da permissão “⟦Accessibility⟧”, então por enquanto o painel abre no centro. Permita-a nas permissões acima.",
  "Add App…": "Adicionar app…",
  "Add File or Folder…": "Adicionar arquivo ou pasta…",
  "Re-import from ⟦Dock⟧…": "Reimportar do “⟦Dock⟧”…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "Bateria: %lld%%, carregando",
  "Battery: %lld%%, plugged in": "Bateria: %lld%%, conectada",
  "Battery: %lld%%": "Bateria: %lld%%",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "Abertura",
+ "Panel": "Painel",
+ "These settings are for Taskbar mode.": "Estes ajustes são para o modo Barra de tarefas.",
+ "Use Taskbar Mode": "Usar modo Barra de tarefas",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Encontrar o ícone precisa da permissão “⟦Accessibility⟧”, então por enquanto o painel abre no centro. Permita na aba “Permissões”."
 }

@@ -4,205 +4,86 @@ import Combine
 import ServiceManagement
 import Carbon.HIToolbox
 
-struct SettingsView: View {
+/// Settings, in tabs along the window's toolbar (SettingsTabs). Each tab is a view of its own; what they share is in
+/// UserDefaults, so a change in one tab shows in another.
+enum SettingsTab: String, CaseIterable {
+    case general, mode, taskbar, opening, panel, permissions
+
+    var title: String {
+        switch self {
+        case .general: return L("General")
+        case .mode: return L("Mode")
+        case .taskbar: return L("Taskbar")
+        case .opening: return L("Opening")
+        case .panel: return L("Panel")
+        case .permissions: return L("Permissions")
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .general: return "gearshape"
+        case .mode: return "switch.2"
+        case .taskbar: return "rectangle.bottomthird.inset.filled"
+        case .opening: return "keyboard"
+        case .panel: return "square.grid.3x3"
+        case .permissions: return "hand.raised"
+        }
+    }
+
+    @ViewBuilder var view: some View {
+        switch self {
+        case .general: GeneralSettings()
+        case .mode: ModeSettings()
+        case .taskbar: TaskbarSettings()
+        case .opening: OpeningSettings()
+        case .panel: PanelSettings()
+        case .permissions: PermissionsSettings()
+        }
+    }
+}
+
+/// Every tab is a grouped form, 540 pt wide.
+private struct SettingsPage<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    var body: some View {
+        Form { content() }
+            .formStyle(.grouped)
+            .frame(width: SettingsTabs.width)
+    }
+}
+
+/// A caption under a setting.
+private struct Caption: View {
+    let text: String
+    var color: Color = .secondary
+    init(_ text: String, color: Color = .secondary) { self.text = text; self.color = color }
+    var body: some View {
+        Text(text).font(.caption).foregroundStyle(color).fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+// MARK: - General
+
+private struct GeneralSettings: View {
     @ObservedObject private var shortcuts = ShortcutStore.shared
-    @AppStorage("columns") private var columns = 8
-    @AppStorage("showRunning") private var showRunning = true
-    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
-    @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
-    @AppStorage(PanelController.rememberSizeKey) private var rememberSize = true
-    @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
-    @State private var dockHidden = DockControl.isHidden
-    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
-    @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
-    @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
-    @AppStorage(TaskbarTray.networkKey) private var trayNetwork = true
-    @AppStorage(TaskbarTray.volumeKey) private var trayVolume = true
-    @AppStorage(TaskbarTray.batteryKey) private var trayBattery = true
-    @AppStorage(TaskbarTray.clockKey) private var trayClock = true
-    @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
-    /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
-    @State private var dockIconProblem = DockIcon.problem
-    @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
-    @AppStorage(HotCornerMonitor.defaultsKey) private var hotCorners = ""
-    @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
-    @ObservedObject private var permissions = PermissionStatus.shared
 
     var body: some View {
-        Form {
-            Section("Mode") {
-                Picker("Mode", selection: Binding(get: { HomePadMode(rawValue: mode) ?? .standalone }, set: { new in
-                    HomePadMode.choose(new)     // the Dock changes in the background; read again on DockControl.changed
-                })) {
-                    Text("Standalone").tag(HomePadMode.standalone)
-                    Text(L("HomePad + ⟦Dock⟧")).tag(HomePadMode.dock)
-                    Text("Taskbar").tag(HomePadMode.taskbar)
-                }
-                .pickerStyle(.radioGroup)
-                .labelsHidden()
-                Text(modeNote)
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                if mode == HomePadMode.dock.rawValue, dockIconProblem != nil, let note = aboveDockIconNote {
-                    Text(note)
-                        .font(.caption).foregroundStyle(Color.orange)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                if mode == HomePadMode.taskbar.rawValue {
-                    Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)
-                    Text(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
-                        .font(.caption).foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Picker("App icons", selection: $iconsAlignment) {
-                        Text("Left").tag(Taskbar.Alignment.left)
-                        Text("Center").tag(Taskbar.Alignment.center)
-                    }
-                    .pickerStyle(.segmented).fixedSize()
-                    // With the app icons on the left, HomePad's icon is on the left too, before them; the choice is
-                    // grayed out then but keeps showing what you picked, which applies again once they're centred.
-                    Picker("HomePad icon", selection: $startAlignment) {
-                        Text("Left").tag(Taskbar.Alignment.left)
-                        Text("Center").tag(Taskbar.Alignment.center)
-                    }
-                    .pickerStyle(.segmented).fixedSize()
-                    .disabled(iconsAlignment == .left)
-                    Toggle("Network status", isOn: $trayNetwork)
-                    Toggle("Volume", isOn: $trayVolume)
-                    if BatteryStatus.shared.present { Toggle("Battery", isOn: $trayBattery) }
-                    Toggle("Clock", isOn: $trayClock)
-                    Text(L("On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it."))
-                        .font(.caption).foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                    TaskbarAppsList()
-                }
-            }
-
-            Section("Shortcut") {
-                HStack {
-                    Text("Open HomePad")
-                    Spacer()
-                    ShortcutRecorder().fixedSize()
-                }
-                if shortcuts.isNone && doubleTap == DoubleTapMonitor.Key.off.rawValue {
-                    Text("No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below.")
-                        .font(.caption).foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                if let owner = shortcuts.conflict {
-                    Text("That shortcut is already in use by \(owner.summary). Pick a different one.")
-                        .font(.caption).foregroundStyle(.red)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Text(L("To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                Picker("Or double-tap", selection: $doubleTap) {
-                    ForEach(DoubleTapMonitor.Key.allCases) { Text($0.title).tag($0.rawValue) }
-                }
-                .onChange(of: doubleTap) { _ in
-                    DoubleTapMonitor.shared.apply()
-                    permissions.refresh()
-                }
-                Text(L("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the ⟦Accessibility⟧ permission."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                HotCornerSetting()
-            }
-
-            Section("Layout") {
-                NumberSetting(title: L("Icons per row"), value: $columns, range: 4...10)
-                NumberSetting(title: L("Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
-                NumberSetting(title: L("Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
-                Toggle("Show the Running section", isOn: $showRunning)
-                    .disabled(mode == HomePadMode.taskbar.rawValue)     // the taskbar has the running apps then
-                Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
-                    .disabled(!showRunning)
-                    .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
-                Text(L("Each minimized window gets a tile right after its app; click it to bring the window back. Needs ⟦Accessibility⟧, and ⟦Screen Recording⟧ for the pictures. Both can also be changed by right-clicking the Running section."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Section("Window") {
-                Toggle("Remember window size", isOn: $rememberSize)
-                Toggle("Remember window position", isOn: $rememberPosition)
-                Text("For the main window, which you can resize by dragging its edges. The ↺ button in its corner goes back to the standard size, centred. The Add windows can be resized too, but always open at their standard size.")
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Section("Items") {
-                // One row when the names fit (English); two rows in languages with longer words.
-                ViewThatFits(in: .horizontal) {
-                    HStack { addApp; addFile; addCategory; reimport }
-                    VStack(alignment: .leading) {
-                        HStack { addApp; addFile }
-                        HStack { addCategory; reimport }
-                    }
-                    VStack(alignment: .leading) { addApp; addFile; addCategory; reimport }
-                }
-            }
-
-            Section("Permissions") {
-                permissionRow(Mac("Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
-                              detail: L("Jump to a specific window and double-tap a modifier key.")) {
-                    Permissions.requestAccessibility()
-                }
-                permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: L("Window previews when you hover a running app.")) {
-                    Permissions.requestScreenRecording()
-                }
-                permissionRow(Mac("Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
-                              detail: L("Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.")) {
-                    Permissions.requestFullDiskAccess()
-                }
-                if !permissions.allGranted {
-                    Text(L("Already switched on in ⟦System Settings⟧ but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            Section(Mac("Dock")) {
-                // Set by the mode outside Standalone (shown in HomePad + Dock, hidden under the taskbar): grayed out then.
-                // Only your own click changes the Dock here, not the switch following a mode change.
-                Toggle(L("Hide the ⟦Dock⟧"), isOn: Binding(get: { dockHidden }, set: { dockHidden = $0; DockControl.setHidden($0) }))
-                    .disabled(mode != HomePadMode.standalone.rawValue)
-                    .tint(mode != HomePadMode.standalone.rawValue && dockHidden ? Self.inactiveSwitchGray : nil)
-                Text(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Section("Reset") {
-                Button("Reset to Defaults…") { confirmReset() }
-                Text(L("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept."))
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                Button("Start Over…") { StartOver.confirm() }
-                Text("As if HomePad had just been installed: its permissions are taken back in macOS, the Setup Guide shows again and HomePad restarts. You can choose to also forget your categories and settings.")
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Section("General") {
+        SettingsPage {
+            Section {
                 Picker("Language", selection: Binding(get: { Localization.chosen ?? "" },
                                                       set: { Localization.choose($0.isEmpty ? nil : $0) })) {
                     Text("Same as the Mac").tag("")
                     Divider()
                     ForEach(Localization.options, id: \.code) { Text(verbatim: $0.title).tag($0.code) }
                 }
-                Text("HomePad restarts in the language you choose.")
-                    .font(.caption).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                Caption(L("HomePad restarts in the language you choose."))
                 Toggle("Show menu-bar icon", isOn: $showMenuBarIcon)
                     .onChange(of: showMenuBarIcon) { AppDelegate.shared?.setStatusItemVisible($0) }
                 if !showMenuBarIcon {
-                    Text("With the icon hidden, open HomePad with your shortcut or double-tap, or by launching the app again.")
-                        .font(.caption).foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+                    Caption(L("With the icon hidden, open HomePad with your shortcut or double-tap, or by launching the app again."))
                 }
                 Toggle("Launch at login", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { on in
@@ -215,27 +96,12 @@ struct SettingsView: View {
                         }
                     }
             }
-        }
-        .formStyle(.grouped)
-        .frame(width: 480)
-        .onAppear { dockIconProblem = DockIcon.problem }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in dockIconProblem = DockIcon.problem }
-        .onReceive(NotificationCenter.default.publisher(for: DockControl.changed)) { _ in
-            dockHidden = DockControl.isHidden
-            // The restarted Dock takes a moment to list its icons again.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { dockIconProblem = DockIcon.problem }
-        }
-    }
-
-    private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            HStack {
-                Text(title)
-                Spacer()
-                PermissionButton(granted: granted, pane: pane, request: request)
+            Section("Reset") {
+                Button("Reset to Defaults…") { confirmReset() }
+                Caption(L("Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept."))
+                Button("Start Over…") { StartOver.confirm() }
+                Caption(L("As if HomePad had just been installed: its permissions are taken back in macOS, the Setup Guide shows again and HomePad restarts. You can choose to also forget your categories and settings."))
             }
-            Text(detail).font(.caption).foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -247,27 +113,71 @@ struct SettingsView: View {
         alert.addButton(withTitle: L("Cancel"))
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         shortcuts.update(.default)
-        doubleTap = DoubleTapMonitor.Key.off.rawValue
-        hotCorners = ""
-        columns = 8
-        rowHeight = RowMetrics.standard
-        iconSpacing = TileMetrics.standardSpacing
-        rememberSize = true
-        rememberPosition = false
-        showRunning = true
-        hideMinimised = true
+        let d = UserDefaults.standard
+        d.set(DoubleTapMonitor.Key.off.rawValue, forKey: DoubleTapMonitor.defaultsKey)
+        DoubleTapMonitor.shared.apply()
+        d.set("", forKey: HotCornerMonitor.defaultsKey)
+        d.set(8, forKey: "columns")
+        d.set(RowMetrics.standard, forKey: "rowHeight")
+        d.set(TileMetrics.standardSpacing, forKey: "iconSpacing")
+        d.set(true, forKey: PanelController.rememberSizeKey)
+        d.set(false, forKey: PanelController.rememberPositionKey)
+        d.set(true, forKey: "showRunning")
+        d.set(true, forKey: MinimisedWindows.settingKey)
         showMenuBarIcon = true
-        startButtonOnly = false
-        iconsAlignment = .center
-        trayNetwork = true
-        trayVolume = true
-        trayBattery = true
-        trayClock = true
-        startAlignment = .center
+        d.set(false, forKey: HomePadMode.startButtonOnlyKey)
+        d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.iconsAlignmentKey)
+        d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.startAlignmentKey)
+        for key in [TaskbarTray.networkKey, TaskbarTray.volumeKey, TaskbarTray.batteryKey, TaskbarTray.clockKey] {
+            d.set(true, forKey: key)
+        }
         HomePadMode.choose(.standalone, adjustingDock: false)
-        dockHidden = false
         DockControl.setHidden(false)
         if launchAtLogin { launchAtLogin = false }
+    }
+}
+
+// MARK: - Mode
+
+private struct ModeSettings: View {
+    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
+    @State private var dockHidden = DockControl.isHidden
+    /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
+    @State private var dockIconProblem = DockIcon.problem
+
+    var body: some View {
+        SettingsPage {
+            Section {
+                Picker("Mode", selection: Binding(get: { HomePadMode(rawValue: mode) ?? .standalone }, set: { new in
+                    HomePadMode.choose(new)     // the Dock changes in the background; read again on DockControl.changed
+                })) {
+                    Text("Standalone").tag(HomePadMode.standalone)
+                    Text(L("HomePad + ⟦Dock⟧")).tag(HomePadMode.dock)
+                    Text("Taskbar").tag(HomePadMode.taskbar)
+                }
+                .pickerStyle(.radioGroup)
+                .labelsHidden()
+                Caption(modeNote)
+                if mode == HomePadMode.dock.rawValue, dockIconProblem != nil, let note = aboveDockIconNote {
+                    Caption(note, color: .orange)
+                }
+            }
+            Section(Mac("Dock")) {
+                // Set by the mode outside Standalone (shown in HomePad + Dock, hidden in Taskbar): grayed out then.
+                // Only your own click changes the Dock here, not the switch following a mode change.
+                Toggle(L("Hide the ⟦Dock⟧"), isOn: Binding(get: { dockHidden }, set: { dockHidden = $0; DockControl.setHidden($0) }))
+                    .disabled(mode != HomePadMode.standalone.rawValue)
+                    .tint(mode != HomePadMode.standalone.rawValue && dockHidden ? Self.inactiveSwitchGray : nil)
+                Caption(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
+            }
+        }
+        .onAppear { dockIconProblem = DockIcon.problem; dockHidden = DockControl.isHidden }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in dockIconProblem = DockIcon.problem }
+        .onReceive(NotificationCenter.default.publisher(for: DockControl.changed)) { _ in
+            dockHidden = DockControl.isHidden
+            // The restarted Dock takes a moment to list its icons again.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { dockIconProblem = DockIcon.problem }
+        }
     }
 
     /// The tint that makes a disabled "on" switch look like an "off" one or a grayed-out one in System Settings. The track
@@ -298,7 +208,148 @@ struct SettingsView: View {
         case .dockHidden:
             return nil
         case .noAccessibility:
-            return L("Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.")
+            return L("Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.")
+        }
+    }
+}
+
+// MARK: - Taskbar
+
+/// Always there, so the tabs don't come and go; outside Taskbar mode its settings are grayed out, with a way in.
+private struct TaskbarSettings: View {
+    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
+    @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
+    @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
+    @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
+    @AppStorage(TaskbarTray.networkKey) private var trayNetwork = true
+    @AppStorage(TaskbarTray.volumeKey) private var trayVolume = true
+    @AppStorage(TaskbarTray.batteryKey) private var trayBattery = true
+    @AppStorage(TaskbarTray.clockKey) private var trayClock = true
+
+    private var isOn: Bool { mode == HomePadMode.taskbar.rawValue }
+
+    var body: some View {
+        SettingsPage {
+            if !isOn {
+                Section {
+                    HStack {
+                        Text("These settings are for Taskbar mode.")
+                        Spacer()
+                        Button("Use Taskbar Mode") { HomePadMode.choose(.taskbar) }
+                    }
+                }
+            }
+            Group {
+                Section {
+                    Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)
+                    Caption(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
+                }
+                Section("Layout") {
+                    Picker("App icons", selection: $iconsAlignment) {
+                        Text("Left").tag(Taskbar.Alignment.left)
+                        Text("Center").tag(Taskbar.Alignment.center)
+                    }
+                    .pickerStyle(.segmented).fixedSize()
+                    // With the app icons on the left, HomePad's icon is on the left too, before them; the choice is
+                    // grayed out then but keeps showing what you picked, which applies again once they're centred.
+                    Picker("HomePad icon", selection: $startAlignment) {
+                        Text("Left").tag(Taskbar.Alignment.left)
+                        Text("Center").tag(Taskbar.Alignment.center)
+                    }
+                    .pickerStyle(.segmented).fixedSize()
+                    .disabled(iconsAlignment == .left)
+                }
+                Section {
+                    Toggle("Network status", isOn: $trayNetwork)
+                    Toggle("Volume", isOn: $trayVolume)
+                    if BatteryStatus.shared.present { Toggle("Battery", isOn: $trayBattery) }
+                    Toggle("Clock", isOn: $trayClock)
+                    Caption(L("On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it."))
+                }
+                Section { TaskbarAppsList() }
+            }
+            .disabled(!isOn)
+        }
+    }
+}
+
+// MARK: - Opening
+
+private struct OpeningSettings: View {
+    @ObservedObject private var shortcuts = ShortcutStore.shared
+    @ObservedObject private var permissions = PermissionStatus.shared
+    @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
+
+    var body: some View {
+        SettingsPage {
+            Section("Shortcut") {
+                HStack {
+                    Text("Open HomePad")
+                    Spacer()
+                    ShortcutRecorder().fixedSize()
+                }
+                if shortcuts.isNone && doubleTap == DoubleTapMonitor.Key.off.rawValue {
+                    Caption(L("No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below."))
+                }
+                if let owner = shortcuts.conflict {
+                    Caption(L("That shortcut is already in use by \(owner.summary). Pick a different one."), color: .red)
+                }
+                Caption(L("To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧."))
+                Picker("Or double-tap", selection: $doubleTap) {
+                    ForEach(DoubleTapMonitor.Key.allCases) { Text($0.title).tag($0.rawValue) }
+                }
+                .onChange(of: doubleTap) { _ in
+                    DoubleTapMonitor.shared.apply()
+                    permissions.refresh()
+                }
+                Caption(L("Tap the key twice, quickly, on its own. This works alongside the shortcut above and needs the ⟦Accessibility⟧ permission."))
+            }
+            Section { HotCornerSetting() }
+        }
+    }
+}
+
+// MARK: - Panel
+
+private struct PanelSettings: View {
+    @AppStorage("columns") private var columns = 8
+    @AppStorage("showRunning") private var showRunning = true
+    @AppStorage("rowHeight") private var rowHeight = RowMetrics.standard
+    @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
+    @AppStorage(PanelController.rememberSizeKey) private var rememberSize = true
+    @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
+    @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
+    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
+
+    var body: some View {
+        SettingsPage {
+            Section("Layout") {
+                NumberSetting(title: L("Icons per row"), value: $columns, range: 4...10)
+                NumberSetting(title: L("Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
+                NumberSetting(title: L("Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
+                Toggle("Show the Running section", isOn: $showRunning)
+                    .disabled(mode == HomePadMode.taskbar.rawValue)     // the taskbar has the running apps then
+                Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
+                    .disabled(!showRunning)
+                    .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
+                Caption(L("Each minimized window gets a tile right after its app; click it to bring the window back. Needs ⟦Accessibility⟧, and ⟦Screen Recording⟧ for the pictures. Both can also be changed by right-clicking the Running section."))
+            }
+            Section("Window") {
+                Toggle("Remember window size", isOn: $rememberSize)
+                Toggle("Remember window position", isOn: $rememberPosition)
+                Caption(L("For the main window, which you can resize by dragging its edges. The ↺ button in its corner goes back to the standard size, centred. The Add windows can be resized too, but always open at their standard size."))
+            }
+            Section("Items") {
+                // One row when the names fit (English); two rows in languages with longer words.
+                ViewThatFits(in: .horizontal) {
+                    HStack { addApp; addFile; addCategory; reimport }
+                    VStack(alignment: .leading) {
+                        HStack { addApp; addFile }
+                        HStack { addCategory; reimport }
+                    }
+                    VStack(alignment: .leading) { addApp; addFile; addCategory; reimport }
+                }
+            }
         }
     }
 
@@ -316,6 +367,96 @@ struct SettingsView: View {
         if alert.runModal() == .alertFirstButtonReturn {
             CategoryStore.shared.replaceWithDock()
         }
+    }
+}
+
+// MARK: - Permissions
+
+private struct PermissionsSettings: View {
+    @ObservedObject private var permissions = PermissionStatus.shared
+
+    var body: some View {
+        SettingsPage {
+            Section {
+                permissionRow(Mac("Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,
+                              detail: L("Jump to a specific window and double-tap a modifier key.")) {
+                    Permissions.requestAccessibility()
+                }
+                permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
+                              detail: L("Window previews when you hover a running app.")) {
+                    Permissions.requestScreenRecording()
+                }
+                permissionRow(Mac("Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,
+                              detail: L("Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.")) {
+                    Permissions.requestFullDiskAccess()
+                }
+                if !permissions.allGranted {
+                    Caption(L("Already switched on in ⟦System Settings⟧ but still red? Select HomePad there, remove it with −, then press Allow… again. This happens after an update changes the app's signature."))
+                }
+            }
+        }
+    }
+
+    private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack {
+                Text(title)
+                Spacer()
+                PermissionButton(granted: granted, pane: pane, request: request)
+            }
+            Caption(detail)
+        }
+    }
+}
+
+/// The Settings window's content: a tab for each SettingsTab in the toolbar, as in the Mac's own apps. The window
+/// takes each tab's height (up to the screen's; the form scrolls beyond that) and comes back on the last tab used.
+final class SettingsTabs: NSTabViewController {
+    static let width: CGFloat = 540
+    private static let lastTabKey = "settingsTab"
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tabStyle = .toolbar
+        for tab in SettingsTab.allCases {
+            let host = NSHostingController(rootView: tab.view.localized())
+            host.sizingOptions = []           // the window is sized by fit(), not by the content
+            host.title = tab.title            // the window is titled after the tab, as in the Mac's own settings
+            let item = NSTabViewItem(viewController: host)
+            item.identifier = tab.rawValue
+            item.label = tab.title
+            item.image = NSImage(systemSymbolName: tab.symbol, accessibilityDescription: tab.title)
+            addTabViewItem(item)
+        }
+        let last = UserDefaults.standard.string(forKey: Self.lastTabKey).flatMap(SettingsTab.init(rawValue:)) ?? .general
+        selectedTabViewItemIndex = SettingsTab.allCases.firstIndex(of: last) ?? 0
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        fit(animated: false)
+    }
+
+    override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
+        super.tabView(tabView, didSelect: tabViewItem)
+        if let id = tabViewItem?.identifier as? String { UserDefaults.standard.set(id, forKey: Self.lastTabKey) }
+        fit(animated: true)
+    }
+
+    func select(_ tab: SettingsTab) {
+        selectedTabViewItemIndex = SettingsTab.allCases.firstIndex(of: tab) ?? 0
+    }
+
+    /// The window as tall as the tab needs, top edge kept where it is.
+    private func fit(animated: Bool) {
+        guard let window = view.window, selectedTabViewItemIndex >= 0 else { return }
+        let tab = SettingsTab.allCases[selectedTabViewItemIndex]
+        let natural = NSHostingView(rootView: tab.view.localized().fixedSize(horizontal: false, vertical: true)).fittingSize.height
+        let available = (window.screen ?? NSScreen.main)?.visibleFrame.height ?? 800
+        let content = NSSize(width: Self.width, height: min(natural, available - 120))
+        var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: content))
+        frame.origin = NSPoint(x: window.frame.minX, y: window.frame.maxY - frame.height)
+        window.setFrame(frame, display: true, animate: animated)
     }
 }
 

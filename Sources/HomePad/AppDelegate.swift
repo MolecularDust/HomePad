@@ -138,6 +138,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func setStatusItemVisible(_ visible: Bool) { statusItem.isVisible = visible }
     var settingsWindowIsOpen: Bool { settingsWindow?.isVisible == true }
+    var settingsTabs: SettingsTabs? { settingsWindow?.contentViewController as? SettingsTabs }
 
     /// Launching the app again opens the panel, so it can't get lost when the menu-bar icon is hidden. With the
     /// Setup Guide or Settings open, that window comes forward instead: the panel must not cover it.
@@ -192,20 +193,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             PanelController.shared.stayBehind(true)
         }
         if settingsWindow == nil {
-            let host = NSHostingController(rootView: SettingsView().localized())
-            host.sizingOptions = []           // the window is sized below, not by the content
-            let window = NSWindow(contentViewController: host)
-            window.title = L("HomePad Settings")
-            window.styleMask = [.titled, .closable, .resizable]
-            // As tall as the settings need, but never taller than the screen: the form scrolls inside.
-            let natural = NSHostingView(rootView: SettingsView().localized().fixedSize(horizontal: false, vertical: true)).fittingSize.height
-            let available = (NSScreen.main?.visibleFrame.height ?? 800) - 110      // leaves room for the title bar
-            window.setContentSize(NSSize(width: 480, height: min(natural, available)))
-            window.contentMinSize = NSSize(width: 480, height: 300)
-            window.contentMaxSize = NSSize(width: 480, height: CGFloat.greatestFiniteMagnitude)
-            // An empty toolbar gives the full-height title bar regular Mac apps have.
-            window.toolbar = NSToolbar(identifier: "SettingsWindow")
-            window.toolbarStyle = .unified
+            let tabs = SettingsTabs()
+            let window = NSWindow(contentViewController: tabs)
+            window.styleMask = [.titled, .closable]
+            window.toolbarStyle = .preference
             window.isReleasedWhenClosed = false
             // The window is kept when closed, so its view never goes away: the permission buttons are kept current
             // from here, only while it is open.

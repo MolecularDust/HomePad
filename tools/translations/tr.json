@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "HomePad’den çıkın ve onu “⟦Applications⟧” klasöründen “⟦Trash⟧” konumuna sürükleyin.",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad kaldırıldı. Geri isterseniz “⟦Trash⟧” içinde duruyor.",
  "HomePad needs your password to finish uninstalling.": "HomePad’in kaldırmayı bitirmek için parolanıza ihtiyacı var.",
- "HomePad Settings": "HomePad Ayarları",
  "Name": "Ad",
  "Essentials": "Temel",
  "Add Apps to %@": "“%@” kategorisine uygulama ekle",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "Bu, kısayolu (⌥Boşluk) geri yükler, çift dokunmayı ve etkin köşeleri kapatır, satır başına 8 simge ile standart satır yüksekliği ve simge aralığını ayarlar, Çalışanlar bölümünü (küçültülmüş pencereler gizli) gösterir, menü çubuğu simgesini ve “⟦Dock⟧” öğesini yeniden gösterir ve oturum açılışında başlatmayı kapatır. Uygulamalarınız ve kategorileriniz korunur.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Windows Başlat menüsü gibi: panel, “⟦Dock⟧” içindeki HomePad simgesinin hemen yanında açılır; simgeye tıklasanız da kısayolu veya çift dokunmayı kullansanız da. Etkin köşeler yine kendi köşelerinde açar.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad henüz “⟦Dock⟧” içinde değil. Simgesini “⟦Applications⟧” klasöründen “⟦Dock⟧” içine sürükleyin; o zamana kadar panel ortada açılır.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. Bunu yukarıdaki izinlerden verin.",
  "Add App…": "Uygulama Ekle…",
  "Add File or Folder…": "Dosya veya Klasör Ekle…",
  "Re-import from ⟦Dock⟧…": "“⟦Dock⟧” öğesinden yeniden içe aktar…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "Pil: %%%lld, şarj oluyor",
  "Battery: %lld%%, plugged in": "Pil: %%%lld, prize takılı",
  "Battery: %lld%%": "Pil: %%%lld",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "Açılış",
+ "Panel": "Panel",
+ "These settings are for Taskbar mode.": "Bu ayarlar Görev çubuğu modu içindir.",
+ "Use Taskbar Mode": "Görev çubuğu modunu kullan",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. “İzinler” sekmesinden izin verin."
 }

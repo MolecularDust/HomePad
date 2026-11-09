@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "ออกจาก HomePad แล้วลากจาก “⟦Applications⟧” ไปที่ “⟦Trash⟧”",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "ถอนการติดตั้ง HomePad แล้ว อยู่ใน “⟦Trash⟧” เผื่อคุณต้องการนำกลับมา",
  "HomePad needs your password to finish uninstalling.": "HomePad ต้องใช้รหัสผ่านของคุณเพื่อถอนการติดตั้งให้เสร็จ",
- "HomePad Settings": "การตั้งค่า HomePad",
  "Name": "ชื่อ",
  "Essentials": "รายการหลัก",
  "Add Apps to %@": "เพิ่มแอปไปที่ “%@”",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "การทำเช่นนี้จะคืนค่าปุ่มลัด (⌥Space) ปิดการแตะสองครั้งและมุมร้อน ตั้งไอคอน 8 อันต่อแถวพร้อมความสูงของแถวและระยะห่างไอคอนมาตรฐาน แสดงส่วนกำลังทำงาน (ซ่อนหน้าต่างที่ย่อ) แสดงไอคอนแถบเมนูและ “⟦Dock⟧” อีกครั้ง และปิดการเปิดเมื่อเข้าสู่ระบบ แอปและหมวดหมู่ของคุณยังคงอยู่",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "เหมือนเมนู Start ของ Windows: แผงจะเปิดติดกับไอคอน HomePad ใน “⟦Dock⟧” ไม่ว่าคุณจะคลิกไอคอนนั้นหรือใช้ปุ่มลัดหรือการแตะสองครั้ง มุมร้อนยังคงเปิดที่มุมของมัน",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad ยังไม่อยู่ใน “⟦Dock⟧” ลากไอคอนของมันจาก “⟦Applications⟧” ไปที่ “⟦Dock⟧” จนกว่าจะถึงตอนนั้นแผงจะเปิดตรงกลาง",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในส่วนสิทธิ์ด้านบน",
  "Add App…": "เพิ่มแอป…",
  "Add File or Folder…": "เพิ่มไฟล์หรือโฟลเดอร์…",
  "Re-import from ⟦Dock⟧…": "นำเข้าจาก “⟦Dock⟧” อีกครั้ง…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "แบตเตอรี่: %lld%% กำลังชาร์จ",
  "Battery: %lld%%, plugged in": "แบตเตอรี่: %lld%% เสียบปลั๊กอยู่",
  "Battery: %lld%%": "แบตเตอรี่: %lld%%",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "การเปิด",
+ "Panel": "แผง",
+ "These settings are for Taskbar mode.": "การตั้งค่าเหล่านี้ใช้กับโหมดแถบงาน",
+ "Use Taskbar Mode": "ใช้โหมดแถบงาน",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”"
 }

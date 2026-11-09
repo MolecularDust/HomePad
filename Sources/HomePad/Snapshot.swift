@@ -2,23 +2,30 @@
 import AppKit
 import SwiftUI
 
-/// Debug builds only: `-HomePadSnapshotDir <folder>` draws HomePad's windows (Settings, the panel, the Setup Guide)
+/// Debug builds only: `-HomePadSnapshotDir <folder>` draws HomePad's windows (each Settings tab, the panel, the Setup Guide)
 /// into PNGs there and quits, to check layouts such as a translation or right-to-left without screen access.
 /// tools/snapshot.sh runs it.
 enum Snapshot {
     static func startIfAsked() {
         guard let dir = UserDefaults.standard.string(forKey: "HomePadSnapshotDir") else { return }
-        let steps: [(String, () -> Void)] = [
-            ("settings", { AppDelegate.shared?.openSettings() }),
+        var steps: [(String, () -> Void)] = [
             ("panel", { PanelController.shared.show() }),
             ("setup", { Onboarding.show() }),
-            // Settings at full height, to see the sections that scroll out of its window.
-            ("settingsfull", {
-                let window = NSWindow(contentRect: NSRect(x: 40, y: 0, width: 480, height: 3000), styleMask: [.titled], backing: .buffered, defer: false)
-                window.contentView = NSHostingView(rootView: SettingsView().localized())
-                window.orderFrontRegardless()
-            }),
         ]
+        // Each Settings tab as its window shows it, and at full height (for what scrolls out of the window).
+        for tab in SettingsTab.allCases {
+            steps.append(("settings-\(tab.rawValue)", {
+                AppDelegate.shared?.openSettings()
+                AppDelegate.shared?.settingsTabs?.select(tab)
+            }))
+            steps.append(("full-\(tab.rawValue)", {
+                let view = NSHostingView(rootView: tab.view.localized().fixedSize(horizontal: false, vertical: true))
+                let window = NSWindow(contentRect: NSRect(x: 40, y: 0, width: SettingsTabs.width, height: view.fittingSize.height),
+                                      styleMask: [.titled], backing: .buffered, defer: false)
+                window.contentView = view
+                window.orderFrontRegardless()
+            }))
+        }
         func run(_ i: Int) {
             guard i < steps.count else { NSApp.terminate(nil); return }
             NSApp.windows.forEach { if $0.isVisible { $0.orderOut(nil) } }

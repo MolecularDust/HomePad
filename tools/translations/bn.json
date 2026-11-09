@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "HomePad বন্ধ করুন এবং এটিকে “⟦Applications⟧” থেকে “⟦Trash⟧”-এ টেনে নিন।",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad আনইনস্টল হয়েছে। আবার চাইলে এটি “⟦Trash⟧”-এ আছে।",
  "HomePad needs your password to finish uninstalling.": "আনইনস্টল শেষ করতে HomePad-এর আপনার পাসওয়ার্ড দরকার।",
- "HomePad Settings": "HomePad সেটিংস",
  "Name": "নাম",
  "Essentials": "প্রয়োজনীয়",
  "Add Apps to %@": "“%@”-এ অ্যাপ যোগ করুন",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "এটি শর্টকাট (⌥Space) ফিরিয়ে আনে, ডাবল-ট্যাপ ও হট কর্নার বন্ধ করে, প্রতি সারিতে ৮টি আইকন এবং স্ট্যান্ডার্ড সারির উচ্চতা ও আইকনের ব্যবধান সেট করে, চলমান অংশ দেখায় (ছোট করা উইন্ডো লুকানো), মেনু বার আইকন ও “⟦Dock⟧” আবার দেখায় এবং লগইনে খোলা বন্ধ করে। আপনার অ্যাপ ও বিভাগ থেকে যায়।",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Windows-এর Start মেনুর মতো: “⟦Dock⟧”-এ HomePad-এর আইকনের ঠিক পাশেই প্যানেল খোলে, আপনি আইকনে ক্লিক করুন বা শর্টকাট বা ডাবল-ট্যাপ ব্যবহার করুন। হট কর্নার এখনো নিজেদের কোণে এটি খোলে।",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad এখনো “⟦Dock⟧”-এ নেই। এর আইকন “⟦Applications⟧” থেকে “⟦Dock⟧”-এ টেনে আনুন; ততক্ষণ প্যানেল মাঝখানে খোলে।",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। ওপরের অনুমতিগুলোতে এটি দিন।",
  "Add App…": "অ্যাপ যোগ করুন…",
  "Add File or Folder…": "ফাইল বা ফোল্ডার যোগ করুন…",
  "Re-import from ⟦Dock⟧…": "“⟦Dock⟧” থেকে আবার ইমপোর্ট করুন…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "ব্যাটারি: %lld%%, চার্জ হচ্ছে",
  "Battery: %lld%%, plugged in": "ব্যাটারি: %lld%%, প্লাগ ইন করা",
  "Battery: %lld%%": "ব্যাটারি: %lld%%",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "খোলা",
+ "Panel": "প্যানেল",
+ "These settings are for Taskbar mode.": "এই সেটিংস টাস্কবার মোডের জন্য।",
+ "Use Taskbar Mode": "টাস্কবার মোড ব্যবহার করুন",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। “অনুমতি” ট্যাবে এটি অনুমতি দিন।"
 }

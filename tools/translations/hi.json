@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "HomePad बंद करें और इसे “⟦Applications⟧” से “⟦Trash⟧” में ड्रैग करें।",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad अनइंस्टॉल हो गया। अगर आप इसे वापस चाहें तो यह “⟦Trash⟧” में है।",
  "HomePad needs your password to finish uninstalling.": "अनइंस्टॉल पूरा करने के लिए HomePad को आपका पासवर्ड चाहिए।",
- "HomePad Settings": "HomePad सेटिंग्ज़",
  "Name": "नाम",
  "Essentials": "ज़रूरी",
  "Add Apps to %@": "“%@” में ऐप्स जोड़ें",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "इससे शॉर्टकट (⌥Space) वापस आता है, डबल-टैप और हॉट कॉर्नर बंद होते हैं, प्रति पंक्ति 8 आइकॉन और मानक पंक्ति ऊँचाई व आइकॉन दूरी सेट होती है, चल रही ऐप्स सेक्शन (छोटी की गई विंडो छिपी) दिखता है, मेनू बार आइकॉन और “⟦Dock⟧” फिर से दिखते हैं और लॉगिन पर खोलना बंद होता है। आपकी ऐप्स और श्रेणियाँ बनी रहती हैं।",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Windows के Start मेनू की तरह: पैनल “⟦Dock⟧” में HomePad के आइकॉन के ठीक पास खुलता है, चाहे आप उस आइकॉन पर क्लिक करें या शॉर्टकट या डबल-टैप इस्तेमाल करें। हॉट कॉर्नर अब भी इसे अपने कोने में खोलते हैं।",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad अभी “⟦Dock⟧” में नहीं है। इसका आइकॉन “⟦Applications⟧” से “⟦Dock⟧” में ड्रैग करें; तब तक पैनल बीच में खुलता है।",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "आइकॉन ढूँढने के लिए “⟦Accessibility⟧” अनुमति चाहिए, इसलिए अभी पैनल बीच में खुलता है। इसे ऊपर की अनुमतियों में दें।",
  "Add App…": "ऐप जोड़ें…",
  "Add File or Folder…": "फ़ाइल या फ़ोल्डर जोड़ें…",
  "Re-import from ⟦Dock⟧…": "“⟦Dock⟧” से दोबारा इंपोर्ट करें…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "बैटरी: %lld%%, चार्ज हो रही है",
  "Battery: %lld%%, plugged in": "बैटरी: %lld%%, प्लग इन है",
  "Battery: %lld%%": "बैटरी: %lld%%",
- "Wi-Fi": "वाई-फ़ाई"
+ "Wi-Fi": "वाई-फ़ाई",
+ "Opening": "खोलना",
+ "Panel": "पैनल",
+ "These settings are for Taskbar mode.": "ये सेटिंग्स टास्कबार मोड के लिए हैं।",
+ "Use Taskbar Mode": "टास्कबार मोड इस्तेमाल करें",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "आइकॉन ढूँढने के लिए “⟦Accessibility⟧” अनुमति चाहिए, इसलिए अभी पैनल बीच में खुलता है। इसे “अनुमतियाँ” टैब में अनुमति दें।"
 }

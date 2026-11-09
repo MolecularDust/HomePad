@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "أنهِ HomePad واسحبه من ”⟦Applications⟧“ إلى ”⟦Trash⟧“.",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "تم إلغاء تثبيت HomePad. إنه في ”⟦Trash⟧“ إذا أردت استعادته.",
  "HomePad needs your password to finish uninstalling.": "يحتاج HomePad إلى كلمة السر لإكمال إلغاء التثبيت.",
- "HomePad Settings": "إعدادات HomePad",
  "Name": "الاسم",
  "Essentials": "الأساسيات",
  "Add Apps to %@": "إضافة تطبيقات إلى ”%@“",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "يستعيد هذا الاختصار (⌥مسافة)، ويوقف النقر المزدوج والزوايا النشطة، ويضبط ٨ أيقونات في كل صف مع ارتفاع الصف والمسافة القياسيين، ويُظهر قسم ”قيد التشغيل“ (مع إخفاء النوافذ المصغرة)، ويُظهر أيقونة شريط القائمة و”⟦Dock⟧“ مجددًا، ويوقف الفتح عند تسجيل الدخول. تبقى تطبيقاتك وفئاتك.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "مثل قائمة ابدأ في Windows: تُفتح اللوحة بجوار أيقونة HomePad في ”⟦Dock⟧“ مباشرة، سواء نقرت على الأيقونة أو استخدمت الاختصار أو النقر المزدوج. لا تزال الزوايا النشطة تفتحها في زاويتها.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad ليس في ”⟦Dock⟧“ بعد. اسحب أيقونته من ”⟦Applications⟧“ إلى ”⟦Dock⟧“؛ وحتى ذلك الحين تُفتح اللوحة في المنتصف.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في الأذونات أعلاه.",
  "Add App…": "إضافة تطبيق…",
  "Add File or Folder…": "إضافة ملف أو مجلد…",
  "Re-import from ⟦Dock⟧…": "إعادة الاستيراد من ”⟦Dock⟧“…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "البطارية: %lld٪، قيد الشحن",
  "Battery: %lld%%, plugged in": "البطارية: %lld٪، موصولة بالكهرباء",
  "Battery: %lld%%": "البطارية: %lld٪",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "الفتح",
+ "Panel": "اللوحة",
+ "These settings are for Taskbar mode.": "هذه الإعدادات خاصة بوضع شريط المهام.",
+ "Use Taskbar Mode": "استخدام وضع شريط المهام",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“."
 }

@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "Beende HomePad und ziehe es aus „⟦Applications⟧“ in „⟦Trash⟧“.",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad wurde deinstalliert. Es liegt in „⟦Trash⟧“, falls du es zurückhaben möchtest.",
  "HomePad needs your password to finish uninstalling.": "HomePad braucht dein Passwort, um die Deinstallation abzuschließen.",
- "HomePad Settings": "HomePad-Einstellungen",
  "Name": "Name",
  "Essentials": "Wichtigste",
  "Add Apps to %@": "Apps zu „%@“ hinzufügen",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "Das stellt das Tastenkürzel (⌥Leertaste) wieder her, schaltet Doppeltippen und aktive Ecken aus, setzt 8 Symbole pro Reihe sowie Standard-Zeilenhöhe und -Symbolabstand, zeigt den Bereich „Aktiv“ (ohne minimierte Fenster), zeigt das Menüleistensymbol und „⟦Dock⟧“ wieder und schaltet den Start bei Anmeldung aus. Deine Apps und Kategorien bleiben erhalten.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Wie das Windows-Startmenü: Das Feld öffnet sich direkt am HomePad-Symbol in „⟦Dock⟧“, ob du das Symbol anklickst oder Tastenkürzel oder Doppeltippen benutzt. Aktive Ecken öffnen es weiterhin in ihrer Ecke.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad ist noch nicht in „⟦Dock⟧“. Zieh sein Symbol aus „⟦Applications⟧“ in „⟦Dock⟧“; bis dahin öffnet sich das Feld in der Mitte.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie bei den Berechtigungen oben.",
  "Add App…": "App hinzufügen …",
  "Add File or Folder…": "Datei oder Ordner hinzufügen …",
  "Re-import from ⟦Dock⟧…": "Erneut aus „⟦Dock⟧“ importieren …",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "Batterie: %lld %%, lädt",
  "Battery: %lld%%, plugged in": "Batterie: %lld %%, angeschlossen",
  "Battery: %lld%%": "Batterie: %lld %%",
- "Wi-Fi": "WLAN"
+ "Wi-Fi": "WLAN",
+ "Opening": "Öffnen",
+ "Panel": "Feld",
+ "These settings are for Taskbar mode.": "Diese Einstellungen gelten im Taskleisten-Modus.",
+ "Use Taskbar Mode": "Taskleisten-Modus verwenden",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie im Tab „Berechtigungen“."
 }

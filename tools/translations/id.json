@@ -13,7 +13,6 @@
  "Quit HomePad and drag it from ⟦Applications⟧ to the ⟦Trash⟧.": "Keluar dari HomePad dan seret dari “⟦Applications⟧” ke “⟦Trash⟧”.",
  "HomePad has been uninstalled. It is in the ⟦Trash⟧, in case you want it back.": "HomePad telah dicopot. HomePad ada di “⟦Trash⟧” jika Anda ingin mengembalikannya.",
  "HomePad needs your password to finish uninstalling.": "HomePad memerlukan kata sandi Anda untuk menyelesaikan pencopotan.",
- "HomePad Settings": "Pengaturan HomePad",
  "Name": "Nama",
  "Essentials": "Utama",
  "Add Apps to %@": "Tambahkan App ke “%@”",
@@ -186,7 +185,6 @@
  "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.": "Ini mengembalikan pintasan (⌥Spasi), mematikan ketuk dua kali dan sudut aktif, mengatur 8 ikon per baris serta tinggi baris dan jarak ikon standar, menampilkan bagian Berjalan (jendela yang dikecilkan disembunyikan), menampilkan ikon bar menu dan “⟦Dock⟧” lagi, serta mematikan buka saat masuk. App dan kategori Anda tetap disimpan.",
  "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.": "Seperti menu Start Windows: panel terbuka tepat di samping ikon HomePad di “⟦Dock⟧”, baik Anda mengeklik ikon itu maupun memakai pintasan atau ketuk dua kali. Sudut aktif tetap membukanya di sudutnya.",
  "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.": "HomePad belum ada di “⟦Dock⟧”. Seret ikonnya dari “⟦Applications⟧” ke “⟦Dock⟧”; sampai saat itu panel terbuka di tengah.",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.": "Menemukan ikon memerlukan izin “⟦Accessibility⟧”, jadi untuk sementara panel terbuka di tengah. Izinkan di izin di atas.",
  "Add App…": "Tambah App…",
  "Add File or Folder…": "Tambah File atau Folder…",
  "Re-import from ⟦Dock⟧…": "Impor Ulang dari “⟦Dock⟧”…",
@@ -296,5 +294,10 @@
  "Battery: %lld%%, charging": "Baterai: %lld%%, mengisi daya",
  "Battery: %lld%%, plugged in": "Baterai: %lld%%, tersambung",
  "Battery: %lld%%": "Baterai: %lld%%",
- "Wi-Fi": "Wi-Fi"
+ "Wi-Fi": "Wi-Fi",
+ "Opening": "Membuka",
+ "Panel": "Panel",
+ "These settings are for Taskbar mode.": "Pengaturan ini untuk mode Bilah tugas.",
+ "Use Taskbar Mode": "Gunakan Mode Bilah Tugas",
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Menemukan ikon memerlukan izin “⟦Accessibility⟧”, jadi untuk sementara panel terbuka di tengah. Izinkan di tab “Izin”."
 }
