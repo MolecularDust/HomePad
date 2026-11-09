@@ -36,6 +36,7 @@ final class Taskbar {
     func hide() {
         panel?.orderOut(nil)
         WindowFitter.shared.stop()
+        TaskbarLabel.shared.hover(nil, over: nil)
         WindowPreviewController.shared.hideNow()
     }
 
@@ -247,19 +248,108 @@ private struct TaskbarDropDelegate: DropDelegate {
 
 /// HomePad's own icon at the start of the taskbar: opens and closes the panel, like the Windows Start button.
 private struct StartButton: View {
+    @ObservedObject private var drag = TaskbarDrag.shared
     @State private var hovering = false
+    @State private var frame = CGRect.zero
 
     var body: some View {
         Image(nsImage: NSApp.applicationIconImage)
             .resizable()
             .interpolation(.high)
             .frame(width: 30, height: 30)
-            .frame(width: 44, height: 40)
-            .background(RoundedRectangle(cornerRadius: 6).fill(hovering ? Color.primary.opacity(0.10) : .clear))
+            .frame(width: 44, height: 44)
+            .background(TaskbarHighlight(on: hovering && drag.item == nil, strong: false))
+            .background(FrameReader(frame: $frame))
             .contentShape(Rectangle())
-            .onHover { hovering = $0 }
-            .onTapGesture { PanelController.shared.toggle() }
-            .help(L("Start"))
+            .onHover { inside in
+                hovering = inside
+                TaskbarLabel.shared.hover(inside ? L("Start") : nil, over: Taskbar.shared.screenRect(frame))
+            }
+            .onTapGesture {
+                TaskbarLabel.shared.hover(nil, over: nil)
+                PanelController.shared.toggle()
+            }
+    }
+}
+
+/// The pale rounded square behind an icon that is pointed at or in front, as on Windows 11.
+private struct TaskbarHighlight: View {
+    let on: Bool
+    /// The app in front: a little brighter than pointing.
+    let strong: Bool
+    @Environment(\.colorScheme) private var scheme
+
+    var body: some View {
+        let dark = scheme == .dark
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.white.opacity(on ? (dark ? (strong ? 0.10 : 0.07) : (strong ? 0.75 : 0.55)) : 0))
+            .overlay(RoundedRectangle(cornerRadius: 6)
+                .strokeBorder(Color.primary.opacity(on ? (dark ? 0.06 : 0.05) : 0), lineWidth: 0.5))
+    }
+}
+
+/// A view's frame in the taskbar (for placing labels and window previews above it).
+private struct FrameReader: View {
+    @Binding var frame: CGRect
+    var body: some View {
+        GeometryReader { geo in
+            Color.clear.onAppear { frame = geo.frame(in: .global) }.onChange(of: geo.frame(in: .global)) { frame = $0 }
+        }
+    }
+}
+
+/// The name above a taskbar icon you point at, for the Start button and items without a window preview (a pinned app
+/// that isn't running, a file, a folder). Tooltips of its own: macOS shows a window's tooltips only while its app is
+/// in front, and the taskbar never makes HomePad the app in front.
+final class TaskbarLabel {
+    static let shared = TaskbarLabel()
+    private var panel: NSPanel?
+    private var pending: DispatchWorkItem?
+
+    /// `text` nil: the pointer left. The label appears after a short rest, as tooltips do.
+    func hover(_ text: String?, over rect: NSRect?) {
+        pending?.cancel()
+        guard let text, let rect, TaskbarDrag.shared.item == nil else { panel?.orderOut(nil); return }
+        let work = DispatchWorkItem { [weak self] in self?.show(text, over: rect) }
+        pending = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45, execute: work)
+    }
+
+    private func show(_ text: String, over rect: NSRect) {
+        let host = NSHostingView(rootView: TaskbarLabelView(text: text).localized())
+        let size = host.fittingSize
+        let panel = self.panel ?? {
+            let p = NSPanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+            p.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.dockWindow)) + 2)
+            p.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
+            p.isOpaque = false
+            p.backgroundColor = .clear
+            p.hasShadow = false
+            p.ignoresMouseEvents = true
+            self.panel = p
+            return p
+        }()
+        panel.contentView = host
+        var origin = NSPoint(x: rect.midX - size.width / 2, y: rect.maxY + 10)
+        if let screen = NSScreen.screens.first {
+            origin.x = min(max(origin.x, screen.frame.minX + 4), screen.frame.maxX - size.width - 4)
+        }
+        panel.setFrame(NSRect(origin: origin, size: size), display: true)
+        panel.orderFrontRegardless()
+    }
+}
+
+private struct TaskbarLabelView: View {
+    let text: String
+    var body: some View {
+        Text(text)
+            .font(.system(size: 13))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(RoundedRectangle(cornerRadius: 6).fill(Color(nsColor: .windowBackgroundColor)))
+            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color.primary.opacity(0.12), lineWidth: 0.5))
+            .shadow(color: .black.opacity(0.15), radius: 4, y: 1)
+            .padding(8)             // room for the shadow
     }
 }
 
@@ -288,15 +378,16 @@ private struct TaskbarIcon: View {
                 .animation(.easeOut(duration: 0.15), value: active)
         }
         .frame(width: 44, height: 44)
-        .background(RoundedRectangle(cornerRadius: 6).fill(hovering || active ? Color.primary.opacity(active ? 0.08 : 0.10) : .clear))
-        .opacity(drag.item == url ? 0.4 : 1)
-        .background(GeometryReader { geo in
-            Color.clear.onAppear { frame = geo.frame(in: .global) }.onChange(of: geo.frame(in: .global)) { frame = $0 }
-        })
+        // Nothing behind the icons while one is dragged, and the dragged one's place stays empty, as on Windows.
+        .background(TaskbarHighlight(on: drag.item == nil && (hovering || active), strong: active))
+        .opacity(drag.item == url ? 0 : 1)
+        .background(FrameReader(frame: $frame))
         .contentShape(Rectangle())
         .onHover { inside in
             hovering = inside
             guard drag.item == nil else { return }
+            // A running app shows its windows instead.
+            TaskbarLabel.shared.hover(inside && app == nil ? IconCache.name(for: url) : nil, over: Taskbar.shared.screenRect(frame))
             if inside, let app {                 // so its menu is current by the time it's right-clicked
                 ClosableWindows.shared.refresh()
                 AppMenus.shared.refresh(app)
@@ -306,6 +397,7 @@ private struct TaskbarIcon: View {
         }
         .onTapGesture {
             WindowPreviewController.shared.hideNow()
+            TaskbarLabel.shared.hover(nil, over: nil)
             if let app, app.isActive {
                 Launcher.hide(url)
             } else {
@@ -313,12 +405,15 @@ private struct TaskbarIcon: View {
                 Launcher.open(url)
             }
         }
-        .onDrag {
+        .onDrag({
+            TaskbarLabel.shared.hover(nil, over: nil)
             TaskbarDrag.shared.begin(url)
             return RunningDrag.provider(for: url)
-        }
+        }, preview: {
+            // Just the icon in the air, without the square behind it.
+            Image(nsImage: IconCache.icon(for: url)).resizable().interpolation(.high).frame(width: 30, height: 30)
+        })
         .onDrop(of: [RunningDrag.type], delegate: TaskbarDropDelegate(target: url))
-        .help(IconCache.name(for: url))
         .contextMenu { AppTileMenu(url: url, isRunning: app != nil, onTaskbar: true) }
     }
 }
