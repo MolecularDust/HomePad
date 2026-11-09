@@ -115,7 +115,9 @@ any time from the menu-bar icon → Setup Guide…
     then what you pinned to it and the running apps, centred. The running apps then leave the panel. Pin apps, files
     and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
     (**Pin to Taskbar**; in HomePad's panel too). The taskbar's pins are a list of their own, apart from HomePad's
-    categories. Drag icons along the taskbar to reorder them. Click an item to open it or bring it forward (or hide
+    categories. Drag icons along the taskbar to reorder them. **App icons** go in the **Center** or on the **Left**; while they're centred,
+    **HomePad icon** can be centred with them or on the left (with the app icons on the left it's always there, so
+    the choice is grayed out). Left is the right in Arabic and Persian, mirrored as on Windows. Click an item to open it or bring it forward (or hide
     it if it's already in front); point at a running app for its windows; right-click for its menu. Settings → Mode → **Running apps** (collapsed at first)
     lists every running app with a **Show in taskbar** switch; an app switched off stays off the taskbar while it runs
     (also **Hide from Taskbar** in its menu). Pinned items are always shown. Hiding an app (Cmd-H) doesn't change the

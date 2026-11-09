@@ -162,6 +162,10 @@
 "Taskbar" = "Thanh tác vụ";
 "Open HomePad only from the Start button" = "Chỉ mở HomePad từ nút Bắt đầu";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Khi tắt, phím tắt, chạm hai lần và góc nóng cũng mở nó: phía trên thanh tác vụ, còn góc nóng thì ở góc của nó. Biểu tượng trên thanh menu luôn mở được.";
+"App icons" = "Biểu tượng ứng dụng";
+"Center" = "Giữa";
+"Left" = "Trái";
+"HomePad icon" = "Biểu tượng HomePad";
 "Shortcut" = "Phím tắt";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Chưa đặt phím tắt. Hãy mở HomePad từ biểu tượng trên thanh menu, hoặc chọn một phím chạm hai lần bên dưới.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Để dùng ⌘Phím cách, trước tiên hãy tắt phím tắt của “⟦Spotlight⟧” trong “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";

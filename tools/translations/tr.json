@@ -275,5 +275,9 @@
  "Show in taskbar": "Görev çubuğunda göster",
  "Pinned": "Sabitlendi",
  "Running apps": "Çalışan uygulamalar",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Bu sırada “⟦Dock⟧” gizlenir ve görev çubuğunun altına uzanan pencereler üstüne sığacak şekilde kısaltılır (“⟦Accessibility⟧” gerekir)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Bu sırada “⟦Dock⟧” gizlenir ve görev çubuğunun altına uzanan pencereler üstüne sığacak şekilde kısaltılır (“⟦Accessibility⟧” gerekir).",
+ "App icons": "Uygulama simgeleri",
+ "Center": "Orta",
+ "Left": "Sol",
+ "HomePad icon": "HomePad simgesi"
 }

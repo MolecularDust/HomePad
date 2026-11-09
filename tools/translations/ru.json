@@ -275,5 +275,9 @@
  "Show in taskbar": "Показывать на панели задач",
  "Pinned": "Закреплено",
  "Running apps": "Запущенные приложения",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. «⟦Dock⟧» на это время скрыт, а окна, заходящие под панель задач, укорачиваются, чтобы поместиться над ней (нужно разрешение «⟦Accessibility⟧»)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. «⟦Dock⟧» на это время скрыт, а окна, заходящие под панель задач, укорачиваются, чтобы поместиться над ней (нужно разрешение «⟦Accessibility⟧»).",
+ "App icons": "Значки приложений",
+ "Center": "По центру",
+ "Left": "Слева",
+ "HomePad icon": "Значок HomePad"
 }

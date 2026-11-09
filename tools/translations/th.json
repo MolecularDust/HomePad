@@ -275,5 +275,9 @@
  "Show in taskbar": "แสดงบนแถบงาน",
  "Pinned": "ปักหมุดแล้ว",
  "Running apps": "แอปที่กำลังทำงาน",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ยื่นลงไปใต้แถบงานจะถูกทำให้สั้นลงเพื่อให้พอดีเหนือแถบงาน (ต้องใช้ “⟦Accessibility⟧”)"
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ยื่นลงไปใต้แถบงานจะถูกทำให้สั้นลงเพื่อให้พอดีเหนือแถบงาน (ต้องใช้ “⟦Accessibility⟧”)",
+ "App icons": "ไอคอนแอป",
+ "Center": "กึ่งกลาง",
+ "Left": "ซ้าย",
+ "HomePad icon": "ไอคอน HomePad"
 }

@@ -275,5 +275,9 @@
  "Show in taskbar": "إظهار على شريط المهام",
  "Pinned": "مثبّت",
  "Running apps": "التطبيقات قيد التشغيل",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتُقصَّر النوافذ التي تمتد تحت شريط المهام لتتسع فوقه (يتطلب ”⟦Accessibility⟧“)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتُقصَّر النوافذ التي تمتد تحت شريط المهام لتتسع فوقه (يتطلب ”⟦Accessibility⟧“).",
+ "App icons": "أيقونات التطبيقات",
+ "Center": "الوسط",
+ "Left": "اليمين",
+ "HomePad icon": "أيقونة HomePad"
 }

@@ -162,6 +162,10 @@
 "Taskbar" = "Bilah tugas";
 "Open HomePad only from the Start button" = "Buka HomePad hanya dari tombol Mulai";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Jika mati, pintasan, ketuk dua kali, dan sudut aktif juga membukanya: di atas bilah tugas, dan sudut aktif di sudutnya. Ikon bar menu selalu membukanya.";
+"App icons" = "Ikon app";
+"Center" = "Tengah";
+"Left" = "Kiri";
+"HomePad icon" = "Ikon HomePad";
 "Shortcut" = "Pintasan";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Belum ada pintasan. Buka HomePad dari ikon bar menu, atau pilih tombol ketuk dua kali di bawah.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Untuk memakai ⌘Spasi, matikan dulu pintasan “⟦Spotlight⟧” di “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";

@@ -275,5 +275,9 @@
  "Show in taskbar": "Ipakita sa taskbar",
  "Pinned": "Naka-pin",
  "Running apps": "Mga tumatakbong app",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nakatago ang “⟦Dock⟧” habang ganito, at pinaiikli ang mga window na umaabot sa ilalim ng taskbar para magkasya sa itaas nito (kailangan ng “⟦Accessibility⟧”)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nakatago ang “⟦Dock⟧” habang ganito, at pinaiikli ang mga window na umaabot sa ilalim ng taskbar para magkasya sa itaas nito (kailangan ng “⟦Accessibility⟧”).",
+ "App icons": "Mga icon ng app",
+ "Center": "Gitna",
+ "Left": "Kaliwa",
+ "HomePad icon": "Icon ng HomePad"
 }

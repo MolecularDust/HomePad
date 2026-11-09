@@ -275,5 +275,9 @@
  "Show in taskbar": "Tampilkan di bilah tugas",
  "Pinned": "Disematkan",
  "Running apps": "App yang berjalan",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Selama itu “⟦Dock⟧” disembunyikan, dan jendela yang menjangkau ke bawah bilah tugas dipendekkan agar muat di atasnya (memerlukan “⟦Accessibility⟧”)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Selama itu “⟦Dock⟧” disembunyikan, dan jendela yang menjangkau ke bawah bilah tugas dipendekkan agar muat di atasnya (memerlukan “⟦Accessibility⟧”).",
+ "App icons": "Ikon app",
+ "Center": "Tengah",
+ "Left": "Kiri",
+ "HomePad icon": "Ikon HomePad"
 }

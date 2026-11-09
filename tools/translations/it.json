@@ -275,5 +275,9 @@
  "Show in taskbar": "Mostra nella barra delle applicazioni",
  "Pinned": "Aggiunta",
  "Running apps": "App aperte",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Come in Windows: una barra delle applicazioni in fondo allo schermo con un pulsante Start e le app aperte, che lasciano il pannello di HomePad. “⟦Dock⟧” resta nascosto nel frattempo, e le finestre che arrivano sotto la barra vengono accorciate per stare sopra (richiede “⟦Accessibility⟧”)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Come in Windows: una barra delle applicazioni in fondo allo schermo con un pulsante Start e le app aperte, che lasciano il pannello di HomePad. “⟦Dock⟧” resta nascosto nel frattempo, e le finestre che arrivano sotto la barra vengono accorciate per stare sopra (richiede “⟦Accessibility⟧”).",
+ "App icons": "Icone delle app",
+ "Center": "Centro",
+ "Left": "Sinistra",
+ "HomePad icon": "Icona di HomePad"
 }

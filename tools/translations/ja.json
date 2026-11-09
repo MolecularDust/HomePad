@@ -275,5 +275,9 @@
  "Show in taskbar": "タスクバーに表示",
  "Pinned": "ピン留め済み",
  "Running apps": "実行中のアプリ",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。その間“⟦Dock⟧”は隠され、タスクバーの下まで届くウインドウはその上に収まるよう短くされます（“⟦Accessibility⟧”が必要）。"
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。その間“⟦Dock⟧”は隠され、タスクバーの下まで届くウインドウはその上に収まるよう短くされます（“⟦Accessibility⟧”が必要）。",
+ "App icons": "アプリのアイコン",
+ "Center": "中央",
+ "Left": "左",
+ "HomePad icon": "HomePadのアイコン"
 }

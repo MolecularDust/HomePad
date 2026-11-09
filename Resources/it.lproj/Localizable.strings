@@ -162,6 +162,10 @@
 "Taskbar" = "Barra delle applicazioni";
 "Open HomePad only from the Start button" = "Apri HomePad solo dal pulsante Start";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Se disattivato, lo aprono anche l’abbreviazione, il doppio tocco e gli angoli attivi: sopra la barra delle applicazioni, e gli angoli attivi nel loro angolo. L’icona nella barra dei menu lo apre sempre.";
+"App icons" = "Icone delle app";
+"Center" = "Centro";
+"Left" = "Sinistra";
+"HomePad icon" = "Icona di HomePad";
 "Shortcut" = "Abbreviazione";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Nessuna abbreviazione impostata. Apri HomePad dall’icona nella barra dei menu, oppure scegli qui sotto un tasto da toccare due volte.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Per usare ⌘Spazio, disattiva prima l’abbreviazione di “⟦Spotlight⟧” in “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";

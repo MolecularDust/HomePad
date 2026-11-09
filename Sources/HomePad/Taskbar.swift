@@ -99,12 +99,29 @@ struct TaskbarView: View {
     @ObservedObject private var pins = TaskbarPins.shared
     @ObservedObject private var order = RunningOrder.taskbar
     @ObservedObject private var shown = TaskbarShown.shared
+    @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
+    @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
+
+    private var icons: some View {
+        ForEach(Taskbar.items(), id: \.self) { url in TaskbarIcon(url: url) }
+    }
 
     var body: some View {
-        HStack(spacing: 2) {
-            StartButton()
-            ForEach(Taskbar.items(), id: \.self) { url in
-                TaskbarIcon(url: url)
+        // "Left" is the leading side: the right in Arabic and Persian, as Windows mirrors it.
+        Group {
+            if iconsAlignment == .left {
+                HStack(spacing: 2) { StartButton(); icons }
+                    .padding(.leading, 8)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else if startAlignment == .left {
+                ZStack {
+                    StartButton()
+                        .padding(.leading, 8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(spacing: 2) { icons }
+                }
+            } else {
+                HStack(spacing: 2) { StartButton(); icons }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -115,6 +132,12 @@ struct TaskbarView: View {
 }
 
 extension Taskbar {
+    /// Settings → Mode → Taskbar: where the app icons go, and where HomePad's icon goes while they're centred (with
+    /// the app icons on the left, it's always on the left, before them).
+    enum Alignment: String { case center, left }
+    static let iconsAlignmentKey = "taskbarIconsAlignment"
+    static let startAlignmentKey = "taskbarStartAlignment"
+
     /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
     /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
     static func items() -> [URL] {

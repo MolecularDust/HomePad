@@ -275,5 +275,9 @@
  "Show in taskbar": "نمایش در نوار وظیفه",
  "Pinned": "سنجاق‌شده",
  "Running apps": "برنامه‌های در حال اجرا",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. در این مدت «⟦Dock⟧» پنهان است و پنجره‌هایی که تا زیر نوار وظیفه می‌رسند کوتاه‌تر می‌شوند تا بالای آن جا شوند (به «⟦Accessibility⟧» نیاز دارد)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. در این مدت «⟦Dock⟧» پنهان است و پنجره‌هایی که تا زیر نوار وظیفه می‌رسند کوتاه‌تر می‌شوند تا بالای آن جا شوند (به «⟦Accessibility⟧» نیاز دارد).",
+ "App icons": "نمادهای برنامه‌ها",
+ "Center": "وسط",
+ "Left": "راست",
+ "HomePad icon": "نماد HomePad"
 }

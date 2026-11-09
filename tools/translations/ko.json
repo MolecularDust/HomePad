@@ -275,5 +275,9 @@
  "Show in taskbar": "작업 표시줄에 표시",
  "Pinned": "고정됨",
  "Running apps": "실행 중인 앱",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 그동안 ‘⟦Dock⟧’은(는) 가려지고, 작업 표시줄 아래로 내려가는 윈도우는 그 위에 맞게 줄어듭니다(‘⟦Accessibility⟧’ 필요)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 그동안 ‘⟦Dock⟧’은(는) 가려지고, 작업 표시줄 아래로 내려가는 윈도우는 그 위에 맞게 줄어듭니다(‘⟦Accessibility⟧’ 필요).",
+ "App icons": "앱 아이콘",
+ "Center": "가운데",
+ "Left": "왼쪽",
+ "HomePad icon": "HomePad 아이콘"
 }

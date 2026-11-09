@@ -162,6 +162,10 @@
 "Taskbar" = "Taskleiste";
 "Open HomePad only from the Start button" = "HomePad nur über die Start-Taste öffnen";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.";
+"App icons" = "App-Symbole";
+"Center" = "Mitte";
+"Left" = "Links";
+"HomePad icon" = "HomePad-Symbol";
 "Shortcut" = "Tastenkürzel";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Kein Tastenkürzel festgelegt. Öffne HomePad über das Symbol in der Menüleiste oder wähle unten eine Taste zum Doppeltippen.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Um ⌘Leertaste zu verwenden, schalte zuerst das Kürzel von „⟦Spotlight⟧“ aus: „⟦System Settings⟧“ → „⟦Keyboard⟧“ → „⟦Keyboard Shortcuts⟧“ → „⟦Spotlight⟧“.";

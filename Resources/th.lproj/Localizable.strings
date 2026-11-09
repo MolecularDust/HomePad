@@ -162,6 +162,10 @@
 "Taskbar" = "แถบงาน";
 "Open HomePad only from the Start button" = "เปิด HomePad จากปุ่มเริ่มเท่านั้น";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ";
+"App icons" = "ไอคอนแอป";
+"Center" = "กึ่งกลาง";
+"Left" = "ซ้าย";
+"HomePad icon" = "ไอคอน HomePad";
 "Shortcut" = "ปุ่มลัด";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "ยังไม่ได้ตั้งปุ่มลัด เปิด HomePad จากไอคอนในแถบเมนู หรือเลือกปุ่มแตะสองครั้งด้านล่าง";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "หากต้องการใช้ ⌘Space ให้ปิดปุ่มลัดของ “⟦Spotlight⟧” ก่อนที่ “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”";

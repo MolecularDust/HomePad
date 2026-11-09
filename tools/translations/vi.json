@@ -275,5 +275,9 @@
  "Show in taskbar": "Hiện trên thanh tác vụ",
  "Pinned": "Đã ghim",
  "Running apps": "Ứng dụng đang chạy",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ tràn xuống dưới thanh tác vụ được thu ngắn để vừa phía trên nó (cần “⟦Accessibility⟧”)."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ tràn xuống dưới thanh tác vụ được thu ngắn để vừa phía trên nó (cần “⟦Accessibility⟧”).",
+ "App icons": "Biểu tượng ứng dụng",
+ "Center": "Giữa",
+ "Left": "Trái",
+ "HomePad icon": "Biểu tượng HomePad"
 }

@@ -17,6 +17,8 @@ struct SettingsView: View {
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
+    @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
+    @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
     /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
     @State private var dockIconProblem = DockIcon.problem
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -49,6 +51,19 @@ struct SettingsView: View {
                     Text(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
                         .font(.caption).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
+                    Picker("App icons", selection: $iconsAlignment) {
+                        Text("Center").tag(Taskbar.Alignment.center)
+                        Text("Left").tag(Taskbar.Alignment.left)
+                    }
+                    .pickerStyle(.segmented).fixedSize()
+                    // With the app icons on the left, HomePad's icon is on the left too, before them.
+                    Picker("HomePad icon", selection: Binding(get: { iconsAlignment == .left ? .left : startAlignment },
+                                                             set: { startAlignment = $0 })) {
+                        Text("Center").tag(Taskbar.Alignment.center)
+                        Text("Left").tag(Taskbar.Alignment.left)
+                    }
+                    .pickerStyle(.segmented).fixedSize()
+                    .disabled(iconsAlignment == .left)
                     TaskbarAppsList()
                 }
             }
@@ -232,6 +247,8 @@ struct SettingsView: View {
         hideMinimised = true
         showMenuBarIcon = true
         startButtonOnly = false
+        iconsAlignment = .center
+        startAlignment = .center
         HomePadMode.choose(.standalone, adjustingDock: false)
         dockHidden = false
         DockControl.setHidden(false)

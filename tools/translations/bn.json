@@ -275,5 +275,9 @@
  "Show in taskbar": "টাস্কবারে দেখান",
  "Pinned": "পিন করা",
  "Running apps": "চলমান অ্যাপ",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। এ সময় “⟦Dock⟧” লুকানো থাকে, আর টাস্কবারের নিচে পৌঁছানো উইন্ডো ছোট করা হয় যাতে এর ওপরে আঁটে (“⟦Accessibility⟧” লাগে)।"
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। এ সময় “⟦Dock⟧” লুকানো থাকে, আর টাস্কবারের নিচে পৌঁছানো উইন্ডো ছোট করা হয় যাতে এর ওপরে আঁটে (“⟦Accessibility⟧” লাগে)।",
+ "App icons": "অ্যাপ আইকন",
+ "Center": "মাঝে",
+ "Left": "বাঁয়ে",
+ "HomePad icon": "HomePad আইকন"
 }
