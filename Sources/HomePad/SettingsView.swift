@@ -28,12 +28,7 @@ struct SettingsView: View {
         Form {
             Section("Mode") {
                 Picker("Mode", selection: Binding(get: { HomePadMode(rawValue: mode) ?? .standalone }, set: { new in
-                    HomePadMode.choose(new)
-                    // The Dock changes in the background (it restarts): read it again once it has.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        dockHidden = DockControl.isHidden
-                        dockIconProblem = DockIcon.problem
-                    }
+                    HomePadMode.choose(new)     // the Dock changes in the background; read again on DockControl.changed
                 })) {
                     Text("Standalone").tag(HomePadMode.standalone)
                     Text(L("HomePad + ⟦Dock⟧")).tag(HomePadMode.dock)
@@ -198,7 +193,11 @@ struct SettingsView: View {
         .frame(width: 480)
         .onAppear { dockIconProblem = DockIcon.problem }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in dockIconProblem = DockIcon.problem }
-        .onChange(of: dockHidden) { _ in DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { dockIconProblem = DockIcon.problem } }
+        .onReceive(NotificationCenter.default.publisher(for: DockControl.changed)) { _ in
+            dockHidden = DockControl.isHidden
+            // The restarted Dock takes a moment to list its icons again.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { dockIconProblem = DockIcon.problem }
+        }
     }
 
     private func permissionRow(_ title: String, pane: String, granted: Bool, detail: String, request: @escaping () -> Void) -> some View {
@@ -232,8 +231,9 @@ struct SettingsView: View {
         hideMinimised = true
         showMenuBarIcon = true
         startButtonOnly = false
-        HomePadMode.choose(.standalone)
-        if dockHidden { dockHidden = false; DockControl.setHidden(false) }
+        HomePadMode.choose(.standalone, adjustingDock: false)
+        dockHidden = false
+        DockControl.setHidden(false)
         if launchAtLogin { launchAtLogin = false }
     }
 

@@ -104,8 +104,9 @@ any time from the menu-bar icon → Setup Guide…
   too narrow for the gap, the gap shrinks first, then the icons): type a number or click − / +, **show running apps**, **re-import from Dock**.
 - **Mode** (top of Settings):
   - **Standalone** (default): the floating panel, opened by the shortcut, double-tap, hot corners or the menu-bar icon.
-  - **HomePad + Dock**: a Windows Start-menu workflow with the Dock as the taskbar. Choosing it shows the Dock if it
-    was hidden and adds HomePad to it if it isn't there (the Dock restarts once); the Dock stays wherever you put it.
+    Switching to it hides the Dock; **Hide the Dock** below brings it back.
+  - **HomePad + Dock**: a Windows Start-menu workflow with the Dock as the taskbar. Choosing it always shows the Dock (it
+    turns off auto-hide, HomePad's or System Settings') and adds HomePad to it if it isn't there (the Dock restarts once); the Dock stays wherever you put it.
     The panel opens right by HomePad's icon (above it for a bottom Dock, beside it for a side Dock, kept on screen)
     whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot corners still
     open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock, the Dock is
@@ -113,8 +114,7 @@ any time from the menu-bar icon → Setup Guide…
   - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon) and
     the running apps, centred, in the Running section's order. The running apps then leave the panel. Click an app to
     bring it forward (or hide it if it's already in front); point at it for its windows; right-click for its menu. The
-    panel opens centred above the taskbar. The Dock is hidden meanwhile and comes back when you go back to Standalone
-    (unless you had hidden it yourself). macOS doesn't let an app reserve screen space, so maximized windows reach
+    panel opens centred above the taskbar. The Dock is hidden meanwhile. macOS doesn't let an app reserve screen space, so maximized windows reach
     under the taskbar. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
     (the menu-bar icon still works).
 - **Hide the Dock** (Standalone only): turns on Dock auto-hide with a 1000-second delay so it never appears.

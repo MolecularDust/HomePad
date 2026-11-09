@@ -754,17 +754,43 @@ enum FileDrop {
 
 enum DockControl {
     /// True if the Dock is auto-hidden with a very long reveal delay (i.e. effectively never shows).
-    static var isHidden: Bool {
+    static var isHidden: Bool { autoHides && revealDelay >= 100 }
+
+    /// Auto-hide as the Dock has it now. HomePad switches it on live (see `apply`), and the Dock doesn't always write
+    /// that back to its preferences, so the Dock itself is asked first.
+    static var autoHides: Bool {
+        if let getAutoHide { return getAutoHide() }
         let domain = "com.apple.dock" as CFString
         CFPreferencesAppSynchronize(domain)
-        let autohide = CFPreferencesCopyAppValue("autohide" as CFString, domain) as? Bool ?? false
-        let delay = CFPreferencesCopyAppValue("autohide-delay" as CFString, domain) as? Double ?? 0
-        return autohide && delay >= 100
+        return CFPreferencesCopyAppValue("autohide" as CFString, domain) as? Bool ?? false
     }
 
-    /// Runs `defaults` and restarts the Dock in the background: waiting for them froze Settings.
+    private static var revealDelay: Double {
+        let domain = "com.apple.dock" as CFString
+        CFPreferencesAppSynchronize(domain)
+        return CFPreferencesCopyAppValue("autohide-delay" as CFString, domain) as? Double ?? 0
+    }
+
+    /// Posted on the main thread when a change to the Dock is done (Settings reads it again then).
+    static let changed = Notification.Name("HomePadDockChanged")
+
+    /// One change at a time, in the order asked: switching modes quickly mustn't let a hide and a show cross.
+    private static let queue = DispatchQueue(label: "local.mike.HomePad.dock", qos: .userInitiated)
+
+    private static func inBackground(_ work: @escaping () -> Void) {
+        queue.async {
+            work()
+            DispatchQueue.main.async { NotificationCenter.default.post(name: changed, object: nil) }
+        }
+    }
+
+    /// Runs `defaults` and restarts the Dock in the background: waiting for them froze Settings. Nothing happens when
+    /// the Dock is already that way.
     static func setHidden(_ hidden: Bool) {
-        DispatchQueue.global(qos: .userInitiated).async { apply(hidden) }
+        inBackground {
+            if hidden ? isHidden : (!autoHides && revealDelay == 0) { return }
+            apply(hidden)
+        }
     }
 
     /// Brings the Dock back and waits until that's done (for uninstalling, just before HomePad quits).
@@ -779,6 +805,7 @@ enum DockControl {
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide-delay", "-float", "1000")
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
         } else {
+            setAutoHide?(false)         // live too, or the Dock may write auto-hide back as it quits
             run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
             run("/usr/bin/defaults", "delete", "com.apple.dock", "autohide-delay")
         }
@@ -805,13 +832,18 @@ enum DockControl {
     private typealias SetAutoHide = @convention(c) (Bool) -> Void
     private static let setAutoHide = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "CoreDockSetAutoHideEnabled")
         .map { unsafeBitCast($0, to: SetAutoHide.self) }
+    private typealias GetAutoHide = @convention(c) () -> Bool
+    private static let getAutoHide = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "CoreDockGetAutoHideEnabled")
+        .map { unsafeBitCast($0, to: GetAutoHide.self) }
 
     /// HomePad + Dock mode: the Dock shown, with HomePad kept in it (added at the right end of the apps if it isn't
-    /// there; you can move it from there). Restarts the Dock once, only if something changed.
+    /// there; you can move it from there). Any auto-hide is turned off, HomePad's or one set in System Settings.
+    /// Restarts the Dock once, only if something changed.
     static func showWithHomePad() {
-        DispatchQueue.global(qos: .userInitiated).async {
+        inBackground {
             var changed = false
-            if isHidden {
+            if autoHides || revealDelay != 0 {
+                setAutoHide?(false)
                 run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
                 run("/usr/bin/defaults", "delete", "com.apple.dock", "autohide-delay")
                 changed = true
