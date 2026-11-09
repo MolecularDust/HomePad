@@ -104,7 +104,8 @@ struct TaskbarView: View {
     var body: some View {
         HStack(spacing: 2) {
             StartButton()
-            ForEach(Taskbar.items(), id: \.self) { url in
+            // The setting is passed in, so a change to it redraws the taskbar (SwiftUI only watches what the body reads).
+            ForEach(Taskbar.items(showsHidden: showsHidden), id: \.self) { url in
                 TaskbarIcon(url: url)
             }
         }
@@ -122,9 +123,8 @@ extension Taskbar {
 
     /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
     /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
-    static func items() -> [URL] {
+    static func items(showsHidden: Bool = UserDefaults.standard.bool(forKey: showsHiddenKey)) -> [URL] {
         var seen = Set<URL>()
-        let showsHidden = UserDefaults.standard.bool(forKey: showsHiddenKey)
         let hidden = RunningApps.shared.hidden
         let running = RunningApps.shared.apps.filter { showsHidden || !hidden.contains($0.processIdentifier) }
         let all = TaskbarPins.shared.urls + running.compactMap { $0.bundleURL.map(normalized) }
