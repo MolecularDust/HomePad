@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad আপনার উইন্ডোর ওপরে ভেসে থাকে এবং যেখানে ডাকবেন সেখানে খোলে: শর্টকাট, ডাবল-ট্যাপ, হট কর্নার বা মেনু বারের আইকন দিয়ে।",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧” দেখায় এবং সেখানে নিজের আইকন রাখে; “⟦Dock⟧” যেখানে রেখেছেন সেখানেই থাকে।",
  "Start": "স্টার্ট",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। বড় করা উইন্ডো এর ওপরে শেষ হয়: সেই জায়গা খালি রাখতে “⟦Dock⟧” টাস্কবারের নিচে থাকে।",
  "Add Apps to the Taskbar": "টাস্কবারে অ্যাপ যোগ করুন",
  "Add Files and Folders to the Taskbar": "টাস্কবারে ফাইল ও ফোল্ডার যোগ করুন",
  "Unpin from Taskbar": "টাস্কবার থেকে আনপিন করুন",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "টাস্কবার থেকে লুকান",
  "Show in taskbar": "টাস্কবারে দেখান",
  "Pinned": "পিন করা",
- "Running apps": "চলমান অ্যাপ"
+ "Running apps": "চলমান অ্যাপ",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। এ সময় “⟦Dock⟧” লুকানো থাকে, আর টাস্কবারের নিচে পৌঁছানো উইন্ডো ছোট করা হয় যাতে এর ওপরে আঁটে (“⟦Accessibility⟧” লাগে)।"
 }

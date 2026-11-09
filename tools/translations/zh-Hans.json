@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad 浮在窗口之上，在你调用的地方打开：使用快捷键、连按、触发角或菜单栏图标。",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad 会显示“⟦Dock⟧”并把它的图标保留在那里；“⟦Dock⟧”保持在你放置的位置。",
  "Start": "开始",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。最大化的窗口止于任务栏上方：“⟦Dock⟧”留在任务栏下面，为它保留这块空间。",
  "Add Apps to the Taskbar": "将 App 添加到任务栏",
  "Add Files and Folders to the Taskbar": "将文件和文件夹添加到任务栏",
  "Unpin from Taskbar": "从任务栏取消固定",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "从任务栏隐藏",
  "Show in taskbar": "在任务栏中显示",
  "Pinned": "已固定",
- "Running apps": "正在运行的 App"
+ "Running apps": "正在运行的 App",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。期间“⟦Dock⟧”会被隐藏，延伸到任务栏下方的窗口会被缩短，以显示在任务栏上方（需要“⟦Accessibility⟧”权限）。"
 }

@@ -5,10 +5,9 @@ import SwiftUI
 /// button and the running apps centred together.
 ///
 /// It's a borderless panel just above the Dock's window level, on every Space but not over full-screen apps, and it never
-/// takes the keyboard focus (a click on it leaves the app you're in active, as the Dock does). macOS lets only the Dock
-/// keep windows off part of the screen, so the Dock stays at the bottom, as tall as the taskbar, under it
-/// (DockControl.reserveForTaskbar); the taskbar takes the height the Dock keeps, so maximized windows end at its top.
-/// It's opaque, or the Dock would show through.
+/// takes the keyboard focus (a click on it leaves the app you're in active, as the Dock does). The Dock is hidden
+/// meanwhile. macOS lets only the Dock keep windows off part of the screen, so WindowFitter makes windows that reach
+/// under the taskbar shorter.
 final class Taskbar {
     static let shared = Taskbar()
     static let height: CGFloat = 48
@@ -23,9 +22,10 @@ final class Taskbar {
         if panel == nil { build() }
         place()
         panel?.orderFrontRegardless()
+        WindowFitter.shared.start()
         if observers.isEmpty {
             // The Dock's space changes after it restarts; screens come and go.
-            for name in [NSApplication.didChangeScreenParametersNotification, DockControl.changed] {
+            for name in [NSApplication.didChangeScreenParametersNotification] {
                 observers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                     self?.place()
                 })
@@ -35,16 +35,14 @@ final class Taskbar {
 
     func hide() {
         panel?.orderOut(nil)
+        WindowFitter.shared.stop()
         WindowPreviewController.shared.hideNow()
     }
 
-    /// Full width along the bottom of the screen with the menu bar, as tall as the space the Dock keeps there (until
-    /// the Dock has its place, the standard height).
+    /// Full width along the bottom of the screen with the menu bar.
     private func place() {
         guard let screen = NSScreen.screens.first, let panel else { return }
-        let reserved = DockControl.reservedHeight
-        let height = (30...90).contains(reserved) ? reserved : Self.height
-        panel.setFrame(NSRect(x: screen.frame.minX, y: screen.frame.minY, width: screen.frame.width, height: height),
+        panel.setFrame(NSRect(x: screen.frame.minX, y: screen.frame.minY, width: screen.frame.width, height: Self.height),
                        display: true)
     }
 

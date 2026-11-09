@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad nổi trên các cửa sổ và mở ở nơi bạn gọi: bằng phím tắt, chạm hai lần, góc nóng hoặc biểu tượng trên thanh menu.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad hiện “⟦Dock⟧” và giữ biểu tượng của nó ở đó; “⟦Dock⟧” vẫn ở nơi bạn đặt.",
  "Start": "Bắt đầu",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Cửa sổ phóng to dừng ở phía trên nó: “⟦Dock⟧” nằm dưới thanh tác vụ để giữ chỗ đó trống.",
  "Add Apps to the Taskbar": "Thêm ứng dụng vào thanh tác vụ",
  "Add Files and Folders to the Taskbar": "Thêm tệp và thư mục vào thanh tác vụ",
  "Unpin from Taskbar": "Bỏ ghim khỏi thanh tác vụ",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "Ẩn khỏi thanh tác vụ",
  "Show in taskbar": "Hiện trên thanh tác vụ",
  "Pinned": "Đã ghim",
- "Running apps": "Ứng dụng đang chạy"
+ "Running apps": "Ứng dụng đang chạy",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ tràn xuống dưới thanh tác vụ được thu ngắn để vừa phía trên nó (cần “⟦Accessibility⟧”)."
 }

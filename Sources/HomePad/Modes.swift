@@ -7,8 +7,8 @@ import AppKit
 /// - **HomePad + Dock**: like the Windows Start menu, with the Dock as the taskbar. The Dock is shown (wherever you
 ///   put it) with HomePad kept in it, and the panel opens right by HomePad's Dock icon (DockIcon).
 /// - **Taskbar**: like Windows. HomePad's own taskbar along the bottom of the main screen, with a Start button and the
-///   running apps (which then leave the panel's Running section). The Dock stays under the taskbar meanwhile, so
-///   windows fit above it (DockControl.reserveForTaskbar). Optionally the panel opens only from the Start button.
+///   running apps (which then leave the panel's Running section). The Dock is hidden meanwhile, and windows that
+///   reach under the taskbar are made shorter to fit above it (WindowFitter). Optionally the panel opens only from the Start button.
 enum HomePadMode: String, CaseIterable, Identifiable {
     case standalone, dock, taskbar
     var id: String { rawValue }
@@ -38,12 +38,12 @@ enum HomePadMode: String, CaseIterable, Identifiable {
     /// At launch: the taskbar comes back if it was on.
     static func applyAtLaunch() {
         guard current == .taskbar else { return }
-        DockControl.reserveForTaskbar(height: Taskbar.height)      // in case the Dock was changed meanwhile
+        DockControl.hideForTaskbar()        // in case it was shown meanwhile
         Taskbar.shared.show()
     }
 
     /// Switches mode and does what the new one needs to the Dock and the taskbar: Standalone hides the Dock,
-    /// HomePad + Dock shows it (each time, whatever it was before), Taskbar keeps it under the taskbar. `adjustingDock: false` leaves the Dock as it
+    /// HomePad + Dock shows it (each time, whatever it was before), Taskbar hides it too. `adjustingDock: false` leaves the Dock as it
     /// is (Reset to Defaults, which shows it itself).
     static func choose(_ new: HomePadMode, adjustingDock: Bool = true) {
         let old = current
@@ -60,7 +60,7 @@ enum HomePadMode: String, CaseIterable, Identifiable {
         case .dock:
             if adjustingDock { DockControl.showWithHomePad() }
         case .taskbar:
-            DockControl.reserveForTaskbar(height: Taskbar.height)
+            DockControl.hideForTaskbar()
             Taskbar.shared.show()
         }
         PanelController.shared.hide(restoreFocus: false)

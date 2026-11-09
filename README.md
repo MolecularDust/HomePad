@@ -120,9 +120,11 @@ any time from the menu-bar icon → Setup Guide…
     lists every running app with a **Show in taskbar** switch; an app switched off stays off the taskbar while it runs
     (also **Hide from Taskbar** in its menu). Pinned items are always shown. Hiding an app (Cmd-H) doesn't change the
     taskbar. The
-    panel opens centred above the taskbar. macOS lets only the Dock keep windows off part of the screen, so the Dock
-    stays at the bottom, as tall as the taskbar, under it: maximized windows end at the taskbar's top. Its size,
-    magnification and side are put back when you leave the mode. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
+    panel opens centred above the taskbar. The Dock is hidden meanwhile. macOS lets only the Dock keep windows off part
+    of the screen, so with Accessibility HomePad makes a window shorter when it's opened, resized, maximized or tiled
+    so that it reaches under the taskbar (moved up instead if it would get too short). A window only dragged there is
+    left alone, as on Windows. (Keeping the real Dock under the taskbar didn't work: it shows its name labels wherever
+    the pointer passes over its icons.) **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
     (the menu-bar icon still works).
 - **Hide the Dock** (Standalone only): turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.

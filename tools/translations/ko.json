@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad는 윈도우 위에 떠 있으며 부르는 곳에서 열립니다. 단축키, 이중 탭, 핫 코너 또는 메뉴 막대 아이콘을 사용하십시오.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad는 ‘⟦Dock⟧’을(를) 보이게 하고 그곳에 아이콘을 둡니다. ‘⟦Dock⟧’은(는) 놓아둔 자리에 그대로 있습니다.",
  "Start": "시작",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 최대화된 윈도우는 작업 표시줄 위에서 끝납니다. ‘⟦Dock⟧’이(가) 작업 표시줄 아래에 남아 그 공간을 비워 둡니다.",
  "Add Apps to the Taskbar": "작업 표시줄에 앱 추가",
  "Add Files and Folders to the Taskbar": "작업 표시줄에 파일 및 폴더 추가",
  "Unpin from Taskbar": "작업 표시줄에서 고정 해제",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "작업 표시줄에서 가리기",
  "Show in taskbar": "작업 표시줄에 표시",
  "Pinned": "고정됨",
- "Running apps": "실행 중인 앱"
+ "Running apps": "실행 중인 앱",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 그동안 ‘⟦Dock⟧’은(는) 가려지고, 작업 표시줄 아래로 내려가는 윈도우는 그 위에 맞게 줄어듭니다(‘⟦Accessibility⟧’ 필요)."
 }

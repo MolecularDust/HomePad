@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "يطفو HomePad فوق نوافذك ويُفتح حيث تستدعيه: بالاختصار أو النقر المزدوج أو الزوايا النشطة أو أيقونة شريط القائمة.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "يُظهر HomePad ”⟦Dock⟧“ ويُبقي أيقونته هناك؛ ويبقى ”⟦Dock⟧“ حيث وضعته.",
  "Start": "ابدأ",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. تنتهي النوافذ المكبّرة فوقه: يبقى ”⟦Dock⟧“ تحت شريط المهام ليُبقي تلك المساحة فارغة.",
  "Add Apps to the Taskbar": "إضافة تطبيقات إلى شريط المهام",
  "Add Files and Folders to the Taskbar": "إضافة ملفات ومجلدات إلى شريط المهام",
  "Unpin from Taskbar": "إلغاء التثبيت من شريط المهام",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "إخفاء من شريط المهام",
  "Show in taskbar": "إظهار على شريط المهام",
  "Pinned": "مثبّت",
- "Running apps": "التطبيقات قيد التشغيل"
+ "Running apps": "التطبيقات قيد التشغيل",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتُقصَّر النوافذ التي تمتد تحت شريط المهام لتتسع فوقه (يتطلب ”⟦Accessibility⟧“)."
 }

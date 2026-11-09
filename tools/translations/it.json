@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad galleggia sulle finestre e si apre dove lo chiami: con l’abbreviazione, il doppio tocco, gli angoli attivi o l’icona nella barra dei menu.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad mostra “⟦Dock⟧” e vi tiene la sua icona; “⟦Dock⟧” resta dove l’hai messo.",
  "Start": "Start",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Come in Windows: una barra delle applicazioni in fondo allo schermo con un pulsante Start e le app aperte, che lasciano il pannello di HomePad. Le finestre ingrandite finiscono sopra di essa: “⟦Dock⟧” resta sotto la barra per tenere libero quello spazio.",
  "Add Apps to the Taskbar": "Aggiungi app alla barra delle applicazioni",
  "Add Files and Folders to the Taskbar": "Aggiungi file e cartelle alla barra delle applicazioni",
  "Unpin from Taskbar": "Rimuovi dalla barra delle applicazioni",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "Nascondi dalla barra delle applicazioni",
  "Show in taskbar": "Mostra nella barra delle applicazioni",
  "Pinned": "Aggiunta",
- "Running apps": "App aperte"
+ "Running apps": "App aperte",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "Come in Windows: una barra delle applicazioni in fondo allo schermo con un pulsante Start e le app aperte, che lasciano il pannello di HomePad. “⟦Dock⟧” resta nascosto nel frattempo, e le finestre che arrivano sotto la barra vengono accorciate per stare sopra (richiede “⟦Accessibility⟧”)."
 }

@@ -268,7 +268,6 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad روی پنجره‌های شما شناور است و همان‌جا که صدایش می‌زنید باز می‌شود: با میان‌بر، دوبار زدن، گوشه‌های فعال یا نماد نوار منو.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad «⟦Dock⟧» را نشان می‌دهد و نمادش را آنجا نگه می‌دارد؛ «⟦Dock⟧» همان‌جا می‌ماند که گذاشته‌اید.",
  "Start": "شروع",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. پنجره‌های بزرگ‌شده بالای آن تمام می‌شوند: «⟦Dock⟧» زیر نوار وظیفه می‌ماند تا آن فضا خالی بماند.",
  "Add Apps to the Taskbar": "افزودن برنامه‌ها به نوار وظیفه",
  "Add Files and Folders to the Taskbar": "افزودن فایل‌ها و پوشه‌ها به نوار وظیفه",
  "Unpin from Taskbar": "برداشتن از نوار وظیفه",
@@ -276,5 +275,6 @@
  "Hide from Taskbar": "پنهان کردن از نوار وظیفه",
  "Show in taskbar": "نمایش در نوار وظیفه",
  "Pinned": "سنجاق‌شده",
- "Running apps": "برنامه‌های در حال اجرا"
+ "Running apps": "برنامه‌های در حال اجرا",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).": "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. در این مدت «⟦Dock⟧» پنهان است و پنجره‌هایی که تا زیر نوار وظیفه می‌رسند کوتاه‌تر می‌شوند تا بالای آن جا شوند (به «⟦Accessibility⟧» نیاز دارد)."
 }
