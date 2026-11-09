@@ -279,5 +279,22 @@
  "App icons": "نمادهای برنامه‌ها",
  "Center": "وسط",
  "Left": "راست",
- "HomePad icon": "نماد HomePad"
+ "HomePad icon": "نماد HomePad",
+ "Network status": "وضعیت شبکه",
+ "Volume": "بلندی صدا",
+ "Battery": "باتری",
+ "Clock": "ساعت",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "در سمت راست نوار وظیفه. شبکه و باتری صفحه‌های خود را در «⟦System Settings⟧» باز می‌کنند؛ بلندی صدا و ساعت یک لغزنده و یک تقویم باز می‌کنند. برای تغییر صدا روی آن بچرخانید.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: متصل",
+ "Ethernet: connected": "اترنت: متصل",
+ "Connected to the internet": "متصل به اینترنت",
+ "Not connected": "متصل نیست",
+ "Muted": "بی‌صدا",
+ "Volume: %lld%%": "بلندی صدا: %lld٪",
+ "Unmute": "صدادار کردن",
+ "Mute": "بی‌صدا کردن",
+ "Battery: %lld%%, charging": "باتری: %lld٪، در حال شارژ",
+ "Battery: %lld%%, plugged in": "باتری: %lld٪، به برق وصل است",
+ "Battery: %lld%%": "باتری: %lld٪",
+ "Wi-Fi": "Wi-Fi"
 }

@@ -279,5 +279,22 @@
  "App icons": "ऐप आइकॉन",
  "Center": "बीच में",
  "Left": "बाएँ",
- "HomePad icon": "HomePad आइकॉन"
+ "HomePad icon": "HomePad आइकॉन",
+ "Network status": "नेटवर्क स्थिति",
+ "Volume": "वॉल्यूम",
+ "Battery": "बैटरी",
+ "Clock": "घड़ी",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "टास्कबार के दाईं ओर। नेटवर्क और बैटरी “⟦System Settings⟧” में अपने पेज खोलते हैं; वॉल्यूम और घड़ी एक स्लाइडर और एक कैलेंडर खोलते हैं। वॉल्यूम बदलने के लिए उस पर स्क्रॉल करें।",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: कनेक्टेड",
+ "Ethernet: connected": "ईथरनेट: कनेक्टेड",
+ "Connected to the internet": "इंटरनेट से कनेक्टेड",
+ "Not connected": "कनेक्टेड नहीं",
+ "Muted": "म्यूट",
+ "Volume: %lld%%": "वॉल्यूम: %lld%%",
+ "Unmute": "अनम्यूट करें",
+ "Mute": "म्यूट करें",
+ "Battery: %lld%%, charging": "बैटरी: %lld%%, चार्ज हो रही है",
+ "Battery: %lld%%, plugged in": "बैटरी: %lld%%, प्लग इन है",
+ "Battery: %lld%%": "बैटरी: %lld%%",
+ "Wi-Fi": "वाई-फ़ाई"
 }

@@ -279,5 +279,22 @@
  "App icons": "Uygulama simgeleri",
  "Center": "Orta",
  "Left": "Sol",
- "HomePad icon": "HomePad simgesi"
+ "HomePad icon": "HomePad simgesi",
+ "Network status": "Ağ durumu",
+ "Volume": "Ses",
+ "Battery": "Pil",
+ "Clock": "Saat",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "Görev çubuğunun sağında. Ağ ve pil “⟦System Settings⟧” içindeki sayfalarını açar; ses ve saat bir kaydırıcı ve bir takvim açar. Değiştirmek için ses simgesinin üzerinde kaydırın.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: bağlı",
+ "Ethernet: connected": "Ethernet: bağlı",
+ "Connected to the internet": "İnternete bağlı",
+ "Not connected": "Bağlı değil",
+ "Muted": "Sessiz",
+ "Volume: %lld%%": "Ses: %%%lld",
+ "Unmute": "Sesi aç",
+ "Mute": "Sessize al",
+ "Battery: %lld%%, charging": "Pil: %%%lld, şarj oluyor",
+ "Battery: %lld%%, plugged in": "Pil: %%%lld, prize takılı",
+ "Battery: %lld%%": "Pil: %%%lld",
+ "Wi-Fi": "Wi-Fi"
 }

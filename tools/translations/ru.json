@@ -279,5 +279,22 @@
  "App icons": "Значки приложений",
  "Center": "По центру",
  "Left": "Слева",
- "HomePad icon": "Значок HomePad"
+ "HomePad icon": "Значок HomePad",
+ "Network status": "Состояние сети",
+ "Volume": "Громкость",
+ "Battery": "Аккумулятор",
+ "Clock": "Часы",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "Справа на панели задач. Сеть и аккумулятор открывают свои разделы в «⟦System Settings⟧»; громкость и часы открывают ползунок и календарь. Прокрутка над значком громкости меняет её.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: подключено",
+ "Ethernet: connected": "Ethernet: подключено",
+ "Connected to the internet": "Подключено к интернету",
+ "Not connected": "Нет подключения",
+ "Muted": "Звук выключен",
+ "Volume: %lld%%": "Громкость: %lld %%",
+ "Unmute": "Включить звук",
+ "Mute": "Выключить звук",
+ "Battery: %lld%%, charging": "Аккумулятор: %lld %%, заряжается",
+ "Battery: %lld%%, plugged in": "Аккумулятор: %lld %%, подключён к сети",
+ "Battery: %lld%%": "Аккумулятор: %lld %%",
+ "Wi-Fi": "Wi-Fi"
 }

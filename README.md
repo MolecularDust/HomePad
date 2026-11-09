@@ -117,7 +117,10 @@ any time from the menu-bar icon → Setup Guide…
     (**Pin to Taskbar**; in HomePad's panel too). The taskbar's pins are a list of their own, apart from HomePad's
     categories. Drag icons along the taskbar to reorder them. **App icons** go in the **Center** or on the **Left**; while they're centred,
     **HomePad icon** can be centred with them or on the left (with the app icons on the left it's always there, so
-    the choice is grayed out). Left is the right in Arabic and Persian, mirrored as on Windows. Click an item to open it or bring it forward (or hide
+    the choice is grayed out). Left is the right in Arabic and Persian, mirrored as on Windows. With HomePad's icon on the left, its panel opens at the
+    left edge above the taskbar. On the right are the **network**, **volume**, **battery** and **clock**, each with a switch:
+    the network and battery open their pages in System Settings (macOS's own status menus can't be opened from
+    outside on recent macOS), the volume opens a slider (scroll over it to change the volume), the clock a calendar. Click an item to open it or bring it forward (or hide
     it if it's already in front); point at a running app for its windows; right-click for its menu. Settings → Mode → **Running apps** (collapsed at first)
     lists every running app with a **Show in taskbar** switch; an app switched off stays off the taskbar while it runs
     (also **Hide from Taskbar** in its menu). Pinned items are always shown. Hiding an app (Cmd-H) doesn't change the

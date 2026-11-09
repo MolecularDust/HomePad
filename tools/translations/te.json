@@ -279,5 +279,22 @@
  "App icons": "యాప్ ఐకాన్‌లు",
  "Center": "మధ్యలో",
  "Left": "ఎడమ",
- "HomePad icon": "HomePad ఐకాన్"
+ "HomePad icon": "HomePad ఐకాన్",
+ "Network status": "నెట్‌వర్క్ స్థితి",
+ "Volume": "వాల్యూమ్",
+ "Battery": "బ్యాటరీ",
+ "Clock": "గడియారం",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "టాస్క్‌బార్ కుడివైపు. నెట్‌వర్క్, బ్యాటరీ “⟦System Settings⟧”లో వాటి పేజీలను తెరుస్తాయి; వాల్యూమ్, గడియారం ఒక స్లయిడర్, ఒక క్యాలెండర్‌ను తెరుస్తాయి. మార్చడానికి వాల్యూమ్‌పై స్క్రోల్ చేయండి.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: కనెక్ట్ అయింది",
+ "Ethernet: connected": "ఈథర్నెట్: కనెక్ట్ అయింది",
+ "Connected to the internet": "ఇంటర్నెట్‌కు కనెక్ట్ అయింది",
+ "Not connected": "కనెక్ట్ కాలేదు",
+ "Muted": "మ్యూట్ అయింది",
+ "Volume: %lld%%": "వాల్యూమ్: %lld%%",
+ "Unmute": "అన్‌మ్యూట్ చేయండి",
+ "Mute": "మ్యూట్ చేయండి",
+ "Battery: %lld%%, charging": "బ్యాటరీ: %lld%%, ఛార్జ్ అవుతోంది",
+ "Battery: %lld%%, plugged in": "బ్యాటరీ: %lld%%, ప్లగ్ ఇన్ చేయబడింది",
+ "Battery: %lld%%": "బ్యాటరీ: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

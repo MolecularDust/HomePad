@@ -279,5 +279,22 @@
  "App icons": "Mga icon ng app",
  "Center": "Gitna",
  "Left": "Kaliwa",
- "HomePad icon": "Icon ng HomePad"
+ "HomePad icon": "Icon ng HomePad",
+ "Network status": "Status ng network",
+ "Volume": "Volume",
+ "Battery": "Baterya",
+ "Clock": "Orasan",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "Sa kanan ng taskbar. Binubuksan ng network at baterya ang mga page nila sa “⟦System Settings⟧”; binubuksan ng volume at orasan ang isang slider at isang kalendaryo. Mag-scroll sa volume para baguhin ito.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: nakakonekta",
+ "Ethernet: connected": "Ethernet: nakakonekta",
+ "Connected to the internet": "Nakakonekta sa internet",
+ "Not connected": "Hindi nakakonekta",
+ "Muted": "Naka-mute",
+ "Volume: %lld%%": "Volume: %lld%%",
+ "Unmute": "I-unmute",
+ "Mute": "I-mute",
+ "Battery: %lld%%, charging": "Baterya: %lld%%, nagcha-charge",
+ "Battery: %lld%%, plugged in": "Baterya: %lld%%, nakasaksak",
+ "Battery: %lld%%": "Baterya: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

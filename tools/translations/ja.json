@@ -279,5 +279,22 @@
  "App icons": "アプリのアイコン",
  "Center": "中央",
  "Left": "左",
- "HomePad icon": "HomePadのアイコン"
+ "HomePad icon": "HomePadのアイコン",
+ "Network status": "ネットワークの状態",
+ "Volume": "音量",
+ "Battery": "バッテリー",
+ "Clock": "時計",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "タスクバーの右側に表示します。ネットワークとバッテリーは“⟦System Settings⟧”の該当ページを開き、音量と時計はスライダーとカレンダーを開きます。音量の上でスクロールすると変更できます。",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧：接続済み",
+ "Ethernet: connected": "Ethernet：接続済み",
+ "Connected to the internet": "インターネットに接続済み",
+ "Not connected": "未接続",
+ "Muted": "消音",
+ "Volume: %lld%%": "音量：%lld%%",
+ "Unmute": "消音を解除",
+ "Mute": "消音",
+ "Battery: %lld%%, charging": "バッテリー：%lld%%、充電中",
+ "Battery: %lld%%, plugged in": "バッテリー：%lld%%、電源接続中",
+ "Battery: %lld%%": "バッテリー：%lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

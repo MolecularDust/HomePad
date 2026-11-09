@@ -279,5 +279,22 @@
  "App icons": "অ্যাপ আইকন",
  "Center": "মাঝে",
  "Left": "বাঁয়ে",
- "HomePad icon": "HomePad আইকন"
+ "HomePad icon": "HomePad আইকন",
+ "Network status": "নেটওয়ার্কের অবস্থা",
+ "Volume": "ভলিউম",
+ "Battery": "ব্যাটারি",
+ "Clock": "ঘড়ি",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "টাস্কবারের ডানদিকে। নেটওয়ার্ক ও ব্যাটারি “⟦System Settings⟧”-এ নিজেদের পাতা খোলে; ভলিউম ও ঘড়ি একটি স্লাইডার ও একটি ক্যালেন্ডার খোলে। ভলিউম বদলাতে তার ওপর স্ক্রোল করুন।",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: সংযুক্ত",
+ "Ethernet: connected": "ইথারনেট: সংযুক্ত",
+ "Connected to the internet": "ইন্টারনেটে সংযুক্ত",
+ "Not connected": "সংযুক্ত নয়",
+ "Muted": "মিউট",
+ "Volume: %lld%%": "ভলিউম: %lld%%",
+ "Unmute": "আনমিউট করুন",
+ "Mute": "মিউট করুন",
+ "Battery: %lld%%, charging": "ব্যাটারি: %lld%%, চার্জ হচ্ছে",
+ "Battery: %lld%%, plugged in": "ব্যাটারি: %lld%%, প্লাগ ইন করা",
+ "Battery: %lld%%": "ব্যাটারি: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

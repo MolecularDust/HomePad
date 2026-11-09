@@ -279,5 +279,22 @@
  "App icons": "أيقونات التطبيقات",
  "Center": "الوسط",
  "Left": "اليمين",
- "HomePad icon": "أيقونة HomePad"
+ "HomePad icon": "أيقونة HomePad",
+ "Network status": "حالة الشبكة",
+ "Volume": "مستوى الصوت",
+ "Battery": "البطارية",
+ "Clock": "الساعة",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "على يمين شريط المهام. تفتح الشبكة والبطارية صفحتيهما في ”⟦System Settings⟧“؛ ويفتح مستوى الصوت والساعة شريط تمرير وتقويمًا. مرّر فوق مستوى الصوت لتغييره.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: متصل",
+ "Ethernet: connected": "إيثرنت: متصل",
+ "Connected to the internet": "متصل بالإنترنت",
+ "Not connected": "غير متصل",
+ "Muted": "مكتوم",
+ "Volume: %lld%%": "مستوى الصوت: %lld٪",
+ "Unmute": "إلغاء الكتم",
+ "Mute": "كتم الصوت",
+ "Battery: %lld%%, charging": "البطارية: %lld٪، قيد الشحن",
+ "Battery: %lld%%, plugged in": "البطارية: %lld٪، موصولة بالكهرباء",
+ "Battery: %lld%%": "البطارية: %lld٪",
+ "Wi-Fi": "Wi-Fi"
 }

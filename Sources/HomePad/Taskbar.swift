@@ -15,6 +15,9 @@ final class Taskbar {
     private var panel: TaskbarPanel?
     private var observers: [NSObjectProtocol] = []
 
+    /// The taskbar's window (the tray's pop-ups tell its clicks from clicks elsewhere).
+    var window: NSWindow? { panel }
+
     /// Where the taskbar is on screen, while it's shown.
     var frame: NSRect? { panel?.isVisible == true ? panel?.frame : nil }
 
@@ -37,6 +40,7 @@ final class Taskbar {
         panel?.orderOut(nil)
         WindowFitter.shared.stop()
         TaskbarLabel.shared.hover(nil, over: nil)
+        TaskbarFlyout.shared.close()
         WindowPreviewController.shared.hideNow()
     }
 
@@ -125,6 +129,7 @@ struct TaskbarView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(alignment: .trailing) { TaskbarTrayView() }
         .contentShape(Rectangle())
         .contextMenu { TaskbarMenu() }      // the blank space; an icon has its own menu
         .overlay(alignment: .top) { Rectangle().fill(Color.primary.opacity(0.12)).frame(height: 0.5) }
@@ -137,6 +142,13 @@ extension Taskbar {
     enum Alignment: String { case center, left }
     static let iconsAlignmentKey = "taskbarIconsAlignment"
     static let startAlignmentKey = "taskbarStartAlignment"
+
+    /// HomePad's icon is on the left: chosen so, or the app icons are on the left.
+    static var startIsLeft: Bool {
+        let d = UserDefaults.standard
+        return d.string(forKey: iconsAlignmentKey) == Alignment.left.rawValue
+            || d.string(forKey: startAlignmentKey) == Alignment.left.rawValue
+    }
 
     /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
     /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
@@ -297,7 +309,7 @@ private struct StartButton: View {
 }
 
 /// The pale rounded square behind an icon that is pointed at or in front, as on Windows 11.
-private struct TaskbarHighlight: View {
+struct TaskbarHighlight: View {
     let on: Bool
     /// The app in front: a little brighter than pointing.
     let strong: Bool
@@ -314,7 +326,7 @@ private struct TaskbarHighlight: View {
 }
 
 /// A view's frame in the taskbar (for placing labels and window previews above it).
-private struct FrameReader: View {
+struct FrameReader: View {
     @Binding var frame: CGRect
     var body: some View {
         GeometryReader { geo in

@@ -279,5 +279,22 @@
  "App icons": "ไอคอนแอป",
  "Center": "กึ่งกลาง",
  "Left": "ซ้าย",
- "HomePad icon": "ไอคอน HomePad"
+ "HomePad icon": "ไอคอน HomePad",
+ "Network status": "สถานะเครือข่าย",
+ "Volume": "ระดับเสียง",
+ "Battery": "แบตเตอรี่",
+ "Clock": "นาฬิกา",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "อยู่ด้านขวาของแถบงาน เครือข่ายและแบตเตอรี่จะเปิดหน้าของตนใน “⟦System Settings⟧” ระดับเสียงและนาฬิกาจะเปิดแถบเลื่อนและปฏิทิน เลื่อนบนไอคอนระดับเสียงเพื่อปรับ",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: เชื่อมต่อแล้ว",
+ "Ethernet: connected": "อีเทอร์เน็ต: เชื่อมต่อแล้ว",
+ "Connected to the internet": "เชื่อมต่ออินเทอร์เน็ตแล้ว",
+ "Not connected": "ไม่ได้เชื่อมต่อ",
+ "Muted": "ปิดเสียงอยู่",
+ "Volume: %lld%%": "ระดับเสียง: %lld%%",
+ "Unmute": "เปิดเสียง",
+ "Mute": "ปิดเสียง",
+ "Battery: %lld%%, charging": "แบตเตอรี่: %lld%% กำลังชาร์จ",
+ "Battery: %lld%%, plugged in": "แบตเตอรี่: %lld%% เสียบปลั๊กอยู่",
+ "Battery: %lld%%": "แบตเตอรี่: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

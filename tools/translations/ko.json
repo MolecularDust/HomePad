@@ -279,5 +279,22 @@
  "App icons": "앱 아이콘",
  "Center": "가운데",
  "Left": "왼쪽",
- "HomePad icon": "HomePad 아이콘"
+ "HomePad icon": "HomePad 아이콘",
+ "Network status": "네트워크 상태",
+ "Volume": "음량",
+ "Battery": "배터리",
+ "Clock": "시계",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "작업 표시줄 오른쪽에 표시됩니다. 네트워크와 배터리는 ‘⟦System Settings⟧’의 해당 페이지를 열고, 음량과 시계는 슬라이더와 달력을 엽니다. 음량 위에서 스크롤하여 조절하십시오.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: 연결됨",
+ "Ethernet: connected": "이더넷: 연결됨",
+ "Connected to the internet": "인터넷에 연결됨",
+ "Not connected": "연결 안 됨",
+ "Muted": "음소거됨",
+ "Volume: %lld%%": "음량: %lld%%",
+ "Unmute": "음소거 해제",
+ "Mute": "음소거",
+ "Battery: %lld%%, charging": "배터리: %lld%%, 충전 중",
+ "Battery: %lld%%, plugged in": "배터리: %lld%%, 전원 연결됨",
+ "Battery: %lld%%": "배터리: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

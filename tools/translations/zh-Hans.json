@@ -279,5 +279,22 @@
  "App icons": "App 图标",
  "Center": "居中",
  "Left": "靠左",
- "HomePad icon": "HomePad 图标"
+ "HomePad icon": "HomePad 图标",
+ "Network status": "网络状态",
+ "Volume": "音量",
+ "Battery": "电池",
+ "Clock": "时钟",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "位于任务栏右侧。网络和电池会打开“⟦System Settings⟧”中的相应页面；音量和时钟会打开滑块和日历。在音量上滚动即可调节。",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧：已连接",
+ "Ethernet: connected": "以太网：已连接",
+ "Connected to the internet": "已连接到互联网",
+ "Not connected": "未连接",
+ "Muted": "已静音",
+ "Volume: %lld%%": "音量：%lld%%",
+ "Unmute": "取消静音",
+ "Mute": "静音",
+ "Battery: %lld%%, charging": "电池：%lld%%，正在充电",
+ "Battery: %lld%%, plugged in": "电池：%lld%%，已接通电源",
+ "Battery: %lld%%": "电池：%lld%%",
+ "Wi-Fi": "无线局域网"
 }

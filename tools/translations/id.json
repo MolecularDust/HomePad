@@ -279,5 +279,22 @@
  "App icons": "Ikon app",
  "Center": "Tengah",
  "Left": "Kiri",
- "HomePad icon": "Ikon HomePad"
+ "HomePad icon": "Ikon HomePad",
+ "Network status": "Status jaringan",
+ "Volume": "Volume",
+ "Battery": "Baterai",
+ "Clock": "Jam",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "Di kanan bilah tugas. Jaringan dan baterai membuka halamannya di “⟦System Settings⟧”; volume dan jam membuka penggeser dan kalender. Gulir di atas volume untuk mengubahnya.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: terhubung",
+ "Ethernet: connected": "Ethernet: terhubung",
+ "Connected to the internet": "Terhubung ke internet",
+ "Not connected": "Tidak terhubung",
+ "Muted": "Dibisukan",
+ "Volume: %lld%%": "Volume: %lld%%",
+ "Unmute": "Bunyikan",
+ "Mute": "Bisukan",
+ "Battery: %lld%%, charging": "Baterai: %lld%%, mengisi daya",
+ "Battery: %lld%%, plugged in": "Baterai: %lld%%, tersambung",
+ "Battery: %lld%%": "Baterai: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }

@@ -18,6 +18,10 @@ struct SettingsView: View {
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
     @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
+    @AppStorage(TaskbarTray.networkKey) private var trayNetwork = true
+    @AppStorage(TaskbarTray.volumeKey) private var trayVolume = true
+    @AppStorage(TaskbarTray.batteryKey) private var trayBattery = true
+    @AppStorage(TaskbarTray.clockKey) private var trayClock = true
     @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
     /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
     @State private var dockIconProblem = DockIcon.problem
@@ -64,6 +68,13 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented).fixedSize()
                     .disabled(iconsAlignment == .left)
+                    Toggle("Network status", isOn: $trayNetwork)
+                    Toggle("Volume", isOn: $trayVolume)
+                    if BatteryStatus.shared.present { Toggle("Battery", isOn: $trayBattery) }
+                    Toggle("Clock", isOn: $trayClock)
+                    Text(L("On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it."))
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                     TaskbarAppsList()
                 }
             }
@@ -248,6 +259,10 @@ struct SettingsView: View {
         showMenuBarIcon = true
         startButtonOnly = false
         iconsAlignment = .center
+        trayNetwork = true
+        trayVolume = true
+        trayBattery = true
+        trayClock = true
         startAlignment = .center
         HomePadMode.choose(.standalone, adjustingDock: false)
         dockHidden = false

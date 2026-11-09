@@ -378,10 +378,14 @@ final class PanelController: NSObject, NSWindowDelegate {
         }
         // Settings → Dock → "Open above the HomePad icon in the Dock": by the icon, when it can be found.
         if given == nil, DockIcon.isOn, let icon = DockIcon.frame() { frame = DockIcon.panelFrame(size: size, near: icon) }
-        // Taskbar mode: like the Windows 11 Start menu, centred just above the taskbar.
+        // Taskbar mode: like the Windows 11 Start menu, just above the taskbar, centred, or at the left edge when
+        // HomePad's icon is on the left (the right edge in Arabic and Persian, where the taskbar is mirrored).
         if given == nil, HomePadMode.current == .taskbar, let bar = Taskbar.shared.frame {
             let top = (NSScreen.screens.first?.visibleFrame.maxY ?? bar.maxY + size.height + 12) - 8
-            frame = NSRect(x: bar.midX - size.width / 2, y: min(bar.maxY + 12, top - size.height), width: size.width, height: size.height)
+            let margin: CGFloat = 12
+            let x = !Taskbar.startIsLeft ? bar.midX - size.width / 2
+                : NSApp.userInterfaceLayoutDirection == .rightToLeft ? bar.maxX - size.width - margin : bar.minX + margin
+            frame = NSRect(x: x, y: min(bar.maxY + 12, top - size.height), width: size.width, height: size.height)
         }
         if let given { frame = given }
         // Never under the taskbar (a hot corner at the bottom, a remembered place).

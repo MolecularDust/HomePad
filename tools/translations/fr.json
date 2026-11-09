@@ -279,5 +279,22 @@
  "App icons": "Icônes des apps",
  "Center": "Centre",
  "Left": "Gauche",
- "HomePad icon": "Icône de HomePad"
+ "HomePad icon": "Icône de HomePad",
+ "Network status": "État du réseau",
+ "Volume": "Volume",
+ "Battery": "Batterie",
+ "Clock": "Horloge",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "À droite de la barre des tâches. Le réseau et la batterie ouvrent leur page dans « ⟦System Settings⟧ » ; le volume et l’horloge ouvrent un curseur et un calendrier. Faites défiler sur le volume pour le régler.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧ : connecté",
+ "Ethernet: connected": "Ethernet : connecté",
+ "Connected to the internet": "Connecté à Internet",
+ "Not connected": "Non connecté",
+ "Muted": "Son coupé",
+ "Volume: %lld%%": "Volume : %lld %%",
+ "Unmute": "Réactiver le son",
+ "Mute": "Couper le son",
+ "Battery: %lld%%, charging": "Batterie : %lld %%, en charge",
+ "Battery: %lld%%, plugged in": "Batterie : %lld %%, branchée",
+ "Battery: %lld%%": "Batterie : %lld %%",
+ "Wi-Fi": "Wi-Fi"
 }

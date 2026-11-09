@@ -279,5 +279,22 @@
  "App icons": "Biểu tượng ứng dụng",
  "Center": "Giữa",
  "Left": "Trái",
- "HomePad icon": "Biểu tượng HomePad"
+ "HomePad icon": "Biểu tượng HomePad",
+ "Network status": "Trạng thái mạng",
+ "Volume": "Âm lượng",
+ "Battery": "Pin",
+ "Clock": "Đồng hồ",
+ "On the right of the taskbar. The network and battery open their pages in ⟦System Settings⟧; the volume and the clock open a slider and a calendar. Scroll over the volume to change it.": "Ở bên phải thanh tác vụ. Mạng và pin mở trang của chúng trong “⟦System Settings⟧”; âm lượng và đồng hồ mở thanh trượt và lịch. Cuộn trên biểu tượng âm lượng để thay đổi.",
+ "⟦Wi-Fi⟧: connected": "⟦Wi-Fi⟧: đã kết nối",
+ "Ethernet: connected": "Ethernet: đã kết nối",
+ "Connected to the internet": "Đã kết nối Internet",
+ "Not connected": "Chưa kết nối",
+ "Muted": "Đã tắt tiếng",
+ "Volume: %lld%%": "Âm lượng: %lld%%",
+ "Unmute": "Bật tiếng",
+ "Mute": "Tắt tiếng",
+ "Battery: %lld%%, charging": "Pin: %lld%%, đang sạc",
+ "Battery: %lld%%, plugged in": "Pin: %lld%%, đã cắm điện",
+ "Battery: %lld%%": "Pin: %lld%%",
+ "Wi-Fi": "Wi-Fi"
 }
