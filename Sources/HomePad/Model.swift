@@ -380,6 +380,32 @@ final class CategoryStore: ObservableObject {
         return category.id
     }
 
+    /// Items in alphabetical order by the name their tile shows (a folder by its own name, among the rest). Items with
+    /// the same name keep their order.
+    static func alphabetical(_ keys: [String]) -> [String] {
+        keys.enumerated()
+            .map { (index: $0.offset, key: $0.element, name: IconCache.name(for: itemURL($0.element))) }
+            .sorted {
+                let order = $0.name.localizedCaseInsensitiveCompare($1.name)
+                return order == .orderedSame ? $0.index < $1.index : order == .orderedAscending
+            }
+            .map(\.key)
+    }
+
+    func isSortedAlphabetically(_ id: UUID) -> Bool {
+        guard let paths = categories.first(where: { $0.id == id })?.paths else { return true }
+        return Self.alphabetical(paths) == paths
+    }
+
+    /// Puts a category's tiles in alphabetical order. The tiles inside its folders keep theirs.
+    func sortAlphabetically(_ id: UUID) {
+        guard let i = categories.firstIndex(where: { $0.id == id }) else { return }
+        let sorted = Self.alphabetical(categories[i].paths)
+        guard sorted != categories[i].paths else { return }
+        categories[i].paths = sorted
+        save()
+    }
+
     func rename(_ id: UUID, to name: String) {
         guard let i = categories.firstIndex(where: { $0.id == id }) else { return }
         categories[i].name = name

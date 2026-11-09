@@ -813,6 +813,10 @@ struct CategorySection: View {
             Button("Add Category…") { Launcher.addCategory() }
             MoveRowItems(id: category.id, name: category.name)
             Button("Rename \(category.name)…") { Launcher.renameCategory(category) }
+            Button("Sort Alphabetically") {
+                withAnimation(.easeInOut(duration: 0.2)) { store.sortAlphabetically(category.id) }
+            }
+            .disabled(store.isSortedAlphabetically(category.id))
             if category.id != store.essentialsID {
                 Button("Delete \(category.name)") { store.delete(category.id) }
             }

@@ -178,6 +178,9 @@ extension RunningOrder {
         again.sortAlphabetically()
         check("sort alphabetically", names(again.sorted([e, d, c, b, a])), "ABCDE")
         check("and that is saved too", names(RunningOrder(key: key).sorted([e, d, c, b, a])), "ABCDE")
+        func keys(_ names: [String]) -> [String] { names.map { "/x/\($0).app" } }
+        check("a category sorts by name, ignoring case", CategoryStore.alphabetical(keys(["c", "B2", "A", "b"])).map { String($0.dropFirst(3).dropLast(4)) }.joined(separator: ","), "A,b,B2,c")
+        check("the same name keeps its order", CategoryStore.alphabetical(["/y/a.app", "/x/a.app", "/x/B.app"]).joined(separator: ","), "/y/a.app,/x/a.app,/x/B.app")
         print(failures == 0 ? "RUNNING ORDER: all ok" : "RUNNING ORDER: \(failures) failed")
     }
 }

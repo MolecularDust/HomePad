@@ -44,7 +44,6 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   first launch, plus a **Files** category with the Trash and Downloads, like the right end of the Dock (only on the very first run; if you delete it, it stays deleted). Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click inside a category to rename or delete
   it (everything in it is unpinned too; the apps and files themselves are untouched).
-- **Blank space** below the last section (when the panel is taller than its contents) belongs to that section: right-clicking it gives that section's menu, and dragging it moves the window.
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.
@@ -57,7 +56,9 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   moved too; it stays the default place for new items and can't be deleted. Thin gray lines separate the categories.
 - **Right-click to add**: right-click empty space inside a category (its title, or the gaps between and after its
   tiles) and the menu adds to *that* category: "Add App to Files…", "Add File or Folder to Files…", plus Add Category,
-  Rename and Delete for it. Right-click outside every category (below the last one) and it adds to Essentials.
+  Rename and Delete for it, and **Sort Alphabetically** (puts that category's tiles in alphabetical order by the names they
+  show; grayed out when they already are; the tiles inside its folders keep theirs). The blank space below the last section
+  belongs to that section.
 - **Add apps**: the Add App button (double-click an app in the picker to add it and close the picker), right-click empty space, drag apps in from Finder (press the shortcut
   mid-drag), or right-click a search result → Pin App.
 - **Folders** (as in the Windows Start menu): drag a tile onto the middle of another tile's icon, hold it there for
