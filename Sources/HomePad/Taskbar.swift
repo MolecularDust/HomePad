@@ -109,19 +109,8 @@ struct TaskbarView: View {
     @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
     @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
 
-    @ObservedObject private var drop = TaskbarFileDrop.shared
-
-    /// The icons, with an empty slot where something dragged in from outside would land.
     private var icons: some View {
-        Group {
-            ForEach(Taskbar.items(), id: \.self) { url in
-                if drop.hovering && drop.before == url { TaskbarDropSlot() }
-                TaskbarIcon(url: url)
-            }
-            if drop.hovering && drop.before == nil { TaskbarDropSlot() }
-        }
-        .animation(.easeInOut(duration: 0.15), value: drop.before)
-        .animation(.easeInOut(duration: 0.15), value: drop.hovering)
+        ForEach(Taskbar.items(), id: \.self) { url in TaskbarIcon(url: url) }
     }
 
     var body: some View {
@@ -311,10 +300,6 @@ private struct TaskbarDropDelegate: DropDelegate {
         TaskbarDrag.shared.item != nil ? DropProposal(operation: .move) : outside.dropUpdated(info: info)
     }
 
-    func dropExited(info: DropInfo) {
-        if TaskbarDrag.shared.item == nil { outside.dropExited(info: info) }
-    }
-
     func performDrop(info: DropInfo) -> Bool {
         guard TaskbarDrag.shared.item != nil else { return outside.performDrop(info: info) }
         TaskbarDrag.shared.end()
@@ -323,57 +308,16 @@ private struct TaskbarDropDelegate: DropDelegate {
 }
 
 /// Apps, files and folders dragged onto the taskbar, from Finder or from HomePad's panel, are pinned where they're let
-/// go, as on Windows. While one is over the taskbar, an empty slot shows where it would land.
-final class TaskbarFileDrop: ObservableObject {
-    static let shared = TaskbarFileDrop()
+/// go, as on Windows (no slot opens up meanwhile, as neither Windows nor the Dock show one).
+enum TaskbarFileDrop {
     /// Finder gives file URLs; HomePad's own tiles give their path as text (and PanelState says which tile it is).
     static let types: [UTType] = [.fileURL, .utf8PlainText]
-
-    @Published private(set) var hovering = false
-    /// The icon it would land before; nil: at the end.
-    @Published private(set) var before: URL?
-    private var leaving: DispatchWorkItem?
-    private var watcher: Timer?
-
-    func over(before target: URL?) {
-        // After a drop, SwiftUI can still report the drag as over the taskbar; with the button up it's over.
-        guard NSEvent.pressedMouseButtons & 1 != 0 else { clear(); return }
-        leaving?.cancel()
-        if !hovering { hovering = true }
-        if before != target { before = target }
-        // The slot only belongs to a drag in progress: it goes once the mouse button is up, however the drag ended.
-        if watcher == nil {
-            let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
-                if NSEvent.pressedMouseButtons & 1 == 0 { self?.clear() }
-            }
-            RunLoop.main.add(timer, forMode: .common)
-            watcher = timer
-        }
-    }
-
-    /// Left one drop target: if no other one takes it at once, it's off the taskbar.
-    func left() {
-        leaving?.cancel()
-        let work = DispatchWorkItem { [weak self] in self?.clear() }
-        leaving = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: work)
-    }
-
-    func clear() {
-        leaving?.cancel()
-        watcher?.invalidate()
-        watcher = nil
-        if hovering { hovering = false }
-        if before != nil { before = nil }
-    }
 }
 
 /// Where a drop from outside lands.
 enum TaskbarDropTarget {
     case before(URL)
     case end
-    /// The empty slot itself: where it already is.
-    case slot
 }
 
 struct TaskbarFileDropDelegate: DropDelegate {
@@ -390,37 +334,22 @@ struct TaskbarFileDropDelegate: DropDelegate {
         TaskbarDrag.shared.item == nil && (panelItem != nil || info.hasItemsConforming(to: [.fileURL]))
     }
 
-    private func note() {
-        switch target {
-        case .before(let url): TaskbarFileDrop.shared.over(before: url)
-        case .end: TaskbarFileDrop.shared.over(before: nil)
-        case .slot: TaskbarFileDrop.shared.over(before: TaskbarFileDrop.shared.before)
-        }
-    }
-
     func dropEntered(info: DropInfo) {
-        guard validateDrop(info: info) else { return }
-        PanelState.shared.noteDragActivity()
-        note()
+        if validateDrop(info: info) { PanelState.shared.noteDragActivity() }
     }
 
     func dropUpdated(info: DropInfo) -> DropProposal? {
         guard validateDrop(info: info) else { return nil }
         PanelState.shared.noteDragActivity()
-        note()
         return DropProposal(operation: .copy)
     }
-
-    func dropExited(info: DropInfo) { TaskbarFileDrop.shared.left() }
 
     func performDrop(info: DropInfo) -> Bool {
         let before: URL?
         switch target {
         case .before(let url): before = url
         case .end: before = nil
-        case .slot: before = TaskbarFileDrop.shared.before
         }
-        TaskbarFileDrop.shared.clear()
         if let item = panelItem {
             TaskbarPins.shared.pin(item, before: before)
             PanelState.shared.endDrag()             // the tile stays where it was in HomePad
@@ -446,21 +375,6 @@ struct TaskbarFileDropDelegate: DropDelegate {
             }
         }
         return true
-    }
-}
-
-/// The empty slot where a dropped item will land.
-private struct TaskbarDropSlot: View {
-    var body: some View {
-        RoundedRectangle(cornerRadius: 8)
-            .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
-            .foregroundStyle(.tertiary)
-            .overlay(Image(systemName: "plus").font(.system(size: 13)).foregroundStyle(.tertiary))
-            .frame(width: 34, height: 34)
-            .frame(width: 44, height: 44)
-            .contentShape(Rectangle())
-            .onDrop(of: TaskbarFileDrop.types, delegate: TaskbarFileDropDelegate(target: .slot))
-            .transition(.opacity)
     }
 }
 
