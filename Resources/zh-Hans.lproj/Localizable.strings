@@ -91,8 +91,8 @@
 "Hide" = "隐藏";
 "Force Quit" = "强制退出";
 "Quit" = "退出";
-"Remove from HomePad" = "从 HomePad 移除";
-"Add to HomePad" = "添加到 HomePad";
+"Unpin from HomePad" = "从 HomePad 取消固定";
+"Pin to HomePad" = "固定到 HomePad";
 "Unpin from Taskbar" = "从任务栏取消固定";
 "Pin to Taskbar" = "固定到任务栏";
 "Hide from Taskbar" = "从任务栏隐藏";

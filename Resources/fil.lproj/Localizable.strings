@@ -91,8 +91,8 @@
 "Hide" = "Itago";
 "Force Quit" = "Sapilitang Umalis";
 "Quit" = "Umalis";
-"Remove from HomePad" = "Alisin sa HomePad";
-"Add to HomePad" = "Idagdag sa HomePad";
+"Unpin from HomePad" = "I-unpin sa HomePad";
+"Pin to HomePad" = "I-pin sa HomePad";
 "Unpin from Taskbar" = "I-unpin sa Taskbar";
 "Pin to Taskbar" = "I-pin sa Taskbar";
 "Hide from Taskbar" = "Itago sa Taskbar";

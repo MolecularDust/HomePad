@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Menemukan ikon memerlukan izin “⟦Accessibility⟧”, jadi untuk sementara panel terbuka di tengah. Izinkan di tab “Izin”.",
  "Sound": "Suara",
  "⟦Sound⟧ Settings…": "Pengaturan “⟦Sound⟧”…",
- "Add to HomePad": "Tambahkan ke HomePad",
- "Remove from HomePad": "Hapus dari HomePad"
+ "Pin to HomePad": "Sematkan ke HomePad",
+ "Unpin from HomePad": "Lepas Sematan dari HomePad"
 }

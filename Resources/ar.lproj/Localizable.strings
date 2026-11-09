@@ -91,8 +91,8 @@
 "Hide" = "إخفاء";
 "Force Quit" = "إنهاء إجباري";
 "Quit" = "إنهاء";
-"Remove from HomePad" = "إزالة من HomePad";
-"Add to HomePad" = "إضافة إلى HomePad";
+"Unpin from HomePad" = "إلغاء التثبيت من HomePad";
+"Pin to HomePad" = "التثبيت على HomePad";
 "Unpin from Taskbar" = "إلغاء التثبيت من شريط المهام";
 "Pin to Taskbar" = "التثبيت على شريط المهام";
 "Hide from Taskbar" = "إخفاء من شريط المهام";

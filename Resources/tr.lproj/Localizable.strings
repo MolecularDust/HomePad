@@ -91,8 +91,8 @@
 "Hide" = "Gizle";
 "Force Quit" = "Zorla Çık";
 "Quit" = "Çık";
-"Remove from HomePad" = "HomePad’den kaldır";
-"Add to HomePad" = "HomePad’e ekle";
+"Unpin from HomePad" = "HomePad’den kaldır";
+"Pin to HomePad" = "HomePad’e sabitle";
 "Unpin from Taskbar" = "Görev çubuğundan kaldır";
 "Pin to Taskbar" = "Görev çubuğuna sabitle";
 "Hide from Taskbar" = "Görev çubuğundan gizle";

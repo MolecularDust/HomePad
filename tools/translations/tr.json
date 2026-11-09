@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. “İzinler” sekmesinden izin verin.",
  "Sound": "Ses",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧” ayarları…",
- "Add to HomePad": "HomePad’e ekle",
- "Remove from HomePad": "HomePad’den kaldır"
+ "Pin to HomePad": "HomePad’e sabitle",
+ "Unpin from HomePad": "HomePad’den kaldır"
 }

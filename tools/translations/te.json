@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "ఐకాన్ కనుగొనడానికి “⟦Accessibility⟧” అనుమతి అవసరం, కాబట్టి ప్రస్తుతం ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. “అనుమతులు” ట్యాబ్‌లో దీన్ని అనుమతించండి.",
  "Sound": "Sound",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧” సెట్టింగ్‌లు…",
- "Add to HomePad": "HomePadకు జోడించండి",
- "Remove from HomePad": "HomePad నుండి తీసివేయండి"
+ "Pin to HomePad": "HomePadకు పిన్ చేయండి",
+ "Unpin from HomePad": "HomePad నుండి అన్‌పిన్ చేయండి"
 }

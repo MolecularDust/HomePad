@@ -118,7 +118,7 @@ and **Permissions**. It reopens on the tab you used last.
   - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon),
     then what you pinned to it and the running apps, centred. The running apps then leave the panel. Pin apps, files
     and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
-    (**Pin to Taskbar**; in HomePad's panel too). A taskbar icon's menu also has **Add to HomePad** (or Remove from
+    (**Pin to Taskbar**; in HomePad's panel too). A taskbar icon's menu also has **Pin to HomePad** (or Unpin from
     HomePad), for HomePad's own categories. The taskbar's pins are a list of their own, apart from HomePad's
     categories. Drag icons along the taskbar to reorder them. **App icons** go in the **Center** or on the **Left**; while they're centred,
     **HomePad icon** can be centred with them or on the left (with the app icons on the left it's always there, so

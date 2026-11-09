@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“.",
  "Sound": "الصوت",
  "⟦Sound⟧ Settings…": "إعدادات ”⟦Sound⟧“…",
- "Add to HomePad": "إضافة إلى HomePad",
- "Remove from HomePad": "إزالة من HomePad"
+ "Pin to HomePad": "التثبيت على HomePad",
+ "Unpin from HomePad": "إلغاء التثبيت من HomePad"
 }

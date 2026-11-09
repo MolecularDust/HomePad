@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。“アクセス権”タブで許可してください。",
  "Sound": "サウンド",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧”設定…",
- "Add to HomePad": "HomePadに追加",
- "Remove from HomePad": "HomePadから削除"
+ "Pin to HomePad": "HomePadにピン留め",
+ "Unpin from HomePad": "HomePadからピン留めを外す"
 }

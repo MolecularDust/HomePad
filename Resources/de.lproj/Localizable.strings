@@ -91,8 +91,8 @@
 "Hide" = "Ausblenden";
 "Force Quit" = "Sofort beenden";
 "Quit" = "Beenden";
-"Remove from HomePad" = "Aus HomePad entfernen";
-"Add to HomePad" = "Zu HomePad hinzufügen";
+"Unpin from HomePad" = "Von HomePad lösen";
+"Pin to HomePad" = "An HomePad anheften";
 "Unpin from Taskbar" = "Von Taskleiste lösen";
 "Pin to Taskbar" = "An Taskleiste anheften";
 "Hide from Taskbar" = "In Taskleiste ausblenden";

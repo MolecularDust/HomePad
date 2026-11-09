@@ -91,8 +91,8 @@
 "Hide" = "Nascondi";
 "Force Quit" = "Uscita forzata";
 "Quit" = "Esci";
-"Remove from HomePad" = "Rimuovi da HomePad";
-"Add to HomePad" = "Aggiungi a HomePad";
+"Unpin from HomePad" = "Rimuovi da HomePad";
+"Pin to HomePad" = "Aggiungi a HomePad";
 "Unpin from Taskbar" = "Rimuovi dalla barra delle applicazioni";
 "Pin to Taskbar" = "Aggiungi alla barra delle applicazioni";
 "Hide from Taskbar" = "Nascondi dalla barra delle applicazioni";

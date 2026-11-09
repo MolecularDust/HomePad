@@ -996,13 +996,13 @@ extension AppTileMenu {
     @ViewBuilder fileprivate var homePadPin: some View {
         let store = CategoryStore.shared
         if store.contains(url) {
-            Button("Remove from HomePad") { store.remove(url) }
+            Button("Unpin from HomePad") { store.remove(url) }
         } else if store.categories.count > 1 {
-            Menu("Add to HomePad") {
+            Menu("Pin to HomePad") {
                 ForEach(store.categories) { c in Button(c.name) { store.add(url, to: c.id) } }
             }
         } else {
-            Button("Add to HomePad") { store.add(url) }
+            Button("Pin to HomePad") { store.add(url) }
         }
     }
 

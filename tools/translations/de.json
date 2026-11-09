@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie im Tab „Berechtigungen“.",
  "Sound": "Ton",
  "⟦Sound⟧ Settings…": "Einstellungen für „⟦Sound⟧“ …",
- "Add to HomePad": "Zu HomePad hinzufügen",
- "Remove from HomePad": "Aus HomePad entfernen"
+ "Pin to HomePad": "An HomePad anheften",
+ "Unpin from HomePad": "Von HomePad lösen"
 }

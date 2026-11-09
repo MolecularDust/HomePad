@@ -302,6 +302,6 @@
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения».",
  "Sound": "Звук",
  "⟦Sound⟧ Settings…": "Настройки «⟦Sound⟧»…",
- "Add to HomePad": "Добавить в HomePad",
- "Remove from HomePad": "Убрать из HomePad"
+ "Pin to HomePad": "Закрепить в HomePad",
+ "Unpin from HomePad": "Открепить от HomePad"
 }

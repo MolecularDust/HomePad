@@ -91,8 +91,8 @@
 "Hide" = "隠す";
 "Force Quit" = "強制終了";
 "Quit" = "終了";
-"Remove from HomePad" = "HomePadから削除";
-"Add to HomePad" = "HomePadに追加";
+"Unpin from HomePad" = "HomePadからピン留めを外す";
+"Pin to HomePad" = "HomePadにピン留め";
 "Unpin from Taskbar" = "タスクバーからピン留めを外す";
 "Pin to Taskbar" = "タスクバーにピン留め";
 "Hide from Taskbar" = "タスクバーに表示しない";
