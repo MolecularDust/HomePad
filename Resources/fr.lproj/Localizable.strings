@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ est peut-être déjà utilisé";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Un appui test sur ce raccourci n’a pas atteint HomePad : une autre app le reçoit d’abord, mais macOS n’indique pas laquelle. Vérifiez les raccourcis de vos lanceurs ou assistants, ou choisissez ici un autre raccourci.";
 "Choose Another Shortcut" = "Choisir un autre raccourci";
-"Start" = "Démarrer";
 "Off" = "Désactivée";
 "Control ⌃" = "Contrôle ⌃";
 "Option ⌥" = "Option ⌥";

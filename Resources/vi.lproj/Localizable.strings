@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ có thể đã được sử dụng";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Lần nhấn thử phím tắt này không tới được HomePad, nên một ứng dụng khác nhận nó trước, nhưng macOS không cho biết là ứng dụng nào. Hãy kiểm tra cài đặt phím tắt của các ứng dụng trình khởi chạy hoặc trợ lý bạn dùng, hoặc chọn phím tắt khác ở đây.";
 "Choose Another Shortcut" = "Chọn phím tắt khác";
-"Start" = "Bắt đầu";
 "Off" = "Tắt";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

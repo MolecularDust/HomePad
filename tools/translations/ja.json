@@ -267,7 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePadはウインドウの上に浮かび、呼び出した場所で開きます：ショートカット、ダブルタップ、ホットコーナー、またはメニューバーのアイコンで。",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePadは“⟦Dock⟧”を表示し、そこに自分のアイコンを置きます。“⟦Dock⟧”は置いた場所のままです。",
- "Start": "スタート",
  "Add Apps to the Taskbar": "タスクバーにアプリを追加",
  "Add Files and Folders to the Taskbar": "タスクバーにファイルとフォルダを追加",
  "Unpin from Taskbar": "タスクバーからピン留めを外す",

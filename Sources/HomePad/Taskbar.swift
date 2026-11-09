@@ -246,7 +246,8 @@ private struct TaskbarDropDelegate: DropDelegate {
     }
 }
 
-/// HomePad's own icon at the start of the taskbar: opens and closes the panel, like the Windows Start button.
+/// HomePad's own icon at the start of the taskbar: opens and closes the panel, like the Windows Start button (its label
+/// says HomePad).
 private struct StartButton: View {
     @ObservedObject private var drag = TaskbarDrag.shared
     @State private var hovering = false
@@ -263,7 +264,7 @@ private struct StartButton: View {
             .contentShape(Rectangle())
             .onHover { inside in
                 hovering = inside
-                TaskbarLabel.shared.hover(inside ? L("Start") : nil, over: Taskbar.shared.screenRect(frame))
+                TaskbarLabel.shared.hover(inside ? "HomePad" : nil, over: Taskbar.shared.screenRect(frame))
             }
             .onTapGesture {
                 TaskbarLabel.shared.hover(nil, over: nil)
@@ -282,9 +283,10 @@ private struct TaskbarHighlight: View {
     var body: some View {
         let dark = scheme == .dark
         RoundedRectangle(cornerRadius: 6)
-            .fill(Color.white.opacity(on ? (dark ? (strong ? 0.10 : 0.07) : (strong ? 0.75 : 0.55)) : 0))
+            // A faint grey on the light taskbar (white disappeared into it), a faint light tint on the dark one.
+            .fill((dark ? Color.white : Color.black).opacity(on ? (dark ? (strong ? 0.10 : 0.07) : (strong ? 0.055 : 0.04)) : 0))
             .overlay(RoundedRectangle(cornerRadius: 6)
-                .strokeBorder(Color.primary.opacity(on ? (dark ? 0.06 : 0.05) : 0), lineWidth: 0.5))
+                .strokeBorder((dark ? Color.white : Color.black).opacity(on ? 0.07 : 0), lineWidth: 0.5))
     }
 }
 

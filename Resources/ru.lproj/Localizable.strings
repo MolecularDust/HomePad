@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@, возможно, уже занято";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Пробное нажатие этого сочетания не дошло до HomePad, значит, его раньше перехватывает другое приложение, но macOS не сообщает, какое. Проверьте сочетания в лаунчерах и ассистентах, которыми пользуетесь, или выберите здесь другое сочетание.";
 "Choose Another Shortcut" = "Выбрать другое сочетание";
-"Start" = "Пуск";
 "Off" = "Выкл.";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

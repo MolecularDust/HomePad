@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ शायद पहले से इस्तेमाल में है";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "इस शॉर्टकट का टेस्ट प्रेस HomePad तक नहीं पहुँचा, यानी कोई और ऐप उसे पहले पकड़ लेती है, पर macOS यह नहीं बताता कि कौन-सी। अपनी लॉन्चर या असिस्टेंट ऐप्स की शॉर्टकट सेटिंग्ज़ देखें, या यहाँ कोई और शॉर्टकट चुनें।";
 "Choose Another Shortcut" = "कोई और शॉर्टकट चुनें";
-"Start" = "स्टार्ट";
 "Off" = "बंद";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

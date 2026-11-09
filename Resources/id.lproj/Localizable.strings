@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ mungkin sudah digunakan";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Tekanan uji pintasan ini tidak sampai ke HomePad, jadi app lain menanganinya lebih dulu, tetapi macOS tidak memberi tahu app yang mana. Periksa pengaturan pintasan app peluncur atau asisten yang Anda jalankan, atau pilih pintasan lain di sini.";
 "Choose Another Shortcut" = "Pilih Pintasan Lain";
-"Start" = "Mulai";
 "Off" = "Mati";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

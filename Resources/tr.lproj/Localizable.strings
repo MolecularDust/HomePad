@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ zaten kullanılıyor olabilir";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Bu kısayol için yapılan deneme basışı HomePad’e ulaşmadı; başka bir uygulama onu önce alıyor, ama macOS hangisi olduğunu söylemiyor. Kullandığınız başlatıcı veya asistan uygulamalarının kısayol ayarlarını kontrol edin ya da burada başka bir kısayol seçin.";
 "Choose Another Shortcut" = "Başka Bir Kısayol Seç";
-"Start" = "Başlat";
 "Off" = "Kapalı";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

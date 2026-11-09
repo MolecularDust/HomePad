@@ -267,7 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad 浮在窗口之上，在你调用的地方打开：使用快捷键、连按、触发角或菜单栏图标。",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad 会显示“⟦Dock⟧”并把它的图标保留在那里；“⟦Dock⟧”保持在你放置的位置。",
- "Start": "开始",
  "Add Apps to the Taskbar": "将 App 添加到任务栏",
  "Add Files and Folders to the Taskbar": "将文件和文件夹添加到任务栏",
  "Unpin from Taskbar": "从任务栏取消固定",

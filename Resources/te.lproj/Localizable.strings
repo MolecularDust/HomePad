@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@ ఇప్పటికే ఉపయోగంలో ఉండవచ్చు";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "ఈ షార్ట్‌కట్ పరీక్ష నొక్కడం HomePadకు చేరలేదు, కాబట్టి మరో యాప్ దాన్ని ముందుగా అందుకుంటోంది, కానీ ఏ యాప్‌నో macOS చెప్పదు. మీరు ఉపయోగించే లాంచర్ లేదా అసిస్టెంట్ యాప్‌ల షార్ట్‌కట్ సెట్టింగ్‌లు చూడండి, లేదా ఇక్కడ వేరే షార్ట్‌కట్ ఎంచుకోండి.";
 "Choose Another Shortcut" = "వేరే షార్ట్‌కట్ ఎంచుకోండి";
-"Start" = "ప్రారంభం";
 "Off" = "ఆఫ్";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

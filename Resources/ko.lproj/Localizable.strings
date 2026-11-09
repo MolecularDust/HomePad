@@ -248,7 +248,6 @@
 "%@ may already be in use" = "%@은(는) 이미 사용 중일 수 있습니다";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "이 단축키의 테스트 입력이 HomePad에 도달하지 않았으므로 다른 앱이 먼저 받고 있지만, macOS는 어느 앱인지 알려주지 않습니다. 사용 중인 런처나 어시스턴트 앱의 단축키 설정을 확인하거나 여기에서 다른 단축키를 선택하십시오.";
 "Choose Another Shortcut" = "다른 단축키 선택";
-"Start" = "시작";
 "Off" = "끔";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

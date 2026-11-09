@@ -267,7 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad ลอยอยู่เหนือหน้าต่างของคุณและเปิดตรงที่คุณเรียก: ด้วยปุ่มลัด การแตะสองครั้ง มุมร้อน หรือไอคอนในแถบเมนู",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad จะแสดง “⟦Dock⟧” และเก็บไอคอนของตัวเองไว้ที่นั่น “⟦Dock⟧” จะอยู่ตรงที่คุณวางไว้",
- "Start": "เริ่ม",
  "Add Apps to the Taskbar": "เพิ่มแอปลงในแถบงาน",
  "Add Files and Folders to the Taskbar": "เพิ่มไฟล์และโฟลเดอร์ลงในแถบงาน",
  "Unpin from Taskbar": "เลิกปักหมุดจากแถบงาน",
