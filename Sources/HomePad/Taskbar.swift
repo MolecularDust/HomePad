@@ -333,11 +333,22 @@ final class TaskbarFileDrop: ObservableObject {
     /// The icon it would land before; nil: at the end.
     @Published private(set) var before: URL?
     private var leaving: DispatchWorkItem?
+    private var watcher: Timer?
 
     func over(before target: URL?) {
+        // After a drop, SwiftUI can still report the drag as over the taskbar; with the button up it's over.
+        guard NSEvent.pressedMouseButtons & 1 != 0 else { clear(); return }
         leaving?.cancel()
         if !hovering { hovering = true }
         if before != target { before = target }
+        // The slot only belongs to a drag in progress: it goes once the mouse button is up, however the drag ended.
+        if watcher == nil {
+            let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
+                if NSEvent.pressedMouseButtons & 1 == 0 { self?.clear() }
+            }
+            RunLoop.main.add(timer, forMode: .common)
+            watcher = timer
+        }
     }
 
     /// Left one drop target: if no other one takes it at once, it's off the taskbar.
@@ -350,8 +361,10 @@ final class TaskbarFileDrop: ObservableObject {
 
     func clear() {
         leaving?.cancel()
-        hovering = false
-        before = nil
+        watcher?.invalidate()
+        watcher = nil
+        if hovering { hovering = false }
+        if before != nil { before = nil }
     }
 }
 
