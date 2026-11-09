@@ -267,6 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "عند إيقافه، يفتحه أيضًا الاختصار والنقر المزدوج والزوايا النشطة: فوق شريط المهام، والزوايا النشطة في زاويتها. أيقونة شريط القائمة تفتحه دائمًا.",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "يطفو HomePad فوق نوافذك ويُفتح حيث تستدعيه: بالاختصار أو النقر المزدوج أو الزوايا النشطة أو أيقونة شريط القائمة.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "يُظهر HomePad ”⟦Dock⟧“ ويُبقي أيقونته هناك؛ ويبقى ”⟦Dock⟧“ حيث وضعته.",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتمتد النوافذ المكبّرة تحت شريط المهام.",
- "Start": "ابدأ"
+ "Start": "ابدأ",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. تنتهي النوافذ المكبّرة فوقه: يبقى ”⟦Dock⟧“ تحت شريط المهام ليُبقي تلك المساحة فارغة."
 }

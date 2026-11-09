@@ -173,7 +173,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         try? FileManager.default.removeItem(at: script)
         guard (try? FileManager.default.copyItem(at: bundled, to: script)) != nil else { return }
 
-        if DockControl.isHidden { DockControl.showNow() }
+        if DockControl.restoreTaskbarPrefs() || DockControl.isHidden { DockControl.showNow() }
         try? SMAppService.mainApp.unregister()
 
         let process = Process()

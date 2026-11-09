@@ -4,15 +4,17 @@ import SwiftUI
 /// Taskbar mode (HomePadMode): a Windows 11–style taskbar along the bottom of the main screen, with HomePad's Start
 /// button and the running apps centred together.
 ///
-/// It's a borderless panel at the Dock's window level, on every Space but not over full-screen apps, and it never takes
-/// the keyboard focus (a click on it leaves the app you're in active, as the Dock does). macOS doesn't let an app reserve
-/// screen space, so maximized windows reach under it; the Dock is hidden meanwhile.
+/// It's a borderless panel just above the Dock's window level, on every Space but not over full-screen apps, and it never
+/// takes the keyboard focus (a click on it leaves the app you're in active, as the Dock does). macOS lets only the Dock
+/// keep windows off part of the screen, so the Dock stays at the bottom, as tall as the taskbar, under it
+/// (DockControl.reserveForTaskbar); the taskbar takes the height the Dock keeps, so maximized windows end at its top.
+/// It's opaque, or the Dock would show through.
 final class Taskbar {
     static let shared = Taskbar()
     static let height: CGFloat = 48
 
     private var panel: TaskbarPanel?
-    private var screenObserver: NSObjectProtocol?
+    private var observers: [NSObjectProtocol] = []
 
     /// Where the taskbar is on screen, while it's shown.
     var frame: NSRect? { panel?.isVisible == true ? panel?.frame : nil }
@@ -21,10 +23,12 @@ final class Taskbar {
         if panel == nil { build() }
         place()
         panel?.orderFrontRegardless()
-        if screenObserver == nil {
-            screenObserver = NotificationCenter.default.addObserver(
-                forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { [weak self] _ in
-                self?.place()
+        if observers.isEmpty {
+            // The Dock's space changes after it restarts; screens come and go.
+            for name in [NSApplication.didChangeScreenParametersNotification, DockControl.changed] {
+                observers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                    self?.place()
+                })
             }
         }
     }
@@ -34,10 +38,13 @@ final class Taskbar {
         WindowPreviewController.shared.hideNow()
     }
 
-    /// Full width along the bottom of the screen with the menu bar.
+    /// Full width along the bottom of the screen with the menu bar, as tall as the space the Dock keeps there (until
+    /// the Dock has its place, the standard height).
     private func place() {
         guard let screen = NSScreen.screens.first, let panel else { return }
-        panel.setFrame(NSRect(x: screen.frame.minX, y: screen.frame.minY, width: screen.frame.width, height: Self.height),
+        let reserved = DockControl.reservedHeight
+        let height = (30...90).contains(reserved) ? reserved : Self.height
+        panel.setFrame(NSRect(x: screen.frame.minX, y: screen.frame.minY, width: screen.frame.width, height: height),
                        display: true)
     }
 
@@ -45,28 +52,14 @@ final class Taskbar {
         let panel = TaskbarPanel(contentRect: NSRect(x: 0, y: 0, width: 800, height: Self.height),
                                  styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.isFloatingPanel = true
-        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.dockWindow)))
+        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.dockWindow)) + 1)     // over the Dock
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
         panel.hidesOnDeactivate = false
-        panel.isOpaque = false
-        panel.backgroundColor = .clear
+        panel.isOpaque = true
+        panel.backgroundColor = .windowBackgroundColor      // follows light and dark
         panel.hasShadow = false
         panel.isMovable = false
-
-        let effect = NSVisualEffectView()
-        effect.material = .menu
-        effect.blendingMode = .behindWindow
-        effect.state = .active
-        let host = FirstClickHostingView(rootView: TaskbarView().localized())
-        host.translatesAutoresizingMaskIntoConstraints = false
-        effect.addSubview(host)
-        NSLayoutConstraint.activate([
-            host.leadingAnchor.constraint(equalTo: effect.leadingAnchor),
-            host.trailingAnchor.constraint(equalTo: effect.trailingAnchor),
-            host.topAnchor.constraint(equalTo: effect.topAnchor),
-            host.bottomAnchor.constraint(equalTo: effect.bottomAnchor),
-        ])
-        panel.contentView = effect
+        panel.contentView = FirstClickHostingView(rootView: TaskbarView().localized())
         self.panel = panel
     }
 

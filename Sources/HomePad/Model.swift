@@ -788,7 +788,7 @@ enum DockControl {
     /// the Dock is already that way.
     static func setHidden(_ hidden: Bool) {
         inBackground {
-            if hidden ? isHidden : (!autoHides && revealDelay == 0) { return }
+            if !needsRestart, hidden ? isHidden : (!autoHides && revealDelay == 0) { return }
             apply(hidden)
         }
     }
@@ -811,6 +811,7 @@ enum DockControl {
         }
         let old = dockPID()
         run("/usr/bin/killall", "Dock") // the Dock relaunches itself with the new settings
+        needsRestart = false
         guard hidden else { return }
         // Wait for the new Dock, then switch auto-hide on.
         for _ in 0..<50 where dockPID() == old || dockPID() == nil { Thread.sleep(forTimeInterval: 0.1) }
@@ -856,8 +857,105 @@ enum DockControl {
                 run("/usr/bin/defaults", "write", "com.apple.dock", "persistent-apps", "-array-add", tile)
                 changed = true
             }
-            if changed { run("/usr/bin/killall", "Dock") }
+            if changed || needsRestart { run("/usr/bin/killall", "Dock"); needsRestart = false }
         }
+    }
+
+    // MARK: Taskbar mode
+
+    /// macOS lets only the Dock keep windows off part of the screen (a maximized window stops above it). So in
+    /// Taskbar mode the Dock stays shown, at the bottom and as tall as the taskbar, and the taskbar lies over it:
+    /// windows then fit above the taskbar. The Dock's own size, magnification and side are saved first (under
+    /// `dockBeforeTaskbar`) and put back when you leave the mode.
+    private static let savedKey = "dockBeforeTaskbar"
+    /// The Dock icon size that gave the taskbar's height last time, so the next time takes one Dock restart.
+    private static let tileSizeKey = "taskbarDockTileSize"
+    private static let taskbarKeys = ["tilesize", "magnification", "orientation"]
+    private static let domain = "com.apple.dock" as CFString
+
+    /// Prefs written but the Dock not restarted yet (only touched on `queue`, or on the main thread when uninstalling).
+    private static var needsRestart = false
+
+    private static func pref(_ key: String) -> Any? {
+        CFPreferencesAppSynchronize(domain)
+        return CFPreferencesCopyAppValue(key as CFString, domain)
+    }
+
+    private static func setPref(_ key: String, _ value: Any?) {
+        CFPreferencesSetAppValue(key as CFString, value as CFPropertyList?, domain)
+        CFPreferencesAppSynchronize(domain)
+    }
+
+    /// How much the Dock keeps off the bottom of the main screen.
+    static var reservedHeight: CGFloat {
+        let read = { () -> CGFloat in
+            guard let screen = NSScreen.screens.first else { return 0 }
+            return screen.visibleFrame.minY - screen.frame.minY
+        }
+        return Thread.isMainThread ? read() : DispatchQueue.main.sync(execute: read)
+    }
+
+    /// Sets the Dock up under the taskbar (`height` tall). Nothing happens when it already is; otherwise the Dock
+    /// restarts, and once more if its height came out wrong (the icon size that fits is remembered).
+    static func reserveForTaskbar(height: CGFloat) {
+        inBackground {
+            let d = UserDefaults.standard
+            if d.dictionary(forKey: savedKey) == nil {
+                var saved: [String: Any] = [:]
+                for key in taskbarKeys { if let value = pref(key) { saved[key] = value } }
+                d.set(saved, forKey: savedKey)
+            }
+            var tile = d.object(forKey: tileSizeKey) as? Double ?? Double(height) - 12
+            func configure() {
+                setAutoHide?(false)
+                setPref("autohide", false)
+                setPref("autohide-delay", nil)
+                setPref("orientation", "bottom")
+                setPref("magnification", false)
+                setPref("tilesize", tile)
+                let old = dockPID()
+                run("/usr/bin/killall", "Dock")
+                needsRestart = false
+                waitForReserve(after: old)
+            }
+            let ready = !autoHides && revealDelay == 0 && pref("orientation") as? String == "bottom"
+                && pref("magnification") as? Bool != true && (pref("tilesize") as? NSNumber)?.doubleValue == tile
+            if !ready || needsRestart { configure() }
+            let got = reservedHeight
+            if got > 0, abs(got - height) > 1.5 {
+                tile = min(128, max(16, tile + Double(height - got)))
+                configure()
+            }
+            d.set(tile, forKey: tileSizeKey)
+        }
+    }
+
+    /// Waits for the restarted Dock to take its space on screen (it has once the space stops changing).
+    private static func waitForReserve(after old: pid_t?) {
+        for _ in 0..<50 where dockPID() == old || dockPID() == nil { Thread.sleep(forTimeInterval: 0.1) }
+        var last: CGFloat = -1
+        for _ in 0..<30 {
+            Thread.sleep(forTimeInterval: 0.15)
+            let now = reservedHeight
+            if now > 0, now == last { return }
+            last = now
+        }
+    }
+
+    /// Leaving Taskbar mode: the Dock's size, magnification and side as they were. The Dock restarts with the next
+    /// change (the new mode's: `setHidden` or `showWithHomePad`).
+    static func leaveTaskbar() {
+        queue.async { restoreTaskbarPrefs() }
+    }
+
+    /// For uninstalling, on the main thread: true if something was put back (the Dock then needs a restart).
+    @discardableResult
+    static func restoreTaskbarPrefs() -> Bool {
+        guard let saved = UserDefaults.standard.dictionary(forKey: savedKey) else { return false }
+        for key in taskbarKeys { setPref(key, saved[key]) }
+        UserDefaults.standard.removeObject(forKey: savedKey)
+        needsRestart = true
+        return true
     }
 
     private static func run(_ tool: String, _ args: String...) {

@@ -267,6 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad schwebt über deinen Fenstern und öffnet sich dort, wo du es rufst: per Tastenkürzel, Doppeltippen, aktiver Ecke oder Menüleistensymbol.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad blendet „⟦Dock⟧“ ein und behält sein Symbol dort; „⟦Dock⟧“ bleibt, wo du es hingestellt hast.",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Wie bei Windows: eine Taskleiste am unteren Bildschirmrand mit Start-Taste und deinen laufenden Apps, die dafür HomePads Feld verlassen. „⟦Dock⟧“ ist so lange ausgeblendet, und maximierte Fenster reichen unter die Taskleiste.",
- "Start": "Start"
+ "Start": "Start",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Wie bei Windows: eine Taskleiste am unteren Bildschirmrand mit Start-Taste und deinen laufenden Apps, die dafür HomePads Feld verlassen. Maximierte Fenster enden darüber: „⟦Dock⟧“ bleibt unter der Taskleiste und hält diesen Platz frei."
 }

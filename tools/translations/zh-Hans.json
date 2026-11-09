@@ -267,6 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad 浮在窗口之上，在你调用的地方打开：使用快捷键、连按、触发角或菜单栏图标。",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad 会显示“⟦Dock⟧”并把它的图标保留在那里；“⟦Dock⟧”保持在你放置的位置。",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。期间“⟦Dock⟧”会被隐藏，最大化的窗口会延伸到任务栏下方。",
- "Start": "开始"
+ "Start": "开始",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。最大化的窗口止于任务栏上方：“⟦Dock⟧”留在任务栏下面，为它保留这块空间。"
 }

@@ -267,6 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad ลอยอยู่เหนือหน้าต่างของคุณและเปิดตรงที่คุณเรียก: ด้วยปุ่มลัด การแตะสองครั้ง มุมร้อน หรือไอคอนในแถบเมนู",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad จะแสดง “⟦Dock⟧” และเก็บไอคอนของตัวเองไว้ที่นั่น “⟦Dock⟧” จะอยู่ตรงที่คุณวางไว้",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ขยายเต็มจะยื่นลงไปใต้แถบงาน",
- "Start": "เริ่ม"
+ "Start": "เริ่ม",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad หน้าต่างที่ขยายเต็มจะสิ้นสุดเหนือแถบงาน โดย “⟦Dock⟧” จะอยู่ใต้แถบงานเพื่อกันพื้นที่นั้นไว้"
 }

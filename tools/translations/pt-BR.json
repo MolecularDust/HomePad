@@ -267,6 +267,6 @@
  "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Desativado, o atalho, o toque duplo e os cantos ativos também o abrem: acima da barra de tarefas, e os cantos ativos no próprio canto. O ícone da barra de menus sempre o abre.",
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "O HomePad flutua sobre as janelas e abre onde você o chamar: com o atalho, o toque duplo, os cantos ativos ou o ícone da barra de menus.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "O HomePad mostra o “⟦Dock⟧” e mantém seu ícone lá; o “⟦Dock⟧” fica onde você o colocou.",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Como no Windows: uma barra de tarefas na parte de baixo da tela com um botão Iniciar e seus apps abertos, que saem do painel do HomePad. O “⟦Dock⟧” fica oculto enquanto isso, e janelas maximizadas passam por baixo da barra.",
- "Start": "Iniciar"
+ "Start": "Iniciar",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Como no Windows: uma barra de tarefas na parte de baixo da tela com um botão Iniciar e seus apps abertos, que saem do painel do HomePad. Janelas maximizadas terminam acima dela: o “⟦Dock⟧” fica sob a barra de tarefas para reservar esse espaço."
 }

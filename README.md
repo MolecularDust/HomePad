@@ -114,8 +114,9 @@ any time from the menu-bar icon → Setup Guide…
   - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon) and
     the running apps, centred, in the Running section's order. The running apps then leave the panel. Click an app to
     bring it forward (or hide it if it's already in front); point at it for its windows; right-click for its menu. The
-    panel opens centred above the taskbar. The Dock is hidden meanwhile. macOS doesn't let an app reserve screen space, so maximized windows reach
-    under the taskbar. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
+    panel opens centred above the taskbar. macOS lets only the Dock keep windows off part of the screen, so the Dock
+    stays at the bottom, as tall as the taskbar, under it: maximized windows end at the taskbar's top. Its size,
+    magnification and side are put back when you leave the mode. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
     (the menu-bar icon still works).
 - **Hide the Dock** (Standalone only): turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
