@@ -91,6 +91,8 @@
 "Hide" = "가리기";
 "Force Quit" = "강제 종료";
 "Quit" = "종료";
+"Remove from HomePad" = "HomePad에서 제거";
+"Add to HomePad" = "HomePad에 추가";
 "Unpin from Taskbar" = "작업 표시줄에서 고정 해제";
 "Pin to Taskbar" = "작업 표시줄에 고정";
 "Hide from Taskbar" = "작업 표시줄에서 가리기";

@@ -91,6 +91,8 @@
 "Hide" = "پنهان کردن";
 "Force Quit" = "خروج اجباری";
 "Quit" = "خروج";
+"Remove from HomePad" = "برداشتن از HomePad";
+"Add to HomePad" = "افزودن به HomePad";
 "Unpin from Taskbar" = "برداشتن از نوار وظیفه";
 "Pin to Taskbar" = "سنجاق به نوار وظیفه";
 "Hide from Taskbar" = "پنهان کردن از نوار وظیفه";

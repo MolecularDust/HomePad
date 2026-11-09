@@ -959,6 +959,7 @@ struct AppTileMenu: View {
             }
             if onTaskbar {
                 taskbarPin
+                homePadPin
             } else if let categoryID {
                 let others = CategoryStore.shared.categories.filter { $0.id != categoryID }
                 if !others.isEmpty {
@@ -991,6 +992,20 @@ struct AppTileMenu: View {
 }
 
 extension AppTileMenu {
+    /// The taskbar's menu: HomePad's own categories, named so it isn't mistaken for the taskbar's pinning.
+    @ViewBuilder fileprivate var homePadPin: some View {
+        let store = CategoryStore.shared
+        if store.contains(url) {
+            Button("Remove from HomePad") { store.remove(url) }
+        } else if store.categories.count > 1 {
+            Menu("Add to HomePad") {
+                ForEach(store.categories) { c in Button(c.name) { store.add(url, to: c.id) } }
+            }
+        } else {
+            Button("Add to HomePad") { store.add(url) }
+        }
+    }
+
     @ViewBuilder fileprivate var taskbarPin: some View {
         if TaskbarPins.shared.contains(url) {
             Button("Unpin from Taskbar") { TaskbarPins.shared.unpin(url) }

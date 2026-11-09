@@ -301,5 +301,7 @@
  "Use Taskbar Mode": "टास्कबार मोड इस्तेमाल करें",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "आइकॉन ढूँढने के लिए “⟦Accessibility⟧” अनुमति चाहिए, इसलिए अभी पैनल बीच में खुलता है। इसे “अनुमतियाँ” टैब में अनुमति दें।",
  "Sound": "ध्वनि",
- "⟦Sound⟧ Settings…": "“⟦Sound⟧” सेटिंग्स…"
+ "⟦Sound⟧ Settings…": "“⟦Sound⟧” सेटिंग्स…",
+ "Add to HomePad": "HomePad में जोड़ें",
+ "Remove from HomePad": "HomePad से हटाएँ"
 }

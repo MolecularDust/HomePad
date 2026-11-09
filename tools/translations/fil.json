@@ -301,5 +301,7 @@
  "Use Taskbar Mode": "Gamitin ang Taskbar Mode",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa tab na “Mga Pahintulot”.",
  "Sound": "Sound",
- "⟦Sound⟧ Settings…": "Mga Setting ng “⟦Sound⟧”…"
+ "⟦Sound⟧ Settings…": "Mga Setting ng “⟦Sound⟧”…",
+ "Add to HomePad": "Idagdag sa HomePad",
+ "Remove from HomePad": "Alisin sa HomePad"
 }

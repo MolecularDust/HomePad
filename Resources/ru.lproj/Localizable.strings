@@ -91,6 +91,8 @@
 "Hide" = "Скрыть";
 "Force Quit" = "Завершить принудительно";
 "Quit" = "Завершить";
+"Remove from HomePad" = "Убрать из HomePad";
+"Add to HomePad" = "Добавить в HomePad";
 "Unpin from Taskbar" = "Открепить от панели задач";
 "Pin to Taskbar" = "Закрепить на панели задач";
 "Hide from Taskbar" = "Скрыть с панели задач";

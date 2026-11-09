@@ -91,6 +91,8 @@
 "Hide" = "ซ่อน";
 "Force Quit" = "บังคับออก";
 "Quit" = "ออก";
+"Remove from HomePad" = "เอาออกจาก HomePad";
+"Add to HomePad" = "เพิ่มลงใน HomePad";
 "Unpin from Taskbar" = "เลิกปักหมุดจากแถบงาน";
 "Pin to Taskbar" = "ปักหมุดที่แถบงาน";
 "Hide from Taskbar" = "ซ่อนจากแถบงาน";

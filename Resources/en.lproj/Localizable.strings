@@ -91,6 +91,8 @@
 "Hide" = "Hide";
 "Force Quit" = "Force Quit";
 "Quit" = "Quit";
+"Remove from HomePad" = "Remove from HomePad";
+"Add to HomePad" = "Add to HomePad";
 "Unpin from Taskbar" = "Unpin from Taskbar";
 "Pin to Taskbar" = "Pin to Taskbar";
 "Hide from Taskbar" = "Hide from Taskbar";

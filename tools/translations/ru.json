@@ -301,5 +301,7 @@
  "Use Taskbar Mode": "Включить режим панели задач",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения».",
  "Sound": "Звук",
- "⟦Sound⟧ Settings…": "Настройки «⟦Sound⟧»…"
+ "⟦Sound⟧ Settings…": "Настройки «⟦Sound⟧»…",
+ "Add to HomePad": "Добавить в HomePad",
+ "Remove from HomePad": "Убрать из HomePad"
 }

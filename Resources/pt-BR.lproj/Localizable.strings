@@ -91,6 +91,8 @@
 "Hide" = "Ocultar";
 "Force Quit" = "Forçar encerramento";
 "Quit" = "Encerrar";
+"Remove from HomePad" = "Remover do HomePad";
+"Add to HomePad" = "Adicionar ao HomePad";
 "Unpin from Taskbar" = "Desafixar da barra de tarefas";
 "Pin to Taskbar" = "Fixar na barra de tarefas";
 "Hide from Taskbar" = "Ocultar da barra de tarefas";

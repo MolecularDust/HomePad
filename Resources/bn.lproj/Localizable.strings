@@ -91,6 +91,8 @@
 "Hide" = "লুকান";
 "Force Quit" = "জোর করে বন্ধ করুন";
 "Quit" = "বন্ধ করুন";
+"Remove from HomePad" = "HomePad থেকে সরান";
+"Add to HomePad" = "HomePad-এ যোগ করুন";
 "Unpin from Taskbar" = "টাস্কবার থেকে আনপিন করুন";
 "Pin to Taskbar" = "টাস্কবারে পিন করুন";
 "Hide from Taskbar" = "টাস্কবার থেকে লুকান";

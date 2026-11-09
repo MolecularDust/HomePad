@@ -301,5 +301,7 @@
  "Use Taskbar Mode": "Dùng chế độ Thanh tác vụ",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”.",
  "Sound": "Âm thanh",
- "⟦Sound⟧ Settings…": "Cài đặt “⟦Sound⟧”…"
+ "⟦Sound⟧ Settings…": "Cài đặt “⟦Sound⟧”…",
+ "Add to HomePad": "Thêm vào HomePad",
+ "Remove from HomePad": "Xóa khỏi HomePad"
 }

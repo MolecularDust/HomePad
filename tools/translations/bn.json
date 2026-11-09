@@ -301,5 +301,7 @@
  "Use Taskbar Mode": "টাস্কবার মোড ব্যবহার করুন",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। “অনুমতি” ট্যাবে এটি অনুমতি দিন।",
  "Sound": "Sound",
- "⟦Sound⟧ Settings…": "“⟦Sound⟧” সেটিংস…"
+ "⟦Sound⟧ Settings…": "“⟦Sound⟧” সেটিংস…",
+ "Add to HomePad": "HomePad-এ যোগ করুন",
+ "Remove from HomePad": "HomePad থেকে সরান"
 }
