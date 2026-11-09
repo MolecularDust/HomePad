@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "Thêm tệp và thư mục vào thanh tác vụ",
  "Unpin from Taskbar": "Bỏ ghim khỏi thanh tác vụ",
  "Pin to Taskbar": "Ghim vào thanh tác vụ",
- "Show hidden apps on the taskbar": "Hiện ứng dụng bị ẩn trên thanh tác vụ",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Ứng dụng bị ẩn được làm mờ. Khi tắt, chúng rời khỏi thanh tác vụ cho đến khi được hiện lại; ứng dụng đã ghim vẫn ở lại."
+ "Hide from Taskbar": "Ẩn khỏi thanh tác vụ",
+ "Show in taskbar": "Hiện trên thanh tác vụ",
+ "Pinned": "Đã ghim",
+ "Running apps": "Ứng dụng đang chạy"
 }

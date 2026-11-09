@@ -996,6 +996,8 @@ extension AppTileMenu {
             Button("Unpin from Taskbar") { TaskbarPins.shared.unpin(url) }
         } else {
             Button("Pin to Taskbar") { TaskbarPins.shared.pin(url) }
+            // A running app that isn't pinned: off the taskbar while it runs (Settings → Running apps brings it back).
+            if onTaskbar && isRunning { Button("Hide from Taskbar") { TaskbarShown.shared.set(url, shown: false) } }
         }
     }
 }

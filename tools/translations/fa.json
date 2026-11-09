@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "افزودن فایل‌ها و پوشه‌ها به نوار وظیفه",
  "Unpin from Taskbar": "برداشتن از نوار وظیفه",
  "Pin to Taskbar": "سنجاق به نوار وظیفه",
- "Show hidden apps on the taskbar": "نمایش برنامه‌های پنهان در نوار وظیفه",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "برنامه‌های پنهان کم‌رنگ نشان داده می‌شوند. وقتی خاموش است، تا دوباره نمایان شوند از نوار وظیفه بیرون می‌روند؛ سنجاق‌شده‌ها می‌مانند."
+ "Hide from Taskbar": "پنهان کردن از نوار وظیفه",
+ "Show in taskbar": "نمایش در نوار وظیفه",
+ "Pinned": "سنجاق‌شده",
+ "Running apps": "برنامه‌های در حال اجرا"
 }

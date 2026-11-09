@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "टास्कबार में फ़ाइलें और फ़ोल्डर जोड़ें",
  "Unpin from Taskbar": "टास्कबार से अनपिन करें",
  "Pin to Taskbar": "टास्कबार पर पिन करें",
- "Show hidden apps on the taskbar": "टास्कबार पर छिपी ऐप्स दिखाएँ",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "छिपी ऐप्स धुंधली दिखती हैं। बंद होने पर वे फिर से दिखाए जाने तक टास्कबार से हट जाती हैं; पिन की हुई बनी रहती हैं।"
+ "Hide from Taskbar": "टास्कबार से छिपाएँ",
+ "Show in taskbar": "टास्कबार में दिखाएँ",
+ "Pinned": "पिन की गई",
+ "Running apps": "चल रही ऐप्स"
 }

@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "إضافة ملفات ومجلدات إلى شريط المهام",
  "Unpin from Taskbar": "إلغاء التثبيت من شريط المهام",
  "Pin to Taskbar": "التثبيت على شريط المهام",
- "Show hidden apps on the taskbar": "إظهار التطبيقات المخفية على شريط المهام",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "تظهر التطبيقات المخفية باهتة. عند إيقافه، تخرج من شريط المهام حتى تُعرض من جديد؛ وتبقى المثبّتة."
+ "Hide from Taskbar": "إخفاء من شريط المهام",
+ "Show in taskbar": "إظهار على شريط المهام",
+ "Pinned": "مثبّت",
+ "Running apps": "التطبيقات قيد التشغيل"
 }

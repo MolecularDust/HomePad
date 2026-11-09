@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "Aggiungi file e cartelle alla barra delle applicazioni",
  "Unpin from Taskbar": "Rimuovi dalla barra delle applicazioni",
  "Pin to Taskbar": "Aggiungi alla barra delle applicazioni",
- "Show hidden apps on the taskbar": "Mostra le app nascoste nella barra delle applicazioni",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Le app nascoste appaiono attenuate. Se disattivato, lasciano la barra finché non vengono mostrate di nuovo; quelle aggiunte restano."
+ "Hide from Taskbar": "Nascondi dalla barra delle applicazioni",
+ "Show in taskbar": "Mostra nella barra delle applicazioni",
+ "Pinned": "Aggiunta",
+ "Running apps": "App aperte"
 }

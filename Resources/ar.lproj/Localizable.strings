@@ -94,6 +94,7 @@
 "Quit" = "إنهاء";
 "Unpin from Taskbar" = "إلغاء التثبيت من شريط المهام";
 "Pin to Taskbar" = "التثبيت على شريط المهام";
+"Hide from Taskbar" = "إخفاء من شريط المهام";
 "Rename Folder…" = "إعادة تسمية المجلد…";
 "Ungroup" = "فك التجميع";
 "Add your app here" = "أضف تطبيقك هنا";
@@ -161,8 +162,6 @@
 "Taskbar" = "شريط المهام";
 "Open HomePad only from the Start button" = "فتح HomePad من زر ابدأ فقط";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "عند إيقافه، يفتحه أيضًا الاختصار والنقر المزدوج والزوايا النشطة: فوق شريط المهام، والزوايا النشطة في زاويتها. أيقونة شريط القائمة تفتحه دائمًا.";
-"Show hidden apps on the taskbar" = "إظهار التطبيقات المخفية على شريط المهام";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "تظهر التطبيقات المخفية باهتة. عند إيقافه، تخرج من شريط المهام حتى تُعرض من جديد؛ وتبقى المثبّتة.";
 "Shortcut" = "الاختصار";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "لم يتم تعيين اختصار. افتح HomePad من أيقونة شريط القائمة، أو اختر أدناه مفتاحًا للنقر المزدوج.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "لاستخدام ⌘مسافة، أوقف أولًا اختصار ”⟦Spotlight⟧“ في ”⟦System Settings⟧“ ← ”⟦Keyboard⟧“ ← ”⟦Keyboard Shortcuts⟧“ ← ”⟦Spotlight⟧“.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (مُشغّل)";
 "on" = "مُشغّل";
 "off" = "متوقف";
+"App" = "تطبيق";
+"Show in taskbar" = "إظهار على شريط المهام";
+"Pinned" = "مثبّت";
+"Running apps" = "التطبيقات قيد التشغيل";
 "macOS (“%@”)" = "macOS (”%@“)";
 "%@ (probably)" = "%@ (على الأرجح)";
 "another app" = "تطبيق آخر";
@@ -256,7 +259,6 @@
 "Allow this permission" = "منح هذا الإذن";
 "No open windows" = "لا توجد نوافذ مفتوحة";
 "Space %lld" = "المساحة %lld";
-"App" = "تطبيق";
 "%@ · 1 window" = "%@ · نافذة واحدة";
 "%@ · %lld windows" = "%@ · النوافذ: %lld";
 "Allow ⟦Screen Recording⟧ to see window previews." = "اسمح بـ ”⟦Screen Recording⟧“ لرؤية معاينات النوافذ.";

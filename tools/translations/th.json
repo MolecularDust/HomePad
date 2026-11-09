@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "เพิ่มไฟล์และโฟลเดอร์ลงในแถบงาน",
  "Unpin from Taskbar": "เลิกปักหมุดจากแถบงาน",
  "Pin to Taskbar": "ปักหมุดที่แถบงาน",
- "Show hidden apps on the taskbar": "แสดงแอปที่ซ่อนอยู่บนแถบงาน",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "แอปที่ซ่อนอยู่จะแสดงแบบจาง เมื่อปิด แอปจะออกจากแถบงานจนกว่าจะแสดงอีกครั้ง ส่วนที่ปักหมุดไว้ยังคงอยู่"
+ "Hide from Taskbar": "ซ่อนจากแถบงาน",
+ "Show in taskbar": "แสดงบนแถบงาน",
+ "Pinned": "ปักหมุดแล้ว",
+ "Running apps": "แอปที่กำลังทำงาน"
 }

@@ -448,15 +448,12 @@ final class CategoryStore: ObservableObject {
 final class RunningApps: ObservableObject {
     static let shared = RunningApps()
     @Published private(set) var apps: [NSRunningApplication] = []
-    /// The running apps that are hidden (Cmd-H), for the taskbar.
-    @Published private(set) var hidden: Set<pid_t> = []
     private var byPath: [String: NSRunningApplication] = [:]       // every tile asks "is this running?" on each redraw
 
     private init() {
         refresh()
         let nc = NSWorkspace.shared.notificationCenter
-        for name in [NSWorkspace.didTerminateApplicationNotification, NSWorkspace.didActivateApplicationNotification,
-                     NSWorkspace.didHideApplicationNotification, NSWorkspace.didUnhideApplicationNotification] {
+        for name in [NSWorkspace.didTerminateApplicationNotification, NSWorkspace.didActivateApplicationNotification] {
             nc.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in self?.refresh() }
         }
         // Many apps (Electron, Tauri…) start as background processes and become regular apps a moment later, after
@@ -473,8 +470,6 @@ final class RunningApps: ObservableObject {
         let current = NSWorkspace.shared.runningApplications.filter {
             $0.activationPolicy == .regular && $0.bundleURL != nil && $0.processIdentifier != me
         }
-        let nowHidden = Set(current.filter(\.isHidden).map(\.processIdentifier))
-        if nowHidden != hidden { hidden = nowHidden }
         guard current.map(\.processIdentifier) != apps.map(\.processIdentifier) else { return }
         byPath = Dictionary(current.compactMap { app in app.bundleURL.map { (normalized($0).path, app) } }) { first, _ in first }
         apps = current

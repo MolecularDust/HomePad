@@ -94,6 +94,7 @@
 "Quit" = "Çık";
 "Unpin from Taskbar" = "Görev çubuğundan kaldır";
 "Pin to Taskbar" = "Görev çubuğuna sabitle";
+"Hide from Taskbar" = "Görev çubuğundan gizle";
 "Rename Folder…" = "Klasörü Yeniden Adlandır…";
 "Ungroup" = "Grubu Çöz";
 "Add your app here" = "Uygulamanızı buraya ekleyin";
@@ -161,8 +162,6 @@
 "Taskbar" = "Görev çubuğu";
 "Open HomePad only from the Start button" = "HomePad’i yalnızca Başlat düğmesiyle aç";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Kapalıyken kısayol, çift dokunma ve etkin köşeler de açar: görev çubuğunun üstünde, etkin köşeler kendi köşesinde. Menü çubuğu simgesi her zaman açar.";
-"Show hidden apps on the taskbar" = "Gizli uygulamaları görev çubuğunda göster";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Gizli uygulamalar soluk görünür. Kapalıyken yeniden gösterilene kadar görev çubuğundan çıkarlar; sabitlenenler kalır.";
 "Shortcut" = "Kısayol";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Kısayol ayarlanmamış. HomePad’i menü çubuğu simgesinden açın ya da aşağıda çift dokunulacak bir tuş seçin.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘Boşluk’u kullanmak için önce “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧” içinde “⟦Spotlight⟧” kısayolunu kapatın.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (açık)";
 "on" = "açık";
 "off" = "kapalı";
+"App" = "Uygulama";
+"Show in taskbar" = "Görev çubuğunda göster";
+"Pinned" = "Sabitlendi";
+"Running apps" = "Çalışan uygulamalar";
 "macOS (“%@”)" = "macOS (“%@”)";
 "%@ (probably)" = "%@ (muhtemelen)";
 "another app" = "başka bir uygulama";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Bu izni ver";
 "No open windows" = "Açık pencere yok";
 "Space %lld" = "Masaüstü %lld";
-"App" = "Uygulama";
 "%@ · 1 window" = "%@ · 1 pencere";
 "%@ · %lld windows" = "%@ · %lld pencere";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Pencere önizlemelerini görmek için “⟦Screen Recording⟧” iznini verin.";

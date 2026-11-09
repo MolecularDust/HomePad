@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "Magdagdag ng mga File at Folder sa Taskbar",
  "Unpin from Taskbar": "I-unpin sa Taskbar",
  "Pin to Taskbar": "I-pin sa Taskbar",
- "Show hidden apps on the taskbar": "Ipakita ang mga nakatagong app sa taskbar",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Malabo ang mga nakatagong app. Kapag naka-off, aalis sila sa taskbar hanggang maipakita muli; nananatili ang mga naka-pin."
+ "Hide from Taskbar": "Itago sa Taskbar",
+ "Show in taskbar": "Ipakita sa taskbar",
+ "Pinned": "Naka-pin",
+ "Running apps": "Mga tumatakbong app"
 }

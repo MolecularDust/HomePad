@@ -99,13 +99,12 @@ struct TaskbarView: View {
     @ObservedObject private var running = RunningApps.shared
     @ObservedObject private var pins = TaskbarPins.shared
     @ObservedObject private var order = RunningOrder.taskbar
-    @AppStorage(Taskbar.showsHiddenKey) private var showsHidden = false
+    @ObservedObject private var shown = TaskbarShown.shared
 
     var body: some View {
         HStack(spacing: 2) {
             StartButton()
-            // The setting is passed in, so a change to it redraws the taskbar (SwiftUI only watches what the body reads).
-            ForEach(Taskbar.items(showsHidden: showsHidden), id: \.self) { url in
+            ForEach(Taskbar.items(), id: \.self) { url in
                 TaskbarIcon(url: url)
             }
         }
@@ -117,17 +116,12 @@ struct TaskbarView: View {
 }
 
 extension Taskbar {
-    /// Settings: hidden apps (Cmd-H, or Hide in an icon's menu) stay on the taskbar, dimmed. Off, they leave it until
-    /// they're shown again (a pinned one stays, dimmed).
-    static let showsHiddenKey = "taskbarShowsHidden"
-
     /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
     /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
-    static func items(showsHidden: Bool = UserDefaults.standard.bool(forKey: showsHiddenKey)) -> [URL] {
+    static func items() -> [URL] {
         var seen = Set<URL>()
-        let hidden = RunningApps.shared.hidden
-        let running = RunningApps.shared.apps.filter { showsHidden || !hidden.contains($0.processIdentifier) }
-        let all = TaskbarPins.shared.urls + running.compactMap { $0.bundleURL.map(normalized) }
+        let running = RunningApps.shared.apps.compactMap { $0.bundleURL.map(normalized) }.filter(TaskbarShown.shared.shows)
+        let all = TaskbarPins.shared.urls + running
         return RunningOrder.taskbar.sorted(all.filter { seen.insert($0).inserted })
     }
 }
@@ -159,6 +153,22 @@ final class TaskbarPins: ObservableObject {
     func unpin(_ url: URL) {
         paths.removeAll { $0 == normalized(url).path }
         UserDefaults.standard.set(paths, forKey: Self.key)
+    }
+}
+
+/// Running apps switched off in Settings → Running apps → Show in taskbar (stored as paths under `taskbarExcluded`):
+/// they stay off the taskbar while they run. A pinned item is always shown.
+final class TaskbarShown: ObservableObject {
+    static let shared = TaskbarShown()
+    static let key = "taskbarExcluded"
+    @Published private(set) var excluded: Set<String> = Set(UserDefaults.standard.stringArray(forKey: TaskbarShown.key) ?? [])
+
+    func shows(_ url: URL) -> Bool { !excluded.contains(normalized(url).path) }
+
+    func set(_ url: URL, shown: Bool) {
+        let path = normalized(url).path
+        if shown { excluded.remove(path) } else { excluded.insert(path) }
+        UserDefaults.standard.set(excluded.sorted(), forKey: Self.key)
     }
 }
 
@@ -269,7 +279,6 @@ private struct TaskbarIcon: View {
     var body: some View {
         let app = running.app(for: url)
         let active = app != nil && front.path == normalized(url).path
-        let isHidden = app.map { running.hidden.contains($0.processIdentifier) } ?? false
         VStack(spacing: 3) {
             Image(nsImage: IconCache.icon(for: url))
                 .resizable()
@@ -282,7 +291,7 @@ private struct TaskbarIcon: View {
         }
         .frame(width: 44, height: 44)
         .background(RoundedRectangle(cornerRadius: 6).fill(hovering || active ? Color.primary.opacity(active ? 0.08 : 0.10) : .clear))
-        .opacity(drag.item == url ? 0.4 : isHidden ? 0.5 : 1)
+        .opacity(drag.item == url ? 0.4 : 1)
         .background(GeometryReader { geo in
             Color.clear.onAppear { frame = geo.frame(in: .global) }.onChange(of: geo.frame(in: .global)) { frame = $0 }
         })

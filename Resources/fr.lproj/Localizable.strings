@@ -94,6 +94,7 @@
 "Quit" = "Quitter";
 "Unpin from Taskbar" = "Détacher de la barre des tâches";
 "Pin to Taskbar" = "Épingler à la barre des tâches";
+"Hide from Taskbar" = "Masquer dans la barre des tâches";
 "Rename Folder…" = "Renommer le dossier…";
 "Ungroup" = "Dissocier";
 "Add your app here" = "Ajoutez votre app ici";
@@ -161,8 +162,6 @@
 "Taskbar" = "Barre des tâches";
 "Open HomePad only from the Start button" = "Ouvrir HomePad uniquement avec le bouton Démarrer";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Désactivé, le raccourci, la double frappe et les coins actifs l’ouvrent aussi : au-dessus de la barre des tâches, et les coins actifs dans leur coin. L’icône de la barre des menus l’ouvre toujours.";
-"Show hidden apps on the taskbar" = "Afficher les apps masquées dans la barre des tâches";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Les apps masquées sont estompées. Désactivé, elles quittent la barre des tâches jusqu’à ce qu’elles soient réaffichées ; les apps épinglées restent.";
 "Shortcut" = "Raccourci";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Aucun raccourci défini. Ouvrez HomePad depuis l’icône de la barre des menus, ou choisissez ci-dessous une touche en double frappe.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Pour utiliser ⌘Espace, désactivez d’abord le raccourci de « ⟦Spotlight⟧ » dans « ⟦System Settings⟧ » → « ⟦Keyboard⟧ » → « ⟦Keyboard Shortcuts⟧ » → « ⟦Spotlight⟧ ».";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (activé)";
 "on" = "activé";
 "off" = "désactivé";
+"App" = "App";
+"Show in taskbar" = "Afficher dans la barre des tâches";
+"Pinned" = "Épinglée";
+"Running apps" = "Apps ouvertes";
 "macOS (“%@”)" = "macOS (« %@ »)";
 "%@ (probably)" = "%@ (probablement)";
 "another app" = "une autre app";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Accorder cette autorisation";
 "No open windows" = "Aucune fenêtre ouverte";
 "Space %lld" = "Espace %lld";
-"App" = "App";
 "%@ · 1 window" = "%@ · 1 fenêtre";
 "%@ · %lld windows" = "%@ · %lld fenêtres";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Autorisez « ⟦Screen Recording⟧ » pour voir les aperçus des fenêtres.";

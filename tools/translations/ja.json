@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "タスクバーにファイルとフォルダを追加",
  "Unpin from Taskbar": "タスクバーからピン留めを外す",
  "Pin to Taskbar": "タスクバーにピン留め",
- "Show hidden apps on the taskbar": "非表示のアプリをタスクバーに表示",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "非表示のアプリは淡く表示されます。オフの場合、再び表示されるまでタスクバーから外れます（ピン留めしたものは残ります）。"
+ "Hide from Taskbar": "タスクバーに表示しない",
+ "Show in taskbar": "タスクバーに表示",
+ "Pinned": "ピン留め済み",
+ "Running apps": "実行中のアプリ"
 }

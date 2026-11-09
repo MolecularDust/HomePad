@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "将文件和文件夹添加到任务栏",
  "Unpin from Taskbar": "从任务栏取消固定",
  "Pin to Taskbar": "固定到任务栏",
- "Show hidden apps on the taskbar": "在任务栏上显示已隐藏的 App",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "已隐藏的 App 会变暗显示。关闭时，它们会离开任务栏，直到再次显示；已固定的仍会保留。"
+ "Hide from Taskbar": "从任务栏隐藏",
+ "Show in taskbar": "在任务栏中显示",
+ "Pinned": "已固定",
+ "Running apps": "正在运行的 App"
 }

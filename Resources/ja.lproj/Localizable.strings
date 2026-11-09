@@ -94,6 +94,7 @@
 "Quit" = "終了";
 "Unpin from Taskbar" = "タスクバーからピン留めを外す";
 "Pin to Taskbar" = "タスクバーにピン留め";
+"Hide from Taskbar" = "タスクバーに表示しない";
 "Rename Folder…" = "フォルダ名を変更…";
 "Ungroup" = "グループを解除";
 "Add your app here" = "ここにアプリを追加";
@@ -161,8 +162,6 @@
 "Taskbar" = "タスクバー";
 "Open HomePad only from the Start button" = "スタートボタンからのみHomePadを開く";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。";
-"Show hidden apps on the taskbar" = "非表示のアプリをタスクバーに表示";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "非表示のアプリは淡く表示されます。オフの場合、再び表示されるまでタスクバーから外れます（ピン留めしたものは残ります）。";
 "Shortcut" = "ショートカット";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "ショートカットが設定されていません。メニューバーのアイコンからHomePadを開くか、下でダブルタップするキーを選んでください。";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘スペースを使うには、まず“⟦System Settings⟧”→“⟦Keyboard⟧”→“⟦Keyboard Shortcuts⟧”→“⟦Spotlight⟧”で“⟦Spotlight⟧”のショートカットをオフにしてください。";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@（オン）";
 "on" = "オン";
 "off" = "オフ";
+"App" = "アプリ";
+"Show in taskbar" = "タスクバーに表示";
+"Pinned" = "ピン留め済み";
+"Running apps" = "実行中のアプリ";
 "macOS (“%@”)" = "macOS（“%@”）";
 "%@ (probably)" = "%@（おそらく）";
 "another app" = "別のアプリ";
@@ -256,7 +259,6 @@
 "Allow this permission" = "このアクセス権を許可";
 "No open windows" = "開いているウインドウはありません";
 "Space %lld" = "操作スペース%lld";
-"App" = "アプリ";
 "%@ · 1 window" = "%@ · 1ウインドウ";
 "%@ · %lld windows" = "%@ · %lldウインドウ";
 "Allow ⟦Screen Recording⟧ to see window previews." = "ウインドウのプレビューを見るには“⟦Screen Recording⟧”を許可してください。";

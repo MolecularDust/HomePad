@@ -94,6 +94,7 @@
 "Quit" = "종료";
 "Unpin from Taskbar" = "작업 표시줄에서 고정 해제";
 "Pin to Taskbar" = "작업 표시줄에 고정";
+"Hide from Taskbar" = "작업 표시줄에서 가리기";
 "Rename Folder…" = "폴더 이름 변경…";
 "Ungroup" = "그룹 해제";
 "Add your app here" = "여기에 앱 추가";
@@ -161,8 +162,6 @@
 "Taskbar" = "작업 표시줄";
 "Open HomePad only from the Start button" = "시작 버튼으로만 HomePad 열기";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "끄면 단축키, 이중 탭, 핫 코너로도 열립니다. 작업 표시줄 위에 열리고, 핫 코너는 해당 모서리에 엽니다. 메뉴 막대 아이콘으로는 항상 열 수 있습니다.";
-"Show hidden apps on the taskbar" = "작업 표시줄에 가려진 앱 표시";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "가려진 앱은 흐리게 표시됩니다. 끄면 다시 보일 때까지 작업 표시줄에서 빠지며, 고정된 앱은 남습니다.";
 "Shortcut" = "단축키";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "설정된 단축키가 없습니다. 메뉴 막대 아이콘으로 HomePad를 열거나 아래에서 이중 탭할 키를 선택하십시오.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘스페이스를 사용하려면 먼저 ‘⟦System Settings⟧’ → ‘⟦Keyboard⟧’ → ‘⟦Keyboard Shortcuts⟧’ → ‘⟦Spotlight⟧’에서 ‘⟦Spotlight⟧’ 단축키를 끄십시오.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@(켬)";
 "on" = "켬";
 "off" = "끔";
+"App" = "앱";
+"Show in taskbar" = "작업 표시줄에 표시";
+"Pinned" = "고정됨";
+"Running apps" = "실행 중인 앱";
 "macOS (“%@”)" = "macOS(‘%@’)";
 "%@ (probably)" = "%@(추정)";
 "another app" = "다른 앱";
@@ -256,7 +259,6 @@
 "Allow this permission" = "이 권한 허용";
 "No open windows" = "열려 있는 윈도우 없음";
 "Space %lld" = "데스크탑 %lld";
-"App" = "앱";
 "%@ · 1 window" = "%@ · 윈도우 1개";
 "%@ · %lld windows" = "%@ · 윈도우 %lld개";
 "Allow ⟦Screen Recording⟧ to see window previews." = "윈도우 미리보기를 보려면 ‘⟦Screen Recording⟧’을(를) 허용하십시오.";

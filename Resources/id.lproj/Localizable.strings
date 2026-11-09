@@ -94,6 +94,7 @@
 "Quit" = "Keluar";
 "Unpin from Taskbar" = "Lepas Sematan dari Bilah Tugas";
 "Pin to Taskbar" = "Sematkan ke Bilah Tugas";
+"Hide from Taskbar" = "Sembunyikan dari Bilah Tugas";
 "Rename Folder…" = "Ganti Nama Folder…";
 "Ungroup" = "Pisahkan Grup";
 "Add your app here" = "Tambahkan app Anda di sini";
@@ -161,8 +162,6 @@
 "Taskbar" = "Bilah tugas";
 "Open HomePad only from the Start button" = "Buka HomePad hanya dari tombol Mulai";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Jika mati, pintasan, ketuk dua kali, dan sudut aktif juga membukanya: di atas bilah tugas, dan sudut aktif di sudutnya. Ikon bar menu selalu membukanya.";
-"Show hidden apps on the taskbar" = "Tampilkan app tersembunyi di bilah tugas";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "App tersembunyi tampak redup. Jika mati, app keluar dari bilah tugas sampai ditampilkan lagi; yang disematkan tetap ada.";
 "Shortcut" = "Pintasan";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Belum ada pintasan. Buka HomePad dari ikon bar menu, atau pilih tombol ketuk dua kali di bawah.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Untuk memakai ⌘Spasi, matikan dulu pintasan “⟦Spotlight⟧” di “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (nyala)";
 "on" = "nyala";
 "off" = "mati";
+"App" = "App";
+"Show in taskbar" = "Tampilkan di bilah tugas";
+"Pinned" = "Disematkan";
+"Running apps" = "App yang berjalan";
 "macOS (“%@”)" = "macOS (“%@”)";
 "%@ (probably)" = "%@ (kemungkinan)";
 "another app" = "app lain";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Berikan izin ini";
 "No open windows" = "Tidak ada jendela terbuka";
 "Space %lld" = "Space %lld";
-"App" = "App";
 "%@ · 1 window" = "%@ · 1 jendela";
 "%@ · %lld windows" = "%@ · %lld jendela";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Izinkan “⟦Screen Recording⟧” untuk melihat pratinjau jendela.";

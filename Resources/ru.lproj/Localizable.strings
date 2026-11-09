@@ -94,6 +94,7 @@
 "Quit" = "Завершить";
 "Unpin from Taskbar" = "Открепить от панели задач";
 "Pin to Taskbar" = "Закрепить на панели задач";
+"Hide from Taskbar" = "Скрыть с панели задач";
 "Rename Folder…" = "Переименовать папку…";
 "Ungroup" = "Разгруппировать";
 "Add your app here" = "Добавьте сюда приложение";
@@ -161,8 +162,6 @@
 "Taskbar" = "Панель задач";
 "Open HomePad only from the Start button" = "Открывать HomePad только кнопкой «Пуск»";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Если выключено, его открывают и сочетание клавиш, двойное нажатие и активные углы: над панелью задач, а активные углы — в своём углу. Значок в строке меню открывает его всегда.";
-"Show hidden apps on the taskbar" = "Показывать скрытые приложения на панели задач";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Скрытые приложения затемнены. Если выключено, они уходят с панели задач, пока их снова не покажут; закреплённые остаются.";
 "Shortcut" = "Сочетание клавиш";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Сочетание не задано. Открывайте HomePad значком в строке меню или выберите ниже клавишу для двойного нажатия.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Чтобы использовать ⌘Пробел, сначала выключите сочетание «⟦Spotlight⟧» в «⟦System Settings⟧» → «⟦Keyboard⟧» → «⟦Keyboard Shortcuts⟧» → «⟦Spotlight⟧».";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (вкл.)";
 "on" = "вкл.";
 "off" = "выкл.";
+"App" = "Приложение";
+"Show in taskbar" = "Показывать на панели задач";
+"Pinned" = "Закреплено";
+"Running apps" = "Запущенные приложения";
 "macOS (“%@”)" = "macOS («%@»)";
 "%@ (probably)" = "%@ (вероятно)";
 "another app" = "другое приложение";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Выдать это разрешение";
 "No open windows" = "Нет открытых окон";
 "Space %lld" = "Стол %lld";
-"App" = "Приложение";
 "%@ · 1 window" = "%@ · 1 окно";
 "%@ · %lld windows" = "%@ · окон: %lld";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Разрешите «⟦Screen Recording⟧», чтобы видеть миниатюры окон.";

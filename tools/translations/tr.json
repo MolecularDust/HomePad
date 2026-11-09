@@ -273,6 +273,8 @@
  "Add Files and Folders to the Taskbar": "Görev çubuğuna dosya ve klasör ekle",
  "Unpin from Taskbar": "Görev çubuğundan kaldır",
  "Pin to Taskbar": "Görev çubuğuna sabitle",
- "Show hidden apps on the taskbar": "Gizli uygulamaları görev çubuğunda göster",
- "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Gizli uygulamalar soluk görünür. Kapalıyken yeniden gösterilene kadar görev çubuğundan çıkarlar; sabitlenenler kalır."
+ "Hide from Taskbar": "Görev çubuğundan gizle",
+ "Show in taskbar": "Görev çubuğunda göster",
+ "Pinned": "Sabitlendi",
+ "Running apps": "Çalışan uygulamalar"
 }

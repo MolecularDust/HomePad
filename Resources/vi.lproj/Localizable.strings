@@ -94,6 +94,7 @@
 "Quit" = "Thoát";
 "Unpin from Taskbar" = "Bỏ ghim khỏi thanh tác vụ";
 "Pin to Taskbar" = "Ghim vào thanh tác vụ";
+"Hide from Taskbar" = "Ẩn khỏi thanh tác vụ";
 "Rename Folder…" = "Đổi tên thư mục…";
 "Ungroup" = "Bỏ nhóm";
 "Add your app here" = "Thêm ứng dụng của bạn tại đây";
@@ -161,8 +162,6 @@
 "Taskbar" = "Thanh tác vụ";
 "Open HomePad only from the Start button" = "Chỉ mở HomePad từ nút Bắt đầu";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Khi tắt, phím tắt, chạm hai lần và góc nóng cũng mở nó: phía trên thanh tác vụ, còn góc nóng thì ở góc của nó. Biểu tượng trên thanh menu luôn mở được.";
-"Show hidden apps on the taskbar" = "Hiện ứng dụng bị ẩn trên thanh tác vụ";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Ứng dụng bị ẩn được làm mờ. Khi tắt, chúng rời khỏi thanh tác vụ cho đến khi được hiện lại; ứng dụng đã ghim vẫn ở lại.";
 "Shortcut" = "Phím tắt";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Chưa đặt phím tắt. Hãy mở HomePad từ biểu tượng trên thanh menu, hoặc chọn một phím chạm hai lần bên dưới.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Để dùng ⌘Phím cách, trước tiên hãy tắt phím tắt của “⟦Spotlight⟧” trong “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (bật)";
 "on" = "bật";
 "off" = "tắt";
+"App" = "Ứng dụng";
+"Show in taskbar" = "Hiện trên thanh tác vụ";
+"Pinned" = "Đã ghim";
+"Running apps" = "Ứng dụng đang chạy";
 "macOS (“%@”)" = "macOS (“%@”)";
 "%@ (probably)" = "%@ (có thể)";
 "another app" = "một ứng dụng khác";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Cấp quyền này";
 "No open windows" = "Không có cửa sổ nào mở";
 "Space %lld" = "Màn hình %lld";
-"App" = "Ứng dụng";
 "%@ · 1 window" = "%@ · 1 cửa sổ";
 "%@ · %lld windows" = "%@ · %lld cửa sổ";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Cho phép “⟦Screen Recording⟧” để xem bản xem trước của cửa sổ.";

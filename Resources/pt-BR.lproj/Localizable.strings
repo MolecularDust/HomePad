@@ -94,6 +94,7 @@
 "Quit" = "Encerrar";
 "Unpin from Taskbar" = "Desafixar da barra de tarefas";
 "Pin to Taskbar" = "Fixar na barra de tarefas";
+"Hide from Taskbar" = "Ocultar da barra de tarefas";
 "Rename Folder…" = "Renomear pasta…";
 "Ungroup" = "Desagrupar";
 "Add your app here" = "Adicione seu app aqui";
@@ -161,8 +162,6 @@
 "Taskbar" = "Barra de tarefas";
 "Open HomePad only from the Start button" = "Abrir o HomePad só pelo botão Iniciar";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Desativado, o atalho, o toque duplo e os cantos ativos também o abrem: acima da barra de tarefas, e os cantos ativos no próprio canto. O ícone da barra de menus sempre o abre.";
-"Show hidden apps on the taskbar" = "Mostrar apps ocultos na barra de tarefas";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Apps ocultos aparecem esmaecidos. Desativado, eles saem da barra de tarefas até serem mostrados de novo; os fixados ficam.";
 "Shortcut" = "Atalho";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Nenhum atalho definido. Abra o HomePad pelo ícone da barra de menus ou escolha abaixo uma tecla de toque duplo.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Para usar ⌘Espaço, desative primeiro o atalho do “⟦Spotlight⟧” em “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (ativado)";
 "on" = "ativado";
 "off" = "desativado";
+"App" = "App";
+"Show in taskbar" = "Mostrar na barra de tarefas";
+"Pinned" = "Fixado";
+"Running apps" = "Apps abertos";
 "macOS (“%@”)" = "macOS (“%@”)";
 "%@ (probably)" = "%@ (provavelmente)";
 "another app" = "outro app";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Conceder esta permissão";
 "No open windows" = "Nenhuma janela aberta";
 "Space %lld" = "Espaço %lld";
-"App" = "App";
 "%@ · 1 window" = "%@ · 1 janela";
 "%@ · %lld windows" = "%@ · %lld janelas";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Permita “⟦Screen Recording⟧” para ver prévias das janelas.";

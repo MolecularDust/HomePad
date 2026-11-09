@@ -94,6 +94,7 @@
 "Quit" = "退出";
 "Unpin from Taskbar" = "从任务栏取消固定";
 "Pin to Taskbar" = "固定到任务栏";
+"Hide from Taskbar" = "从任务栏隐藏";
 "Rename Folder…" = "重新命名文件夹…";
 "Ungroup" = "取消分组";
 "Add your app here" = "在这里添加你的 App";
@@ -161,8 +162,6 @@
 "Taskbar" = "任务栏";
 "Open HomePad only from the Start button" = "仅从“开始”按钮打开 HomePad";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。";
-"Show hidden apps on the taskbar" = "在任务栏上显示已隐藏的 App";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "已隐藏的 App 会变暗显示。关闭时，它们会离开任务栏，直到再次显示；已固定的仍会保留。";
 "Shortcut" = "快捷键";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "未设置快捷键。可从菜单栏图标打开 HomePad，或在下方选择一个连按键。";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "要使用 ⌘空格键，请先在“⟦System Settings⟧”→“⟦Keyboard⟧”→“⟦Keyboard Shortcuts⟧”→“⟦Spotlight⟧”中关闭“⟦Spotlight⟧”的快捷键。";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@（已打开）";
 "on" = "打开";
 "off" = "关闭";
+"App" = "App";
+"Show in taskbar" = "在任务栏中显示";
+"Pinned" = "已固定";
+"Running apps" = "正在运行的 App";
 "macOS (“%@”)" = "macOS（“%@”）";
 "%@ (probably)" = "%@（可能）";
 "another app" = "其他 App";
@@ -256,7 +259,6 @@
 "Allow this permission" = "允许此权限";
 "No open windows" = "没有打开的窗口";
 "Space %lld" = "空间 %lld";
-"App" = "App";
 "%@ · 1 window" = "%@ · 1 个窗口";
 "%@ · %lld windows" = "%@ · %lld 个窗口";
 "Allow ⟦Screen Recording⟧ to see window previews." = "允许“⟦Screen Recording⟧”以查看窗口预览。";

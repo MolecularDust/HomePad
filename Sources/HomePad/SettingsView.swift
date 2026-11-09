@@ -17,7 +17,6 @@ struct SettingsView: View {
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
-    @AppStorage(Taskbar.showsHiddenKey) private var taskbarShowsHidden = false
     /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
     @State private var dockIconProblem = DockIcon.problem
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -50,10 +49,7 @@ struct SettingsView: View {
                     Text(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
                         .font(.caption).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
-                    Toggle("Show hidden apps on the taskbar", isOn: $taskbarShowsHidden)
-                    Text("Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.")
-                        .font(.caption).foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+                    TaskbarAppsList()
                 }
             }
 
@@ -236,7 +232,6 @@ struct SettingsView: View {
         hideMinimised = true
         showMenuBarIcon = true
         startButtonOnly = false
-        taskbarShowsHidden = false
         HomePadMode.choose(.standalone, adjustingDock: false)
         dockHidden = false
         DockControl.setHidden(false)
@@ -533,5 +528,51 @@ struct HotCornerSetting: View {
         var found: [HotCorner: String] = [:]
         for corner in HotCorner.allCases { found[corner] = corner.systemAction }
         clashes = found
+    }
+}
+
+/// Settings → Mode in Taskbar mode: every running app, with a switch for whether the taskbar shows it. Collapsed at
+/// first. A pinned item is always on the taskbar, so its switch is on and can't be changed.
+private struct TaskbarAppsList: View {
+    @ObservedObject private var running = RunningApps.shared
+    @ObservedObject private var shown = TaskbarShown.shared
+    @ObservedObject private var pins = TaskbarPins.shared
+    @State private var expanded = false
+
+    private var apps: [URL] {
+        var seen = Set<URL>()
+        return running.apps.compactMap { $0.bundleURL.map(normalized) }.filter { seen.insert($0).inserted }
+            .sorted { IconCache.name(for: $0).localizedCaseInsensitiveCompare(IconCache.name(for: $1)) == .orderedAscending }
+    }
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $expanded) {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("App")
+                    Spacer()
+                    Text("Show in taskbar")
+                }
+                .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                .padding(.vertical, 6)
+                Divider()
+                ForEach(apps, id: \.self) { url in
+                    let pinned = pins.contains(url)
+                    HStack(spacing: 8) {
+                        Image(nsImage: IconCache.icon(for: url)).resizable().interpolation(.high).frame(width: 20, height: 20)
+                        Text(IconCache.name(for: url)).lineLimit(1).truncationMode(.tail)
+                        if pinned { Text("Pinned").font(.caption).foregroundStyle(.secondary) }
+                        Spacer()
+                        Toggle("", isOn: Binding(get: { pinned || shown.shows(url) },
+                                                 set: { shown.set(url, shown: $0) }))
+                            .labelsHidden().toggleStyle(.switch).controlSize(.small)
+                            .disabled(pinned)
+                    }
+                    .padding(.vertical, 5)
+                }
+            }
+        } label: {
+            Text("Running apps")
+        }
     }
 }

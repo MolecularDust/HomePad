@@ -94,6 +94,7 @@
 "Quit" = "Beenden";
 "Unpin from Taskbar" = "Von Taskleiste lösen";
 "Pin to Taskbar" = "An Taskleiste anheften";
+"Hide from Taskbar" = "In Taskleiste ausblenden";
 "Rename Folder…" = "Ordner umbenennen …";
 "Ungroup" = "Gruppierung aufheben";
 "Add your app here" = "Leg deine App hier ab";
@@ -161,8 +162,6 @@
 "Taskbar" = "Taskleiste";
 "Open HomePad only from the Start button" = "HomePad nur über die Start-Taste öffnen";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.";
-"Show hidden apps on the taskbar" = "Ausgeblendete Apps in der Taskleiste zeigen";
-"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Ausgeblendete Apps erscheinen abgeblendet. Wenn aus, verlassen sie die Taskleiste, bis sie wieder eingeblendet werden; angeheftete bleiben.";
 "Shortcut" = "Tastenkürzel";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Kein Tastenkürzel festgelegt. Öffne HomePad über das Symbol in der Menüleiste oder wähle unten eine Taste zum Doppeltippen.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Um ⌘Leertaste zu verwenden, schalte zuerst das Kürzel von „⟦Spotlight⟧“ aus: „⟦System Settings⟧“ → „⟦Keyboard⟧“ → „⟦Keyboard Shortcuts⟧“ → „⟦Spotlight⟧“.";
@@ -229,6 +228,10 @@
 "%@ (on)" = "%@ (ein)";
 "on" = "ein";
 "off" = "aus";
+"App" = "App";
+"Show in taskbar" = "In Taskleiste zeigen";
+"Pinned" = "Angeheftet";
+"Running apps" = "Laufende Apps";
 "macOS (“%@”)" = "macOS („%@“)";
 "%@ (probably)" = "%@ (vermutlich)";
 "another app" = "eine andere App";
@@ -256,7 +259,6 @@
 "Allow this permission" = "Diese Berechtigung erlauben";
 "No open windows" = "Keine offenen Fenster";
 "Space %lld" = "Space %lld";
-"App" = "App";
 "%@ · 1 window" = "%@ · 1 Fenster";
 "%@ · %lld windows" = "%@ · %lld Fenster";
 "Allow ⟦Screen Recording⟧ to see window previews." = "Erlaube „⟦Screen Recording⟧“, um Fenstervorschauen zu sehen.";
