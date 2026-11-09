@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Masquer « ⟦Dock⟧ »",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Active le masquage automatique avec un délai très long, pour que « ⟦Dock⟧ » n’apparaisse jamais. Cmd-Tab et « ⟦Mission Control⟧ » continuent de fonctionner.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Ouvrir au-dessus de l’icône HomePad dans « ⟦Dock⟧ »",
  "Reset": "Réinitialiser",
  "Reset to Defaults…": "Rétablir les valeurs par défaut…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Remet le raccourci, la double frappe, les coins actifs, la disposition, l’icône de la barre des menus, le masquage de « ⟦Dock⟧ » et l’ouverture à la connexion comme au début. Vos apps et catégories sont conservées.",
@@ -259,5 +258,15 @@
  "Keyboard": "Clavier",
  "Keyboard Shortcuts": "Raccourcis clavier",
  "Hot Corners": "Coins actifs",
- "Sort Alphabetically": "Trier par ordre alphabétique"
+ "Sort Alphabetically": "Trier par ordre alphabétique",
+ "Mode": "Mode",
+ "Standalone": "Autonome",
+ "HomePad + ⟦Dock⟧": "HomePad + « ⟦Dock⟧ »",
+ "Taskbar": "Barre des tâches",
+ "Open HomePad only from the Start button": "Ouvrir HomePad uniquement avec le bouton Démarrer",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Désactivé, le raccourci, la double frappe et les coins actifs l’ouvrent aussi : au-dessus de la barre des tâches, et les coins actifs dans leur coin. L’icône de la barre des menus l’ouvre toujours.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad flotte au-dessus de vos fenêtres et s’ouvre là où vous l’appelez : avec le raccourci, la double frappe, les coins actifs ou l’icône de la barre des menus.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad affiche « ⟦Dock⟧ » et y garde son icône ; « ⟦Dock⟧ » reste là où vous l’avez placé.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Comme Windows : une barre des tâches en bas de l’écran avec un bouton Démarrer et vos apps ouvertes, qui quittent alors le panneau de HomePad. « ⟦Dock⟧ » est masqué pendant ce temps, et les fenêtres agrandies passent sous la barre des tâches.",
+ "Start": "Démarrer"
 }

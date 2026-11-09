@@ -151,6 +151,12 @@
 "Documents & Folders" = "المستندات والمجلدات";
 "Web" = "الويب";
 "Search the web for “%@”" = "البحث عن ”%@“ في الويب";
+"Mode" = "الوضع";
+"Standalone" = "مستقل";
+"HomePad + ⟦Dock⟧" = "HomePad + ”⟦Dock⟧“";
+"Taskbar" = "شريط المهام";
+"Open HomePad only from the Start button" = "فتح HomePad من زر ابدأ فقط";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "عند إيقافه، يفتحه أيضًا الاختصار والنقر المزدوج والزوايا النشطة: فوق شريط المهام، والزوايا النشطة في زاويتها. أيقونة شريط القائمة تفتحه دائمًا.";
 "Shortcut" = "الاختصار";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "لم يتم تعيين اختصار. افتح HomePad من أيقونة شريط القائمة، أو اختر أدناه مفتاحًا للنقر المزدوج.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "لاستخدام ⌘مسافة، أوقف أولًا اختصار ”⟦Spotlight⟧“ في ”⟦System Settings⟧“ ← ”⟦Keyboard⟧“ ← ”⟦Keyboard Shortcuts⟧“ ← ”⟦Spotlight⟧“.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "إخفاء ”⟦Dock⟧“";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "يشغّل الإخفاء التلقائي مع تأخير طويل جدًا، فلا يظهر ”⟦Dock⟧“ أبدًا. يبقى Cmd-Tab و”⟦Mission Control⟧“ يعملان.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "فتح فوق أيقونة HomePad في ”⟦Dock⟧“";
 "Reset" = "إعادة تعيين";
 "Reset to Defaults…" = "إعادة التعيين إلى الإعدادات الافتراضية…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "يعيد الاختصار والنقر المزدوج والزوايا النشطة والتخطيط وأيقونة شريط القائمة وإخفاء ”⟦Dock⟧“ والفتح عند تسجيل الدخول إلى حالتها الأولى. تبقى تطبيقاتك وفئاتك.";
@@ -187,7 +192,10 @@
 "Launch at login" = "الفتح عند تسجيل الدخول";
 "Reset settings to their defaults?" = "هل تريد إعادة الإعدادات إلى الافتراضية؟";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "يستعيد هذا الاختصار (⌥مسافة)، ويوقف النقر المزدوج والزوايا النشطة، ويضبط ٨ أيقونات في كل صف مع ارتفاع الصف والمسافة القياسيين، ويُظهر قسم ”قيد التشغيل“ (مع إخفاء النوافذ المصغرة)، ويُظهر أيقونة شريط القائمة و”⟦Dock⟧“ مجددًا، ويوقف الفتح عند تسجيل الدخول. تبقى تطبيقاتك وفئاتك.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "يطفو HomePad فوق نوافذك ويُفتح حيث تستدعيه: بالاختصار أو النقر المزدوج أو الزوايا النشطة أو أيقونة شريط القائمة.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "مثل قائمة ابدأ في Windows: تُفتح اللوحة بجوار أيقونة HomePad في ”⟦Dock⟧“ مباشرة، سواء نقرت على الأيقونة أو استخدمت الاختصار أو النقر المزدوج. لا تزال الزوايا النشطة تفتحها في زاويتها.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "يُظهر HomePad ”⟦Dock⟧“ ويُبقي أيقونته هناك؛ ويبقى ”⟦Dock⟧“ حيث وضعته.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتمتد النوافذ المكبّرة تحت شريط المهام.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ليس في ”⟦Dock⟧“ بعد. اسحب أيقونته من ”⟦Applications⟧“ إلى ”⟦Dock⟧“؛ وحتى ذلك الحين تُفتح اللوحة في المنتصف.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في الأذونات أعلاه.";
 "Add App…" = "إضافة تطبيق…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "قد يكون %@ مستخدمًا بالفعل";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "لم تصل ضغطة اختبار لهذا الاختصار إلى HomePad، أي أن تطبيقًا آخر يستقبلها أولًا، لكن macOS لا يخبر بأي تطبيق. تحقق من إعدادات الاختصارات في تطبيقات التشغيل السريع أو المساعدات التي تستخدمها، أو اختر اختصارًا آخر هنا.";
 "Choose Another Shortcut" = "اختيار اختصار آخر";
+"Start" = "ابدأ";
 "Off" = "متوقف";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

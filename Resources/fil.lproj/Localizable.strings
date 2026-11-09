@@ -151,6 +151,12 @@
 "Documents & Folders" = "Mga Dokumento at Folder";
 "Web" = "Web";
 "Search the web for “%@”" = "Hanapin ang “%@” sa web";
+"Mode" = "Mode";
+"Standalone" = "Hiwalay";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "Taskbar";
+"Open HomePad only from the Start button" = "Buksan lang ang HomePad mula sa Start button";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Kapag naka-off, binubuksan din ito ng shortcut, double-tap at hot corners: sa itaas ng taskbar, at ang hot corners sa sarili nilang sulok. Laging nabubuksan ito ng icon sa menu bar.";
 "Shortcut" = "Shortcut";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Walang naka-set na shortcut. Buksan ang HomePad mula sa icon sa menu bar, o pumili sa ibaba ng key na ida-double tap.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Para gamitin ang ⌘Space, i-off muna ang shortcut ng “⟦Spotlight⟧” sa “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Itago ang “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Ino-on ang auto-hide na may napakatagal na delay, kaya hindi kailanman lilitaw ang “⟦Dock⟧”. Gumagana pa rin ang Cmd-Tab at “⟦Mission Control⟧”.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Buksan sa itaas ng icon ng HomePad sa “⟦Dock⟧”";
 "Reset" = "I-reset";
 "Reset to Defaults…" = "I-reset sa Mga Default…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Ibinabalik sa dati ang shortcut, double-tap, hot corners, layout, icon sa menu bar, pagtatago ng “⟦Dock⟧” at pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Buksan sa pag-login";
 "Reset settings to their defaults?" = "I-reset ang mga setting sa mga default?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ibinabalik nito ang shortcut (⌥Space), ino-off ang double-tap at hot corners, nagse-set ng 8 icon bawat hanay at ng karaniwang taas ng hanay at pagitan ng icon, ipinapakita ang seksyong Tumatakbo (nakatago ang mga naka-minimize na window), ipinapakita muli ang icon sa menu bar at ang “⟦Dock⟧”, at ino-off ang pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "Lumulutang ang HomePad sa ibabaw ng mga window mo at bumubukas kung saan mo ito tinawag: gamit ang shortcut, double-tap, hot corners o icon sa menu bar.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Tulad ng Start menu ng Windows: bubukas ang panel mismo sa tabi ng icon ng HomePad sa “⟦Dock⟧”, i-click mo man ang icon na iyon o gamitin ang shortcut o double-tap. Binubuksan pa rin ito ng hot corners sa sarili nilang sulok.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "Ipinapakita ng HomePad ang “⟦Dock⟧” at doon nito iniiwan ang icon nito; nananatili ang “⟦Dock⟧” kung saan mo ito inilagay.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nakatago ang “⟦Dock⟧” habang ganito, at umaabot sa ilalim ng taskbar ang mga naka-maximize na window.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "Wala pa ang HomePad sa “⟦Dock⟧”. I-drag ang icon nito mula sa “⟦Applications⟧” papunta sa “⟦Dock⟧”; hanggang noon, bubukas ang panel sa gitna.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa mga pahintulot sa itaas.";
 "Add App…" = "Magdagdag ng App…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "Maaaring ginagamit na ang %@";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Hindi umabot sa HomePad ang test press ng shortcut na ito, kaya ibang app ang unang tumatanggap nito, pero hindi sinasabi ng macOS kung alin. Tingnan ang mga shortcut setting ng mga launcher o assistant app na ginagamit mo, o pumili ng ibang shortcut dito.";
 "Choose Another Shortcut" = "Pumili ng Ibang Shortcut";
+"Start" = "Start";
 "Off" = "Naka-off";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

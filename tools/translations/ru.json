@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Скрыть «⟦Dock⟧»",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Включает автоскрытие с очень долгой задержкой, так что «⟦Dock⟧» никогда не появляется. Cmd-Tab и «⟦Mission Control⟧» продолжают работать.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Открывать над значком HomePad в «⟦Dock⟧»",
  "Reset": "Сброс",
  "Reset to Defaults…": "Сбросить настройки…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Возвращает сочетание клавиш, двойное нажатие, активные углы, вид, значок в строке меню, скрытие «⟦Dock⟧» и запуск при входе к исходному состоянию. Ваши приложения и категории сохраняются.",
@@ -259,5 +258,15 @@
  "Keyboard": "Клавиатура",
  "Keyboard Shortcuts": "Сочетания клавиш",
  "Hot Corners": "Активные углы",
- "Sort Alphabetically": "Сортировать по алфавиту"
+ "Sort Alphabetically": "Сортировать по алфавиту",
+ "Mode": "Режим",
+ "Standalone": "Отдельно",
+ "HomePad + ⟦Dock⟧": "HomePad + «⟦Dock⟧»",
+ "Taskbar": "Панель задач",
+ "Open HomePad only from the Start button": "Открывать HomePad только кнопкой «Пуск»",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Если выключено, его открывают и сочетание клавиш, двойное нажатие и активные углы: над панелью задач, а активные углы — в своём углу. Значок в строке меню открывает его всегда.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad парит над окнами и открывается там, где вы его вызываете: сочетанием клавиш, двойным нажатием, активными углами или значком в строке меню.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad показывает «⟦Dock⟧» и держит там свой значок; «⟦Dock⟧» остаётся там, где вы его разместили.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. «⟦Dock⟧» на это время скрыт, а развёрнутые окна заходят под панель задач.",
+ "Start": "Пуск"
 }

@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "ซ่อน “⟦Dock⟧”",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "เปิดการซ่อนอัตโนมัติพร้อมการหน่วงเวลานานมาก เพื่อให้ “⟦Dock⟧” ไม่แสดงขึ้นมา Cmd-Tab และ “⟦Mission Control⟧” ยังใช้งานได้",
- "Open above the HomePad icon in the ⟦Dock⟧": "เปิดเหนือไอคอน HomePad ใน “⟦Dock⟧”",
  "Reset": "รีเซ็ต",
  "Reset to Defaults…": "รีเซ็ตเป็นค่าเริ่มต้น…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "คืนค่าปุ่มลัด การแตะสองครั้ง มุมร้อน เค้าโครง ไอคอนแถบเมนู การซ่อน “⟦Dock⟧” และการเปิดเมื่อเข้าสู่ระบบกลับเป็นเหมือนตอนแรก แอปและหมวดหมู่ของคุณยังคงอยู่",
@@ -259,5 +258,15 @@
  "Keyboard": "แป้นพิมพ์",
  "Keyboard Shortcuts": "ปุ่มลัดแป้นพิมพ์",
  "Hot Corners": "มุมร้อน",
- "Sort Alphabetically": "เรียงตามตัวอักษร"
+ "Sort Alphabetically": "เรียงตามตัวอักษร",
+ "Mode": "โหมด",
+ "Standalone": "แบบแยก",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "แถบงาน",
+ "Open HomePad only from the Start button": "เปิด HomePad จากปุ่มเริ่มเท่านั้น",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad ลอยอยู่เหนือหน้าต่างของคุณและเปิดตรงที่คุณเรียก: ด้วยปุ่มลัด การแตะสองครั้ง มุมร้อน หรือไอคอนในแถบเมนู",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad จะแสดง “⟦Dock⟧” และเก็บไอคอนของตัวเองไว้ที่นั่น “⟦Dock⟧” จะอยู่ตรงที่คุณวางไว้",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ขยายเต็มจะยื่นลงไปใต้แถบงาน",
+ "Start": "เริ่ม"
 }

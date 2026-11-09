@@ -151,6 +151,12 @@
 "Documents & Folders" = "Documents & Folders";
 "Web" = "Web";
 "Search the web for “%@”" = "Search the web for “%@”";
+"Mode" = "Mode";
+"Standalone" = "Standalone";
+"HomePad + ⟦Dock⟧" = "HomePad + ⟦Dock⟧";
+"Taskbar" = "Taskbar";
+"Open HomePad only from the Start button" = "Open HomePad only from the Start button";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.";
 "Shortcut" = "Shortcut";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Hide the ⟦Dock⟧";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Open above the HomePad icon in the ⟦Dock⟧";
 "Reset" = "Reset";
 "Reset to Defaults…" = "Reset to Defaults…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Launch at login";
 "Reset settings to their defaults?" = "Reset settings to their defaults?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above.";
 "Add App…" = "Add App…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ may already be in use";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here.";
 "Choose Another Shortcut" = "Choose Another Shortcut";
+"Start" = "Start";
 "Off" = "Off";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

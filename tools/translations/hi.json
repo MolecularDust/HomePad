@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧” छिपाएँ",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "बहुत लंबी देरी के साथ ऑटो-हाइड चालू करता है, ताकि “⟦Dock⟧” कभी न दिखे। Cmd-Tab और “⟦Mission Control⟧” काम करते रहते हैं।",
- "Open above the HomePad icon in the ⟦Dock⟧": "“⟦Dock⟧” में HomePad आइकॉन के ऊपर खोलें",
  "Reset": "रीसेट",
  "Reset to Defaults…": "डिफ़ॉल्ट पर रीसेट करें…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "शॉर्टकट, डबल-टैप, हॉट कॉर्नर, लेआउट, मेनू बार आइकॉन, “⟦Dock⟧” छिपाना और लॉगिन पर खोलना शुरुआत जैसा कर देता है। आपकी ऐप्स और श्रेणियाँ बनी रहती हैं।",
@@ -259,5 +258,15 @@
  "Keyboard": "कीबोर्ड",
  "Keyboard Shortcuts": "कीबोर्ड शॉर्टकट",
  "Hot Corners": "हॉट कॉर्नर",
- "Sort Alphabetically": "वर्णानुक्रम में क्रमबद्ध करें"
+ "Sort Alphabetically": "वर्णानुक्रम में क्रमबद्ध करें",
+ "Mode": "मोड",
+ "Standalone": "अलग",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "टास्कबार",
+ "Open HomePad only from the Start button": "HomePad को सिर्फ़ स्टार्ट बटन से खोलें",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "बंद होने पर शॉर्टकट, डबल-टैप और हॉट कॉर्नर भी इसे खोलते हैं: टास्कबार के ऊपर, और हॉट कॉर्नर अपने कोने में। मेनू बार आइकॉन इसे हमेशा खोलता है।",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad आपकी विंडो के ऊपर तैरता है और वहीं खुलता है जहाँ आप उसे बुलाते हैं: शॉर्टकट, डबल-टैप, हॉट कॉर्नर या मेनू बार आइकॉन से।",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧” दिखाता है और अपना आइकॉन वहाँ रखता है; “⟦Dock⟧” वहीं रहता है जहाँ आपने उसे रखा है।",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Windows की तरह: स्क्रीन के नीचे एक टास्कबार, जिसमें स्टार्ट बटन और आपकी चल रही ऐप्स होती हैं, जो तब HomePad के पैनल से हट जाती हैं। इस दौरान “⟦Dock⟧” छिपा रहता है, और बड़ी की गई विंडो टास्कबार के नीचे तक जाती हैं।",
+ "Start": "स्टार्ट"
 }

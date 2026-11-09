@@ -2,15 +2,15 @@ import AppKit
 import ApplicationServices
 import os
 
-/// HomePad's own icon in the macOS Dock, for "Open above the HomePad icon in the Dock" (Settings → Dock): the panel
-/// then opens right by that icon, like the Windows Start menu by its button.
+/// HomePad's own icon in the macOS Dock, for HomePad + Dock mode (Settings → Mode): the panel opens right by that
+/// icon, like the Windows Start menu by its button.
 ///
 /// The Dock's icons are Accessibility elements of the Dock process, each with its position, size and URL, so this needs
 /// the Accessibility permission (HomePad has it for the double-tap key). The Dock's side of the screen comes from its
 /// own preferences.
 enum DockIcon {
-    static let settingKey = "panelAboveDockIcon"
-    static var isOn: Bool { UserDefaults.standard.bool(forKey: settingKey) }
+    /// HomePad + Dock mode (HomePadMode).
+    static var isOn: Bool { HomePadMode.current == .dock }
 
     enum Side { case bottom, left, right }
 

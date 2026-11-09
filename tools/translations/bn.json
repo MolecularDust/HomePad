@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧” লুকান",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "খুব দীর্ঘ বিলম্বে অটো-হাইড চালু করে, তাই “⟦Dock⟧” কখনো দেখা দেয় না। Cmd-Tab ও “⟦Mission Control⟧” চলতে থাকে।",
- "Open above the HomePad icon in the ⟦Dock⟧": "“⟦Dock⟧”-এ HomePad আইকনের ওপরে খুলুন",
  "Reset": "রিসেট",
  "Reset to Defaults…": "ডিফল্টে রিসেট করুন…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "শর্টকাট, ডাবল-ট্যাপ, হট কর্নার, লেআউট, মেনু বার আইকন, “⟦Dock⟧” লুকানো এবং লগইনে খোলা শুরুর অবস্থায় ফিরিয়ে আনে। আপনার অ্যাপ ও বিভাগ থেকে যায়।",
@@ -259,5 +258,15 @@
  "Keyboard": "Keyboard",
  "Keyboard Shortcuts": "Keyboard Shortcuts",
  "Hot Corners": "Hot Corners",
- "Sort Alphabetically": "বর্ণানুক্রমে সাজান"
+ "Sort Alphabetically": "বর্ণানুক্রমে সাজান",
+ "Mode": "মোড",
+ "Standalone": "স্বতন্ত্র",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "টাস্কবার",
+ "Open HomePad only from the Start button": "HomePad শুধু স্টার্ট বোতাম থেকে খুলুন",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "বন্ধ থাকলে শর্টকাট, ডাবল-ট্যাপ ও হট কর্নারও এটি খোলে: টাস্কবারের ওপরে, আর হট কর্নার নিজের কোণে। মেনু বারের আইকন সব সময় এটি খোলে।",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad আপনার উইন্ডোর ওপরে ভেসে থাকে এবং যেখানে ডাকবেন সেখানে খোলে: শর্টকাট, ডাবল-ট্যাপ, হট কর্নার বা মেনু বারের আইকন দিয়ে।",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧” দেখায় এবং সেখানে নিজের আইকন রাখে; “⟦Dock⟧” যেখানে রেখেছেন সেখানেই থাকে।",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। এ সময় “⟦Dock⟧” লুকানো থাকে, আর বড় করা উইন্ডো টাস্কবারের নিচ পর্যন্ত যায়।",
+ "Start": "স্টার্ট"
 }

@@ -151,6 +151,12 @@
 "Documents & Folders" = "Belgeler ve Klasörler";
 "Web" = "Web";
 "Search the web for “%@”" = "Web’de “%@” ara";
+"Mode" = "Mod";
+"Standalone" = "Bağımsız";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "Görev çubuğu";
+"Open HomePad only from the Start button" = "HomePad’i yalnızca Başlat düğmesiyle aç";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Kapalıyken kısayol, çift dokunma ve etkin köşeler de açar: görev çubuğunun üstünde, etkin köşeler kendi köşesinde. Menü çubuğu simgesi her zaman açar.";
 "Shortcut" = "Kısayol";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Kısayol ayarlanmamış. HomePad’i menü çubuğu simgesinden açın ya da aşağıda çift dokunulacak bir tuş seçin.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘Boşluk’u kullanmak için önce “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧” içinde “⟦Spotlight⟧” kısayolunu kapatın.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” öğesini gizle";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Otomatik gizlemeyi çok uzun bir gecikmeyle açar, böylece “⟦Dock⟧” hiç belirmez. Cmd-Tab ve “⟦Mission Control⟧” çalışmaya devam eder.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "“⟦Dock⟧” içindeki HomePad simgesinin üstünde aç";
 "Reset" = "Sıfırla";
 "Reset to Defaults…" = "Varsayılanlara Sıfırla…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Kısayolu, çift dokunmayı, etkin köşeleri, yerleşimi, menü çubuğu simgesini, “⟦Dock⟧” gizlemeyi ve oturum açılışında başlatmayı başlangıçtaki hâline döndürür. Uygulamalarınız ve kategorileriniz korunur.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Oturum açılışında başlat";
 "Reset settings to their defaults?" = "Ayarlar varsayılanlara sıfırlansın mı?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Bu, kısayolu (⌥Boşluk) geri yükler, çift dokunmayı ve etkin köşeleri kapatır, satır başına 8 simge ile standart satır yüksekliği ve simge aralığını ayarlar, Çalışanlar bölümünü (küçültülmüş pencereler gizli) gösterir, menü çubuğu simgesini ve “⟦Dock⟧” öğesini yeniden gösterir ve oturum açılışında başlatmayı kapatır. Uygulamalarınız ve kategorileriniz korunur.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad pencerelerinizin üzerinde süzülür ve onu çağırdığınız yerde açılır: kısayol, çift dokunma, etkin köşeler veya menü çubuğu simgesiyle.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windows Başlat menüsü gibi: panel, “⟦Dock⟧” içindeki HomePad simgesinin hemen yanında açılır; simgeye tıklasanız da kısayolu veya çift dokunmayı kullansanız da. Etkin köşeler yine kendi köşelerinde açar.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad “⟦Dock⟧” öğesini gösterir ve simgesini orada tutar; “⟦Dock⟧” koyduğunuz yerde kalır.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Bu sırada “⟦Dock⟧” gizlenir ve büyütülmüş pencereler görev çubuğunun altına uzanır.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad henüz “⟦Dock⟧” içinde değil. Simgesini “⟦Applications⟧” klasöründen “⟦Dock⟧” içine sürükleyin; o zamana kadar panel ortada açılır.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. Bunu yukarıdaki izinlerden verin.";
 "Add App…" = "Uygulama Ekle…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ zaten kullanılıyor olabilir";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Bu kısayol için yapılan deneme basışı HomePad’e ulaşmadı; başka bir uygulama onu önce alıyor, ama macOS hangisi olduğunu söylemiyor. Kullandığınız başlatıcı veya asistan uygulamalarının kısayol ayarlarını kontrol edin ya da burada başka bir kısayol seçin.";
 "Choose Another Shortcut" = "Başka Bir Kısayol Seç";
+"Start" = "Başlat";
 "Off" = "Kapalı";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

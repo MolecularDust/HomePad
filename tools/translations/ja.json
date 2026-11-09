@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧”を隠す",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "非常に長い遅延で自動的に隠す設定をオンにし、“⟦Dock⟧”が表示されないようにします。Cmd-Tabと“⟦Mission Control⟧”は引き続き使えます。",
- "Open above the HomePad icon in the ⟦Dock⟧": "“⟦Dock⟧”のHomePadアイコンの上に開く",
  "Reset": "リセット",
  "Reset to Defaults…": "デフォルトに戻す…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "ショートカット、ダブルタップ、ホットコーナー、レイアウト、メニューバーアイコン、“⟦Dock⟧”を隠す設定、ログイン時に開く設定を最初の状態に戻します。アプリとカテゴリはそのままです。",
@@ -259,5 +258,15 @@
  "Keyboard": "キーボード",
  "Keyboard Shortcuts": "キーボードショートカット",
  "Hot Corners": "ホットコーナー",
- "Sort Alphabetically": "名前順に並べ替え"
+ "Sort Alphabetically": "名前順に並べ替え",
+ "Mode": "モード",
+ "Standalone": "スタンドアロン",
+ "HomePad + ⟦Dock⟧": "HomePad＋“⟦Dock⟧”",
+ "Taskbar": "タスクバー",
+ "Open HomePad only from the Start button": "スタートボタンからのみHomePadを開く",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePadはウインドウの上に浮かび、呼び出した場所で開きます：ショートカット、ダブルタップ、ホットコーナー、またはメニューバーのアイコンで。",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePadは“⟦Dock⟧”を表示し、そこに自分のアイコンを置きます。“⟦Dock⟧”は置いた場所のままです。",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。その間“⟦Dock⟧”は隠され、最大化したウインドウはタスクバーの下まで広がります。",
+ "Start": "スタート"
 }

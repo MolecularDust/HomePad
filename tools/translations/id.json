@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Sembunyikan “⟦Dock⟧”",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Menyalakan sembunyi otomatis dengan jeda sangat lama, sehingga “⟦Dock⟧” tidak pernah muncul. Cmd-Tab dan “⟦Mission Control⟧” tetap berfungsi.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Buka di atas ikon HomePad di “⟦Dock⟧”",
  "Reset": "Atur Ulang",
  "Reset to Defaults…": "Kembalikan ke Default…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Mengembalikan pintasan, ketuk dua kali, sudut aktif, tata letak, ikon bar menu, penyembunyian “⟦Dock⟧”, dan buka saat masuk ke keadaan awal. App dan kategori Anda tetap disimpan.",
@@ -259,5 +258,15 @@
  "Keyboard": "Papan Ketik",
  "Keyboard Shortcuts": "Pintasan Papan Ketik",
  "Hot Corners": "Sudut Aktif",
- "Sort Alphabetically": "Urutkan Menurut Abjad"
+ "Sort Alphabetically": "Urutkan Menurut Abjad",
+ "Mode": "Mode",
+ "Standalone": "Mandiri",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "Bilah tugas",
+ "Open HomePad only from the Start button": "Buka HomePad hanya dari tombol Mulai",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Jika mati, pintasan, ketuk dua kali, dan sudut aktif juga membukanya: di atas bilah tugas, dan sudut aktif di sudutnya. Ikon bar menu selalu membukanya.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad melayang di atas jendela Anda dan terbuka di tempat Anda memanggilnya: dengan pintasan, ketuk dua kali, sudut aktif, atau ikon bar menu.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad menampilkan “⟦Dock⟧” dan menyimpan ikonnya di sana; “⟦Dock⟧” tetap di tempat Anda menaruhnya.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Selama itu “⟦Dock⟧” disembunyikan, dan jendela yang dimaksimalkan menjangkau ke bawah bilah tugas.",
+ "Start": "Mulai"
 }

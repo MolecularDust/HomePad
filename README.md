@@ -102,13 +102,23 @@ any time from the menu-bar icon → Setup Guide…
 - **Icons per row** (8 by default, 4–10) and **row height** (the distance between rows of icons, 101 pt by default,
   85–125) and **icon spacing** (the horizontal gap between icons, 10 pt by default, 0–40; when the panel is
   too narrow for the gap, the gap shrinks first, then the icons): type a number or click − / +, **show running apps**, **re-import from Dock**.
-- **Hide the Dock**: turns on Dock auto-hide with a 1000-second delay so it never appears.
+- **Mode** (top of Settings):
+  - **Standalone** (default): the floating panel, opened by the shortcut, double-tap, hot corners or the menu-bar icon.
+  - **HomePad + Dock**: a Windows Start-menu workflow with the Dock as the taskbar. Choosing it shows the Dock if it
+    was hidden and adds HomePad to it if it isn't there (the Dock restarts once); the Dock stays wherever you put it.
+    The panel opens right by HomePad's icon (above it for a bottom Dock, beside it for a side Dock, kept on screen)
+    whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot corners still
+    open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock, the Dock is
+    hidden, or the Accessibility permission is missing.
+  - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon) and
+    the running apps, centred, in the Running section's order. The running apps then leave the panel. Click an app to
+    bring it forward (or hide it if it's already in front); point at it for its windows; right-click for its menu. The
+    panel opens centred above the taskbar. The Dock is hidden meanwhile and comes back when you go back to Standalone
+    (unless you had hidden it yourself). macOS doesn't let an app reserve screen space, so maximized windows reach
+    under the taskbar. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
+    (the menu-bar icon still works).
+- **Hide the Dock** (Standalone only): turns on Dock auto-hide with a 1000-second delay so it never appears.
   Turning it off restores the normal Dock.
-- **Open above the HomePad icon in the Dock** (Settings → Dock; off by default): for a Windows Start-menu workflow. With
-  HomePad kept in the Dock, the panel opens right by its icon (above it for a bottom Dock, beside it for a side Dock,
-  kept on screen) whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot
-  corners still open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock,
-  the Dock is hidden, or the Accessibility permission is missing.
 - **Launch at login**.
 - **Language** (Settings → General, or right-click the menu-bar icon → Language): Same as the Mac, or one of 20
   languages (Arabic, Bengali, Chinese (Simplified), English, Filipino, French, German, Hindi, Indonesian, Italian,

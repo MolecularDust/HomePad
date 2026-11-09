@@ -151,6 +151,12 @@
 "Documents & Folders" = "Documents et dossiers";
 "Web" = "Web";
 "Search the web for “%@”" = "Rechercher « %@ » sur le Web";
+"Mode" = "Mode";
+"Standalone" = "Autonome";
+"HomePad + ⟦Dock⟧" = "HomePad + « ⟦Dock⟧ »";
+"Taskbar" = "Barre des tâches";
+"Open HomePad only from the Start button" = "Ouvrir HomePad uniquement avec le bouton Démarrer";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Désactivé, le raccourci, la double frappe et les coins actifs l’ouvrent aussi : au-dessus de la barre des tâches, et les coins actifs dans leur coin. L’icône de la barre des menus l’ouvre toujours.";
 "Shortcut" = "Raccourci";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Aucun raccourci défini. Ouvrez HomePad depuis l’icône de la barre des menus, ou choisissez ci-dessous une touche en double frappe.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Pour utiliser ⌘Espace, désactivez d’abord le raccourci de « ⟦Spotlight⟧ » dans « ⟦System Settings⟧ » → « ⟦Keyboard⟧ » → « ⟦Keyboard Shortcuts⟧ » → « ⟦Spotlight⟧ ».";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Masquer « ⟦Dock⟧ »";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Active le masquage automatique avec un délai très long, pour que « ⟦Dock⟧ » n’apparaisse jamais. Cmd-Tab et « ⟦Mission Control⟧ » continuent de fonctionner.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Ouvrir au-dessus de l’icône HomePad dans « ⟦Dock⟧ »";
 "Reset" = "Réinitialiser";
 "Reset to Defaults…" = "Rétablir les valeurs par défaut…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Remet le raccourci, la double frappe, les coins actifs, la disposition, l’icône de la barre des menus, le masquage de « ⟦Dock⟧ » et l’ouverture à la connexion comme au début. Vos apps et catégories sont conservées.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Ouvrir à la connexion";
 "Reset settings to their defaults?" = "Rétablir les réglages par défaut ?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Cela rétablit le raccourci (⌥Espace), désactive la double frappe et les coins actifs, met 8 icônes par rangée avec la hauteur de rangée et l’espacement standard, affiche la section « Ouvertes » (sans fenêtres réduites), affiche l’icône de la barre des menus et de nouveau « ⟦Dock⟧ », et désactive l’ouverture à la connexion. Vos apps et catégories sont conservées.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad flotte au-dessus de vos fenêtres et s’ouvre là où vous l’appelez : avec le raccourci, la double frappe, les coins actifs ou l’icône de la barre des menus.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Comme le menu Démarrer de Windows : le panneau s’ouvre juste à côté de l’icône HomePad dans « ⟦Dock⟧ », que vous cliquiez sur cette icône ou que vous utilisiez le raccourci ou la double frappe. Les coins actifs l’ouvrent toujours dans leur coin.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad affiche « ⟦Dock⟧ » et y garde son icône ; « ⟦Dock⟧ » reste là où vous l’avez placé.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Comme Windows : une barre des tâches en bas de l’écran avec un bouton Démarrer et vos apps ouvertes, qui quittent alors le panneau de HomePad. « ⟦Dock⟧ » est masqué pendant ce temps, et les fenêtres agrandies passent sous la barre des tâches.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad n’est pas encore dans « ⟦Dock⟧ ». Faites glisser son icône de « ⟦Applications⟧ » vers « ⟦Dock⟧ » ; d’ici là, le panneau s’ouvre au milieu.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Trouver l’icône nécessite l’autorisation « ⟦Accessibility⟧ » ; pour l’instant le panneau s’ouvre donc au milieu. Autorisez-la dans les autorisations ci-dessus.";
 "Add App…" = "Ajouter une app…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ est peut-être déjà utilisé";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Un appui test sur ce raccourci n’a pas atteint HomePad : une autre app le reçoit d’abord, mais macOS n’indique pas laquelle. Vérifiez les raccourcis de vos lanceurs ou assistants, ou choisissez ici un autre raccourci.";
 "Choose Another Shortcut" = "Choisir un autre raccourci";
+"Start" = "Démarrer";
 "Off" = "Désactivée";
 "Control ⌃" = "Contrôle ⌃";
 "Option ⌥" = "Option ⌥";

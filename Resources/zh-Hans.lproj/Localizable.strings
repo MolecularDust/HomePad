@@ -151,6 +151,12 @@
 "Documents & Folders" = "文稿与文件夹";
 "Web" = "网页";
 "Search the web for “%@”" = "在网上搜索“%@”";
+"Mode" = "模式";
+"Standalone" = "独立";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "任务栏";
+"Open HomePad only from the Start button" = "仅从“开始”按钮打开 HomePad";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。";
 "Shortcut" = "快捷键";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "未设置快捷键。可从菜单栏图标打开 HomePad，或在下方选择一个连按键。";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "要使用 ⌘空格键，请先在“⟦System Settings⟧”→“⟦Keyboard⟧”→“⟦Keyboard Shortcuts⟧”→“⟦Spotlight⟧”中关闭“⟦Spotlight⟧”的快捷键。";
@@ -174,7 +180,6 @@
 "Dock" = "程序坞";
 "Hide the ⟦Dock⟧" = "隐藏“⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "以很长的延迟打开自动隐藏，使“⟦Dock⟧”永不弹出。Cmd-Tab 和“⟦Mission Control⟧”照常工作。";
-"Open above the HomePad icon in the ⟦Dock⟧" = "在“⟦Dock⟧”中的 HomePad 图标上方打开";
 "Reset" = "复位";
 "Reset to Defaults…" = "恢复默认设置…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "将快捷键、连按、触发角、布局、菜单栏图标、“⟦Dock⟧”隐藏和登录时打开恢复为初始状态。你的 App 和类别会保留。";
@@ -187,7 +192,10 @@
 "Launch at login" = "登录时打开";
 "Reset settings to their defaults?" = "要将设置恢复为默认值吗？";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "这会恢复快捷键（⌥空格键），关闭连按和触发角，设为每行 8 个图标及标准行高和图标间距，显示“正在运行”部分（隐藏最小化的窗口），显示菜单栏图标并重新显示“⟦Dock⟧”，并关闭登录时打开。你的 App 和类别会保留。";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad 浮在窗口之上，在你调用的地方打开：使用快捷键、连按、触发角或菜单栏图标。";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "就像 Windows 的“开始”菜单：面板会直接在“⟦Dock⟧”中的 HomePad 图标旁打开，无论你点按该图标，还是使用快捷键或连按。触发角仍会在各自的角落打开它。";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad 会显示“⟦Dock⟧”并把它的图标保留在那里；“⟦Dock⟧”保持在你放置的位置。";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。期间“⟦Dock⟧”会被隐藏，最大化的窗口会延伸到任务栏下方。";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad 还不在“⟦Dock⟧”中。请将它的图标从“⟦Applications⟧”拖到“⟦Dock⟧”中；在此之前，面板会在中间打开。";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在上方的权限中允许它。";
 "Add App…" = "添加 App…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ 可能已被使用";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "测试按下此快捷键时没有到达 HomePad，说明另一个 App 先接收了它，但 macOS 不会说明是哪一个。请检查你使用的启动器或助手类 App 的快捷键设置，或在这里选择其他快捷键。";
 "Choose Another Shortcut" = "选择其他快捷键";
+"Start" = "开始";
 "Off" = "关闭";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

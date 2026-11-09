@@ -151,6 +151,12 @@
 "Documents & Folders" = "Documentos e pastas";
 "Web" = "Web";
 "Search the web for “%@”" = "Buscar “%@” na web";
+"Mode" = "Modo";
+"Standalone" = "Independente";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "Barra de tarefas";
+"Open HomePad only from the Start button" = "Abrir o HomePad só pelo botão Iniciar";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Desativado, o atalho, o toque duplo e os cantos ativos também o abrem: acima da barra de tarefas, e os cantos ativos no próprio canto. O ícone da barra de menus sempre o abre.";
 "Shortcut" = "Atalho";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Nenhum atalho definido. Abra o HomePad pelo ícone da barra de menus ou escolha abaixo uma tecla de toque duplo.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Para usar ⌘Espaço, desative primeiro o atalho do “⟦Spotlight⟧” em “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Ocultar o “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Ativa a ocultação automática com um atraso muito longo, para que o “⟦Dock⟧” nunca apareça. Cmd-Tab e o “⟦Mission Control⟧” continuam funcionando.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Abrir acima do ícone do HomePad no “⟦Dock⟧”";
 "Reset" = "Redefinir";
 "Reset to Defaults…" = "Restaurar padrões…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Volta o atalho, o toque duplo, os cantos ativos, o layout, o ícone da barra de menus, a ocultação do “⟦Dock⟧” e a abertura no login ao estado inicial. Seus apps e categorias são mantidos.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Abrir ao iniciar sessão";
 "Reset settings to their defaults?" = "Restaurar os ajustes padrão?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Isso restaura o atalho (⌥Espaço), desativa o toque duplo e os cantos ativos, define 8 ícones por linha e a altura de linha e o espaço entre ícones padrão, mostra a seção “Em uso” (sem janelas minimizadas), mostra o ícone da barra de menus e o “⟦Dock⟧” de novo e desativa a abertura ao iniciar sessão. Seus apps e categorias são mantidos.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "O HomePad flutua sobre as janelas e abre onde você o chamar: com o atalho, o toque duplo, os cantos ativos ou o ícone da barra de menus.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Como o menu Iniciar do Windows: o painel abre junto ao ícone do HomePad no “⟦Dock⟧”, seja clicando nesse ícone ou usando o atalho ou o toque duplo. Os cantos ativos continuam abrindo no próprio canto.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "O HomePad mostra o “⟦Dock⟧” e mantém seu ícone lá; o “⟦Dock⟧” fica onde você o colocou.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Como no Windows: uma barra de tarefas na parte de baixo da tela com um botão Iniciar e seus apps abertos, que saem do painel do HomePad. O “⟦Dock⟧” fica oculto enquanto isso, e janelas maximizadas passam por baixo da barra.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "O HomePad ainda não está no “⟦Dock⟧”. Arraste o ícone dele de “⟦Applications⟧” para o “⟦Dock⟧”; até lá, o painel abre no centro.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Encontrar o ícone precisa da permissão “⟦Accessibility⟧”, então por enquanto o painel abre no centro. Permita-a nas permissões acima.";
 "Add App…" = "Adicionar app…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ talvez já esteja em uso";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Um toque de teste neste atalho não chegou ao HomePad, então outro app o recebe primeiro, mas o macOS não diz qual. Confira os atalhos dos apps de inicialização ou assistentes que você usa, ou escolha outro atalho aqui.";
 "Choose Another Shortcut" = "Escolher outro atalho";
+"Start" = "Iniciar";
 "Off" = "Desativado";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

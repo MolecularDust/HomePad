@@ -151,6 +151,12 @@
 "Documents & Folders" = "Документы и папки";
 "Web" = "Интернет";
 "Search the web for “%@”" = "Искать «%@» в интернете";
+"Mode" = "Режим";
+"Standalone" = "Отдельно";
+"HomePad + ⟦Dock⟧" = "HomePad + «⟦Dock⟧»";
+"Taskbar" = "Панель задач";
+"Open HomePad only from the Start button" = "Открывать HomePad только кнопкой «Пуск»";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Если выключено, его открывают и сочетание клавиш, двойное нажатие и активные углы: над панелью задач, а активные углы — в своём углу. Значок в строке меню открывает его всегда.";
 "Shortcut" = "Сочетание клавиш";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Сочетание не задано. Открывайте HomePad значком в строке меню или выберите ниже клавишу для двойного нажатия.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Чтобы использовать ⌘Пробел, сначала выключите сочетание «⟦Spotlight⟧» в «⟦System Settings⟧» → «⟦Keyboard⟧» → «⟦Keyboard Shortcuts⟧» → «⟦Spotlight⟧».";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Скрыть «⟦Dock⟧»";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Включает автоскрытие с очень долгой задержкой, так что «⟦Dock⟧» никогда не появляется. Cmd-Tab и «⟦Mission Control⟧» продолжают работать.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Открывать над значком HomePad в «⟦Dock⟧»";
 "Reset" = "Сброс";
 "Reset to Defaults…" = "Сбросить настройки…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Возвращает сочетание клавиш, двойное нажатие, активные углы, вид, значок в строке меню, скрытие «⟦Dock⟧» и запуск при входе к исходному состоянию. Ваши приложения и категории сохраняются.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Запускать при входе";
 "Reset settings to their defaults?" = "Сбросить настройки по умолчанию?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Это вернёт сочетание клавиш (⌥Пробел), выключит двойное нажатие и активные углы, установит 8 значков в ряду и стандартные высоту ряда и интервал, покажет раздел «Запущенные» (без свёрнутых окон), значок в строке меню и снова «⟦Dock⟧», а также выключит запуск при входе. Ваши приложения и категории сохраняются.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad парит над окнами и открывается там, где вы его вызываете: сочетанием клавиш, двойным нажатием, активными углами или значком в строке меню.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Как меню «Пуск» в Windows: панель открывается прямо у значка HomePad в «⟦Dock⟧» — и при нажатии на этот значок, и при сочетании клавиш или двойном нажатии. Активные углы по-прежнему открывают её в своём углу.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad показывает «⟦Dock⟧» и держит там свой значок; «⟦Dock⟧» остаётся там, где вы его разместили.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. «⟦Dock⟧» на это время скрыт, а развёрнутые окна заходят под панель задач.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ещё нет в «⟦Dock⟧». Перетащите его значок из «⟦Applications⟧» в «⟦Dock⟧»; до тех пор панель открывается по центру.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его в разрешениях выше.";
 "Add App…" = "Добавить приложение…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@, возможно, уже занято";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Пробное нажатие этого сочетания не дошло до HomePad, значит, его раньше перехватывает другое приложение, но macOS не сообщает, какое. Проверьте сочетания в лаунчерах и ассистентах, которыми пользуетесь, или выберите здесь другое сочетание.";
 "Choose Another Shortcut" = "Выбрать другое сочетание";
+"Start" = "Пуск";
 "Off" = "Выкл.";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

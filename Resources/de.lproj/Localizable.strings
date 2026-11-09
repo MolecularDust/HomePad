@@ -151,6 +151,12 @@
 "Documents & Folders" = "Dokumente & Ordner";
 "Web" = "Web";
 "Search the web for “%@”" = "Im Web nach „%@“ suchen";
+"Mode" = "Modus";
+"Standalone" = "Eigenständig";
+"HomePad + ⟦Dock⟧" = "HomePad + „⟦Dock⟧“";
+"Taskbar" = "Taskleiste";
+"Open HomePad only from the Start button" = "HomePad nur über die Start-Taste öffnen";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.";
 "Shortcut" = "Tastenkürzel";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Kein Tastenkürzel festgelegt. Öffne HomePad über das Symbol in der Menüleiste oder wähle unten eine Taste zum Doppeltippen.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Um ⌘Leertaste zu verwenden, schalte zuerst das Kürzel von „⟦Spotlight⟧“ aus: „⟦System Settings⟧“ → „⟦Keyboard⟧“ → „⟦Keyboard Shortcuts⟧“ → „⟦Spotlight⟧“.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "„⟦Dock⟧“ ausblenden";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Schaltet das automatische Ausblenden mit sehr langer Verzögerung ein, sodass „⟦Dock⟧“ nie erscheint. Befehl-Tab und „⟦Mission Control⟧“ funktionieren weiter.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Über dem HomePad-Symbol in „⟦Dock⟧“ öffnen";
 "Reset" = "Zurücksetzen";
 "Reset to Defaults…" = "Auf Standard zurücksetzen …";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Setzt Tastenkürzel, Doppeltippen, aktive Ecken, Layout, Menüleistensymbol, das Ausblenden von „⟦Dock⟧“ und Start bei Anmeldung auf den Anfangszustand zurück. Deine Apps und Kategorien bleiben erhalten.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Bei Anmeldung starten";
 "Reset settings to their defaults?" = "Einstellungen auf Standard zurücksetzen?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Das stellt das Tastenkürzel (⌥Leertaste) wieder her, schaltet Doppeltippen und aktive Ecken aus, setzt 8 Symbole pro Reihe sowie Standard-Zeilenhöhe und -Symbolabstand, zeigt den Bereich „Aktiv“ (ohne minimierte Fenster), zeigt das Menüleistensymbol und „⟦Dock⟧“ wieder und schaltet den Start bei Anmeldung aus. Deine Apps und Kategorien bleiben erhalten.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad schwebt über deinen Fenstern und öffnet sich dort, wo du es rufst: per Tastenkürzel, Doppeltippen, aktiver Ecke oder Menüleistensymbol.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Wie das Windows-Startmenü: Das Feld öffnet sich direkt am HomePad-Symbol in „⟦Dock⟧“, ob du das Symbol anklickst oder Tastenkürzel oder Doppeltippen benutzt. Aktive Ecken öffnen es weiterhin in ihrer Ecke.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad blendet „⟦Dock⟧“ ein und behält sein Symbol dort; „⟦Dock⟧“ bleibt, wo du es hingestellt hast.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Wie bei Windows: eine Taskleiste am unteren Bildschirmrand mit Start-Taste und deinen laufenden Apps, die dafür HomePads Feld verlassen. „⟦Dock⟧“ ist so lange ausgeblendet, und maximierte Fenster reichen unter die Taskleiste.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ist noch nicht in „⟦Dock⟧“. Zieh sein Symbol aus „⟦Applications⟧“ in „⟦Dock⟧“; bis dahin öffnet sich das Feld in der Mitte.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie bei den Berechtigungen oben.";
 "Add App…" = "App hinzufügen …";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ ist eventuell schon belegt";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Ein Testdruck dieses Kürzels kam nicht bei HomePad an; eine andere App fängt ihn also zuerst ab, aber macOS sagt nicht, welche. Prüfe die Kürzel deiner Launcher- oder Assistenten-Apps oder wähle hier ein anderes Kürzel.";
 "Choose Another Shortcut" = "Anderes Tastenkürzel wählen";
+"Start" = "Start";
 "Off" = "Aus";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Wahltaste ⌥";

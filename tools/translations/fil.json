@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Itago ang “⟦Dock⟧”",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Ino-on ang auto-hide na may napakatagal na delay, kaya hindi kailanman lilitaw ang “⟦Dock⟧”. Gumagana pa rin ang Cmd-Tab at “⟦Mission Control⟧”.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Buksan sa itaas ng icon ng HomePad sa “⟦Dock⟧”",
  "Reset": "I-reset",
  "Reset to Defaults…": "I-reset sa Mga Default…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Ibinabalik sa dati ang shortcut, double-tap, hot corners, layout, icon sa menu bar, pagtatago ng “⟦Dock⟧” at pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.",
@@ -259,5 +258,15 @@
  "Keyboard": "Keyboard",
  "Keyboard Shortcuts": "Keyboard Shortcuts",
  "Hot Corners": "Hot Corners",
- "Sort Alphabetically": "Pagsunud-sunurin ayon sa Alpabeto"
+ "Sort Alphabetically": "Pagsunud-sunurin ayon sa Alpabeto",
+ "Mode": "Mode",
+ "Standalone": "Hiwalay",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "Taskbar",
+ "Open HomePad only from the Start button": "Buksan lang ang HomePad mula sa Start button",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Kapag naka-off, binubuksan din ito ng shortcut, double-tap at hot corners: sa itaas ng taskbar, at ang hot corners sa sarili nilang sulok. Laging nabubuksan ito ng icon sa menu bar.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "Lumulutang ang HomePad sa ibabaw ng mga window mo at bumubukas kung saan mo ito tinawag: gamit ang shortcut, double-tap, hot corners o icon sa menu bar.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "Ipinapakita ng HomePad ang “⟦Dock⟧” at doon nito iniiwan ang icon nito; nananatili ang “⟦Dock⟧” kung saan mo ito inilagay.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nakatago ang “⟦Dock⟧” habang ganito, at umaabot sa ilalim ng taskbar ang mga naka-maximize na window.",
+ "Start": "Start"
 }

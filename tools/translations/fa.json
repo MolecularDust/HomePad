@@ -172,7 +172,6 @@
  "Dock": "داک",
  "Hide the ⟦Dock⟧": "پنهان کردن «⟦Dock⟧»",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "پنهان‌سازی خودکار را با تأخیری بسیار طولانی روشن می‌کند تا «⟦Dock⟧» هرگز ظاهر نشود. Cmd-Tab و «⟦Mission Control⟧» همچنان کار می‌کنند.",
- "Open above the HomePad icon in the ⟦Dock⟧": "باز کردن بالای نماد HomePad در «⟦Dock⟧»",
  "Reset": "بازنشانی",
  "Reset to Defaults…": "بازنشانی به پیش‌فرض‌ها…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "میان‌بر، دوبار زدن، گوشه‌های فعال، چیدمان، نماد نوار منو، پنهان‌سازی «⟦Dock⟧» و باز شدن هنگام ورود را به حالت اول برمی‌گرداند. برنامه‌ها و دسته‌های شما می‌مانند.",
@@ -259,5 +258,15 @@
  "Keyboard": "Keyboard",
  "Keyboard Shortcuts": "Keyboard Shortcuts",
  "Hot Corners": "Hot Corners",
- "Sort Alphabetically": "مرتب‌سازی الفبایی"
+ "Sort Alphabetically": "مرتب‌سازی الفبایی",
+ "Mode": "حالت",
+ "Standalone": "مستقل",
+ "HomePad + ⟦Dock⟧": "HomePad + «⟦Dock⟧»",
+ "Taskbar": "نوار وظیفه",
+ "Open HomePad only from the Start button": "باز کردن HomePad فقط از دکمه شروع",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "وقتی خاموش است، میان‌بر، دوبار زدن و گوشه‌های فعال هم آن را باز می‌کنند: بالای نوار وظیفه، و گوشه‌های فعال در گوشه خودشان. نماد نوار منو همیشه آن را باز می‌کند.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad روی پنجره‌های شما شناور است و همان‌جا که صدایش می‌زنید باز می‌شود: با میان‌بر، دوبار زدن، گوشه‌های فعال یا نماد نوار منو.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad «⟦Dock⟧» را نشان می‌دهد و نمادش را آنجا نگه می‌دارد؛ «⟦Dock⟧» همان‌جا می‌ماند که گذاشته‌اید.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. در این مدت «⟦Dock⟧» پنهان است و پنجره‌های بزرگ‌شده تا زیر نوار وظیفه می‌رسند.",
+ "Start": "شروع"
 }

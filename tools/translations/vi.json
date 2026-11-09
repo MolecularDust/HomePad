@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Ẩn “⟦Dock⟧”",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Bật tự động ẩn với độ trễ rất dài, để “⟦Dock⟧” không bao giờ hiện lên. Cmd-Tab và “⟦Mission Control⟧” vẫn hoạt động.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Mở phía trên biểu tượng HomePad trong “⟦Dock⟧”",
  "Reset": "Đặt lại",
  "Reset to Defaults…": "Đặt lại về mặc định…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Đưa phím tắt, chạm hai lần, góc nóng, bố cục, biểu tượng thanh menu, việc ẩn “⟦Dock⟧” và mở khi đăng nhập về như ban đầu. Ứng dụng và danh mục của bạn được giữ nguyên.",
@@ -259,5 +258,15 @@
  "Keyboard": "Bàn phím",
  "Keyboard Shortcuts": "Phím tắt bàn phím",
  "Hot Corners": "Góc nóng",
- "Sort Alphabetically": "Sắp xếp theo thứ tự chữ cái"
+ "Sort Alphabetically": "Sắp xếp theo thứ tự chữ cái",
+ "Mode": "Chế độ",
+ "Standalone": "Độc lập",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "Thanh tác vụ",
+ "Open HomePad only from the Start button": "Chỉ mở HomePad từ nút Bắt đầu",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Khi tắt, phím tắt, chạm hai lần và góc nóng cũng mở nó: phía trên thanh tác vụ, còn góc nóng thì ở góc của nó. Biểu tượng trên thanh menu luôn mở được.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad nổi trên các cửa sổ và mở ở nơi bạn gọi: bằng phím tắt, chạm hai lần, góc nóng hoặc biểu tượng trên thanh menu.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad hiện “⟦Dock⟧” và giữ biểu tượng của nó ở đó; “⟦Dock⟧” vẫn ở nơi bạn đặt.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ phóng to tràn xuống dưới thanh tác vụ.",
+ "Start": "Bắt đầu"
 }

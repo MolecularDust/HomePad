@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "إخفاء ”⟦Dock⟧“",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "يشغّل الإخفاء التلقائي مع تأخير طويل جدًا، فلا يظهر ”⟦Dock⟧“ أبدًا. يبقى Cmd-Tab و”⟦Mission Control⟧“ يعملان.",
- "Open above the HomePad icon in the ⟦Dock⟧": "فتح فوق أيقونة HomePad في ”⟦Dock⟧“",
  "Reset": "إعادة تعيين",
  "Reset to Defaults…": "إعادة التعيين إلى الإعدادات الافتراضية…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "يعيد الاختصار والنقر المزدوج والزوايا النشطة والتخطيط وأيقونة شريط القائمة وإخفاء ”⟦Dock⟧“ والفتح عند تسجيل الدخول إلى حالتها الأولى. تبقى تطبيقاتك وفئاتك.",
@@ -259,5 +258,15 @@
  "Keyboard": "لوحة المفاتيح",
  "Keyboard Shortcuts": "اختصارات لوحة المفاتيح",
  "Hot Corners": "الزوايا النشطة",
- "Sort Alphabetically": "ترتيب أبجدي"
+ "Sort Alphabetically": "ترتيب أبجدي",
+ "Mode": "الوضع",
+ "Standalone": "مستقل",
+ "HomePad + ⟦Dock⟧": "HomePad + ”⟦Dock⟧“",
+ "Taskbar": "شريط المهام",
+ "Open HomePad only from the Start button": "فتح HomePad من زر ابدأ فقط",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "عند إيقافه، يفتحه أيضًا الاختصار والنقر المزدوج والزوايا النشطة: فوق شريط المهام، والزوايا النشطة في زاويتها. أيقونة شريط القائمة تفتحه دائمًا.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "يطفو HomePad فوق نوافذك ويُفتح حيث تستدعيه: بالاختصار أو النقر المزدوج أو الزوايا النشطة أو أيقونة شريط القائمة.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "يُظهر HomePad ”⟦Dock⟧“ ويُبقي أيقونته هناك؛ ويبقى ”⟦Dock⟧“ حيث وضعته.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتمتد النوافذ المكبّرة تحت شريط المهام.",
+ "Start": "ابدأ"
 }

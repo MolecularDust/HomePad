@@ -151,6 +151,12 @@
 "Documents & Folders" = "เอกสารและโฟลเดอร์";
 "Web" = "เว็บ";
 "Search the web for “%@”" = "ค้นหา “%@” บนเว็บ";
+"Mode" = "โหมด";
+"Standalone" = "แบบแยก";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "แถบงาน";
+"Open HomePad only from the Start button" = "เปิด HomePad จากปุ่มเริ่มเท่านั้น";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ";
 "Shortcut" = "ปุ่มลัด";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "ยังไม่ได้ตั้งปุ่มลัด เปิด HomePad จากไอคอนในแถบเมนู หรือเลือกปุ่มแตะสองครั้งด้านล่าง";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "หากต้องการใช้ ⌘Space ให้ปิดปุ่มลัดของ “⟦Spotlight⟧” ก่อนที่ “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "ซ่อน “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "เปิดการซ่อนอัตโนมัติพร้อมการหน่วงเวลานานมาก เพื่อให้ “⟦Dock⟧” ไม่แสดงขึ้นมา Cmd-Tab และ “⟦Mission Control⟧” ยังใช้งานได้";
-"Open above the HomePad icon in the ⟦Dock⟧" = "เปิดเหนือไอคอน HomePad ใน “⟦Dock⟧”";
 "Reset" = "รีเซ็ต";
 "Reset to Defaults…" = "รีเซ็ตเป็นค่าเริ่มต้น…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "คืนค่าปุ่มลัด การแตะสองครั้ง มุมร้อน เค้าโครง ไอคอนแถบเมนู การซ่อน “⟦Dock⟧” และการเปิดเมื่อเข้าสู่ระบบกลับเป็นเหมือนตอนแรก แอปและหมวดหมู่ของคุณยังคงอยู่";
@@ -187,7 +192,10 @@
 "Launch at login" = "เปิดเมื่อเข้าสู่ระบบ";
 "Reset settings to their defaults?" = "รีเซ็ตการตั้งค่าเป็นค่าเริ่มต้นใช่ไหม";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "การทำเช่นนี้จะคืนค่าปุ่มลัด (⌥Space) ปิดการแตะสองครั้งและมุมร้อน ตั้งไอคอน 8 อันต่อแถวพร้อมความสูงของแถวและระยะห่างไอคอนมาตรฐาน แสดงส่วนกำลังทำงาน (ซ่อนหน้าต่างที่ย่อ) แสดงไอคอนแถบเมนูและ “⟦Dock⟧” อีกครั้ง และปิดการเปิดเมื่อเข้าสู่ระบบ แอปและหมวดหมู่ของคุณยังคงอยู่";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad ลอยอยู่เหนือหน้าต่างของคุณและเปิดตรงที่คุณเรียก: ด้วยปุ่มลัด การแตะสองครั้ง มุมร้อน หรือไอคอนในแถบเมนู";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "เหมือนเมนู Start ของ Windows: แผงจะเปิดติดกับไอคอน HomePad ใน “⟦Dock⟧” ไม่ว่าคุณจะคลิกไอคอนนั้นหรือใช้ปุ่มลัดหรือการแตะสองครั้ง มุมร้อนยังคงเปิดที่มุมของมัน";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad จะแสดง “⟦Dock⟧” และเก็บไอคอนของตัวเองไว้ที่นั่น “⟦Dock⟧” จะอยู่ตรงที่คุณวางไว้";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ขยายเต็มจะยื่นลงไปใต้แถบงาน";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ยังไม่อยู่ใน “⟦Dock⟧” ลากไอคอนของมันจาก “⟦Applications⟧” ไปที่ “⟦Dock⟧” จนกว่าจะถึงตอนนั้นแผงจะเปิดตรงกลาง";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในส่วนสิทธิ์ด้านบน";
 "Add App…" = "เพิ่มแอป…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ อาจถูกใช้งานอยู่แล้ว";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "การกดทดสอบปุ่มลัดนี้ไม่ถึง HomePad แสดงว่าแอปอื่นรับไปก่อน แต่ macOS ไม่บอกว่าเป็นแอปใด ตรวจสอบการตั้งค่าปุ่มลัดของแอปตัวเรียกใช้หรือผู้ช่วยที่คุณใช้ หรือเลือกปุ่มลัดอื่นที่นี่";
 "Choose Another Shortcut" = "เลือกปุ่มลัดอื่น";
+"Start" = "เริ่ม";
 "Off" = "ปิด";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

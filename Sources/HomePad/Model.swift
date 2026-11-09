@@ -806,6 +806,28 @@ enum DockControl {
     private static let setAutoHide = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "CoreDockSetAutoHideEnabled")
         .map { unsafeBitCast($0, to: SetAutoHide.self) }
 
+    /// HomePad + Dock mode: the Dock shown, with HomePad kept in it (added at the right end of the apps if it isn't
+    /// there; you can move it from there). Restarts the Dock once, only if something changed.
+    static func showWithHomePad() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var changed = false
+            if isHidden {
+                run("/usr/bin/defaults", "write", "com.apple.dock", "autohide", "-bool", "false")
+                run("/usr/bin/defaults", "delete", "com.apple.dock", "autohide-delay")
+                changed = true
+            }
+            if !DockIcon.isKeptInDock {
+                let url = Bundle.main.bundleURL.absoluteString
+                let tile = "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>\(url)</string>"
+                    + "<key>_CFURLStringType</key><integer>15</integer></dict><key>file-label</key><string>HomePad</string></dict>"
+                    + "<key>tile-type</key><string>file-tile</string></dict>"
+                run("/usr/bin/defaults", "write", "com.apple.dock", "persistent-apps", "-array-add", tile)
+                changed = true
+            }
+            if changed { run("/usr/bin/killall", "Dock") }
+        }
+    }
+
     private static func run(_ tool: String, _ args: String...) {
         let p = Process()
         p.executableURL = URL(fileURLWithPath: tool)

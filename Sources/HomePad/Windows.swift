@@ -556,6 +556,7 @@ final class WindowPreviewController {
     private var hideWork: DispatchWorkItem?
     private var generation = 0
     private var lastTile = CGRect.zero
+    private var screenTile: NSRect?
     private var mouseMonitor: Any?
     /// What was loaded for the app last pointed at: loading starts the moment the pointer arrives, so the
     /// thumbnails are usually ready by the time the popup appears.
@@ -591,7 +592,10 @@ final class WindowPreviewController {
     }
 
     /// `tile` is the hovered tile's frame in the main panel's coordinates (origin top-left).
-    func hover(app: NSRunningApplication?, over: Bool, tile: CGRect) {
+    /// `tile` is in the panel's coordinates; from the taskbar, `screenTile` is the icon's frame on screen instead, and
+    /// the popup goes above it.
+    func hover(app: NSRunningApplication?, over: Bool, tile: CGRect, screenTile: NSRect? = nil) {
+        if over { self.screenTile = screenTile }
         overTile = over
         // With a mouse button down the user is clicking or dragging the tile, not looking for its windows.
         if over, NSEvent.pressedMouseButtons != 0 || PanelState.shared.isDragging { return }
@@ -686,7 +690,7 @@ final class WindowPreviewController {
     }
 
     private func show(_ app: NSRunningApplication, tile: CGRect) {
-        guard overTile, PanelController.shared.isVisible, NSEvent.pressedMouseButtons == 0 else { return }
+        guard overTile, PanelController.shared.isVisible || screenTile != nil, NSEvent.pressedMouseButtons == 0 else { return }
         lastTile = tile
         model.app = app
         model.needsPermission = !Permissions.screenRecording
@@ -716,6 +720,14 @@ final class WindowPreviewController {
     private func resizeAndPlace(tile: CGRect) {
         host.layoutSubtreeIfNeeded()
         let size = host.fittingSize
+        if let icon = screenTile {
+            // Above a taskbar icon.
+            let visible = (NSScreen.screens.first { $0.frame.intersects(icon) } ?? NSScreen.main)?.frame ?? icon
+            let x = max(visible.minX + 8, min(icon.midX - size.width / 2, visible.maxX - size.width - 8))
+            panel.setFrame(NSRect(x: x, y: icon.maxY + 8, width: size.width, height: size.height), display: true)
+            panel.invalidateShadow()
+            return
+        }
         let main = PanelController.shared.frame
         let tileTop = main.maxY - tile.minY, tileBottom = main.maxY - tile.maxY
         let screen = NSScreen.screens.first { NSMouseInRect(NSPoint(x: main.midX, y: main.midY), $0.frame, false) } ?? NSScreen.main

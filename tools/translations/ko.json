@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "‘⟦Dock⟧’ 가리기",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "아주 긴 지연 시간으로 자동 가리기를 켜서 ‘⟦Dock⟧’이(가) 나타나지 않게 합니다. Cmd-Tab과 ‘⟦Mission Control⟧’은(는) 계속 작동합니다.",
- "Open above the HomePad icon in the ⟦Dock⟧": "‘⟦Dock⟧’의 HomePad 아이콘 위에 열기",
  "Reset": "재설정",
  "Reset to Defaults…": "기본값으로 재설정…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "단축키, 이중 탭, 핫 코너, 레이아웃, 메뉴 막대 아이콘, ‘⟦Dock⟧’ 가리기 및 로그인 시 열기를 처음 상태로 되돌립니다. 앱과 카테고리는 유지됩니다.",
@@ -259,5 +258,15 @@
  "Keyboard": "키보드",
  "Keyboard Shortcuts": "키보드 단축키",
  "Hot Corners": "핫 코너",
- "Sort Alphabetically": "이름순으로 정렬"
+ "Sort Alphabetically": "이름순으로 정렬",
+ "Mode": "모드",
+ "Standalone": "독립",
+ "HomePad + ⟦Dock⟧": "HomePad + ‘⟦Dock⟧’",
+ "Taskbar": "작업 표시줄",
+ "Open HomePad only from the Start button": "시작 버튼으로만 HomePad 열기",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "끄면 단축키, 이중 탭, 핫 코너로도 열립니다. 작업 표시줄 위에 열리고, 핫 코너는 해당 모서리에 엽니다. 메뉴 막대 아이콘으로는 항상 열 수 있습니다.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad는 윈도우 위에 떠 있으며 부르는 곳에서 열립니다. 단축키, 이중 탭, 핫 코너 또는 메뉴 막대 아이콘을 사용하십시오.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad는 ‘⟦Dock⟧’을(를) 보이게 하고 그곳에 아이콘을 둡니다. ‘⟦Dock⟧’은(는) 놓아둔 자리에 그대로 있습니다.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 그동안 ‘⟦Dock⟧’은(는) 가려지고, 최대화된 윈도우는 작업 표시줄 아래까지 닿습니다.",
+ "Start": "시작"
 }

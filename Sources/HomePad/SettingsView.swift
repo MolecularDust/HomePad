@@ -15,7 +15,8 @@ struct SettingsView: View {
     @AppStorage(PanelController.rememberPositionKey) private var rememberPosition = false
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var dockHidden = DockControl.isHidden
-    @AppStorage(DockIcon.settingKey) private var aboveDockIcon = false
+    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
+    @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
     /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
     @State private var dockIconProblem = DockIcon.problem
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -25,6 +26,37 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section("Mode") {
+                Picker("Mode", selection: Binding(get: { HomePadMode(rawValue: mode) ?? .standalone }, set: { new in
+                    HomePadMode.choose(new)
+                    // The Dock changes in the background (it restarts): read it again once it has.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        dockHidden = DockControl.isHidden
+                        dockIconProblem = DockIcon.problem
+                    }
+                })) {
+                    Text("Standalone").tag(HomePadMode.standalone)
+                    Text(L("HomePad + ⟦Dock⟧")).tag(HomePadMode.dock)
+                    Text("Taskbar").tag(HomePadMode.taskbar)
+                }
+                .pickerStyle(.radioGroup)
+                .labelsHidden()
+                Text(modeNote)
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                if mode == HomePadMode.dock.rawValue, dockIconProblem != nil, let note = aboveDockIconNote {
+                    Text(note)
+                        .font(.caption).foregroundStyle(Color.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if mode == HomePadMode.taskbar.rawValue {
+                    Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)
+                    Text(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
             Section("Shortcut") {
                 HStack {
                     Text("Open HomePad")
@@ -62,6 +94,7 @@ struct SettingsView: View {
                 NumberSetting(title: L("Row height"), value: $rowHeight, range: RowMetrics.range, step: 2, unit: "pt")
                 NumberSetting(title: L("Icon spacing"), value: $iconSpacing, range: TileMetrics.spacingRange, step: 2, unit: "pt")
                 Toggle("Show the Running section", isOn: $showRunning)
+                    .disabled(mode == HomePadMode.taskbar.rawValue)     // the taskbar has the running apps then
                 Toggle("Show minimized windows in Running", isOn: Binding(get: { !hideMinimised }, set: { hideMinimised = !$0 }))
                     .disabled(!showRunning)
                     .onChange(of: hideMinimised) { _ in MinimisedWindows.shared.refresh() }
@@ -111,20 +144,14 @@ struct SettingsView: View {
             }
 
             Section(Mac("Dock")) {
-                Toggle(L("Hide the ⟦Dock⟧"), isOn: $dockHidden)
-                    .onChange(of: dockHidden) { DockControl.setHidden($0) }
+                // Set by the mode outside Standalone (shown in HomePad + Dock, hidden under the taskbar): grayed out then.
+                // Only your own click changes the Dock here, not the switch following a mode change.
+                Toggle(L("Hide the ⟦Dock⟧"), isOn: Binding(get: { dockHidden }, set: { dockHidden = $0; DockControl.setHidden($0) }))
+                    .disabled(mode != HomePadMode.standalone.rawValue)
+                    .tint(mode != HomePadMode.standalone.rawValue && dockHidden ? Self.inactiveSwitchGray : nil)
                 Text(L("Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working."))
                     .font(.caption).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                // With the Dock hidden there is no icon to go by: the switch is grayed out, with nothing more said.
-                Toggle(L("Open above the HomePad icon in the ⟦Dock⟧"), isOn: $aboveDockIcon)
-                    .disabled(dockHidden || dockIconProblem == .dockHidden)
-                    .tint(dockHidden || dockIconProblem == .dockHidden ? Self.inactiveSwitchGray : nil)   // still on, but gray
-                if !dockHidden, let note = aboveDockIconNote {
-                    Text(note)
-                        .font(.caption).foregroundStyle(dockIconProblem == nil ? Color.secondary : Color.orange)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
             }
 
             Section("Reset") {
@@ -204,7 +231,9 @@ struct SettingsView: View {
         showRunning = true
         hideMinimised = true
         showMenuBarIcon = true
-        if dockHidden { dockHidden = false }
+        startButtonOnly = false
+        HomePadMode.choose(.standalone)
+        if dockHidden { dockHidden = false; DockControl.setHidden(false) }
         if launchAtLogin { launchAtLogin = false }
     }
 
@@ -214,6 +243,18 @@ struct SettingsView: View {
     private static let inactiveSwitchGray = Color(nsColor: NSColor(name: nil) { appearance in
         appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? NSColor(white: 0.46, alpha: 1) : NSColor(white: 0.886, alpha: 1)
     })
+
+    private var modeNote: String {
+        switch HomePadMode(rawValue: mode) ?? .standalone {
+        case .standalone:
+            return L("HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.")
+        case .dock:
+            return L("Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner.")
+                + " " + L("HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.")
+        case .taskbar:
+            return L("Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.")
+        }
+    }
 
     private var aboveDockIconNote: String? {
         switch dockIconProblem {

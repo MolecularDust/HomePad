@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧” öğesini gizle",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Otomatik gizlemeyi çok uzun bir gecikmeyle açar, böylece “⟦Dock⟧” hiç belirmez. Cmd-Tab ve “⟦Mission Control⟧” çalışmaya devam eder.",
- "Open above the HomePad icon in the ⟦Dock⟧": "“⟦Dock⟧” içindeki HomePad simgesinin üstünde aç",
  "Reset": "Sıfırla",
  "Reset to Defaults…": "Varsayılanlara Sıfırla…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Kısayolu, çift dokunmayı, etkin köşeleri, yerleşimi, menü çubuğu simgesini, “⟦Dock⟧” gizlemeyi ve oturum açılışında başlatmayı başlangıçtaki hâline döndürür. Uygulamalarınız ve kategorileriniz korunur.",
@@ -259,5 +258,15 @@
  "Keyboard": "Klavye",
  "Keyboard Shortcuts": "Klavye Kestirmeleri",
  "Hot Corners": "Etkin Köşeler",
- "Sort Alphabetically": "Alfabetik Sırala"
+ "Sort Alphabetically": "Alfabetik Sırala",
+ "Mode": "Mod",
+ "Standalone": "Bağımsız",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "Görev çubuğu",
+ "Open HomePad only from the Start button": "HomePad’i yalnızca Başlat düğmesiyle aç",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Kapalıyken kısayol, çift dokunma ve etkin köşeler de açar: görev çubuğunun üstünde, etkin köşeler kendi köşesinde. Menü çubuğu simgesi her zaman açar.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad pencerelerinizin üzerinde süzülür ve onu çağırdığınız yerde açılır: kısayol, çift dokunma, etkin köşeler veya menü çubuğu simgesiyle.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧” öğesini gösterir ve simgesini orada tutar; “⟦Dock⟧” koyduğunuz yerde kalır.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Bu sırada “⟦Dock⟧” gizlenir ve büyütülmüş pencereler görev çubuğunun altına uzanır.",
+ "Start": "Başlat"
 }

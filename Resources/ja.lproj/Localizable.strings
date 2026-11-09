@@ -151,6 +151,12 @@
 "Documents & Folders" = "書類とフォルダ";
 "Web" = "Web";
 "Search the web for “%@”" = "Webで“%@”を検索";
+"Mode" = "モード";
+"Standalone" = "スタンドアロン";
+"HomePad + ⟦Dock⟧" = "HomePad＋“⟦Dock⟧”";
+"Taskbar" = "タスクバー";
+"Open HomePad only from the Start button" = "スタートボタンからのみHomePadを開く";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。";
 "Shortcut" = "ショートカット";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "ショートカットが設定されていません。メニューバーのアイコンからHomePadを開くか、下でダブルタップするキーを選んでください。";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘スペースを使うには、まず“⟦System Settings⟧”→“⟦Keyboard⟧”→“⟦Keyboard Shortcuts⟧”→“⟦Spotlight⟧”で“⟦Spotlight⟧”のショートカットをオフにしてください。";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧”を隠す";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "非常に長い遅延で自動的に隠す設定をオンにし、“⟦Dock⟧”が表示されないようにします。Cmd-Tabと“⟦Mission Control⟧”は引き続き使えます。";
-"Open above the HomePad icon in the ⟦Dock⟧" = "“⟦Dock⟧”のHomePadアイコンの上に開く";
 "Reset" = "リセット";
 "Reset to Defaults…" = "デフォルトに戻す…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "ショートカット、ダブルタップ、ホットコーナー、レイアウト、メニューバーアイコン、“⟦Dock⟧”を隠す設定、ログイン時に開く設定を最初の状態に戻します。アプリとカテゴリはそのままです。";
@@ -187,7 +192,10 @@
 "Launch at login" = "ログイン時に開く";
 "Reset settings to their defaults?" = "設定をデフォルトに戻しますか？";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "ショートカット（⌥スペース）を戻し、ダブルタップとホットコーナーをオフにし、1行8アイコンと標準の行の高さとアイコン間隔にし、“実行中”セクションを表示し（しまわれたウインドウは非表示）、メニューバーアイコンと“⟦Dock⟧”を再び表示し、ログイン時に開く設定をオフにします。アプリとカテゴリはそのままです。";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePadはウインドウの上に浮かび、呼び出した場所で開きます：ショートカット、ダブルタップ、ホットコーナー、またはメニューバーのアイコンで。";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windowsのスタートメニューのように、“⟦Dock⟧”のHomePadアイコンのすぐそばにパネルが開きます。アイコンをクリックしても、ショートカットやダブルタップを使っても同じです。ホットコーナーはこれまでどおりその隅に開きます。";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePadは“⟦Dock⟧”を表示し、そこに自分のアイコンを置きます。“⟦Dock⟧”は置いた場所のままです。";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。その間“⟦Dock⟧”は隠され、最大化したウインドウはタスクバーの下まで広がります。";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePadはまだ“⟦Dock⟧”にありません。そのアイコンを“⟦Applications⟧”から“⟦Dock⟧”にドラッグしてください。それまではパネルは中央に開きます。";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。上のアクセス権で許可してください。";
 "Add App…" = "アプリを追加…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@はすでに使われている可能性があります";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "このショートカットのテスト入力がHomePadに届かなかったため、別のアプリが先に受け取っていますが、macOSはどのアプリかを教えてくれません。使っているランチャーやアシスタントのアプリのショートカット設定を確認するか、ここで別のショートカットを選んでください。";
 "Choose Another Shortcut" = "別のショートカットを選ぶ";
+"Start" = "スタート";
 "Off" = "オフ";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

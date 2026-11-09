@@ -33,6 +33,13 @@ final class RunningOrder: ObservableObject {
         }
     }
 
+    /// The running apps' tiles, once per app, in this order (the Running section and the taskbar). Some apps run as
+    /// more than one process (Firefox); two tiles with the same URL confused the grid.
+    func shown(_ apps: [NSRunningApplication]) -> [URL] {
+        var seen = Set<URL>()
+        return sorted(apps.compactMap { $0.bundleURL.map(normalized) }.filter { seen.insert($0).inserted })
+    }
+
     /// Puts what's on screen into the saved order (at the start of a drag), so only the dragged tile moves.
     func fix(_ shown: [URL]) {
         var full = order

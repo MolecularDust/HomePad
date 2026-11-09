@@ -172,7 +172,6 @@
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "„⟦Dock⟧“ ausblenden",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "Schaltet das automatische Ausblenden mit sehr langer Verzögerung ein, sodass „⟦Dock⟧“ nie erscheint. Befehl-Tab und „⟦Mission Control⟧“ funktionieren weiter.",
- "Open above the HomePad icon in the ⟦Dock⟧": "Über dem HomePad-Symbol in „⟦Dock⟧“ öffnen",
  "Reset": "Zurücksetzen",
  "Reset to Defaults…": "Auf Standard zurücksetzen …",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "Setzt Tastenkürzel, Doppeltippen, aktive Ecken, Layout, Menüleistensymbol, das Ausblenden von „⟦Dock⟧“ und Start bei Anmeldung auf den Anfangszustand zurück. Deine Apps und Kategorien bleiben erhalten.",
@@ -259,5 +258,15 @@
  "Keyboard": "Tastatur",
  "Keyboard Shortcuts": "Tastaturkurzbefehle",
  "Hot Corners": "Aktive Ecken",
- "Sort Alphabetically": "Alphabetisch sortieren"
+ "Sort Alphabetically": "Alphabetisch sortieren",
+ "Mode": "Modus",
+ "Standalone": "Eigenständig",
+ "HomePad + ⟦Dock⟧": "HomePad + „⟦Dock⟧“",
+ "Taskbar": "Taskleiste",
+ "Open HomePad only from the Start button": "HomePad nur über die Start-Taste öffnen",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad schwebt über deinen Fenstern und öffnet sich dort, wo du es rufst: per Tastenkürzel, Doppeltippen, aktiver Ecke oder Menüleistensymbol.",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad blendet „⟦Dock⟧“ ein und behält sein Symbol dort; „⟦Dock⟧“ bleibt, wo du es hingestellt hast.",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "Wie bei Windows: eine Taskleiste am unteren Bildschirmrand mit Start-Taste und deinen laufenden Apps, die dafür HomePads Feld verlassen. „⟦Dock⟧“ ist so lange ausgeblendet, und maximierte Fenster reichen unter die Taskleiste.",
+ "Start": "Start"
 }

@@ -172,7 +172,6 @@
  "Dock": "程序坞",
  "Hide the ⟦Dock⟧": "隐藏“⟦Dock⟧”",
  "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.": "以很长的延迟打开自动隐藏，使“⟦Dock⟧”永不弹出。Cmd-Tab 和“⟦Mission Control⟧”照常工作。",
- "Open above the HomePad icon in the ⟦Dock⟧": "在“⟦Dock⟧”中的 HomePad 图标上方打开",
  "Reset": "复位",
  "Reset to Defaults…": "恢复默认设置…",
  "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept.": "将快捷键、连按、触发角、布局、菜单栏图标、“⟦Dock⟧”隐藏和登录时打开恢复为初始状态。你的 App 和类别会保留。",
@@ -259,5 +258,15 @@
  "Keyboard": "键盘",
  "Keyboard Shortcuts": "键盘快捷键",
  "Hot Corners": "触发角",
- "Sort Alphabetically": "按字母顺序排序"
+ "Sort Alphabetically": "按字母顺序排序",
+ "Mode": "模式",
+ "Standalone": "独立",
+ "HomePad + ⟦Dock⟧": "HomePad + “⟦Dock⟧”",
+ "Taskbar": "任务栏",
+ "Open HomePad only from the Start button": "仅从“开始”按钮打开 HomePad",
+ "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.": "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。",
+ "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad 浮在窗口之上，在你调用的地方打开：使用快捷键、连按、触发角或菜单栏图标。",
+ "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad 会显示“⟦Dock⟧”并把它的图标保留在那里；“⟦Dock⟧”保持在你放置的位置。",
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar.": "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。期间“⟦Dock⟧”会被隐藏，最大化的窗口会延伸到任务栏下方。",
+ "Start": "开始"
 }

@@ -70,7 +70,7 @@ final class DoubleTapMonitor {
             guard now - down < window else { lastTapAt = 0; return }
             if now - lastTapAt < gap {
                 lastTapAt = 0
-                DispatchQueue.main.async { PanelController.shared.toggle() }
+                DispatchQueue.main.async { if HomePadMode.globalTriggersAllowed { PanelController.shared.toggle() } }
             } else {
                 lastTapAt = now
             }

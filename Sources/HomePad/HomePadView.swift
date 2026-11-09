@@ -458,13 +458,11 @@ struct HomeView: View {
 
     /// Every running app, like the Dock's running indicators, pinned or not: alphabetically, or in the order you gave
     /// them by dragging.
-    private var runningApps: [URL] {
-        // Once per app: some apps run as more than one process (Firefox), and two tiles with the same URL confused
-        // the grid, which left an empty slot and dropped another app (Claude).
-        var seen = Set<URL>()
-        return runningOrder.sorted(running.apps.compactMap { $0.bundleURL.map(normalized) }
-            .filter { seen.insert($0).inserted })
-    }
+    private var runningApps: [URL] { runningOrder.shown(running.apps) }
+
+    /// In Taskbar mode the running apps are on the taskbar instead.
+    @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
+    private var showsRunning: Bool { showRunning && mode != HomePadMode.taskbar.rawValue && !runningApps.isEmpty }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -483,7 +481,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: RowMetrics.categoryGap(rowHeight)) {
                         // The categories and the Running section, in the order they were put in.
-                        let rows = store.rows(includingRunning: showRunning && !runningApps.isEmpty)
+                        let rows = store.rows(includingRunning: showsRunning)
                         ForEach(Array(rows.enumerated()), id: \.element) { index, id in
                             CarriedRow(id: id) {
                                 Group {
@@ -504,7 +502,7 @@ struct HomeView: View {
                     .onPreferenceChange(RowFramesKey.self) { frames in
                         guard PanelState.shared.draggingCategory == nil else { return }
                         RowDrag.shared.frames = frames          // where the rows rest, not where one is carried
-                        if let last = store.rows(includingRunning: showRunning && !runningApps.isEmpty).last, let frame = frames[last] {
+                        if let last = store.rows(includingRunning: showsRunning).last, let frame = frames[last] {
                             lastRow = frame
                             updateFill(viewport: geo.size.height)
                         }
@@ -909,6 +907,22 @@ struct AppTile: View, Equatable {
         .onTapGesture { Launcher.open(url) }
         .help(IconCache.name(for: url))
         .contextMenu {
+            AppTileMenu(url: url, isRunning: isRunning, categoryID: categoryID, folderID: folderID)
+        }
+    }
+}
+
+/// A tile's right-click menu (an app's, a file's or a folder's), shared by the panel's tiles and the taskbar's icons.
+struct AppTileMenu: View {
+    let url: URL
+    let isRunning: Bool
+    var categoryID: UUID? = nil
+    var folderID: UUID? = nil
+    @ObservedObject private var closable = ClosableWindows.shared
+    @ObservedObject private var appMenus = AppMenus.shared
+    @ObservedObject private var quitRequests = QuitRequests.shared
+
+    var body: some View {
           if let folder = FolderRef.id(url) {
             FolderMenu(id: folder, categoryID: categoryID)
           } else {
@@ -968,7 +982,6 @@ struct AppTile: View, Equatable {
                 }
             }
           }
-        }
     }
 }
 

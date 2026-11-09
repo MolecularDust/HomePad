@@ -151,6 +151,12 @@
 "Documents & Folders" = "ডকুমেন্ট ও ফোল্ডার";
 "Web" = "ওয়েব";
 "Search the web for “%@”" = "ওয়েবে “%@” খুঁজুন";
+"Mode" = "মোড";
+"Standalone" = "স্বতন্ত্র";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "টাস্কবার";
+"Open HomePad only from the Start button" = "HomePad শুধু স্টার্ট বোতাম থেকে খুলুন";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "বন্ধ থাকলে শর্টকাট, ডাবল-ট্যাপ ও হট কর্নারও এটি খোলে: টাস্কবারের ওপরে, আর হট কর্নার নিজের কোণে। মেনু বারের আইকন সব সময় এটি খোলে।";
 "Shortcut" = "শর্টকাট";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "কোনো শর্টকাট সেট নেই। মেনু বারের আইকন থেকে HomePad খুলুন, অথবা নিচে একটি ডাবল-ট্যাপ কী বেছে নিন।";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘Space ব্যবহার করতে, আগে “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”-এ “⟦Spotlight⟧”-এর শর্টকাট বন্ধ করুন।";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” লুকান";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "খুব দীর্ঘ বিলম্বে অটো-হাইড চালু করে, তাই “⟦Dock⟧” কখনো দেখা দেয় না। Cmd-Tab ও “⟦Mission Control⟧” চলতে থাকে।";
-"Open above the HomePad icon in the ⟦Dock⟧" = "“⟦Dock⟧”-এ HomePad আইকনের ওপরে খুলুন";
 "Reset" = "রিসেট";
 "Reset to Defaults…" = "ডিফল্টে রিসেট করুন…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "শর্টকাট, ডাবল-ট্যাপ, হট কর্নার, লেআউট, মেনু বার আইকন, “⟦Dock⟧” লুকানো এবং লগইনে খোলা শুরুর অবস্থায় ফিরিয়ে আনে। আপনার অ্যাপ ও বিভাগ থেকে যায়।";
@@ -187,7 +192,10 @@
 "Launch at login" = "লগইনে খুলুন";
 "Reset settings to their defaults?" = "সেটিংস ডিফল্টে রিসেট করবেন?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "এটি শর্টকাট (⌥Space) ফিরিয়ে আনে, ডাবল-ট্যাপ ও হট কর্নার বন্ধ করে, প্রতি সারিতে ৮টি আইকন এবং স্ট্যান্ডার্ড সারির উচ্চতা ও আইকনের ব্যবধান সেট করে, চলমান অংশ দেখায় (ছোট করা উইন্ডো লুকানো), মেনু বার আইকন ও “⟦Dock⟧” আবার দেখায় এবং লগইনে খোলা বন্ধ করে। আপনার অ্যাপ ও বিভাগ থেকে যায়।";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad আপনার উইন্ডোর ওপরে ভেসে থাকে এবং যেখানে ডাকবেন সেখানে খোলে: শর্টকাট, ডাবল-ট্যাপ, হট কর্নার বা মেনু বারের আইকন দিয়ে।";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windows-এর Start মেনুর মতো: “⟦Dock⟧”-এ HomePad-এর আইকনের ঠিক পাশেই প্যানেল খোলে, আপনি আইকনে ক্লিক করুন বা শর্টকাট বা ডাবল-ট্যাপ ব্যবহার করুন। হট কর্নার এখনো নিজেদের কোণে এটি খোলে।";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad “⟦Dock⟧” দেখায় এবং সেখানে নিজের আইকন রাখে; “⟦Dock⟧” যেখানে রেখেছেন সেখানেই থাকে।";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Windows-এর মতো: স্ক্রিনের নিচে স্টার্ট বোতাম ও চলমান অ্যাপসহ একটি টাস্কবার, অ্যাপগুলো তখন HomePad-এর প্যানেল থেকে সরে যায়। এ সময় “⟦Dock⟧” লুকানো থাকে, আর বড় করা উইন্ডো টাস্কবারের নিচ পর্যন্ত যায়।";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad এখনো “⟦Dock⟧”-এ নেই। এর আইকন “⟦Applications⟧” থেকে “⟦Dock⟧”-এ টেনে আনুন; ততক্ষণ প্যানেল মাঝখানে খোলে।";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। ওপরের অনুমতিগুলোতে এটি দিন।";
 "Add App…" = "অ্যাপ যোগ করুন…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ হয়তো আগে থেকেই ব্যবহৃত হচ্ছে";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "এই শর্টকাটের একটি পরীক্ষামূলক চাপ HomePad-এ পৌঁছায়নি, অর্থাৎ অন্য কোনো অ্যাপ আগে সেটি ধরে নেয়, তবে কোনটি তা macOS বলে না। আপনার লঞ্চার বা অ্যাসিস্ট্যান্ট অ্যাপগুলোর শর্টকাট সেটিংস দেখুন, অথবা এখানে অন্য শর্টকাট বেছে নিন।";
 "Choose Another Shortcut" = "অন্য শর্টকাট বেছে নিন";
+"Start" = "স্টার্ট";
 "Off" = "বন্ধ";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

@@ -151,6 +151,12 @@
 "Documents & Folders" = "Tài liệu & Thư mục";
 "Web" = "Web";
 "Search the web for “%@”" = "Tìm “%@” trên web";
+"Mode" = "Chế độ";
+"Standalone" = "Độc lập";
+"HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"Taskbar" = "Thanh tác vụ";
+"Open HomePad only from the Start button" = "Chỉ mở HomePad từ nút Bắt đầu";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Khi tắt, phím tắt, chạm hai lần và góc nóng cũng mở nó: phía trên thanh tác vụ, còn góc nóng thì ở góc của nó. Biểu tượng trên thanh menu luôn mở được.";
 "Shortcut" = "Phím tắt";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Chưa đặt phím tắt. Hãy mở HomePad từ biểu tượng trên thanh menu, hoặc chọn một phím chạm hai lần bên dưới.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Để dùng ⌘Phím cách, trước tiên hãy tắt phím tắt của “⟦Spotlight⟧” trong “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Ẩn “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Bật tự động ẩn với độ trễ rất dài, để “⟦Dock⟧” không bao giờ hiện lên. Cmd-Tab và “⟦Mission Control⟧” vẫn hoạt động.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "Mở phía trên biểu tượng HomePad trong “⟦Dock⟧”";
 "Reset" = "Đặt lại";
 "Reset to Defaults…" = "Đặt lại về mặc định…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "Đưa phím tắt, chạm hai lần, góc nóng, bố cục, biểu tượng thanh menu, việc ẩn “⟦Dock⟧” và mở khi đăng nhập về như ban đầu. Ứng dụng và danh mục của bạn được giữ nguyên.";
@@ -187,7 +192,10 @@
 "Launch at login" = "Mở khi đăng nhập";
 "Reset settings to their defaults?" = "Đặt lại cài đặt về mặc định?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Thao tác này khôi phục phím tắt (⌥Phím cách), tắt chạm hai lần và góc nóng, đặt 8 biểu tượng mỗi hàng cùng chiều cao hàng và khoảng cách biểu tượng chuẩn, hiện phần Đang chạy (ẩn cửa sổ thu nhỏ), hiện biểu tượng thanh menu và “⟦Dock⟧” trở lại, đồng thời tắt mở khi đăng nhập. Ứng dụng và danh mục của bạn được giữ nguyên.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad nổi trên các cửa sổ và mở ở nơi bạn gọi: bằng phím tắt, chạm hai lần, góc nóng hoặc biểu tượng trên thanh menu.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Giống menu Start của Windows: bảng mở ngay cạnh biểu tượng HomePad trong “⟦Dock⟧”, dù bạn bấm vào biểu tượng đó hay dùng phím tắt hoặc chạm hai lần. Góc nóng vẫn mở nó ở góc của chúng.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad hiện “⟦Dock⟧” và giữ biểu tượng của nó ở đó; “⟦Dock⟧” vẫn ở nơi bạn đặt.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ phóng to tràn xuống dưới thanh tác vụ.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad chưa có trong “⟦Dock⟧”. Kéo biểu tượng của nó từ “⟦Applications⟧” vào “⟦Dock⟧”; cho đến lúc đó bảng mở ở giữa.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép ở phần quyền phía trên.";
 "Add App…" = "Thêm ứng dụng…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@ có thể đã được sử dụng";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Lần nhấn thử phím tắt này không tới được HomePad, nên một ứng dụng khác nhận nó trước, nhưng macOS không cho biết là ứng dụng nào. Hãy kiểm tra cài đặt phím tắt của các ứng dụng trình khởi chạy hoặc trợ lý bạn dùng, hoặc chọn phím tắt khác ở đây.";
 "Choose Another Shortcut" = "Chọn phím tắt khác";
+"Start" = "Bắt đầu";
 "Off" = "Tắt";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

@@ -151,6 +151,12 @@
 "Documents & Folders" = "문서 및 폴더";
 "Web" = "웹";
 "Search the web for “%@”" = "웹에서 ‘%@’ 검색";
+"Mode" = "모드";
+"Standalone" = "독립";
+"HomePad + ⟦Dock⟧" = "HomePad + ‘⟦Dock⟧’";
+"Taskbar" = "작업 표시줄";
+"Open HomePad only from the Start button" = "시작 버튼으로만 HomePad 열기";
+"When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "끄면 단축키, 이중 탭, 핫 코너로도 열립니다. 작업 표시줄 위에 열리고, 핫 코너는 해당 모서리에 엽니다. 메뉴 막대 아이콘으로는 항상 열 수 있습니다.";
 "Shortcut" = "단축키";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "설정된 단축키가 없습니다. 메뉴 막대 아이콘으로 HomePad를 열거나 아래에서 이중 탭할 키를 선택하십시오.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘스페이스를 사용하려면 먼저 ‘⟦System Settings⟧’ → ‘⟦Keyboard⟧’ → ‘⟦Keyboard Shortcuts⟧’ → ‘⟦Spotlight⟧’에서 ‘⟦Spotlight⟧’ 단축키를 끄십시오.";
@@ -174,7 +180,6 @@
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "‘⟦Dock⟧’ 가리기";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "아주 긴 지연 시간으로 자동 가리기를 켜서 ‘⟦Dock⟧’이(가) 나타나지 않게 합니다. Cmd-Tab과 ‘⟦Mission Control⟧’은(는) 계속 작동합니다.";
-"Open above the HomePad icon in the ⟦Dock⟧" = "‘⟦Dock⟧’의 HomePad 아이콘 위에 열기";
 "Reset" = "재설정";
 "Reset to Defaults…" = "기본값으로 재설정…";
 "Puts the shortcut, double-tap, hot corners, layout, menu-bar icon, ⟦Dock⟧ hiding and launch at login back to how they were at first. Your apps and categories are kept." = "단축키, 이중 탭, 핫 코너, 레이아웃, 메뉴 막대 아이콘, ‘⟦Dock⟧’ 가리기 및 로그인 시 열기를 처음 상태로 되돌립니다. 앱과 카테고리는 유지됩니다.";
@@ -187,7 +192,10 @@
 "Launch at login" = "로그인 시 열기";
 "Reset settings to their defaults?" = "설정을 기본값으로 재설정하겠습니까?";
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "단축키(⌥스페이스)를 복원하고, 이중 탭과 핫 코너를 끄고, 행당 아이콘 8개와 표준 행 높이 및 아이콘 간격으로 설정하고, ‘실행 중’ 섹션(최소화된 윈도우 숨김)과 메뉴 막대 아이콘 및 ‘⟦Dock⟧’을(를) 다시 보이게 하고, 로그인 시 열기를 끕니다. 앱과 카테고리는 유지됩니다.";
+"HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon." = "HomePad는 윈도우 위에 떠 있으며 부르는 곳에서 열립니다. 단축키, 이중 탭, 핫 코너 또는 메뉴 막대 아이콘을 사용하십시오.";
 "Like the Windows Start menu: the panel opens right by HomePad's icon in the ⟦Dock⟧, whether you click that icon or use the shortcut or double-tap. Hot corners still open it in their corner." = "Windows 시작 메뉴처럼 패널이 ‘⟦Dock⟧’의 HomePad 아이콘 바로 옆에 열립니다. 아이콘을 클릭하든 단축키나 이중 탭을 사용하든 같습니다. 핫 코너는 여전히 해당 모서리에서 엽니다.";
+"HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it." = "HomePad는 ‘⟦Dock⟧’을(를) 보이게 하고 그곳에 아이콘을 둡니다. ‘⟦Dock⟧’은(는) 놓아둔 자리에 그대로 있습니다.";
+"Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and maximized windows reach under the taskbar." = "Windows처럼 화면 아래에 시작 버튼과 실행 중인 앱이 있는 작업 표시줄이 생기며, 해당 앱은 HomePad 패널에서 빠집니다. 그동안 ‘⟦Dock⟧’은(는) 가려지고, 최대화된 윈도우는 작업 표시줄 아래까지 닿습니다.";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad가 아직 ‘⟦Dock⟧’에 없습니다. 아이콘을 ‘⟦Applications⟧’에서 ‘⟦Dock⟧’로 드래그하십시오. 그때까지 패널은 가운데에 열립니다.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the permissions above." = "아이콘을 찾으려면 ‘⟦Accessibility⟧’ 권한이 필요하므로 지금은 패널이 가운데에 열립니다. 위의 권한에서 허용하십시오.";
 "Add App…" = "앱 추가…";
@@ -231,6 +239,7 @@
 "%@ may already be in use" = "%@은(는) 이미 사용 중일 수 있습니다";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "이 단축키의 테스트 입력이 HomePad에 도달하지 않았으므로 다른 앱이 먼저 받고 있지만, macOS는 어느 앱인지 알려주지 않습니다. 사용 중인 런처나 어시스턴트 앱의 단축키 설정을 확인하거나 여기에서 다른 단축키를 선택하십시오.";
 "Choose Another Shortcut" = "다른 단축키 선택";
+"Start" = "시작";
 "Off" = "끔";
 "Control ⌃" = "Control ⌃";
 "Option ⌥" = "Option ⌥";

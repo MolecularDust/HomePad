@@ -14,6 +14,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         LegacyMigration.run()
         Localization.migrate()
+        HomePadMode.migrate()
         #if DEBUG
         Snapshot.startIfAsked()
         if UserDefaults.standard.bool(forKey: "HomePadRunningOrderTest") { RunningOrder.selfTest(); exit(0) }
@@ -25,11 +26,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         HotKeyManager.shared.onPress = {
             ShortcutStore.shared.confirmWorking()
+            guard HomePadMode.globalTriggersAllowed else { return }
             PanelController.shared.toggle()
         }
         ShortcutStore.shared.registerCurrent(report: true)
         DoubleTapMonitor.shared.apply(ask: false)
         HotCornerMonitor.shared.apply()
+        HomePadMode.applyAtLaunch()
 
         setUpStatusItem()
         PermissionStatus.shared.onGranted = { [weak self] restartComing in

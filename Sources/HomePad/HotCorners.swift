@@ -128,6 +128,7 @@ final class HotCornerMonitor {
         fired = true
         arrivedAt = nil
         // Like macOS's corners, the same corner closes it again.
+        guard HomePadMode.globalTriggersAllowed else { return }
         let panel = PanelController.shared
         if panel.isVisible { panel.hide(restoreFocus: true) } else { panel.show(in: corner, of: screen) }
     }
