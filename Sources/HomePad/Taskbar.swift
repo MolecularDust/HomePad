@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// Taskbar mode (HomePadMode): a Windows 11–style taskbar along the bottom of the main screen, with HomePad's Start
 /// button and the running apps centred together.
@@ -108,8 +109,19 @@ struct TaskbarView: View {
     @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
     @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
 
+    @ObservedObject private var drop = TaskbarFileDrop.shared
+
+    /// The icons, with an empty slot where something dragged in from outside would land.
     private var icons: some View {
-        ForEach(Taskbar.items(), id: \.self) { url in TaskbarIcon(url: url) }
+        Group {
+            ForEach(Taskbar.items(), id: \.self) { url in
+                if drop.hovering && drop.before == url { TaskbarDropSlot() }
+                TaskbarIcon(url: url)
+            }
+            if drop.hovering && drop.before == nil { TaskbarDropSlot() }
+        }
+        .animation(.easeInOut(duration: 0.15), value: drop.before)
+        .animation(.easeInOut(duration: 0.15), value: drop.hovering)
     }
 
     var body: some View {
@@ -134,6 +146,8 @@ struct TaskbarView: View {
         .overlay(alignment: .trailing) { TaskbarTrayView() }
         .contentShape(Rectangle())
         .contextMenu { TaskbarMenu() }      // the blank space; an icon has its own menu
+        // Dropped on the blank space: pinned at the end.
+        .onDrop(of: TaskbarFileDrop.types, delegate: TaskbarFileDropDelegate(target: .end))
         .overlay(alignment: .top) { Rectangle().fill(Color.primary.opacity(0.12)).frame(height: 0.5) }
     }
 }
@@ -179,11 +193,25 @@ final class TaskbarPins: ObservableObject {
     func contains(_ url: URL) -> Bool { paths.contains(normalized(url).path) }
 
     /// Pinned at the end of the taskbar (an app already there as a running app stays where it is).
-    func pin(_ url: URL) {
-        guard !contains(url) else { return }
-        RunningOrder.taskbar.fix(Taskbar.items() + [normalized(url)])
-        paths.append(normalized(url).path)
-        UserDefaults.standard.set(paths, forKey: Self.key)
+    /// Pinned at the end of the taskbar (an app already there as a running app stays where it is), or, dropped on the
+    /// taskbar, just before the icon it was let go on (an item already pinned moves there).
+    func pin(_ url: URL, before target: URL? = nil) {
+        let url = normalized(url)
+        guard !contains(url) || target != nil else { return }
+        var shown = Taskbar.items()
+        if !shown.contains(url) { shown.append(url) }
+        RunningOrder.taskbar.fix(shown)
+        if !contains(url) {
+            paths.append(url.path)
+            UserDefaults.standard.set(paths, forKey: Self.key)
+        }
+        if let target, normalized(target) != url {
+            var order = RunningOrder.taskbar.order
+            order.removeAll { $0 == url.path }
+            let index = order.firstIndex(of: normalized(target).path) ?? order.count
+            order.insert(url.path, at: index)
+            RunningOrder.taskbar.set(order)
+        }
     }
 
     func unpin(_ url: URL) {
@@ -265,21 +293,161 @@ final class TaskbarDrag: ObservableObject {
     }
 }
 
+/// Over a taskbar icon: a taskbar icon being moved along it, or something dragged in from outside (pinned before
+/// this icon).
 private struct TaskbarDropDelegate: DropDelegate {
     let target: URL
+    private var outside: TaskbarFileDropDelegate { TaskbarFileDropDelegate(target: .before(target)) }
 
-    func validateDrop(info: DropInfo) -> Bool { TaskbarDrag.shared.item != nil }
+    func validateDrop(info: DropInfo) -> Bool { TaskbarDrag.shared.item != nil || outside.validateDrop(info: info) }
 
     func dropEntered(info: DropInfo) {
-        guard let dragging = TaskbarDrag.shared.item, dragging != target else { return }
+        guard let dragging = TaskbarDrag.shared.item else { outside.dropEntered(info: info); return }
+        guard dragging != target else { return }
         withAnimation(.easeInOut(duration: 0.15)) { RunningOrder.taskbar.move(dragging, onto: target) }
     }
 
-    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        TaskbarDrag.shared.item != nil ? DropProposal(operation: .move) : outside.dropUpdated(info: info)
+    }
+
+    func dropExited(info: DropInfo) {
+        if TaskbarDrag.shared.item == nil { outside.dropExited(info: info) }
+    }
 
     func performDrop(info: DropInfo) -> Bool {
+        guard TaskbarDrag.shared.item != nil else { return outside.performDrop(info: info) }
         TaskbarDrag.shared.end()
         return true
+    }
+}
+
+/// Apps, files and folders dragged onto the taskbar, from Finder or from HomePad's panel, are pinned where they're let
+/// go, as on Windows. While one is over the taskbar, an empty slot shows where it would land.
+final class TaskbarFileDrop: ObservableObject {
+    static let shared = TaskbarFileDrop()
+    /// Finder gives file URLs; HomePad's own tiles give their path as text (and PanelState says which tile it is).
+    static let types: [UTType] = [.fileURL, .utf8PlainText]
+
+    @Published private(set) var hovering = false
+    /// The icon it would land before; nil: at the end.
+    @Published private(set) var before: URL?
+    private var leaving: DispatchWorkItem?
+
+    func over(before target: URL?) {
+        leaving?.cancel()
+        if !hovering { hovering = true }
+        if before != target { before = target }
+    }
+
+    /// Left one drop target: if no other one takes it at once, it's off the taskbar.
+    func left() {
+        leaving?.cancel()
+        let work = DispatchWorkItem { [weak self] in self?.clear() }
+        leaving = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: work)
+    }
+
+    func clear() {
+        leaving?.cancel()
+        hovering = false
+        before = nil
+    }
+}
+
+/// Where a drop from outside lands.
+enum TaskbarDropTarget {
+    case before(URL)
+    case end
+    /// The empty slot itself: where it already is.
+    case slot
+}
+
+struct TaskbarFileDropDelegate: DropDelegate {
+    let target: TaskbarDropTarget
+
+    /// A tile from HomePad's panel that is a real app, file or folder (not one of HomePad's own folders).
+    private var panelItem: URL? {
+        guard let url = PanelState.shared.draggingItem, url.isFileURL,
+              FileManager.default.fileExists(atPath: url.path) else { return nil }
+        return url
+    }
+
+    func validateDrop(info: DropInfo) -> Bool {
+        TaskbarDrag.shared.item == nil && (panelItem != nil || info.hasItemsConforming(to: [.fileURL]))
+    }
+
+    private func note() {
+        switch target {
+        case .before(let url): TaskbarFileDrop.shared.over(before: url)
+        case .end: TaskbarFileDrop.shared.over(before: nil)
+        case .slot: TaskbarFileDrop.shared.over(before: TaskbarFileDrop.shared.before)
+        }
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard validateDrop(info: info) else { return }
+        PanelState.shared.noteDragActivity()
+        note()
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        guard validateDrop(info: info) else { return nil }
+        PanelState.shared.noteDragActivity()
+        note()
+        return DropProposal(operation: .copy)
+    }
+
+    func dropExited(info: DropInfo) { TaskbarFileDrop.shared.left() }
+
+    func performDrop(info: DropInfo) -> Bool {
+        let before: URL?
+        switch target {
+        case .before(let url): before = url
+        case .end: before = nil
+        case .slot: before = TaskbarFileDrop.shared.before
+        }
+        TaskbarFileDrop.shared.clear()
+        if let item = panelItem {
+            TaskbarPins.shared.pin(item, before: before)
+            PanelState.shared.endDrag()             // the tile stays where it was in HomePad
+            return true
+        }
+        let providers = info.itemProviders(for: [.fileURL])
+        guard !providers.isEmpty else { return false }
+        // Several items keep their order, each landing before the same icon.
+        var urls = [URL?](repeating: nil, count: providers.count)
+        let group = DispatchGroup()
+        for (i, provider) in providers.enumerated() {
+            group.enter()
+            _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                DispatchQueue.main.async {          // handed over on a background queue
+                    urls[i] = url
+                    group.leave()
+                }
+            }
+        }
+        group.notify(queue: .main) {
+            for url in urls.compactMap({ $0 }) where url.isFileURL && FileManager.default.fileExists(atPath: url.path) {
+                TaskbarPins.shared.pin(url, before: before)
+            }
+        }
+        return true
+    }
+}
+
+/// The empty slot where a dropped item will land.
+private struct TaskbarDropSlot: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 8)
+            .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+            .foregroundStyle(.tertiary)
+            .overlay(Image(systemName: "plus").font(.system(size: 13)).foregroundStyle(.tertiary))
+            .frame(width: 34, height: 34)
+            .frame(width: 44, height: 44)
+            .contentShape(Rectangle())
+            .onDrop(of: TaskbarFileDrop.types, delegate: TaskbarFileDropDelegate(target: .slot))
+            .transition(.opacity)
     }
 }
 
@@ -452,7 +620,7 @@ private struct TaskbarIcon: View {
             // Just the icon in the air, without the square behind it.
             Image(nsImage: IconCache.icon(for: url)).resizable().interpolation(.high).frame(width: 30, height: 30)
         })
-        .onDrop(of: [RunningDrag.type], delegate: TaskbarDropDelegate(target: url))
+        .onDrop(of: [RunningDrag.type] + TaskbarFileDrop.types, delegate: TaskbarDropDelegate(target: url))
         .contextMenu { AppTileMenu(url: url, isRunning: app != nil, onTaskbar: true) }
     }
 }

@@ -119,7 +119,8 @@ and **Permissions**. It reopens on the tab you used last.
     then what you pinned to it and the running apps, centred. The running apps then leave the panel. Pin apps, files
     and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
     (**Pin to Taskbar**; in HomePad's panel too). A taskbar icon's menu also has **Pin to HomePad** (or Unpin from
-    HomePad), for HomePad's own categories. The taskbar's pins are a list of their own, apart from HomePad's
+    HomePad), for HomePad's own categories. Or drag apps, files and folders onto the taskbar, from Finder or from HomePad's panel: an empty slot shows
+    where they'll land, and they're pinned there (one already pinned moves there; the panel keeps its own). The taskbar's pins are a list of their own, apart from HomePad's
     categories. Drag icons along the taskbar to reorder them. **App icons** go in the **Center** or on the **Left**; while they're centred,
     **HomePad icon** can be centred with them or on the left (with the app icons on the left it's always there, so
     the choice is grayed out). Left is the right in Arabic and Persian, mirrored as on Windows. With HomePad's icon on the left, its panel opens at the
