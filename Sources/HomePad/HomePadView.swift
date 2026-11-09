@@ -443,14 +443,16 @@ struct HomeView: View {
     @AppStorage("iconSpacing") private var iconSpacing = TileMetrics.standardSpacing
     @State private var scrollModel = ScrollIndicatorModel()
 
-    /// Every running app, like the Dock's running indicators, pinned or not.
+    @ObservedObject private var runningOrder = RunningOrder.shared
+
+    /// Every running app, like the Dock's running indicators, pinned or not: alphabetically, or in the order you gave
+    /// them by dragging.
     private var runningApps: [URL] {
         // Once per app: some apps run as more than one process (Firefox), and two tiles with the same URL confused
         // the grid, which left an empty slot and dropped another app (Claude).
         var seen = Set<URL>()
-        return running.apps.compactMap { $0.bundleURL.map(normalized) }
-            .filter { seen.insert($0).inserted }
-            .sorted { IconCache.name(for: $0).localizedCaseInsensitiveCompare(IconCache.name(for: $1)) == .orderedAscending }
+        return runningOrder.sorted(running.apps.compactMap { $0.bundleURL.map(normalized) }
+            .filter { seen.insert($0).inserted })
     }
 
     var body: some View {
@@ -586,6 +588,15 @@ struct RunningSection: View {
                     switch item {
                     case .app(let url):
                         AppTile(url: url, isRunning: true, categoryID: nil).equatable()
+                            // Drag the tiles around within Running; they can't be dropped anywhere else.
+                            .onDrag {
+                                RunningDrag.shared.begin(url, shown: apps)
+                                PanelState.shared.beginDrag()
+                                return RunningDrag.provider(for: url)
+                            } preview: {
+                                TileIcon(url: url)
+                            }
+                            .onDrop(of: [RunningDrag.type], delegate: RunningDropDelegate(target: url))
                     case .window(let pid, let id):
                         if let app = NSRunningApplication(processIdentifier: pid),
                            let window = minimised.byApp[pid]?.first(where: { $0.id == id }) {
@@ -803,13 +814,14 @@ struct AppTile: View, Equatable {
     @State private var frame = FrameBox()
     @ObservedObject private var closable = ClosableWindows.shared
     @ObservedObject private var tileDrag = TileDrag.shared
+    @ObservedObject private var runningDrag = RunningDrag.shared
     @ObservedObject private var appMenus = AppMenus.shared
     @ObservedObject private var quitRequests = QuitRequests.shared
 
     var body: some View {
         // While this tile is being dragged, its place is an empty slot (moving along as the others make room), and
         // the icon lands in it when dropped. Name and running mark keep their space, so nothing shifts.
-        let inTheAir = tileDrag.item == url && categoryID != nil
+        let inTheAir = (tileDrag.item == url && categoryID != nil) || (runningDrag.item == url && categoryID == nil && isRunning)
         // The running mark right under the icon, and the name under that, so the mark stays clear of the text.
         // The mark belongs to the icon: its gap to the artwork is half its distance to the middle of the name (see
         // RunningMark).

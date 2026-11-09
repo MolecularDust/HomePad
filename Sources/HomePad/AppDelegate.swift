@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Localization.migrate()
         #if DEBUG
         Snapshot.startIfAsked()
+        if UserDefaults.standard.bool(forKey: "HomePadRunningOrderTest") { RunningOrder.selfTest(); exit(0) }
         #endif
         // Touch singletons so they start observing right away.
         _ = CategoryStore.shared

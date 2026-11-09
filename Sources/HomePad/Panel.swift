@@ -101,6 +101,9 @@ final class PanelState: ObservableObject {
                 self.returnDraggedTile(animated: true)
                 TileDrag.shared.show(nil)
             }
+            if RunningDrag.shared.item != nil, CGEventSource.keyState(.combinedSessionState, key: CGKeyCode(kVK_Escape)) {
+                RunningDrag.shared.cancel()
+            }
             // A tile carried out of the open folder's card closes the folder, so it can land among the other tiles.
             if self.draggingItem != nil, !self.tileDragCancelled, FolderPopup.shared.openID != nil,
                let pointer = PanelController.shared.pointerInContent,
@@ -138,6 +141,7 @@ final class PanelState: ObservableObject {
         EdgeHover.shared.clear()
         CategoryStore.shared.endHoldingFolders()
         TileDrag.shared.show(nil)
+        RunningDrag.shared.end()
         draggingCategory = nil
         RowDrag.shared.reset()
     }
