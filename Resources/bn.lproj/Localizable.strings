@@ -69,6 +69,7 @@
 "Move %@ Down" = "“%@” নিচে সরান";
 "Running" = "চলমান";
 "Managed automatically" = "স্বয়ংক্রিয়ভাবে পরিচালিত";
+"Sort Alphabetically" = "বর্ণানুক্রমে সাজান";
 "Show Minimized Windows" = "ছোট করা উইন্ডো দেখান";
 "Hide Minimized Windows" = "ছোট করা উইন্ডো লুকান";
 "Hide Running" = "চলমান লুকান";

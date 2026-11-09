@@ -69,6 +69,7 @@
 "Move %@ Down" = "Переместить «%@» вниз";
 "Running" = "Запущенные";
 "Managed automatically" = "Управляется автоматически";
+"Sort Alphabetically" = "Сортировать по алфавиту";
 "Show Minimized Windows" = "Показывать свёрнутые окна";
 "Hide Minimized Windows" = "Скрыть свёрнутые окна";
 "Hide Running" = "Скрыть «Запущенные»";

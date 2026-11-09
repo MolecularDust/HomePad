@@ -69,6 +69,7 @@
 "Move %@ Down" = "نقل ”%@“ لأسفل";
 "Running" = "قيد التشغيل";
 "Managed automatically" = "يُدار تلقائيًا";
+"Sort Alphabetically" = "ترتيب أبجدي";
 "Show Minimized Windows" = "إظهار النوافذ المصغرة";
 "Hide Minimized Windows" = "إخفاء النوافذ المصغرة";
 "Hide Running" = "إخفاء ”قيد التشغيل“";

@@ -69,6 +69,7 @@
 "Move %@ Down" = "Move %@ Down";
 "Running" = "Running";
 "Managed automatically" = "Managed automatically";
+"Sort Alphabetically" = "Sort Alphabetically";
 "Show Minimized Windows" = "Show Minimized Windows";
 "Hide Minimized Windows" = "Hide Minimized Windows";
 "Hide Running" = "Hide Running";

@@ -69,6 +69,7 @@
 "Move %@ Down" = "“%@”を下へ移動";
 "Running" = "実行中";
 "Managed automatically" = "自動で管理されます";
+"Sort Alphabetically" = "名前順に並べ替え";
 "Show Minimized Windows" = "しまわれたウインドウを表示";
 "Hide Minimized Windows" = "しまわれたウインドウを隠す";
 "Hide Running" = "“実行中”を隠す";

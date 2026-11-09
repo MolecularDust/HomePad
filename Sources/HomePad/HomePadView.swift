@@ -617,6 +617,11 @@ struct RunningSection: View {
             Button("Add Category…") { Launcher.addCategory() }
             MoveRowItems(id: CategoryStore.runningID, name: L("Running"))
             Divider()
+            // Back to alphabetical after dragging tiles around.
+            Button("Sort Alphabetically") {
+                withAnimation(.easeInOut(duration: 0.2)) { RunningOrder.shared.sortAlphabetically() }
+            }
+            .disabled(RunningOrder.shared.order.isEmpty)
             Button(hideMinimised ? "Show Minimized Windows" : "Hide Minimized Windows") {
                 hideMinimised.toggle()
                 MinimisedWindows.shared.refresh()

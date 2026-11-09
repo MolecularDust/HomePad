@@ -69,6 +69,7 @@
 "Move %@ Down" = "بردن «%@» به پایین";
 "Running" = "در حال اجرا";
 "Managed automatically" = "به‌طور خودکار مدیریت می‌شود";
+"Sort Alphabetically" = "مرتب‌سازی الفبایی";
 "Show Minimized Windows" = "نمایش پنجره‌های کوچک‌شده";
 "Hide Minimized Windows" = "پنهان کردن پنجره‌های کوچک‌شده";
 "Hide Running" = "پنهان کردن «در حال اجرا»";

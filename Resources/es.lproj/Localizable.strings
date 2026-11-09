@@ -69,6 +69,7 @@
 "Move %@ Down" = "Bajar «%@»";
 "Running" = "En uso";
 "Managed automatically" = "Se gestiona automáticamente";
+"Sort Alphabetically" = "Ordenar alfabéticamente";
 "Show Minimized Windows" = "Mostrar ventanas minimizadas";
 "Hide Minimized Windows" = "Ocultar ventanas minimizadas";
 "Hide Running" = "Ocultar «En uso»";

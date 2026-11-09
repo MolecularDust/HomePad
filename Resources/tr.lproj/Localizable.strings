@@ -69,6 +69,7 @@
 "Move %@ Down" = "“%@” Aşağı Taşı";
 "Running" = "Çalışanlar";
 "Managed automatically" = "Otomatik olarak yönetilir";
+"Sort Alphabetically" = "Alfabetik Sırala";
 "Show Minimized Windows" = "Küçültülmüş Pencereleri Göster";
 "Hide Minimized Windows" = "Küçültülmüş Pencereleri Gizle";
 "Hide Running" = "Çalışanlar’ı Gizle";

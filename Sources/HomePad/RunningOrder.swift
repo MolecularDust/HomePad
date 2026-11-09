@@ -50,6 +50,9 @@ final class RunningOrder: ObservableObject {
         set(full)
     }
 
+    /// Back to alphabetical: forgets every place.
+    func sortAlphabetically() { set([]) }
+
     func set(_ new: [String]) {
         guard new != order else { return }
         order = new
@@ -170,8 +173,11 @@ extension RunningOrder {
         check("E to the front", names(o.sorted([a, b, c, d, e])), "EDBCA")
         o.move(c, onto: c)
         check("onto itself changes nothing", names(o.sorted([a, b, c, d, e])), "EDBCA")
+        check("saved and read back", names(RunningOrder(key: key).sorted([a, b, c, d, e])), "EDBCA")
         let again = RunningOrder(key: key)
-        check("saved and read back", names(again.sorted([a, b, c, d, e])), "EDBCA")
+        again.sortAlphabetically()
+        check("sort alphabetically", names(again.sorted([e, d, c, b, a])), "ABCDE")
+        check("and that is saved too", names(RunningOrder(key: key).sorted([e, d, c, b, a])), "ABCDE")
         print(failures == 0 ? "RUNNING ORDER: all ok" : "RUNNING ORDER: \(failures) failed")
     }
 }

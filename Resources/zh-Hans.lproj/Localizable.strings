@@ -69,6 +69,7 @@
 "Move %@ Down" = "下移“%@”";
 "Running" = "正在运行";
 "Managed automatically" = "自动管理";
+"Sort Alphabetically" = "按字母顺序排序";
 "Show Minimized Windows" = "显示最小化的窗口";
 "Hide Minimized Windows" = "隐藏最小化的窗口";
 "Hide Running" = "隐藏“正在运行”";

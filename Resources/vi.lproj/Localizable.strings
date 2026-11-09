@@ -69,6 +69,7 @@
 "Move %@ Down" = "Chuyển “%@” xuống";
 "Running" = "Đang chạy";
 "Managed automatically" = "Được quản lý tự động";
+"Sort Alphabetically" = "Sắp xếp theo thứ tự chữ cái";
 "Show Minimized Windows" = "Hiện cửa sổ đã thu nhỏ";
 "Hide Minimized Windows" = "Ẩn cửa sổ đã thu nhỏ";
 "Hide Running" = "Ẩn Đang chạy";

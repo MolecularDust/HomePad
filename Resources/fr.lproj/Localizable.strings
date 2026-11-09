@@ -69,6 +69,7 @@
 "Move %@ Down" = "Descendre « %@ »";
 "Running" = "Ouvertes";
 "Managed automatically" = "Géré automatiquement";
+"Sort Alphabetically" = "Trier par ordre alphabétique";
 "Show Minimized Windows" = "Afficher les fenêtres réduites";
 "Hide Minimized Windows" = "Masquer les fenêtres réduites";
 "Hide Running" = "Masquer « Ouvertes »";

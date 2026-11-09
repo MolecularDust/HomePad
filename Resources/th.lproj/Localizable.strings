@@ -69,6 +69,7 @@
 "Move %@ Down" = "ย้าย “%@” ลง";
 "Running" = "กำลังทำงาน";
 "Managed automatically" = "จัดการโดยอัตโนมัติ";
+"Sort Alphabetically" = "เรียงตามตัวอักษร";
 "Show Minimized Windows" = "แสดงหน้าต่างที่ย่อ";
 "Hide Minimized Windows" = "ซ่อนหน้าต่างที่ย่อ";
 "Hide Running" = "ซ่อนกำลังทำงาน";

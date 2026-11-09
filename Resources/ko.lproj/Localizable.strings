@@ -69,6 +69,7 @@
 "Move %@ Down" = "‘%@’ 아래로 이동";
 "Running" = "실행 중";
 "Managed automatically" = "자동으로 관리됨";
+"Sort Alphabetically" = "이름순으로 정렬";
 "Show Minimized Windows" = "최소화된 윈도우 보기";
 "Hide Minimized Windows" = "최소화된 윈도우 가리기";
 "Hide Running" = "‘실행 중’ 가리기";
