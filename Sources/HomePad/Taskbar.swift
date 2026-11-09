@@ -4,7 +4,7 @@ import SwiftUI
 /// Taskbar mode (HomePadMode): a Windows 11–style taskbar along the bottom of the main screen, with HomePad's Start
 /// button and the running apps centred together.
 ///
-/// It's a borderless panel just above the Dock's window level, on every Space but not over full-screen apps, and it never
+/// It's a borderless panel just above ordinary windows (other apps' floating windows come over it), on every Space but not over full-screen apps, and it never
 /// takes the keyboard focus (a click on it leaves the app you're in active, as the Dock does). The Dock is hidden
 /// meanwhile. macOS lets only the Dock keep windows off part of the screen, so WindowFitter makes windows that reach
 /// under the taskbar shorter.
@@ -55,7 +55,9 @@ final class Taskbar {
         let panel = TaskbarPanel(contentRect: NSRect(x: 0, y: 0, width: 800, height: Self.height),
                                  styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         panel.isFloatingPanel = true
-        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.dockWindow)) + 1)     // over the Dock
+        // Just above ordinary windows, as on Windows: other apps' floating windows (a dictation bar, a picture-in-picture
+        // video, an always-on-top tool) come over the taskbar instead of under it.
+        panel.level = NSWindow.Level(rawValue: NSWindow.Level.normal.rawValue + 1)
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
         panel.hidesOnDeactivate = false
         panel.isOpaque = true
