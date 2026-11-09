@@ -299,5 +299,7 @@
  "Panel": "Panel",
  "These settings are for Taskbar mode.": "Para sa Taskbar mode ang mga setting na ito.",
  "Use Taskbar Mode": "Gamitin ang Taskbar Mode",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa tab na “Mga Pahintulot”."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa tab na “Mga Pahintulot”.",
+ "Sound": "Sound",
+ "⟦Sound⟧ Settings…": "Mga Setting ng “⟦Sound⟧”…"
 }

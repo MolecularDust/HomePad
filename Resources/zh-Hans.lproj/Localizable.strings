@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "音量：%lld%%";
 "Unmute" = "取消静音";
 "Mute" = "静音";
+"⟦Sound⟧ Settings…" = "“⟦Sound⟧”设置…";
 "Battery: %lld%%, charging" = "电池：%lld%%，正在充电";
 "Battery: %lld%%, plugged in" = "电池：%lld%%，已接通电源";
 "Battery: %lld%%" = "电池：%lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "键盘快捷键";
 "Hot Corners" = "触发角";
 "Wi-Fi" = "无线局域网";
+"Sound" = "声音";

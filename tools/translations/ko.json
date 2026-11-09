@@ -299,5 +299,7 @@
  "Panel": "패널",
  "These settings are for Taskbar mode.": "이 설정은 작업 표시줄 모드에 적용됩니다.",
  "Use Taskbar Mode": "작업 표시줄 모드 사용",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "아이콘을 찾으려면 ‘⟦Accessibility⟧’ 권한이 필요하므로 지금은 패널이 가운데에 열립니다. ‘권한’ 탭에서 허용하십시오."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "아이콘을 찾으려면 ‘⟦Accessibility⟧’ 권한이 필요하므로 지금은 패널이 가운데에 열립니다. ‘권한’ 탭에서 허용하십시오.",
+ "Sound": "사운드",
+ "⟦Sound⟧ Settings…": "‘⟦Sound⟧’ 설정…"
 }

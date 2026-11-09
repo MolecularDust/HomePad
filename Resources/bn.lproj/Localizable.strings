@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "ভলিউম: %lld%%";
 "Unmute" = "আনমিউট করুন";
 "Mute" = "মিউট করুন";
+"⟦Sound⟧ Settings…" = "“⟦Sound⟧” সেটিংস…";
 "Battery: %lld%%, charging" = "ব্যাটারি: %lld%%, চার্জ হচ্ছে";
 "Battery: %lld%%, plugged in" = "ব্যাটারি: %lld%%, প্লাগ ইন করা";
 "Battery: %lld%%" = "ব্যাটারি: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Keyboard Shortcuts";
 "Hot Corners" = "Hot Corners";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Sound";

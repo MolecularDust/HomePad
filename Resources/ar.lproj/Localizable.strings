@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "مستوى الصوت: %lld٪";
 "Unmute" = "إلغاء الكتم";
 "Mute" = "كتم الصوت";
+"⟦Sound⟧ Settings…" = "إعدادات ”⟦Sound⟧“…";
 "Battery: %lld%%, charging" = "البطارية: %lld٪، قيد الشحن";
 "Battery: %lld%%, plugged in" = "البطارية: %lld٪، موصولة بالكهرباء";
 "Battery: %lld%%" = "البطارية: %lld٪";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "اختصارات لوحة المفاتيح";
 "Hot Corners" = "الزوايا النشطة";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "الصوت";

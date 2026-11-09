@@ -299,5 +299,7 @@
  "Panel": "แผง",
  "These settings are for Taskbar mode.": "การตั้งค่าเหล่านี้ใช้กับโหมดแถบงาน",
  "Use Taskbar Mode": "ใช้โหมดแถบงาน",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”"
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”",
+ "Sound": "เสียง",
+ "⟦Sound⟧ Settings…": "การตั้งค่า “⟦Sound⟧”…"
 }

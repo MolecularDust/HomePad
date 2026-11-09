@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Volumen: %lld %%";
 "Unmute" = "Activar sonido";
 "Mute" = "Silenciar";
+"⟦Sound⟧ Settings…" = "Ajustes de «⟦Sound⟧»…";
 "Battery: %lld%%, charging" = "Batería: %lld %%, cargando";
 "Battery: %lld%%, plugged in" = "Batería: %lld %%, conectada";
 "Battery: %lld%%" = "Batería: %lld %%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Funciones rápidas de teclado";
 "Hot Corners" = "Esquinas activas";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Sonido";

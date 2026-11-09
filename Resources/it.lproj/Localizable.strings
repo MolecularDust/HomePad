@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Volume: %lld%%";
 "Unmute" = "Riattiva audio";
 "Mute" = "Disattiva audio";
+"⟦Sound⟧ Settings…" = "Impostazioni “⟦Sound⟧”…";
 "Battery: %lld%%, charging" = "Batteria: %lld%%, in carica";
 "Battery: %lld%%, plugged in" = "Batteria: %lld%%, collegata";
 "Battery: %lld%%" = "Batteria: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Abbreviazioni da tastiera";
 "Hot Corners" = "Angoli attivi";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Suono";

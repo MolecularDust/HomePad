@@ -299,5 +299,7 @@
  "Panel": "اللوحة",
  "These settings are for Taskbar mode.": "هذه الإعدادات خاصة بوضع شريط المهام.",
  "Use Taskbar Mode": "استخدام وضع شريط المهام",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“.",
+ "Sound": "الصوت",
+ "⟦Sound⟧ Settings…": "إعدادات ”⟦Sound⟧“…"
 }

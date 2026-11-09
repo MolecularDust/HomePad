@@ -299,5 +299,7 @@
  "Panel": "Panneau",
  "These settings are for Taskbar mode.": "Ces réglages concernent le mode Barre des tâches.",
  "Use Taskbar Mode": "Utiliser le mode Barre des tâches",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Trouver l’icône nécessite l’autorisation « ⟦Accessibility⟧ » ; pour l’instant le panneau s’ouvre donc au milieu. Autorisez-la dans l’onglet « Autorisations »."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Trouver l’icône nécessite l’autorisation « ⟦Accessibility⟧ » ; pour l’instant le panneau s’ouvre donc au milieu. Autorisez-la dans l’onglet « Autorisations ».",
+ "Sound": "Son",
+ "⟦Sound⟧ Settings…": "Réglages « ⟦Sound⟧ »…"
 }

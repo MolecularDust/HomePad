@@ -245,19 +245,37 @@ private struct VolumeFlyout: View {
     @ObservedObject private var status = VolumeStatus.shared
 
     var body: some View {
-        HStack(spacing: 10) {
-            Button { status.setMuted(!status.muted) } label: {
-                Image(systemName: VolumeStatus.symbol(volume: status.volume, muted: status.muted))
-                    .font(.system(size: 15)).frame(width: 22)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 10) {
+                Button { status.setMuted(!status.muted) } label: {
+                    Image(systemName: VolumeStatus.symbol(volume: status.volume, muted: status.muted))
+                        .font(.system(size: 15)).frame(width: 22)
+                }
+                .buttonStyle(.plain)
+                .help(status.muted ? L("Unmute") : L("Mute"))
+                Slider(value: Binding(get: { Double(status.volume) }, set: { status.set(Float($0)) }), in: 0...1)
+                    .frame(width: 200)
+                Text(verbatim: "\(Int((status.volume * 100).rounded()))")
+                    .monospacedDigit().frame(width: 30, alignment: .trailing)
+            }
+            .padding(16)
+            Divider()
+            // Output device, balance, alert sounds and the rest: macOS's own page.
+            Button {
+                TaskbarFlyout.shared.close()
+                TaskbarTray.openSettings("com.apple.Sound-Settings.extension")
+            } label: {
+                HStack {
+                    Text(L("⟦Sound⟧ Settings…"))
+                    Spacer()
+                    Image(systemName: "chevron.right").font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
+                }
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .help(status.muted ? L("Unmute") : L("Mute"))
-            Slider(value: Binding(get: { Double(status.volume) }, set: { status.set(Float($0)) }), in: 0...1)
-                .frame(width: 200)
-            Text(verbatim: "\(Int((status.volume * 100).rounded()))")
-                .monospacedDigit().frame(width: 30, alignment: .trailing)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
         }
-        .padding(16)
     }
 }
 

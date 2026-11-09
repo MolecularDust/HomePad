@@ -299,5 +299,7 @@
  "Panel": "Pannello",
  "These settings are for Taskbar mode.": "Queste impostazioni valgono per la modalità Barra delle applicazioni.",
  "Use Taskbar Mode": "Usa la modalità Barra delle applicazioni",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Per trovare l’icona serve il permesso “⟦Accessibility⟧”, quindi per ora il pannello si apre al centro. Consentilo nella scheda “Permessi”."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Per trovare l’icona serve il permesso “⟦Accessibility⟧”, quindi per ora il pannello si apre al centro. Consentilo nella scheda “Permessi”.",
+ "Sound": "Suono",
+ "⟦Sound⟧ Settings…": "Impostazioni “⟦Sound⟧”…"
 }

@@ -299,5 +299,7 @@
  "Panel": "প্যানেল",
  "These settings are for Taskbar mode.": "এই সেটিংস টাস্কবার মোডের জন্য।",
  "Use Taskbar Mode": "টাস্কবার মোড ব্যবহার করুন",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। “অনুমতি” ট্যাবে এটি অনুমতি দিন।"
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। “অনুমতি” ট্যাবে এটি অনুমতি দিন।",
+ "Sound": "Sound",
+ "⟦Sound⟧ Settings…": "“⟦Sound⟧” সেটিংস…"
 }

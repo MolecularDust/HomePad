@@ -299,5 +299,7 @@
  "Panel": "面板",
  "These settings are for Taskbar mode.": "这些设置用于任务栏模式。",
  "Use Taskbar Mode": "使用任务栏模式",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在“权限”标签页中允许。"
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在“权限”标签页中允许。",
+ "Sound": "声音",
+ "⟦Sound⟧ Settings…": "“⟦Sound⟧”设置…"
 }

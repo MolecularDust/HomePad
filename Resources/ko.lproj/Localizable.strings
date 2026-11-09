@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "음량: %lld%%";
 "Unmute" = "음소거 해제";
 "Mute" = "음소거";
+"⟦Sound⟧ Settings…" = "‘⟦Sound⟧’ 설정…";
 "Battery: %lld%%, charging" = "배터리: %lld%%, 충전 중";
 "Battery: %lld%%, plugged in" = "배터리: %lld%%, 전원 연결됨";
 "Battery: %lld%%" = "배터리: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "키보드 단축키";
 "Hot Corners" = "핫 코너";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "사운드";

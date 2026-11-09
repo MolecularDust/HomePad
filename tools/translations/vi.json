@@ -299,5 +299,7 @@
  "Panel": "Bảng",
  "These settings are for Taskbar mode.": "Các cài đặt này dành cho chế độ Thanh tác vụ.",
  "Use Taskbar Mode": "Dùng chế độ Thanh tác vụ",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”.",
+ "Sound": "Âm thanh",
+ "⟦Sound⟧ Settings…": "Cài đặt “⟦Sound⟧”…"
 }

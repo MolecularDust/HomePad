@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Ses: %%%lld";
 "Unmute" = "Sesi aç";
 "Mute" = "Sessize al";
+"⟦Sound⟧ Settings…" = "“⟦Sound⟧” ayarları…";
 "Battery: %lld%%, charging" = "Pil: %%%lld, şarj oluyor";
 "Battery: %lld%%, plugged in" = "Pil: %%%lld, prize takılı";
 "Battery: %lld%%" = "Pil: %%%lld";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Klavye Kestirmeleri";
 "Hot Corners" = "Etkin Köşeler";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Ses";

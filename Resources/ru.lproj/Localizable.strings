@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Громкость: %lld %%";
 "Unmute" = "Включить звук";
 "Mute" = "Выключить звук";
+"⟦Sound⟧ Settings…" = "Настройки «⟦Sound⟧»…";
 "Battery: %lld%%, charging" = "Аккумулятор: %lld %%, заряжается";
 "Battery: %lld%%, plugged in" = "Аккумулятор: %lld %%, подключён к сети";
 "Battery: %lld%%" = "Аккумулятор: %lld %%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Сочетания клавиш";
 "Hot Corners" = "Активные углы";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Звук";

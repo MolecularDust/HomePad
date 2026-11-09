@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "音量：%lld%%";
 "Unmute" = "消音を解除";
 "Mute" = "消音";
+"⟦Sound⟧ Settings…" = "“⟦Sound⟧”設定…";
 "Battery: %lld%%, charging" = "バッテリー：%lld%%、充電中";
 "Battery: %lld%%, plugged in" = "バッテリー：%lld%%、電源接続中";
 "Battery: %lld%%" = "バッテリー：%lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "キーボードショートカット";
 "Hot Corners" = "ホットコーナー";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "サウンド";

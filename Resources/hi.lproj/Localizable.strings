@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "वॉल्यूम: %lld%%";
 "Unmute" = "अनम्यूट करें";
 "Mute" = "म्यूट करें";
+"⟦Sound⟧ Settings…" = "“⟦Sound⟧” सेटिंग्स…";
 "Battery: %lld%%, charging" = "बैटरी: %lld%%, चार्ज हो रही है";
 "Battery: %lld%%, plugged in" = "बैटरी: %lld%%, प्लग इन है";
 "Battery: %lld%%" = "बैटरी: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "कीबोर्ड शॉर्टकट";
 "Hot Corners" = "हॉट कॉर्नर";
 "Wi-Fi" = "वाई-फ़ाई";
+"Sound" = "ध्वनि";

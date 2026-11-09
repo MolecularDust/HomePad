@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Âm lượng: %lld%%";
 "Unmute" = "Bật tiếng";
 "Mute" = "Tắt tiếng";
+"⟦Sound⟧ Settings…" = "Cài đặt “⟦Sound⟧”…";
 "Battery: %lld%%, charging" = "Pin: %lld%%, đang sạc";
 "Battery: %lld%%, plugged in" = "Pin: %lld%%, đã cắm điện";
 "Battery: %lld%%" = "Pin: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Phím tắt bàn phím";
 "Hot Corners" = "Góc nóng";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Âm thanh";

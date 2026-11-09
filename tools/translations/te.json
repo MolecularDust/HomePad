@@ -299,5 +299,7 @@
  "Panel": "ప్యానెల్",
  "These settings are for Taskbar mode.": "ఈ సెట్టింగ్‌లు టాస్క్‌బార్ మోడ్ కోసం.",
  "Use Taskbar Mode": "టాస్క్‌బార్ మోడ్ ఉపయోగించండి",
- "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "ఐకాన్ కనుగొనడానికి “⟦Accessibility⟧” అనుమతి అవసరం, కాబట్టి ప్రస్తుతం ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. “అనుమతులు” ట్యాబ్‌లో దీన్ని అనుమతించండి."
+ "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "ఐకాన్ కనుగొనడానికి “⟦Accessibility⟧” అనుమతి అవసరం, కాబట్టి ప్రస్తుతం ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. “అనుమతులు” ట్యాబ్‌లో దీన్ని అనుమతించండి.",
+ "Sound": "Sound",
+ "⟦Sound⟧ Settings…": "“⟦Sound⟧” సెట్టింగ్‌లు…"
 }

@@ -268,6 +268,7 @@
 "Volume: %lld%%" = "Volume: %lld%%";
 "Unmute" = "Unmute";
 "Mute" = "Mute";
+"⟦Sound⟧ Settings…" = "⟦Sound⟧ Settings…";
 "Battery: %lld%%, charging" = "Battery: %lld%%, charging";
 "Battery: %lld%%, plugged in" = "Battery: %lld%%, plugged in";
 "Battery: %lld%%" = "Battery: %lld%%";
@@ -301,3 +302,4 @@
 "Keyboard Shortcuts" = "Keyboard Shortcuts";
 "Hot Corners" = "Hot Corners";
 "Wi-Fi" = "Wi-Fi";
+"Sound" = "Sound";
