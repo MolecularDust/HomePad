@@ -161,6 +161,8 @@
 "Taskbar" = "Barra de tareas";
 "Open HomePad only from the Start button" = "Abrir HomePad solo desde el botón Inicio";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Si está desactivado, también lo abren el atajo, la doble pulsación y las esquinas activas: sobre la barra de tareas, y las esquinas activas en su esquina. El icono de la barra de menús siempre lo abre.";
+"Show hidden apps on the taskbar" = "Mostrar apps ocultas en la barra de tareas";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Las apps ocultas aparecen atenuadas. Si está desactivado, salen de la barra de tareas hasta que se vuelvan a mostrar; las ancladas se quedan.";
 "Shortcut" = "Atajo";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "No hay ningún atajo. Abre HomePad desde el icono de la barra de menús o elige abajo una tecla para pulsar dos veces.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Para usar ⌘Espacio, desactiva primero el atajo de «⟦Spotlight⟧» en «⟦System Settings⟧» → «⟦Keyboard⟧» → «⟦Keyboard Shortcuts⟧» → «⟦Spotlight⟧».";

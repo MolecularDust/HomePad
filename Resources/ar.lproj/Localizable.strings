@@ -161,6 +161,8 @@
 "Taskbar" = "شريط المهام";
 "Open HomePad only from the Start button" = "فتح HomePad من زر ابدأ فقط";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "عند إيقافه، يفتحه أيضًا الاختصار والنقر المزدوج والزوايا النشطة: فوق شريط المهام، والزوايا النشطة في زاويتها. أيقونة شريط القائمة تفتحه دائمًا.";
+"Show hidden apps on the taskbar" = "إظهار التطبيقات المخفية على شريط المهام";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "تظهر التطبيقات المخفية باهتة. عند إيقافه، تخرج من شريط المهام حتى تُعرض من جديد؛ وتبقى المثبّتة.";
 "Shortcut" = "الاختصار";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "لم يتم تعيين اختصار. افتح HomePad من أيقونة شريط القائمة، أو اختر أدناه مفتاحًا للنقر المزدوج.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "لاستخدام ⌘مسافة، أوقف أولًا اختصار ”⟦Spotlight⟧“ في ”⟦System Settings⟧“ ← ”⟦Keyboard⟧“ ← ”⟦Keyboard Shortcuts⟧“ ← ”⟦Spotlight⟧“.";

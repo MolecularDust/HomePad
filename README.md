@@ -116,7 +116,9 @@ any time from the menu-bar icon → Setup Guide…
     and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
     (**Pin to Taskbar**; in HomePad's panel too). The taskbar's pins are a list of their own, apart from HomePad's
     categories. Drag icons along the taskbar to reorder them. Click an item to open it or bring it forward (or hide
-    it if it's already in front); point at a running app for its windows; right-click for its menu. The
+    it if it's already in front); point at a running app for its windows; right-click for its menu. A hidden app (Hide in its menu, or Cmd-H) leaves
+    the taskbar until it's shown again (a pinned one stays, dimmed); **Show hidden apps on the taskbar** keeps them there,
+    dimmed. The
     panel opens centred above the taskbar. macOS lets only the Dock keep windows off part of the screen, so the Dock
     stays at the bottom, as tall as the taskbar, under it: maximized windows end at the taskbar's top. Its size,
     magnification and side are put back when you leave the mode. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners

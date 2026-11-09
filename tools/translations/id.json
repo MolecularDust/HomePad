@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "Tambahkan App ke Bilah Tugas",
  "Add Files and Folders to the Taskbar": "Tambahkan File dan Folder ke Bilah Tugas",
  "Unpin from Taskbar": "Lepas Sematan dari Bilah Tugas",
- "Pin to Taskbar": "Sematkan ke Bilah Tugas"
+ "Pin to Taskbar": "Sematkan ke Bilah Tugas",
+ "Show hidden apps on the taskbar": "Tampilkan app tersembunyi di bilah tugas",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "App tersembunyi tampak redup. Jika mati, app keluar dari bilah tugas sampai ditampilkan lagi; yang disematkan tetap ada."
 }

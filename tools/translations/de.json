@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "Apps zur Taskleiste hinzufügen",
  "Add Files and Folders to the Taskbar": "Dateien und Ordner zur Taskleiste hinzufügen",
  "Unpin from Taskbar": "Von Taskleiste lösen",
- "Pin to Taskbar": "An Taskleiste anheften"
+ "Pin to Taskbar": "An Taskleiste anheften",
+ "Show hidden apps on the taskbar": "Ausgeblendete Apps in der Taskleiste zeigen",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Ausgeblendete Apps erscheinen abgeblendet. Wenn aus, verlassen sie die Taskleiste, bis sie wieder eingeblendet werden; angeheftete bleiben."
 }

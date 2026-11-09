@@ -80,15 +80,17 @@ private final class FirstClickHostingView<Content: View>: NSHostingView<Content>
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
 
-/// The app in front, for the taskbar's "active" mark.
+/// The app in front, for the taskbar's "active" mark: by its location, since an app can run as several processes and
+/// the one in front needn't be the one its icon goes by.
 final class FrontmostApp: ObservableObject {
     static let shared = FrontmostApp()
-    @Published private(set) var pid: pid_t? = NSWorkspace.shared.frontmostApplication?.processIdentifier
+    @Published private(set) var path: String? = NSWorkspace.shared.frontmostApplication?.bundleURL.map { normalized($0).path }
 
     private init() {
         NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification,
                                                           object: nil, queue: .main) { [weak self] note in
-            self?.pid = (note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)?.processIdentifier
+            let app = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
+            self?.path = app?.bundleURL.map { normalized($0).path }
         }
     }
 }
@@ -97,6 +99,7 @@ struct TaskbarView: View {
     @ObservedObject private var running = RunningApps.shared
     @ObservedObject private var pins = TaskbarPins.shared
     @ObservedObject private var order = RunningOrder.taskbar
+    @AppStorage(Taskbar.showsHiddenKey) private var showsHidden = false
 
     var body: some View {
         HStack(spacing: 2) {
@@ -113,11 +116,18 @@ struct TaskbarView: View {
 }
 
 extension Taskbar {
+    /// Settings: hidden apps (Cmd-H, or Hide in an icon's menu) stay on the taskbar, dimmed. Off, they leave it until
+    /// they're shown again (a pinned one stays, dimmed).
+    static let showsHiddenKey = "taskbarShowsHidden"
+
     /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
     /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
     static func items() -> [URL] {
         var seen = Set<URL>()
-        let all = TaskbarPins.shared.urls + RunningApps.shared.apps.compactMap { $0.bundleURL.map(normalized) }
+        let showsHidden = UserDefaults.standard.bool(forKey: showsHiddenKey)
+        let hidden = RunningApps.shared.hidden
+        let running = RunningApps.shared.apps.filter { showsHidden || !hidden.contains($0.processIdentifier) }
+        let all = TaskbarPins.shared.urls + running.compactMap { $0.bundleURL.map(normalized) }
         return RunningOrder.taskbar.sorted(all.filter { seen.insert($0).inserted })
     }
 }
@@ -252,12 +262,14 @@ private struct TaskbarIcon: View {
     let url: URL
     @ObservedObject private var front = FrontmostApp.shared
     @ObservedObject private var drag = TaskbarDrag.shared
+    @ObservedObject private var running = RunningApps.shared
     @State private var hovering = false
     @State private var frame = CGRect.zero
 
     var body: some View {
-        let app = RunningApps.shared.app(for: url)
-        let active = app.map { $0.processIdentifier == front.pid } ?? false
+        let app = running.app(for: url)
+        let active = app != nil && front.path == normalized(url).path
+        let isHidden = app.map { running.hidden.contains($0.processIdentifier) } ?? false
         VStack(spacing: 3) {
             Image(nsImage: IconCache.icon(for: url))
                 .resizable()
@@ -270,7 +282,7 @@ private struct TaskbarIcon: View {
         }
         .frame(width: 44, height: 44)
         .background(RoundedRectangle(cornerRadius: 6).fill(hovering || active ? Color.primary.opacity(active ? 0.08 : 0.10) : .clear))
-        .opacity(drag.item == url ? 0.4 : 1)
+        .opacity(drag.item == url ? 0.4 : isHidden ? 0.5 : 1)
         .background(GeometryReader { geo in
             Color.clear.onAppear { frame = geo.frame(in: .global) }.onChange(of: geo.frame(in: .global)) { frame = $0 }
         })

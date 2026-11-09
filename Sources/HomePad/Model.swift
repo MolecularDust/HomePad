@@ -1,3 +1,4 @@
+import os
 import AppKit
 import UniformTypeIdentifiers
 
@@ -447,14 +448,22 @@ final class CategoryStore: ObservableObject {
 final class RunningApps: ObservableObject {
     static let shared = RunningApps()
     @Published private(set) var apps: [NSRunningApplication] = []
+    /// The running apps that are hidden (Cmd-H), for the taskbar.
+    @Published private(set) var hidden: Set<pid_t> = []
     private var byPath: [String: NSRunningApplication] = [:]       // every tile asks "is this running?" on each redraw
 
     private init() {
         refresh()
         let nc = NSWorkspace.shared.notificationCenter
-        for name in [NSWorkspace.didLaunchApplicationNotification,
-                     NSWorkspace.didTerminateApplicationNotification] {
+        for name in [NSWorkspace.didTerminateApplicationNotification, NSWorkspace.didActivateApplicationNotification,
+                     NSWorkspace.didHideApplicationNotification, NSWorkspace.didUnhideApplicationNotification] {
             nc.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in self?.refresh() }
+        }
+        // Many apps (Electron, Tauri…) start as background processes and become regular apps a moment later, after
+        // the launch was announced: look again shortly after.
+        nc.addObserver(forName: NSWorkspace.didLaunchApplicationNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.refresh()
+            for delay in [0.5, 1.5, 4] { DispatchQueue.main.asyncAfter(deadline: .now() + delay) { self?.refresh() } }
         }
     }
 
@@ -464,6 +473,8 @@ final class RunningApps: ObservableObject {
         let current = NSWorkspace.shared.runningApplications.filter {
             $0.activationPolicy == .regular && $0.bundleURL != nil && $0.processIdentifier != me
         }
+        let nowHidden = Set(current.filter(\.isHidden).map(\.processIdentifier))
+        if nowHidden != hidden { hidden = nowHidden }
         guard current.map(\.processIdentifier) != apps.map(\.processIdentifier) else { return }
         byPath = Dictionary(current.compactMap { app in app.bundleURL.map { (normalized($0).path, app) } }) { first, _ in first }
         apps = current
@@ -614,12 +625,21 @@ enum Launcher {
     /// taskbar never comes to the front), so with Accessibility the app is hidden the way Cmd-H does it.
     static func hide(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
-        guard let app = RunningApps.shared.app(for: url) else { return }
-        if AXIsProcessTrusted(),
-           AXUIElementSetAttributeValue(AXUIElementCreateApplication(app.processIdentifier), kAXHiddenAttribute as CFString,
-                                        kCFBooleanTrue) == .success { return }
-        app.hide()
+        guard let app = RunningApps.shared.app(for: url) else { hideLog.error("hide: not running \(url.path, privacy: .public)"); return }
+        // Every process of the app (some apps run as several), the way Cmd-H does it, and the app's own request too.
+        let all = NSWorkspace.shared.runningApplications.filter { $0.bundleURL.map(normalized) == normalized(url) }
+        var ax = "untrusted"
+        if AXIsProcessTrusted() {
+            ax = all.map { "\(AXUIElementSetAttributeValue(AXUIElementCreateApplication($0.processIdentifier), kAXHiddenAttribute as CFString, kCFBooleanTrue).rawValue)" }.joined(separator: ",")
+        }
+        let asked = all.map { $0.hide() }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            hideLog.notice("hide \(url.lastPathComponent, privacy: .public): pids \(all.map(\.processIdentifier), privacy: .public), AX \(ax, privacy: .public), hide() \(asked, privacy: .public), hidden now \(app.isHidden, privacy: .public)")
+            RunningApps.shared.refresh()
+        }
     }
+
+    private static let hideLog = Logger(subsystem: "local.mike.HomePad", category: "hide")
 
     static func closeWindows(_ url: URL) {
         if let app = RunningApps.shared.app(for: url) { WindowCatalog.closeWindows(of: app) }

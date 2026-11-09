@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "작업 표시줄에 앱 추가",
  "Add Files and Folders to the Taskbar": "작업 표시줄에 파일 및 폴더 추가",
  "Unpin from Taskbar": "작업 표시줄에서 고정 해제",
- "Pin to Taskbar": "작업 표시줄에 고정"
+ "Pin to Taskbar": "작업 표시줄에 고정",
+ "Show hidden apps on the taskbar": "작업 표시줄에 가려진 앱 표시",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "가려진 앱은 흐리게 표시됩니다. 끄면 다시 보일 때까지 작업 표시줄에서 빠지며, 고정된 앱은 남습니다."
 }

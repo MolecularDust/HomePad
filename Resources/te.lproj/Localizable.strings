@@ -161,6 +161,8 @@
 "Taskbar" = "టాస్క్‌బార్";
 "Open HomePad only from the Start button" = "HomePadను స్టార్ట్ బటన్ నుండి మాత్రమే తెరవండి";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "ఆఫ్‌లో ఉన్నప్పుడు షార్ట్‌కట్, డబుల్-ట్యాప్, హాట్ కార్నర్‌లు కూడా దీన్ని తెరుస్తాయి: టాస్క్‌బార్ పైన, హాట్ కార్నర్‌లు తమ మూలలో. మెనూ బార్ ఐకాన్ ఎల్లప్పుడూ దీన్ని తెరుస్తుంది.";
+"Show hidden apps on the taskbar" = "టాస్క్‌బార్‌లో దాచిన యాప్‌లను చూపించండి";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "దాచిన యాప్‌లు మసకగా కనిపిస్తాయి. ఆఫ్‌లో ఉన్నప్పుడు, మళ్లీ చూపించే వరకు అవి టాస్క్‌బార్ నుండి వెళ్లిపోతాయి; పిన్ చేసినవి అలాగే ఉంటాయి.";
 "Shortcut" = "షార్ట్‌కట్";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "షార్ట్‌కట్ సెట్ చేయలేదు. మెనూ బార్ ఐకాన్ నుండి HomePad తెరవండి, లేదా కింద డబుల్-ట్యాప్ కీ ఎంచుకోండి.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘Space ఉపయోగించడానికి, ముందుగా “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”లో “⟦Spotlight⟧” షార్ట్‌కట్‌ను ఆఫ్ చేయండి.";

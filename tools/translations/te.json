@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "టాస్క్‌బార్‌కు యాప్‌లను జోడించండి",
  "Add Files and Folders to the Taskbar": "టాస్క్‌బార్‌కు ఫైల్‌లు, ఫోల్డర్‌లను జోడించండి",
  "Unpin from Taskbar": "టాస్క్‌బార్ నుండి అన్‌పిన్ చేయండి",
- "Pin to Taskbar": "టాస్క్‌బార్‌కు పిన్ చేయండి"
+ "Pin to Taskbar": "టాస్క్‌బార్‌కు పిన్ చేయండి",
+ "Show hidden apps on the taskbar": "టాస్క్‌బార్‌లో దాచిన యాప్‌లను చూపించండి",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "దాచిన యాప్‌లు మసకగా కనిపిస్తాయి. ఆఫ్‌లో ఉన్నప్పుడు, మళ్లీ చూపించే వరకు అవి టాస్క్‌బార్ నుండి వెళ్లిపోతాయి; పిన్ చేసినవి అలాగే ఉంటాయి."
 }

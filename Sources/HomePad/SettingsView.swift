@@ -17,6 +17,7 @@ struct SettingsView: View {
     @State private var dockHidden = DockControl.isHidden
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
+    @AppStorage(Taskbar.showsHiddenKey) private var taskbarShowsHidden = false
     /// Read again when HomePad comes to the front: the Dock, its icons and the permission change outside Settings.
     @State private var dockIconProblem = DockIcon.problem
     @AppStorage(DoubleTapMonitor.defaultsKey) private var doubleTap = DoubleTapMonitor.Key.off.rawValue
@@ -47,6 +48,10 @@ struct SettingsView: View {
                 if mode == HomePadMode.taskbar.rawValue {
                     Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)
                     Text(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Toggle("Show hidden apps on the taskbar", isOn: $taskbarShowsHidden)
+                    Text("Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.")
                         .font(.caption).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -231,6 +236,7 @@ struct SettingsView: View {
         hideMinimised = true
         showMenuBarIcon = true
         startButtonOnly = false
+        taskbarShowsHidden = false
         HomePadMode.choose(.standalone, adjustingDock: false)
         dockHidden = false
         DockControl.setHidden(false)

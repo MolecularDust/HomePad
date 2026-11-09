@@ -161,6 +161,8 @@
 "Taskbar" = "タスクバー";
 "Open HomePad only from the Start button" = "スタートボタンからのみHomePadを開く";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。";
+"Show hidden apps on the taskbar" = "非表示のアプリをタスクバーに表示";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "非表示のアプリは淡く表示されます。オフの場合、再び表示されるまでタスクバーから外れます（ピン留めしたものは残ります）。";
 "Shortcut" = "ショートカット";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "ショートカットが設定されていません。メニューバーのアイコンからHomePadを開くか、下でダブルタップするキーを選んでください。";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘スペースを使うには、まず“⟦System Settings⟧”→“⟦Keyboard⟧”→“⟦Keyboard Shortcuts⟧”→“⟦Spotlight⟧”で“⟦Spotlight⟧”のショートカットをオフにしてください。";

@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "Добавить приложения на панель задач",
  "Add Files and Folders to the Taskbar": "Добавить файлы и папки на панель задач",
  "Unpin from Taskbar": "Открепить от панели задач",
- "Pin to Taskbar": "Закрепить на панели задач"
+ "Pin to Taskbar": "Закрепить на панели задач",
+ "Show hidden apps on the taskbar": "Показывать скрытые приложения на панели задач",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Скрытые приложения затемнены. Если выключено, они уходят с панели задач, пока их снова не покажут; закреплённые остаются."
 }

@@ -161,6 +161,8 @@
 "Taskbar" = "Taskbar";
 "Open HomePad only from the Start button" = "Buksan lang ang HomePad mula sa Start button";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Kapag naka-off, binubuksan din ito ng shortcut, double-tap at hot corners: sa itaas ng taskbar, at ang hot corners sa sarili nilang sulok. Laging nabubuksan ito ng icon sa menu bar.";
+"Show hidden apps on the taskbar" = "Ipakita ang mga nakatagong app sa taskbar";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Malabo ang mga nakatagong app. Kapag naka-off, aalis sila sa taskbar hanggang maipakita muli; nananatili ang mga naka-pin.";
 "Shortcut" = "Shortcut";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "Walang naka-set na shortcut. Buksan ang HomePad mula sa icon sa menu bar, o pumili sa ibaba ng key na ida-double tap.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "Para gamitin ang ⌘Space, i-off muna ang shortcut ng “⟦Spotlight⟧” sa “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧”.";

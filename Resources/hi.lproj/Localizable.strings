@@ -161,6 +161,8 @@
 "Taskbar" = "टास्कबार";
 "Open HomePad only from the Start button" = "HomePad को सिर्फ़ स्टार्ट बटन से खोलें";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "बंद होने पर शॉर्टकट, डबल-टैप और हॉट कॉर्नर भी इसे खोलते हैं: टास्कबार के ऊपर, और हॉट कॉर्नर अपने कोने में। मेनू बार आइकॉन इसे हमेशा खोलता है।";
+"Show hidden apps on the taskbar" = "टास्कबार पर छिपी ऐप्स दिखाएँ";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "छिपी ऐप्स धुंधली दिखती हैं। बंद होने पर वे फिर से दिखाए जाने तक टास्कबार से हट जाती हैं; पिन की हुई बनी रहती हैं।";
 "Shortcut" = "शॉर्टकट";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "कोई शॉर्टकट सेट नहीं है। मेनू बार आइकॉन से HomePad खोलें, या नीचे डबल-टैप की चुनें।";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "⌘Space इस्तेमाल करने के लिए, पहले “⟦System Settings⟧” → “⟦Keyboard⟧” → “⟦Keyboard Shortcuts⟧” → “⟦Spotlight⟧” में “⟦Spotlight⟧” का शॉर्टकट बंद करें।";

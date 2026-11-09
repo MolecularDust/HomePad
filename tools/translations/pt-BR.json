@@ -272,5 +272,7 @@
  "Add Apps to the Taskbar": "Adicionar apps à barra de tarefas",
  "Add Files and Folders to the Taskbar": "Adicionar arquivos e pastas à barra de tarefas",
  "Unpin from Taskbar": "Desafixar da barra de tarefas",
- "Pin to Taskbar": "Fixar na barra de tarefas"
+ "Pin to Taskbar": "Fixar na barra de tarefas",
+ "Show hidden apps on the taskbar": "Mostrar apps ocultos na barra de tarefas",
+ "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.": "Apps ocultos aparecem esmaecidos. Desativado, eles saem da barra de tarefas até serem mostrados de novo; os fixados ficam."
 }

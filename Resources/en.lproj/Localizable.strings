@@ -161,6 +161,8 @@
 "Taskbar" = "Taskbar";
 "Open HomePad only from the Start button" = "Open HomePad only from the Start button";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it.";
+"Show hidden apps on the taskbar" = "Show hidden apps on the taskbar";
+"Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay." = "Hidden apps are dimmed. When off, they leave the taskbar until they're shown again; pinned ones stay.";
 "Shortcut" = "Shortcut";
 "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below." = "No shortcut is set. Open HomePad from the menu-bar icon, or choose a double-tap key below.";
 "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧." = "To use ⌘Space, first turn off the ⟦Spotlight⟧ shortcut in ⟦System Settings⟧ → ⟦Keyboard⟧ → ⟦Keyboard Shortcuts⟧ → ⟦Spotlight⟧.";
