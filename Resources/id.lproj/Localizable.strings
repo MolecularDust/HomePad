@@ -18,6 +18,7 @@
 "Name" = "Nama";
 "Essentials" = "Utama";
 "Add Apps to %@" = "Tambahkan App ke “%@”";
+"Add Apps to the Taskbar" = "Tambahkan App ke Bilah Tugas";
 "Search apps" = "Cari app";
 "Browse…" = "Telusuri…";
 "Double-click an app to add it and close" = "Klik dua kali app untuk menambahkannya dan menutup";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "Seret ke daftar “⟦Full Disk Access⟧”";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Tidak ada di daftar? Seret ikon ini ke dalamnya,\natau klik + di bawah daftar lalu pilih HomePad.";
 "Add Files and Folders to %@" = "Tambahkan File dan Folder ke “%@”";
+"Add Files and Folders to the Taskbar" = "Tambahkan File dan Folder ke Bilah Tugas";
 "%@ is already added" = "“%@” sudah ditambahkan";
 "Add %@ itself" = "Tambahkan “%@” itu sendiri";
 "Home" = "Rumah";
@@ -90,6 +92,8 @@
 "Hide" = "Sembunyikan";
 "Force Quit" = "Paksa Keluar";
 "Quit" = "Keluar";
+"Unpin from Taskbar" = "Lepas Sematan dari Bilah Tugas";
+"Pin to Taskbar" = "Sematkan ke Bilah Tugas";
 "Rename Folder…" = "Ganti Nama Folder…";
 "Ungroup" = "Pisahkan Grup";
 "Add your app here" = "Tambahkan app Anda di sini";

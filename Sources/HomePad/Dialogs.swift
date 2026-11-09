@@ -147,20 +147,30 @@ enum InstalledApps {
 
 enum AppPicker {
     static func show(for category: UUID?) {
-        let store = CategoryStore.shared
-        let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? L("Essentials")
-        let modal = ModalWindow(title: L("Add Apps to \(name)"), resizable: true, initialSize: panelSize) { modal in
-            AppPickerView(category: target, close: modal.close)
+        show(to: .category(category ?? CategoryStore.shared.essentialsID))
+    }
+
+    static func show(to target: PinTarget) {
+        let title: String
+        switch target {
+        case .category(let id):
+            let name = CategoryStore.shared.categories.first { $0.id == id }?.name ?? L("Essentials")
+            title = L("Add Apps to \(name)")
+        case .taskbar:
+            title = L("Add Apps to the Taskbar")
+        }
+        let modal = ModalWindow(title: title, resizable: true, initialSize: panelSize) { modal in
+            AppPickerView(target: target, close: modal.close)
         }
         modal.show()
     }
 }
 
 private struct AppPickerView: View {
-    let category: UUID
+    let target: PinTarget
     let close: () -> Void
     @ObservedObject private var store = CategoryStore.shared
+    @ObservedObject private var pins = TaskbarPins.shared
     @AppStorage("columns") private var columns = 8
     @State private var query = ""
     @State private var selected = Set<URL>()
@@ -185,16 +195,16 @@ private struct AppPickerView: View {
             ScrollView {
                 LazyVGrid(columns: grid, spacing: 6) {
                     ForEach(shown, id: \.self) { url in
-                        PickerTile(url: url, added: store.contains(url), selected: selected.contains(url),
+                        PickerTile(url: url, added: target.contains(url), selected: selected.contains(url),
                                    toggle: {
                                        // Check the live state: a double-click delivers its clicks after the pin.
-                                       guard !store.contains(url) else { return }
+                                       guard !target.contains(url) else { return }
                                        if selected.contains(url) { selected.remove(url) } else { selected.insert(url) }
                                    },
                                    pin: {
-                                       guard !store.contains(url) else { return }
+                                       guard !target.contains(url) else { return }
                                        selected.remove(url)
-                                       store.add(url, to: category)
+                                       target.add(url)
                                        close()          // so the new tile is visible in the panel behind
                                    })
                     }
@@ -250,7 +260,7 @@ private struct AppPickerView: View {
     }
 
     private func add() {
-        selected.forEach { store.add($0, to: category) }
+        selected.forEach { target.add($0) }
         close()
     }
 
@@ -264,7 +274,7 @@ private struct AppPickerView: View {
         panel.allowedContentTypes = [.application]
         panel.directoryURL = URL(fileURLWithPath: "/Applications")
         if panel.runModal() == .OK {
-            panel.urls.forEach { store.add($0, to: category) }
+            panel.urls.forEach { target.add($0) }
             close()
         }
     }

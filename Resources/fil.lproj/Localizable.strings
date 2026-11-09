@@ -18,6 +18,7 @@
 "Name" = "Pangalan";
 "Essentials" = "Mahahalaga";
 "Add Apps to %@" = "Magdagdag ng Mga App sa “%@”";
+"Add Apps to the Taskbar" = "Magdagdag ng mga App sa Taskbar";
 "Search apps" = "Maghanap ng mga app";
 "Browse…" = "Mag-browse…";
 "Double-click an app to add it and close" = "I-double click ang isang app para idagdag ito at magsara";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "I-drag sa listahan ng “⟦Full Disk Access⟧”";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Wala sa listahan? I-drag ang icon na ito papasok,\no pindutin ang + sa ilalim ng listahan at piliin ang HomePad.";
 "Add Files and Folders to %@" = "Magdagdag ng Mga File at Folder sa “%@”";
+"Add Files and Folders to the Taskbar" = "Magdagdag ng mga File at Folder sa Taskbar";
 "%@ is already added" = "Naidagdag na ang “%@”";
 "Add %@ itself" = "Idagdag ang “%@” mismo";
 "Home" = "Home";
@@ -90,6 +92,8 @@
 "Hide" = "Itago";
 "Force Quit" = "Sapilitang Umalis";
 "Quit" = "Umalis";
+"Unpin from Taskbar" = "I-unpin sa Taskbar";
+"Pin to Taskbar" = "I-pin sa Taskbar";
 "Rename Folder…" = "Palitan ang Pangalan ng Folder…";
 "Ungroup" = "Paghiwalayin";
 "Add your app here" = "Idagdag dito ang app mo";

@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "Lumulutang ang HomePad sa ibabaw ng mga window mo at bumubukas kung saan mo ito tinawag: gamit ang shortcut, double-tap, hot corners o icon sa menu bar.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "Ipinapakita ng HomePad ang “⟦Dock⟧” at doon nito iniiwan ang icon nito; nananatili ang “⟦Dock⟧” kung saan mo ito inilagay.",
  "Start": "Start",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nagtatapos sa itaas nito ang mga naka-maximize na window: nananatili ang “⟦Dock⟧” sa ilalim ng taskbar para panatilihing bakante ang puwang na iyon."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nagtatapos sa itaas nito ang mga naka-maximize na window: nananatili ang “⟦Dock⟧” sa ilalim ng taskbar para panatilihing bakante ang puwang na iyon.",
+ "Add Apps to the Taskbar": "Magdagdag ng mga App sa Taskbar",
+ "Add Files and Folders to the Taskbar": "Magdagdag ng mga File at Folder sa Taskbar",
+ "Unpin from Taskbar": "I-unpin sa Taskbar",
+ "Pin to Taskbar": "I-pin sa Taskbar"
 }

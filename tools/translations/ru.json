@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad парит над окнами и открывается там, где вы его вызываете: сочетанием клавиш, двойным нажатием, активными углами или значком в строке меню.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad показывает «⟦Dock⟧» и держит там свой значок; «⟦Dock⟧» остаётся там, где вы его разместили.",
  "Start": "Пуск",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. Развёрнутые окна заканчиваются над ней: «⟦Dock⟧» остаётся под панелью задач и держит это место свободным."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. Развёрнутые окна заканчиваются над ней: «⟦Dock⟧» остаётся под панелью задач и держит это место свободным.",
+ "Add Apps to the Taskbar": "Добавить приложения на панель задач",
+ "Add Files and Folders to the Taskbar": "Добавить файлы и папки на панель задач",
+ "Unpin from Taskbar": "Открепить от панели задач",
+ "Pin to Taskbar": "Закрепить на панели задач"
 }

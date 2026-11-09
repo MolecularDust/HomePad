@@ -918,6 +918,8 @@ struct AppTileMenu: View {
     let isRunning: Bool
     var categoryID: UUID? = nil
     var folderID: UUID? = nil
+    /// The taskbar's menu: pinning there is the taskbar's own list, not HomePad's.
+    var onTaskbar = false
     @ObservedObject private var closable = ClosableWindows.shared
     @ObservedObject private var appMenus = AppMenus.shared
     @ObservedObject private var quitRequests = QuitRequests.shared
@@ -955,7 +957,9 @@ struct AppTileMenu: View {
                     CategoryStore.shared.takeOutOfFolder(url)
                 }
             }
-            if let categoryID {
+            if onTaskbar {
+                taskbarPin
+            } else if let categoryID {
                 let others = CategoryStore.shared.categories.filter { $0.id != categoryID }
                 if !others.isEmpty {
                     Menu("Move to") {
@@ -968,6 +972,7 @@ struct AppTileMenu: View {
             } else {
                 PinMenu(url: url)
             }
+            if !onTaskbar && HomePadMode.current == .taskbar { taskbarPin }
             if isRunning {
                 Divider()
                 // Read from what the background check last found: asking the app here would wait for its answer
@@ -982,6 +987,16 @@ struct AppTileMenu: View {
                 }
             }
           }
+    }
+}
+
+extension AppTileMenu {
+    @ViewBuilder fileprivate var taskbarPin: some View {
+        if TaskbarPins.shared.contains(url) {
+            Button("Unpin from Taskbar") { TaskbarPins.shared.unpin(url) }
+        } else {
+            Button("Pin to Taskbar") { TaskbarPins.shared.pin(url) }
+        }
     }
 }
 

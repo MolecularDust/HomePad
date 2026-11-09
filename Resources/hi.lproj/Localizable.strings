@@ -18,6 +18,7 @@
 "Name" = "नाम";
 "Essentials" = "ज़रूरी";
 "Add Apps to %@" = "“%@” में ऐप्स जोड़ें";
+"Add Apps to the Taskbar" = "टास्कबार में ऐप्स जोड़ें";
 "Search apps" = "ऐप्स खोजें";
 "Browse…" = "ब्राउज़ करें…";
 "Double-click an app to add it and close" = "जोड़ने और बंद करने के लिए किसी ऐप पर डबल-क्लिक करें";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "“⟦Full Disk Access⟧” सूची में ड्रैग करें";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "सूची में नहीं है? यह आइकॉन सूची में ड्रैग करें,\nया सूची के नीचे + दबाकर HomePad चुनें।";
 "Add Files and Folders to %@" = "“%@” में फ़ाइलें और फ़ोल्डर जोड़ें";
+"Add Files and Folders to the Taskbar" = "टास्कबार में फ़ाइलें और फ़ोल्डर जोड़ें";
 "%@ is already added" = "“%@” पहले से जोड़ा गया है";
 "Add %@ itself" = "“%@” खुद को जोड़ें";
 "Home" = "होम";
@@ -90,6 +92,8 @@
 "Hide" = "छिपाएँ";
 "Force Quit" = "ज़बरदस्ती बंद करें";
 "Quit" = "बंद करें";
+"Unpin from Taskbar" = "टास्कबार से अनपिन करें";
+"Pin to Taskbar" = "टास्कबार पर पिन करें";
 "Rename Folder…" = "फ़ोल्डर का नाम बदलें…";
 "Ungroup" = "समूह तोड़ें";
 "Add your app here" = "अपनी ऐप यहाँ जोड़ें";

@@ -18,6 +18,7 @@
 "Name" = "名称";
 "Essentials" = "常用";
 "Add Apps to %@" = "将 App 添加到“%@”";
+"Add Apps to the Taskbar" = "将 App 添加到任务栏";
 "Search apps" = "搜索 App";
 "Browse…" = "浏览…";
 "Double-click an app to add it and close" = "连按 App 即可添加并关闭";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "拖到“⟦Full Disk Access⟧”列表中";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "不在列表中？将此图标拖进去，\n或点按列表下方的 + 并选择 HomePad。";
 "Add Files and Folders to %@" = "将文件和文件夹添加到“%@”";
+"Add Files and Folders to the Taskbar" = "将文件和文件夹添加到任务栏";
 "%@ is already added" = "“%@”已添加";
 "Add %@ itself" = "添加“%@”本身";
 "Home" = "个人";
@@ -90,6 +92,8 @@
 "Hide" = "隐藏";
 "Force Quit" = "强制退出";
 "Quit" = "退出";
+"Unpin from Taskbar" = "从任务栏取消固定";
+"Pin to Taskbar" = "固定到任务栏";
 "Rename Folder…" = "重新命名文件夹…";
 "Ungroup" = "取消分组";
 "Add your app here" = "在这里添加你的 App";

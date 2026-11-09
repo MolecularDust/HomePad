@@ -18,6 +18,7 @@
 "Name" = "名前";
 "Essentials" = "よく使う項目";
 "Add Apps to %@" = "“%@”にアプリを追加";
+"Add Apps to the Taskbar" = "タスクバーにアプリを追加";
 "Search apps" = "アプリを検索";
 "Browse…" = "ブラウズ…";
 "Double-click an app to add it and close" = "アプリをダブルクリックすると追加して閉じます";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "“⟦Full Disk Access⟧”のリストにドラッグ";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "リストにない場合は、このアイコンをリストにドラッグするか、\nリストの下の＋をクリックしてHomePadを選択してください。";
 "Add Files and Folders to %@" = "“%@”にファイルとフォルダを追加";
+"Add Files and Folders to the Taskbar" = "タスクバーにファイルとフォルダを追加";
 "%@ is already added" = "“%@”は追加済みです";
 "Add %@ itself" = "“%@”自体を追加";
 "Home" = "ホーム";
@@ -90,6 +92,8 @@
 "Hide" = "隠す";
 "Force Quit" = "強制終了";
 "Quit" = "終了";
+"Unpin from Taskbar" = "タスクバーからピン留めを外す";
+"Pin to Taskbar" = "タスクバーにピン留め";
 "Rename Folder…" = "フォルダ名を変更…";
 "Ungroup" = "グループを解除";
 "Add your app here" = "ここにアプリを追加";

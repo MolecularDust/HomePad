@@ -18,6 +18,7 @@
 "Name" = "نام";
 "Essentials" = "اصلی";
 "Add Apps to %@" = "افزودن برنامه به «%@»";
+"Add Apps to the Taskbar" = "افزودن برنامه‌ها به نوار وظیفه";
 "Search apps" = "جستجوی برنامه‌ها";
 "Browse…" = "مرور…";
 "Double-click an app to add it and close" = "روی یک برنامه دوبار کلیک کنید تا اضافه شود و پنجره بسته شود";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "به فهرست «⟦Full Disk Access⟧» بکشید";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "در فهرست نیست؟ این نماد را به داخل آن بکشید،\nیا روی + زیر فهرست کلیک کنید و HomePad را انتخاب کنید.";
 "Add Files and Folders to %@" = "افزودن فایل و پوشه به «%@»";
+"Add Files and Folders to the Taskbar" = "افزودن فایل‌ها و پوشه‌ها به نوار وظیفه";
 "%@ is already added" = "«%@» قبلاً اضافه شده است";
 "Add %@ itself" = "افزودن خود «%@»";
 "Home" = "خانه";
@@ -90,6 +92,8 @@
 "Hide" = "پنهان کردن";
 "Force Quit" = "خروج اجباری";
 "Quit" = "خروج";
+"Unpin from Taskbar" = "برداشتن از نوار وظیفه";
+"Pin to Taskbar" = "سنجاق به نوار وظیفه";
 "Rename Folder…" = "تغییر نام پوشه…";
 "Ungroup" = "لغو گروه‌بندی";
 "Add your app here" = "برنامه‌تان را اینجا اضافه کنید";

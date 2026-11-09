@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad melayang di atas jendela Anda dan terbuka di tempat Anda memanggilnya: dengan pintasan, ketuk dua kali, sudut aktif, atau ikon bar menu.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad menampilkan “⟦Dock⟧” dan menyimpan ikonnya di sana; “⟦Dock⟧” tetap di tempat Anda menaruhnya.",
  "Start": "Mulai",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Jendela yang dimaksimalkan berakhir di atasnya: “⟦Dock⟧” tetap di bawah bilah tugas untuk menjaga ruang itu kosong."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Jendela yang dimaksimalkan berakhir di atasnya: “⟦Dock⟧” tetap di bawah bilah tugas untuk menjaga ruang itu kosong.",
+ "Add Apps to the Taskbar": "Tambahkan App ke Bilah Tugas",
+ "Add Files and Folders to the Taskbar": "Tambahkan File dan Folder ke Bilah Tugas",
+ "Unpin from Taskbar": "Lepas Sematan dari Bilah Tugas",
+ "Pin to Taskbar": "Sematkan ke Bilah Tugas"
 }

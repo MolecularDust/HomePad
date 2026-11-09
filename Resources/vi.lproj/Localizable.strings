@@ -18,6 +18,7 @@
 "Name" = "Tên";
 "Essentials" = "Thiết yếu";
 "Add Apps to %@" = "Thêm ứng dụng vào “%@”";
+"Add Apps to the Taskbar" = "Thêm ứng dụng vào thanh tác vụ";
 "Search apps" = "Tìm ứng dụng";
 "Browse…" = "Duyệt…";
 "Double-click an app to add it and close" = "Bấm hai lần vào ứng dụng để thêm và đóng";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "Kéo vào danh sách “⟦Full Disk Access⟧”";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Không có trong danh sách? Kéo biểu tượng này vào,\nhoặc bấm + bên dưới danh sách và chọn HomePad.";
 "Add Files and Folders to %@" = "Thêm tệp và thư mục vào “%@”";
+"Add Files and Folders to the Taskbar" = "Thêm tệp và thư mục vào thanh tác vụ";
 "%@ is already added" = "“%@” đã được thêm";
 "Add %@ itself" = "Thêm chính “%@”";
 "Home" = "Thư mục nhà";
@@ -90,6 +92,8 @@
 "Hide" = "Ẩn";
 "Force Quit" = "Buộc thoát";
 "Quit" = "Thoát";
+"Unpin from Taskbar" = "Bỏ ghim khỏi thanh tác vụ";
+"Pin to Taskbar" = "Ghim vào thanh tác vụ";
 "Rename Folder…" = "Đổi tên thư mục…";
 "Ungroup" = "Bỏ nhóm";
 "Add your app here" = "Thêm ứng dụng của bạn tại đây";

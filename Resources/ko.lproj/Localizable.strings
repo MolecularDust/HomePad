@@ -18,6 +18,7 @@
 "Name" = "이름";
 "Essentials" = "필수 항목";
 "Add Apps to %@" = "‘%@’에 앱 추가";
+"Add Apps to the Taskbar" = "작업 표시줄에 앱 추가";
 "Search apps" = "앱 검색";
 "Browse…" = "찾아보기…";
 "Double-click an app to add it and close" = "앱을 이중 클릭하면 추가하고 닫습니다";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "‘⟦Full Disk Access⟧’ 목록으로 드래그";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "목록에 없습니까? 이 아이콘을 목록으로 드래그하거나\n목록 아래의 +를 누르고 HomePad를 선택하십시오.";
 "Add Files and Folders to %@" = "‘%@’에 파일 및 폴더 추가";
+"Add Files and Folders to the Taskbar" = "작업 표시줄에 파일 및 폴더 추가";
 "%@ is already added" = "‘%@’은(는) 이미 추가되었습니다";
 "Add %@ itself" = "‘%@’ 자체를 추가";
 "Home" = "홈";
@@ -90,6 +92,8 @@
 "Hide" = "가리기";
 "Force Quit" = "강제 종료";
 "Quit" = "종료";
+"Unpin from Taskbar" = "작업 표시줄에서 고정 해제";
+"Pin to Taskbar" = "작업 표시줄에 고정";
 "Rename Folder…" = "폴더 이름 변경…";
 "Ungroup" = "그룹 해제";
 "Add your app here" = "여기에 앱 추가";

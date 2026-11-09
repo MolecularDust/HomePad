@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad pencerelerinizin üzerinde süzülür ve onu çağırdığınız yerde açılır: kısayol, çift dokunma, etkin köşeler veya menü çubuğu simgesiyle.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧” öğesini gösterir ve simgesini orada tutar; “⟦Dock⟧” koyduğunuz yerde kalır.",
  "Start": "Başlat",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Büyütülmüş pencereler onun üstünde biter: “⟦Dock⟧” bu alanı boş tutmak için görev çubuğunun altında kalır."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Büyütülmüş pencereler onun üstünde biter: “⟦Dock⟧” bu alanı boş tutmak için görev çubuğunun altında kalır.",
+ "Add Apps to the Taskbar": "Görev çubuğuna uygulama ekle",
+ "Add Files and Folders to the Taskbar": "Görev çubuğuna dosya ve klasör ekle",
+ "Unpin from Taskbar": "Görev çubuğundan kaldır",
+ "Pin to Taskbar": "Görev çubuğuna sabitle"
 }

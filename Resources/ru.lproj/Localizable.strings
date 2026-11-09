@@ -18,6 +18,7 @@
 "Name" = "Название";
 "Essentials" = "Главное";
 "Add Apps to %@" = "Добавить приложения в «%@»";
+"Add Apps to the Taskbar" = "Добавить приложения на панель задач";
 "Search apps" = "Поиск приложений";
 "Browse…" = "Обзор…";
 "Double-click an app to add it and close" = "Дважды нажмите на приложение, чтобы добавить его и закрыть окно";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "Перетащите в список «⟦Full Disk Access⟧»";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Нет в списке? Перетащите туда этот значок\nили нажмите + под списком и выберите HomePad.";
 "Add Files and Folders to %@" = "Добавить файлы и папки в «%@»";
+"Add Files and Folders to the Taskbar" = "Добавить файлы и папки на панель задач";
 "%@ is already added" = "«%@» уже добавлен";
 "Add %@ itself" = "Добавить саму папку «%@»";
 "Home" = "Домой";
@@ -90,6 +92,8 @@
 "Hide" = "Скрыть";
 "Force Quit" = "Завершить принудительно";
 "Quit" = "Завершить";
+"Unpin from Taskbar" = "Открепить от панели задач";
+"Pin to Taskbar" = "Закрепить на панели задач";
 "Rename Folder…" = "Переименовать папку…";
 "Ungroup" = "Разгруппировать";
 "Add your app here" = "Добавьте сюда приложение";

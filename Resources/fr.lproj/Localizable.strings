@@ -18,6 +18,7 @@
 "Name" = "Nom";
 "Essentials" = "Essentiels";
 "Add Apps to %@" = "Ajouter des apps à « %@ »";
+"Add Apps to the Taskbar" = "Ajouter des apps à la barre des tâches";
 "Search apps" = "Rechercher des apps";
 "Browse…" = "Parcourir…";
 "Double-click an app to add it and close" = "Double-cliquez sur une app pour l’ajouter et fermer";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "Faire glisser dans la liste « ⟦Full Disk Access⟧ »";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Absent de la liste ? Faites-y glisser cette icône,\nou cliquez sur + sous la liste et choisissez HomePad.";
 "Add Files and Folders to %@" = "Ajouter des fichiers et dossiers à « %@ »";
+"Add Files and Folders to the Taskbar" = "Ajouter des fichiers et dossiers à la barre des tâches";
 "%@ is already added" = "« %@ » est déjà ajouté";
 "Add %@ itself" = "Ajouter « %@ » lui-même";
 "Home" = "Départ";
@@ -90,6 +92,8 @@
 "Hide" = "Masquer";
 "Force Quit" = "Forcer à quitter";
 "Quit" = "Quitter";
+"Unpin from Taskbar" = "Détacher de la barre des tâches";
+"Pin to Taskbar" = "Épingler à la barre des tâches";
 "Rename Folder…" = "Renommer le dossier…";
 "Ungroup" = "Dissocier";
 "Add your app here" = "Ajoutez votre app ici";

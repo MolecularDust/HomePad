@@ -7,11 +7,20 @@ let trashURL = URL(fileURLWithPath: NSHomeDirectory() + "/.Trash")
 /// a title bar, and never shows the Trash (a hidden folder), which this window offers as an entry of its own.
 enum FilePicker {
     static func show(for category: UUID?) {
-        let store = CategoryStore.shared
-        let target = category ?? store.essentialsID
-        let name = store.categories.first { $0.id == target }?.name ?? L("Essentials")
-        let modal = ModalWindow(title: L("Add Files and Folders to \(name)"), resizable: true, initialSize: panelSize) { modal in
-            FilePickerView(category: target, close: modal.close)
+        show(to: .category(category ?? CategoryStore.shared.essentialsID))
+    }
+
+    static func show(to target: PinTarget) {
+        let title: String
+        switch target {
+        case .category(let id):
+            let name = CategoryStore.shared.categories.first { $0.id == id }?.name ?? L("Essentials")
+            title = L("Add Files and Folders to \(name)")
+        case .taskbar:
+            title = L("Add Files and Folders to the Taskbar")
+        }
+        let modal = ModalWindow(title: title, resizable: true, initialSize: panelSize) { modal in
+            FilePickerView(target: target, close: modal.close)
         }
         modal.show()
     }
@@ -74,9 +83,10 @@ private struct SidebarRow: View {
 }
 
 private struct FilePickerView: View {
-    let category: UUID
+    let target: PinTarget
     let close: () -> Void
     @ObservedObject private var store = CategoryStore.shared
+    @ObservedObject private var pins = TaskbarPins.shared
     @State private var place = Place.folder(FileManager.default.homeDirectoryForCurrentUser)
     @State private var history: [Place] = []
     @State private var query = ""
@@ -180,7 +190,7 @@ private struct FilePickerView: View {
             ForEach(items) { item in
                 let url = url(of: item.place)
                 SidebarRow(item: item, current: place == item.place,
-                           added: store.contains(url), picked: selected.contains(url),
+                           added: target.contains(url), picked: selected.contains(url),
                            go: { choose(item.place) }, toggle: { toggle(url) })
                     .onDrag { NSItemProvider(object: url as NSURL) }
             }
@@ -244,7 +254,7 @@ private struct FilePickerView: View {
             ScrollView {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 4), spacing: 6) {
                     ForEach(shown) { entry in
-                        FileTile(url: entry.url, isFolder: entry.isFolder, added: store.contains(entry.url),
+                        FileTile(url: entry.url, isFolder: entry.isFolder, added: target.contains(entry.url),
                                  selected: selected.contains(entry.url),
                                  toggle: { toggle(entry.url) },
                                  open: { openEntry(entry) })
@@ -258,7 +268,7 @@ private struct FilePickerView: View {
 
     /// The Trash can't be browsed like a folder here: it is one item to pin.
     private var trashPage: some View {
-        let added = store.contains(trashURL)
+        let added = target.contains(trashURL)
         let picked = selected.contains(trashURL)
         return VStack(spacing: 8) {
             FileTile(url: trashURL, isFolder: false, added: added, selected: picked,
@@ -276,7 +286,7 @@ private struct FilePickerView: View {
         HStack(spacing: 10) {
             Toggle("Show hidden items", isOn: $showHidden).toggleStyle(.checkbox).font(.system(size: 12))
             Spacer()
-            if let folder = currentFolder, !store.contains(folder) {
+            if let folder = currentFolder, !target.contains(folder) {
                 Button("Add This Folder") { add([folder]) }
             }
             Button("Cancel", action: close).keyboardShortcut(.cancelAction)
@@ -296,7 +306,7 @@ private struct FilePickerView: View {
     private func choose(_ new: Place) {
         let url = url(of: new)
         if let old = pickedPlace { selected.remove(old) }
-        pickedPlace = store.contains(url) ? nil : url
+        pickedPlace = target.contains(url) ? nil : url
         if let picked = pickedPlace { selected.insert(picked) }
         go(new)
     }
@@ -313,7 +323,7 @@ private struct FilePickerView: View {
     }
 
     private func toggle(_ url: URL) {
-        guard !store.contains(url) else { return }
+        guard !target.contains(url) else { return }
         if selected.contains(url) { selected.remove(url); if pickedPlace == url { pickedPlace = nil } }
         else { selected.insert(url) }
     }
@@ -324,7 +334,7 @@ private struct FilePickerView: View {
     }
 
     private func add(_ urls: [URL]) {
-        urls.forEach { store.add($0, to: category) }
+        urls.forEach { target.add($0) }
         close()
     }
 

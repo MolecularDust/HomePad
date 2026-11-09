@@ -18,6 +18,7 @@
 "Name" = "Name";
 "Essentials" = "Essentials";
 "Add Apps to %@" = "Add Apps to %@";
+"Add Apps to the Taskbar" = "Add Apps to the Taskbar";
 "Search apps" = "Search apps";
 "Browse…" = "Browse…";
 "Double-click an app to add it and close" = "Double-click an app to add it and close";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "Drag into the ⟦Full Disk Access⟧ list";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad.";
 "Add Files and Folders to %@" = "Add Files and Folders to %@";
+"Add Files and Folders to the Taskbar" = "Add Files and Folders to the Taskbar";
 "%@ is already added" = "%@ is already added";
 "Add %@ itself" = "Add %@ itself";
 "Home" = "Home";
@@ -90,6 +92,8 @@
 "Hide" = "Hide";
 "Force Quit" = "Force Quit";
 "Quit" = "Quit";
+"Unpin from Taskbar" = "Unpin from Taskbar";
+"Pin to Taskbar" = "Pin to Taskbar";
 "Rename Folder…" = "Rename Folder…";
 "Ungroup" = "Ungroup";
 "Add your app here" = "Add your app here";

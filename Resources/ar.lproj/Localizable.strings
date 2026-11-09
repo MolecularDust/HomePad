@@ -18,6 +18,7 @@
 "Name" = "الاسم";
 "Essentials" = "الأساسيات";
 "Add Apps to %@" = "إضافة تطبيقات إلى ”%@“";
+"Add Apps to the Taskbar" = "إضافة تطبيقات إلى شريط المهام";
 "Search apps" = "البحث عن تطبيقات";
 "Browse…" = "استعراض…";
 "Double-click an app to add it and close" = "انقر مرتين على تطبيق لإضافته والإغلاق";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "اسحب إلى قائمة ”⟦Full Disk Access⟧“";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "ليس في القائمة؟ اسحب هذه الأيقونة إليها،\nأو انقر على + أسفل القائمة واختر HomePad.";
 "Add Files and Folders to %@" = "إضافة ملفات ومجلدات إلى ”%@“";
+"Add Files and Folders to the Taskbar" = "إضافة ملفات ومجلدات إلى شريط المهام";
 "%@ is already added" = "”%@“ مُضاف بالفعل";
 "Add %@ itself" = "إضافة ”%@“ نفسه";
 "Home" = "المنزل";
@@ -90,6 +92,8 @@
 "Hide" = "إخفاء";
 "Force Quit" = "إنهاء إجباري";
 "Quit" = "إنهاء";
+"Unpin from Taskbar" = "إلغاء التثبيت من شريط المهام";
+"Pin to Taskbar" = "التثبيت على شريط المهام";
 "Rename Folder…" = "إعادة تسمية المجلد…";
 "Ungroup" = "فك التجميع";
 "Add your app here" = "أضف تطبيقك هنا";

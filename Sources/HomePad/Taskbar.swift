@@ -95,17 +95,135 @@ final class FrontmostApp: ObservableObject {
 
 struct TaskbarView: View {
     @ObservedObject private var running = RunningApps.shared
-    @ObservedObject private var order = RunningOrder.shared
+    @ObservedObject private var pins = TaskbarPins.shared
+    @ObservedObject private var order = RunningOrder.taskbar
 
     var body: some View {
         HStack(spacing: 2) {
             StartButton()
-            ForEach(order.shown(running.apps), id: \.self) { url in
+            ForEach(Taskbar.items(), id: \.self) { url in
                 TaskbarIcon(url: url)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .contextMenu { TaskbarMenu() }      // the blank space; an icon has its own menu
         .overlay(alignment: .top) { Rectangle().fill(Color.primary.opacity(0.12)).frame(height: 0.5) }
+    }
+}
+
+extension Taskbar {
+    /// What the taskbar shows after the Start button: what's pinned to it and every running app, once each, in the
+    /// taskbar's own order (`RunningOrder.taskbar`; an app that isn't placed yet goes last, alphabetically).
+    static func items() -> [URL] {
+        var seen = Set<URL>()
+        let all = TaskbarPins.shared.urls + RunningApps.shared.apps.compactMap { $0.bundleURL.map(normalized) }
+        return RunningOrder.taskbar.sorted(all.filter { seen.insert($0).inserted })
+    }
+}
+
+extension RunningOrder {
+    /// The taskbar's order: pinned items and running apps together, apart from the Running section's.
+    static let taskbar = RunningOrder(key: "taskbarOrder")
+}
+
+/// Apps, files and folders pinned to the taskbar (stored as paths under `taskbarPins`): a list of its own, apart from
+/// HomePad's categories. A pinned app stays on the taskbar when it isn't running.
+final class TaskbarPins: ObservableObject {
+    static let shared = TaskbarPins()
+    static let key = "taskbarPins"
+    @Published private(set) var paths: [String] = UserDefaults.standard.stringArray(forKey: TaskbarPins.key) ?? []
+
+    var urls: [URL] { paths.map { URL(fileURLWithPath: $0) } }
+
+    func contains(_ url: URL) -> Bool { paths.contains(normalized(url).path) }
+
+    /// Pinned at the end of the taskbar (an app already there as a running app stays where it is).
+    func pin(_ url: URL) {
+        guard !contains(url) else { return }
+        RunningOrder.taskbar.fix(Taskbar.items() + [normalized(url)])
+        paths.append(normalized(url).path)
+        UserDefaults.standard.set(paths, forKey: Self.key)
+    }
+
+    func unpin(_ url: URL) {
+        paths.removeAll { $0 == normalized(url).path }
+        UserDefaults.standard.set(paths, forKey: Self.key)
+    }
+}
+
+/// Where Add App… and Add File or Folder… put what you choose: a HomePad category or the taskbar.
+enum PinTarget {
+    case category(UUID)
+    case taskbar
+
+    func contains(_ url: URL) -> Bool {
+        switch self {
+        case .category: return CategoryStore.shared.contains(url)
+        case .taskbar: return TaskbarPins.shared.contains(url)
+        }
+    }
+
+    func add(_ url: URL) {
+        switch self {
+        case .category(let id): CategoryStore.shared.add(url, to: id)
+        case .taskbar: TaskbarPins.shared.pin(url)
+        }
+    }
+}
+
+/// Right-click on the taskbar's blank space.
+private struct TaskbarMenu: View {
+    var body: some View {
+        Button("Add App…") { DispatchQueue.main.async { AppPicker.show(to: .taskbar) } }
+        Button("Add File or Folder…") { DispatchQueue.main.async { FilePicker.show(to: .taskbar) } }
+        Divider()
+        Button("Settings…") { (NSApp.delegate as? AppDelegate)?.openSettings() }
+    }
+}
+
+/// A taskbar icon being dragged. The others make room as it passes over them, as on Windows; it can't be dropped
+/// anywhere else (the type is HomePad's own, see RunningDrag), and letting go elsewhere leaves it where it got to.
+final class TaskbarDrag: ObservableObject {
+    static let shared = TaskbarDrag()
+    @Published private(set) var item: URL?
+    private var timer: Timer?
+
+    func begin(_ url: URL) {
+        RunningOrder.taskbar.fix(Taskbar.items())
+        WindowPreviewController.shared.hideNow()
+        item = url
+        // SwiftUI doesn't say when a drag that wasn't dropped on an icon ends: the mouse button tells.
+        timer?.invalidate()
+        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
+            if NSEvent.pressedMouseButtons & 1 == 0 { self?.end() }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        self.timer = timer
+    }
+
+    func end() {
+        timer?.invalidate()
+        timer = nil
+        item = nil
+    }
+}
+
+private struct TaskbarDropDelegate: DropDelegate {
+    let target: URL
+
+    func validateDrop(info: DropInfo) -> Bool { TaskbarDrag.shared.item != nil }
+
+    func dropEntered(info: DropInfo) {
+        guard let dragging = TaskbarDrag.shared.item, dragging != target else { return }
+        withAnimation(.easeInOut(duration: 0.15)) { RunningOrder.taskbar.move(dragging, onto: target) }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+
+    func performDrop(info: DropInfo) -> Bool {
+        TaskbarDrag.shared.end()
+        return true
     }
 }
 
@@ -127,11 +245,13 @@ private struct StartButton: View {
     }
 }
 
-/// A running app: a click brings it forward, or hides it when it's already in front (as Windows minimizes it); the
-/// mark under it is wide for the app in front. Pointing at it shows its windows; right-click gives the tile's menu.
+/// A pinned item or a running app. A click opens it, brings it forward, or hides it when it's already in front (as
+/// Windows minimizes it); the mark under a running app is wide for the one in front. Pointing at a running app shows
+/// its windows; right-click gives the tile's menu; drag it along the taskbar to move it.
 private struct TaskbarIcon: View {
     let url: URL
     @ObservedObject private var front = FrontmostApp.shared
+    @ObservedObject private var drag = TaskbarDrag.shared
     @State private var hovering = false
     @State private var frame = CGRect.zero
 
@@ -144,36 +264,42 @@ private struct TaskbarIcon: View {
                 .interpolation(.high)
                 .frame(width: 30, height: 30)
             Capsule()
-                .fill(active ? Color.accentColor : Color.secondary.opacity(0.7))
+                .fill(app == nil ? Color.clear : active ? Color.accentColor : Color.secondary.opacity(0.7))
                 .frame(width: active ? 16 : 6, height: 3)
                 .animation(.easeOut(duration: 0.15), value: active)
         }
         .frame(width: 44, height: 44)
         .background(RoundedRectangle(cornerRadius: 6).fill(hovering || active ? Color.primary.opacity(active ? 0.08 : 0.10) : .clear))
+        .opacity(drag.item == url ? 0.4 : 1)
         .background(GeometryReader { geo in
             Color.clear.onAppear { frame = geo.frame(in: .global) }.onChange(of: geo.frame(in: .global)) { frame = $0 }
         })
         .contentShape(Rectangle())
         .onHover { inside in
             hovering = inside
+            guard drag.item == nil else { return }
             if inside, let app {                 // so its menu is current by the time it's right-clicked
                 ClosableWindows.shared.refresh()
                 AppMenus.shared.refresh(app)
             }
-            WindowPreviewController.shared.hover(app: app, over: inside, tile: .zero,
+            WindowPreviewController.shared.hover(app: app, over: inside && app != nil, tile: .zero,
                                                  screenTile: Taskbar.shared.screenRect(frame))
         }
         .onTapGesture {
             WindowPreviewController.shared.hideNow()
-            guard let app else { return }
-            if app.isActive {
+            if let app, app.isActive {
                 Launcher.hide(url)
             } else {
                 activateSelf()          // the taskbar never makes HomePad active, and macOS lets only the active app hand over
                 Launcher.open(url)
             }
         }
+        .onDrag {
+            TaskbarDrag.shared.begin(url)
+            return RunningDrag.provider(for: url)
+        }
+        .onDrop(of: [RunningDrag.type], delegate: TaskbarDropDelegate(target: url))
         .help(IconCache.name(for: url))
-        .contextMenu { AppTileMenu(url: url, isRunning: true) }
+        .contextMenu { AppTileMenu(url: url, isRunning: app != nil, onTaskbar: true) }
     }
 }

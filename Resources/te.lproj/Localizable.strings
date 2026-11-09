@@ -18,6 +18,7 @@
 "Name" = "పేరు";
 "Essentials" = "ముఖ్యమైనవి";
 "Add Apps to %@" = "“%@”కు యాప్‌లు జోడించండి";
+"Add Apps to the Taskbar" = "టాస్క్‌బార్‌కు యాప్‌లను జోడించండి";
 "Search apps" = "యాప్‌లు వెతకండి";
 "Browse…" = "బ్రౌజ్ చేయండి…";
 "Double-click an app to add it and close" = "జోడించి మూసివేయడానికి యాప్‌పై డబుల్-క్లిక్ చేయండి";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "“⟦Full Disk Access⟧” జాబితాలోకి లాగండి";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "జాబితాలో లేదా? ఈ ఐకాన్‌ను దానిలోకి లాగండి,\nలేదా జాబితా కింద + నొక్కి HomePad ఎంచుకోండి.";
 "Add Files and Folders to %@" = "“%@”కు ఫైల్‌లు, ఫోల్డర్‌లు జోడించండి";
+"Add Files and Folders to the Taskbar" = "టాస్క్‌బార్‌కు ఫైల్‌లు, ఫోల్డర్‌లను జోడించండి";
 "%@ is already added" = "“%@” ఇప్పటికే జోడించబడింది";
 "Add %@ itself" = "“%@”నే జోడించండి";
 "Home" = "హోమ్";
@@ -90,6 +92,8 @@
 "Hide" = "దాచండి";
 "Force Quit" = "బలవంతంగా నిష్క్రమించండి";
 "Quit" = "నిష్క్రమించండి";
+"Unpin from Taskbar" = "టాస్క్‌బార్ నుండి అన్‌పిన్ చేయండి";
+"Pin to Taskbar" = "టాస్క్‌బార్‌కు పిన్ చేయండి";
 "Rename Folder…" = "ఫోల్డర్ పేరు మార్చండి…";
 "Ungroup" = "సమూహాన్ని విడదీయండి";
 "Add your app here" = "మీ యాప్‌ను ఇక్కడ జోడించండి";

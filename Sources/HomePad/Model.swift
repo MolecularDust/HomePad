@@ -610,9 +610,15 @@ enum Launcher {
         QuitRequests.shared.watch(app)
     }
 
+    /// Hides the app. macOS may ignore an app's own hide request when it comes from an app that isn't in front (the
+    /// taskbar never comes to the front), so with Accessibility the app is hidden the way Cmd-H does it.
     static func hide(_ url: URL) {
         PanelController.shared.hide(restoreFocus: false)
-        RunningApps.shared.app(for: url)?.hide()
+        guard let app = RunningApps.shared.app(for: url) else { return }
+        if AXIsProcessTrusted(),
+           AXUIElementSetAttributeValue(AXUIElementCreateApplication(app.processIdentifier), kAXHiddenAttribute as CFString,
+                                        kCFBooleanTrue) == .success { return }
+        app.hide()
     }
 
     static func closeWindows(_ url: URL) {

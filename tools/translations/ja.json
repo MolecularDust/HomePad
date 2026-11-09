@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePadはウインドウの上に浮かび、呼び出した場所で開きます：ショートカット、ダブルタップ、ホットコーナー、またはメニューバーのアイコンで。",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePadは“⟦Dock⟧”を表示し、そこに自分のアイコンを置きます。“⟦Dock⟧”は置いた場所のままです。",
  "Start": "スタート",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。最大化したウインドウはタスクバーの上で止まります：“⟦Dock⟧”がタスクバーの下に残り、その場所を空けておきます。"
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。最大化したウインドウはタスクバーの上で止まります：“⟦Dock⟧”がタスクバーの下に残り、その場所を空けておきます。",
+ "Add Apps to the Taskbar": "タスクバーにアプリを追加",
+ "Add Files and Folders to the Taskbar": "タスクバーにファイルとフォルダを追加",
+ "Unpin from Taskbar": "タスクバーからピン留めを外す",
+ "Pin to Taskbar": "タスクバーにピン留め"
 }

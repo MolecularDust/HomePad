@@ -18,6 +18,7 @@
 "Name" = "Ad";
 "Essentials" = "Temel";
 "Add Apps to %@" = "“%@” kategorisine uygulama ekle";
+"Add Apps to the Taskbar" = "Görev çubuğuna uygulama ekle";
 "Search apps" = "Uygulama ara";
 "Browse…" = "Göz At…";
 "Double-click an app to add it and close" = "Eklemek ve kapatmak için bir uygulamaya çift tıklayın";
@@ -32,6 +33,7 @@
 "Drag into the ⟦Full Disk Access⟧ list" = "“⟦Full Disk Access⟧” listesine sürükleyin";
 "Not in the list? Drag this icon into it,\nor press + under the list and choose HomePad." = "Listede yok mu? Bu simgeyi listeye sürükleyin\nya da listenin altındaki + düğmesine basıp HomePad’i seçin.";
 "Add Files and Folders to %@" = "“%@” kategorisine dosya ve klasör ekle";
+"Add Files and Folders to the Taskbar" = "Görev çubuğuna dosya ve klasör ekle";
 "%@ is already added" = "“%@” zaten eklendi";
 "Add %@ itself" = "“%@” öğesinin kendisini ekle";
 "Home" = "Ev";
@@ -90,6 +92,8 @@
 "Hide" = "Gizle";
 "Force Quit" = "Zorla Çık";
 "Quit" = "Çık";
+"Unpin from Taskbar" = "Görev çubuğundan kaldır";
+"Pin to Taskbar" = "Görev çubuğuna sabitle";
 "Rename Folder…" = "Klasörü Yeniden Adlandır…";
 "Ungroup" = "Grubu Çöz";
 "Add your app here" = "Uygulamanızı buraya ekleyin";

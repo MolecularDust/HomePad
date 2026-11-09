@@ -268,5 +268,9 @@
  "HomePad floats over your windows and opens where you call it: with the shortcut, double-tap, hot corners or the menu-bar icon.": "HomePad మీ విండోల పైన తేలుతూ, మీరు పిలిచిన చోట తెరుచుకుంటుంది: షార్ట్‌కట్, డబుల్-ట్యాప్, హాట్ కార్నర్‌లు లేదా మెనూ బార్ ఐకాన్‌తో.",
  "HomePad shows the ⟦Dock⟧ and keeps its icon there; the ⟦Dock⟧ stays wherever you put it.": "HomePad “⟦Dock⟧”ను చూపి, తన ఐకాన్‌ను అక్కడే ఉంచుతుంది; “⟦Dock⟧” మీరు ఉంచిన చోటే ఉంటుంది.",
  "Start": "ప్రారంభం",
- "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows లాగా: స్క్రీన్ కింద స్టార్ట్ బటన్, నడుస్తున్న యాప్‌లతో ఒక టాస్క్‌బార్; ఆ యాప్‌లు అప్పుడు HomePad ప్యానెల్ నుండి వెళ్లిపోతాయి. పెద్దవి చేసిన విండోలు దాని పైనే ముగుస్తాయి: ఆ స్థలాన్ని ఖాళీగా ఉంచడానికి “⟦Dock⟧” టాస్క్‌బార్ కింద ఉంటుంది."
+ "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. Maximized windows end above it: the ⟦Dock⟧ stays under the taskbar to keep that space free.": "Windows లాగా: స్క్రీన్ కింద స్టార్ట్ బటన్, నడుస్తున్న యాప్‌లతో ఒక టాస్క్‌బార్; ఆ యాప్‌లు అప్పుడు HomePad ప్యానెల్ నుండి వెళ్లిపోతాయి. పెద్దవి చేసిన విండోలు దాని పైనే ముగుస్తాయి: ఆ స్థలాన్ని ఖాళీగా ఉంచడానికి “⟦Dock⟧” టాస్క్‌బార్ కింద ఉంటుంది.",
+ "Add Apps to the Taskbar": "టాస్క్‌బార్‌కు యాప్‌లను జోడించండి",
+ "Add Files and Folders to the Taskbar": "టాస్క్‌బార్‌కు ఫైల్‌లు, ఫోల్డర్‌లను జోడించండి",
+ "Unpin from Taskbar": "టాస్క్‌బార్ నుండి అన్‌పిన్ చేయండి",
+ "Pin to Taskbar": "టాస్క్‌బార్‌కు పిన్ చేయండి"
 }

@@ -111,9 +111,12 @@ any time from the menu-bar icon → Setup Guide…
     whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot corners still
     open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock, the Dock is
     hidden, or the Accessibility permission is missing.
-  - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon) and
-    the running apps, centred, in the Running section's order. The running apps then leave the panel. Click an app to
-    bring it forward (or hide it if it's already in front); point at it for its windows; right-click for its menu. The
+  - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon),
+    then what you pinned to it and the running apps, centred. The running apps then leave the panel. Pin apps, files
+    and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
+    (**Pin to Taskbar**; in HomePad's panel too). The taskbar's pins are a list of their own, apart from HomePad's
+    categories. Drag icons along the taskbar to reorder them. Click an item to open it or bring it forward (or hide
+    it if it's already in front); point at a running app for its windows; right-click for its menu. The
     panel opens centred above the taskbar. macOS lets only the Dock keep windows off part of the screen, so the Dock
     stays at the bottom, as tall as the taskbar, under it: maximized windows end at the taskbar's top. Its size,
     magnification and side are put back when you leave the mode. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
