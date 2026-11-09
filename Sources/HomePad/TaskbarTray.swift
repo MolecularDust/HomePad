@@ -376,26 +376,39 @@ private struct CalendarFlyout: View {
                 Button { shift(-1) } label: { Image(systemName: "chevron.up") }.buttonStyle(.plain)
                 Button { shift(1) } label: { Image(systemName: "chevron.down") }.buttonStyle(.plain)
             }
-            LazyVGrid(columns: Array(repeating: GridItem(.fixed(30), spacing: 2), count: 7), spacing: 4) {
-                ForEach(Array(weekdays.enumerated()), id: \.offset) { _, day in
-                    Text(day).font(.system(size: 11)).foregroundStyle(.secondary)
+            // Plain rows, not a lazy grid: a lazy grid is measured short, and the pop-up came out shorter than it.
+            VStack(spacing: 4) {
+                HStack(spacing: 2) {
+                    ForEach(Array(weekdays.enumerated()), id: \.offset) { _, day in
+                        Text(day).font(.system(size: 11)).foregroundStyle(.secondary).frame(width: 30)
+                    }
                 }
-                ForEach(Array(days.enumerated()), id: \.offset) { _, day in
-                    if let day {
-                        let today = calendar.isDateInToday(day)
-                        Text(verbatim: "\(calendar.component(.day, from: day))")
-                            .font(.system(size: 12))
-                            .foregroundStyle(today ? Color.white : Color.primary)
-                            .frame(width: 28, height: 28)
-                            .background(Circle().fill(today ? Color.accentColor : .clear))
-                    } else {
-                        Color.clear.frame(width: 28, height: 28)
+                // Always six weeks, so the pop-up keeps its height from month to month.
+                ForEach(0..<6, id: \.self) { row in
+                    HStack(spacing: 2) {
+                        ForEach(0..<7, id: \.self) { column in
+                            let index = row * 7 + column
+                            dayCell(index < days.count ? days[index] : nil).frame(width: 30)
+                        }
                     }
                 }
             }
         }
         .padding(16)
         .frame(width: 260)
+    }
+
+    @ViewBuilder private func dayCell(_ day: Date?) -> some View {
+        if let day {
+            let today = calendar.isDateInToday(day)
+            Text(verbatim: "\(calendar.component(.day, from: day))")
+                .font(.system(size: 12))
+                .foregroundStyle(today ? Color.white : Color.primary)
+                .frame(width: 28, height: 28)
+                .background(Circle().fill(today ? Color.accentColor : .clear))
+        } else {
+            Color.clear.frame(width: 28, height: 28)
+        }
     }
 
     private func shift(_ months: Int) {
@@ -412,6 +425,8 @@ final class TaskbarFlyout {
     enum Kind { case volume, calendar }
     private var panel: NSPanel?
     private var shown: Kind?
+    /// The item it opened from: a click there is the item's own (it closes the pop-up by toggling).
+    private var anchor: NSRect?
     private var monitors: [Any] = []
 
     func toggle<Content: View>(_ kind: Kind, over rect: NSRect?, @ViewBuilder content: () -> Content) {
@@ -436,12 +451,14 @@ final class TaskbarFlyout {
         panel.orderFrontRegardless()
         self.panel = panel
         shown = kind
-        // A click outside: in another app (global) or on the taskbar (local; the item's own click toggles instead).
+        anchor = rect
+        // A click outside: in another app (global), or in HomePad anywhere but the pop-up and its own item (local).
         monitors.append(NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
             self?.close()
         } as Any)
         monitors.append(NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
-            if event.window !== self?.panel && event.window !== Taskbar.shared.window { self?.close() }
+            guard let self, event.window !== self.panel else { return event }
+            if !(self.anchor?.contains(NSEvent.mouseLocation) ?? false) { self.close() }
             return event
         } as Any)
     }
@@ -452,6 +469,7 @@ final class TaskbarFlyout {
         panel?.orderOut(nil)
         panel = nil
         shown = nil
+        anchor = nil
     }
 }
 
