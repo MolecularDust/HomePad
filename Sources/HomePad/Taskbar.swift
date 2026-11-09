@@ -386,10 +386,14 @@ private struct StartButton: View {
     @State private var frame = CGRect.zero
 
     var body: some View {
-        Image(nsImage: NSApp.applicationIconImage)
-            .resizable()
-            .interpolation(.high)
-            .frame(width: 30, height: 30)
+        // Laid out like the app icons (an icon over the room for their running mark), so it sits at their height.
+        VStack(spacing: 3) {
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .interpolation(.high)
+                .frame(width: 30, height: 30)
+            Color.clear.frame(width: 6, height: 3)
+        }
             .frame(width: 44, height: 44)
             .background(TaskbarHighlight(on: hovering && drag.item == nil, strong: false))
             .background(FrameReader(frame: $frame))
