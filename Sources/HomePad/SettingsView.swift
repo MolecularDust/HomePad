@@ -52,15 +52,15 @@ struct SettingsView: View {
                         .font(.caption).foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                     Picker("App icons", selection: $iconsAlignment) {
-                        Text("Center").tag(Taskbar.Alignment.center)
                         Text("Left").tag(Taskbar.Alignment.left)
+                        Text("Center").tag(Taskbar.Alignment.center)
                     }
                     .pickerStyle(.segmented).fixedSize()
                     // With the app icons on the left, HomePad's icon is on the left too, before them.
                     Picker("HomePad icon", selection: Binding(get: { iconsAlignment == .left ? .left : startAlignment },
                                                              set: { startAlignment = $0 })) {
-                        Text("Center").tag(Taskbar.Alignment.center)
                         Text("Left").tag(Taskbar.Alignment.left)
+                        Text("Center").tag(Taskbar.Alignment.center)
                     }
                     .pickerStyle(.segmented).fixedSize()
                     .disabled(iconsAlignment == .left)
