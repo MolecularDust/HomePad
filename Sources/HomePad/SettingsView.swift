@@ -56,9 +56,9 @@ struct SettingsView: View {
                         Text("Center").tag(Taskbar.Alignment.center)
                     }
                     .pickerStyle(.segmented).fixedSize()
-                    // With the app icons on the left, HomePad's icon is on the left too, before them.
-                    Picker("HomePad icon", selection: Binding(get: { iconsAlignment == .left ? .left : startAlignment },
-                                                             set: { startAlignment = $0 })) {
+                    // With the app icons on the left, HomePad's icon is on the left too, before them; the choice is
+                    // grayed out then but keeps showing what you picked, which applies again once they're centred.
+                    Picker("HomePad icon", selection: $startAlignment) {
                         Text("Left").tag(Taskbar.Alignment.left)
                         Text("Center").tag(Taskbar.Alignment.center)
                     }
