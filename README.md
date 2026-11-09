@@ -44,6 +44,7 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   first launch, plus a **Files** category with the Trash and Downloads, like the right end of the Dock (only on the very first run; if you delete it, it stays deleted). Add your own (Browsers, Writing…) with **Add Category** or by right-clicking empty space.
   A new category shows a grayed-out "Add your app here" tile. Right-click inside a category to rename or delete
   it (everything in it is unpinned too; the apps and files themselves are untouched).
+- **Blank space** below the last section (when the panel is taller than its contents) belongs to that section: right-clicking it gives that section's menu, and dragging it moves the window.
 - **Add files and folders**: **Add File or Folder** (header link, right-click menu, or Settings), drag them in from Finder,
   or right-click a search result → Pin. They open when clicked; folders open in Finder. The picker is a browser
   window with a sidebar (Home, Desktop, Documents, Downloads, ..., drives) and a **Trash** entry that pins your Trash.

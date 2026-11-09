@@ -34,7 +34,7 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 | `Windows.swift` | Permissions, window thumbnails (ScreenCaptureKit; needs macOS 14 for images), hover popup panel, jump to window via Accessibility, `MinimisedWindows` (each running app's minimised windows with thumbnails, gathered in the background on every panel open; shown after the app's tile in Running as `MinimisedTile`) |
 | `HotKey.swift` | Global shortcut (Carbon `RegisterEventHotKey`), `Shortcut` model + persistence |
 | `Panel.swift` | The centered floating `NSPanel` and its keyboard handling |
-| `HomePadView.swift` | The UI: search bar, category grids, placeholder tiles, running apps, results list |
+| `HomePadView.swift` | The UI: search bar, category grids, placeholder tiles, running apps, results list. The blank space below the last section is padded onto that section (`fill`, worked out in `HomeView.updateFill` from the last row's measured frame and the viewport height), so its right-click menu and window drag cover it; the generic "Add … to Essentials" menu is left only for when there are no rows |
 | `Calculator.swift` | Arithmetic typed in the search field (hand-written parser, not NSExpression, which throws on bad input); result card appears first |
 | `Search.swift` | Spotlight-index search via `NSMetadataQuery` |
 | `Model.swift` | Dock import, `CategoryStore` (categories, persisted as JSON), running apps, launching, Dock hiding |

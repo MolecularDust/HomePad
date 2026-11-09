@@ -444,6 +444,17 @@ struct HomeView: View {
     @State private var scrollModel = ScrollIndicatorModel()
 
     @ObservedObject private var runningOrder = RunningOrder.shared
+    /// How much taller the last section is made, to take over the blank space below it, and where that section is.
+    @State private var fill: CGFloat = 0
+    @State private var lastRow: CGRect = .zero
+
+    private func updateFill(viewport: CGFloat) {
+        guard lastRow.height > 0 else { return }
+        let natural = lastRow.height - fill
+        // 16: the bottom padding of the scrolled content.
+        let wanted = max(0, viewport - 16 - lastRow.minY - natural)
+        if abs(wanted - fill) > 0.5 { fill = wanted }
+    }
 
     /// Every running app, like the Dock's running indicators, pinned or not: alphabetically, or in the order you gave
     /// them by dragging.
@@ -477,9 +488,9 @@ struct HomeView: View {
                             CarriedRow(id: id) {
                                 Group {
                                     if id == CategoryStore.runningID {
-                                        RunningSection(apps: runningApps, grid: grid)
+                                        RunningSection(apps: runningApps, grid: grid, fill: index == rows.count - 1 ? fill : 0)
                                     } else if let category = store.categories.first(where: { $0.id == id }) {
-                                        CategorySection(category: category, grid: grid, tileWidth: tileWidth, running: running)
+                                        CategorySection(category: category, grid: grid, tileWidth: tileWidth, fill: index == rows.count - 1 ? fill : 0, running: running)
                                     }
                                 }
                                 .separatedAbove(index > 0, gap: RowMetrics.categoryGap(rowHeight))
@@ -491,7 +502,12 @@ struct HomeView: View {
                     }
                     .coordinateSpace(name: "rows")
                     .onPreferenceChange(RowFramesKey.self) { frames in
-                        if PanelState.shared.draggingCategory == nil { RowDrag.shared.frames = frames }     // where the rows rest, not where one is carried
+                        guard PanelState.shared.draggingCategory == nil else { return }
+                        RowDrag.shared.frames = frames          // where the rows rest, not where one is carried
+                        if let last = store.rows(includingRunning: showRunning && !runningApps.isEmpty).last, let frame = frames[last] {
+                            lastRow = frame
+                            updateFill(viewport: geo.size.height)
+                        }
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
@@ -501,13 +517,14 @@ struct HomeView: View {
                     .contentShape(Rectangle())
                     .movesWindowWhenDragged()          // inside the scroll view, which takes its own mouse events
                     .contextMenu {
-                        // Outside every row (below the last one): into Essentials.
+                        // Outside every row (only when there are none): into Essentials.
                         Button("Add App to \(store.essentialsName)…") { Launcher.chooseAppsToPin() }
                         Button("Add File or Folder to \(store.essentialsName)…") { Launcher.chooseFilesToPin() }
                         Divider()
                         Button("Add Category…") { Launcher.addCategory() }
                     }
                 }
+                .onChange(of: geo.size.height) { updateFill(viewport: $0) }
             }
             .showsScrollIndicator(scrollModel)
             .overlay { FolderPopupView() }
@@ -556,6 +573,9 @@ struct MoveRowItems: View {
 struct RunningSection: View {
     let apps: [URL]
     let grid: [GridItem]
+    /// Blank space below, when this is the last section and the panel is taller than its contents: it belongs to the
+    /// section (its right-click menu, its drag of the window), instead of to nothing.
+    var fill: CGFloat = 0
     @ObservedObject private var store = CategoryStore.shared
     @ObservedObject private var minimised = MinimisedWindows.shared
     @AppStorage(MinimisedWindows.settingKey) private var hideMinimised = true
@@ -606,6 +626,7 @@ struct RunningSection: View {
                 }
             }
         }
+        .padding(.bottom, fill)
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .movesWindowWhenDragged()
@@ -748,6 +769,8 @@ struct CategorySection: View {
     let category: Category
     let grid: [GridItem]
     let tileWidth: CGFloat
+    /// Blank space below, when this is the last section (see RunningSection).
+    var fill: CGFloat = 0
     @ObservedObject var running: RunningApps
     @ObservedObject private var store = CategoryStore.shared
 
@@ -779,6 +802,7 @@ struct CategorySection: View {
         }
         // A right-click anywhere in this category's band that isn't on a tile (its title, the gaps between and
         // after the tiles) adds to this category. A tile has its own menu, which takes precedence.
+        .padding(.bottom, fill)
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .movesWindowWhenDragged()                // the band claims the mouse for its menu, so it moves the window itself
