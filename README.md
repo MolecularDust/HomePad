@@ -148,6 +148,9 @@ and **Permissions**. It reopens on the tab you used last.
 
 ## Translations
 
+How the translation system works, how to add a language, and how to reuse it in another project:
+[LOCALIZATION.md](LOCALIZATION.md).
+
 The English in the code is the text to translate; `tools/translations/<code>.json` holds each language and
 `tools/localize.py write` turns them into `Resources/<code>.lproj` (which `build_app.sh` copies into the app). Names
 macOS uses (apps, folders, System Settings and its sections…) are never translated: they're written `⟦Trash⟧` and

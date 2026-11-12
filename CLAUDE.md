@@ -52,6 +52,8 @@ Dock on first launch, plus custom ones), with a read-only Running section. See [
 
 Pop-ups must go through `PanelController.keepVisible` so the panel stays visible behind them.
 
+Localization is described in full, for reuse in other projects, in [LOCALIZATION.md](LOCALIZATION.md).
+
 All user-facing text is translated: SwiftUI's `Text("…")`/`Button("…")` literals follow the window's locale
 (`.localized()` on every hosting view's root); text passed as a `String` (AppKit menus and alerts, our own views'
 titles) must be `L("…")`, with interpolation for values (whole sentences, never glued pieces). Never translate what
