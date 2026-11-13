@@ -303,5 +303,7 @@
  "Sound": "Suono",
  "⟦Sound⟧ Settings…": "Impostazioni “⟦Sound⟧”…",
  "Pin to HomePad": "Aggiungi a HomePad",
- "Unpin from HomePad": "Rimuovi da HomePad"
+ "Unpin from HomePad": "Rimuovi da HomePad",
+ "Automatically hide the taskbar": "Nascondi automaticamente la barra delle applicazioni",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "La barra delle applicazioni scorre via finché non fermi il puntatore sul bordo inferiore dello schermo. Resta mentre HomePad o uno dei suoi pop-up è aperto, e le finestre possono usare l’intero schermo."
 }

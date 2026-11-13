@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения».";
 "These settings are for Taskbar mode." = "Эти настройки действуют в режиме панели задач.";
 "Use Taskbar Mode" = "Включить режим панели задач";
+"Automatically hide the taskbar" = "Автоматически скрывать панель задач";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Панель задач уезжает, пока вы не задержите указатель у нижнего края экрана. Она остаётся, пока открыт HomePad или одно из его всплывающих окон, а окна могут занимать весь экран.";
 "Open HomePad only from the Start button" = "Открывать HomePad только кнопкой «Пуск»";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Если выключено, его открывают и сочетание клавиш, двойное нажатие и активные углы: над панелью задач, а активные углы — в своём углу. Значок в строке меню открывает его всегда.";
 "Layout" = "Вид";

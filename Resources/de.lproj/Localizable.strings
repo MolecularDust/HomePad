@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie im Tab „Berechtigungen“.";
 "These settings are for Taskbar mode." = "Diese Einstellungen gelten im Taskleisten-Modus.";
 "Use Taskbar Mode" = "Taskleisten-Modus verwenden";
+"Automatically hide the taskbar" = "Taskleiste automatisch ausblenden";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Die Taskleiste fährt weg, bis du den Zeiger am unteren Bildschirmrand ruhen lässt. Sie bleibt, solange HomePad oder eines seiner Pop-ups geöffnet ist, und Fenster können dann den ganzen Bildschirm nutzen.";
 "Open HomePad only from the Start button" = "HomePad nur über die Start-Taste öffnen";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Wenn aus, öffnen es auch Tastenkürzel, Doppeltippen und aktive Ecken: über der Taskleiste, aktive Ecken in ihrer Ecke. Das Menüleistensymbol öffnet es immer.";
 "Layout" = "Layout";

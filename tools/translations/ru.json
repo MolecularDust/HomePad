@@ -303,5 +303,7 @@
  "Sound": "Звук",
  "⟦Sound⟧ Settings…": "Настройки «⟦Sound⟧»…",
  "Pin to HomePad": "Закрепить в HomePad",
- "Unpin from HomePad": "Открепить от HomePad"
+ "Unpin from HomePad": "Открепить от HomePad",
+ "Automatically hide the taskbar": "Автоматически скрывать панель задач",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Панель задач уезжает, пока вы не задержите указатель у нижнего края экрана. Она остаётся, пока открыт HomePad или одно из его всплывающих окон, а окна могут занимать весь экран."
 }

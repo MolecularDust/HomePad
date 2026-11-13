@@ -303,5 +303,7 @@
  "Sound": "Sonido",
  "⟦Sound⟧ Settings…": "Ajustes de «⟦Sound⟧»…",
  "Pin to HomePad": "Anclar a HomePad",
- "Unpin from HomePad": "Desanclar de HomePad"
+ "Unpin from HomePad": "Desanclar de HomePad",
+ "Automatically hide the taskbar": "Ocultar automáticamente la barra de tareas",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "La barra de tareas se desliza fuera hasta que dejas el puntero en el borde inferior de la pantalla. Se queda mientras HomePad o uno de sus pop-ups esté abierto, y las ventanas pueden usar toda la pantalla."
 }

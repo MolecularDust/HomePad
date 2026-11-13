@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "아이콘을 찾으려면 ‘⟦Accessibility⟧’ 권한이 필요하므로 지금은 패널이 가운데에 열립니다. ‘권한’ 탭에서 허용하십시오.";
 "These settings are for Taskbar mode." = "이 설정은 작업 표시줄 모드에 적용됩니다.";
 "Use Taskbar Mode" = "작업 표시줄 모드 사용";
+"Automatically hide the taskbar" = "작업 표시줄 자동으로 가리기";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "화면 아래쪽 가장자리에 포인터를 두기 전까지 작업 표시줄이 밀려 나가 있습니다. HomePad나 그 팝업이 열려 있는 동안에는 그대로 있으며, 윈도우는 화면 전체를 사용할 수 있습니다.";
 "Open HomePad only from the Start button" = "시작 버튼으로만 HomePad 열기";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "끄면 단축키, 이중 탭, 핫 코너로도 열립니다. 작업 표시줄 위에 열리고, 핫 코너는 해당 모서리에 엽니다. 메뉴 막대 아이콘으로는 항상 열 수 있습니다.";
 "Layout" = "레이아웃";

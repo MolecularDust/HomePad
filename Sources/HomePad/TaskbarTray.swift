@@ -443,6 +443,8 @@ final class TaskbarFlyout {
     enum Kind { case volume, calendar }
     private var panel: NSPanel?
     private var shown: Kind?
+    /// A pop-up is open (the auto-hidden taskbar stays up meanwhile).
+    var isOpen: Bool { panel != nil }
     /// The item it opened from: a click there is the item's own (it closes the pop-up by toggling).
     private var anchor: NSRect?
     private var monitors: [Any] = []

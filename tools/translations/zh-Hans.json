@@ -303,5 +303,7 @@
  "Sound": "声音",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧”设置…",
  "Pin to HomePad": "固定到 HomePad",
- "Unpin from HomePad": "从 HomePad 取消固定"
+ "Unpin from HomePad": "从 HomePad 取消固定",
+ "Automatically hide the taskbar": "自动隐藏任务栏",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "任务栏会滑出屏幕，直到你把指针停在屏幕底边。HomePad 或其弹出窗口打开时它会保持显示，此时窗口可以使用整个屏幕。"
 }

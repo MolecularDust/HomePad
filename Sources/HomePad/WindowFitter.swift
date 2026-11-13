@@ -93,6 +93,9 @@ final class WindowFitter {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: check)
     }
 
+    /// All windows again, after the taskbar's auto-hide was switched.
+    func refit() { fitAll() }
+
     private func fitAll() {
         for pid in observers.keys { for window in windows(of: pid) { fit(window) } }
     }
@@ -108,7 +111,8 @@ final class WindowFitter {
 
     /// The lowest a window may reach, in Accessibility's coordinates (from the top left of the main screen).
     private var limit: CGFloat? {
-        guard running, let taskbar = Taskbar.shared.frame, let main = NSScreen.screens.first else { return nil }
+        // An auto-hidden taskbar leaves the whole screen to the windows.
+        guard running, !Taskbar.autoHides, let taskbar = Taskbar.shared.frame, let main = NSScreen.screens.first else { return nil }
         return main.frame.maxY - taskbar.maxY
     }
 

@@ -303,5 +303,7 @@
  "Sound": "الصوت",
  "⟦Sound⟧ Settings…": "إعدادات ”⟦Sound⟧“…",
  "Pin to HomePad": "التثبيت على HomePad",
- "Unpin from HomePad": "إلغاء التثبيت من HomePad"
+ "Unpin from HomePad": "إلغاء التثبيت من HomePad",
+ "Automatically hide the taskbar": "إخفاء شريط المهام تلقائيًا",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "ينزلق شريط المهام بعيدًا حتى تترك المؤشر عند الحافة السفلية للشاشة. ويبقى ظاهرًا ما دام HomePad أو إحدى نوافذه المنبثقة مفتوحًا، وتستطيع النوافذ حينها استخدام الشاشة كلها."
 }

@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Trouver l’icône nécessite l’autorisation « ⟦Accessibility⟧ » ; pour l’instant le panneau s’ouvre donc au milieu. Autorisez-la dans l’onglet « Autorisations ».";
 "These settings are for Taskbar mode." = "Ces réglages concernent le mode Barre des tâches.";
 "Use Taskbar Mode" = "Utiliser le mode Barre des tâches";
+"Automatically hide the taskbar" = "Masquer automatiquement la barre des tâches";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "La barre des tâches se retire jusqu’à ce que vous posiez le pointeur sur le bord inférieur de l’écran. Elle reste tant que HomePad ou l’une de ses fenêtres contextuelles est ouverte, et les fenêtres peuvent alors utiliser tout l’écran.";
 "Open HomePad only from the Start button" = "Ouvrir HomePad uniquement avec le bouton Démarrer";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Désactivé, le raccourci, la double frappe et les coins actifs l’ouvrent aussi : au-dessus de la barre des tâches, et les coins actifs dans leur coin. L’icône de la barre des menus l’ouvre toujours.";
 "Layout" = "Disposition";

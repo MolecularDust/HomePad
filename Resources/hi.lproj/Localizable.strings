@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "आइकॉन ढूँढने के लिए “⟦Accessibility⟧” अनुमति चाहिए, इसलिए अभी पैनल बीच में खुलता है। इसे “अनुमतियाँ” टैब में अनुमति दें।";
 "These settings are for Taskbar mode." = "ये सेटिंग्स टास्कबार मोड के लिए हैं।";
 "Use Taskbar Mode" = "टास्कबार मोड इस्तेमाल करें";
+"Automatically hide the taskbar" = "टास्कबार अपने आप छिपाएँ";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "टास्कबार तब तक खिसककर हटा रहता है जब तक आप पॉइंटर को स्क्रीन के निचले किनारे पर नहीं रोकते। HomePad या उसका कोई पॉप-अप खुला होने पर यह बना रहता है, और विंडो पूरी स्क्रीन इस्तेमाल कर सकती हैं।";
 "Open HomePad only from the Start button" = "HomePad को सिर्फ़ स्टार्ट बटन से खोलें";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "बंद होने पर शॉर्टकट, डबल-टैप और हॉट कॉर्नर भी इसे खोलते हैं: टास्कबार के ऊपर, और हॉट कॉर्नर अपने कोने में। मेनू बार आइकॉन इसे हमेशा खोलता है।";
 "Layout" = "लेआउट";

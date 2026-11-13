@@ -9,9 +9,15 @@ import UniformTypeIdentifiers
 /// takes the keyboard focus (a click on it leaves the app you're in active, as the Dock does). The Dock is hidden
 /// meanwhile. macOS lets only the Dock keep windows off part of the screen, so WindowFitter makes windows that reach
 /// under the taskbar shorter.
+///
+/// Settings → Taskbar → "Automatically hide the taskbar": the taskbar slides off the bottom of the screen, comes back when
+/// the pointer rests on the bottom edge, and goes again when the pointer leaves it. It stays up while anything of its own
+/// is open: HomePad's panel, a pop-up (volume, calendar), a window preview, a menu or a drag. Windows then use the whole
+/// screen (WindowFitter stands down).
 final class Taskbar {
     static let shared = Taskbar()
     static let height: CGFloat = 48
+    static let autoHideKey = "taskbarAutoHide"
 
     private var panel: TaskbarPanel?
     private var observers: [NSObjectProtocol] = []
@@ -19,25 +25,61 @@ final class Taskbar {
     /// The taskbar's window (the tray's pop-ups tell its clicks from clicks elsewhere).
     var window: NSWindow? { panel }
 
-    /// Where the taskbar is on screen, while it's shown.
-    var frame: NSRect? { panel?.isVisible == true ? panel?.frame : nil }
+    static var autoHides: Bool { UserDefaults.standard.bool(forKey: autoHideKey) }
+
+    /// Where the taskbar is on screen when it's up, while the mode is on (also when it has slid away: this is where it
+    /// comes back to, and where HomePad's panel and the pop-ups go).
+    var frame: NSRect? { panel?.isVisible == true ? upFrame : nil }
+
+    /// Full width along the bottom of the main screen.
+    private var upFrame: NSRect? {
+        NSScreen.screens.first.map { NSRect(x: $0.frame.minX, y: $0.frame.minY, width: $0.frame.width, height: Self.height) }
+    }
+
+    /// Where it is while slid away: just below the screen.
+    private var awayFrame: NSRect? { upFrame.map { $0.offsetBy(dx: 0, dy: -$0.height) } }
+
+    private var isAway = false
+    private var timer: Timer?
+    private var settingTimer: Timer?
+    private var edgeSince: Date?
+    private var leftSince: Date?
+    private var lastAutoHide = false
 
     func show() {
         if panel == nil { build() }
+        isAway = false
         place()
         panel?.orderFrontRegardless()
+        lastAutoHide = Self.autoHides
         WindowFitter.shared.start()
         if observers.isEmpty {
             // The Dock's space changes after it restarts; screens come and go.
-            for name in [NSApplication.didChangeScreenParametersNotification] {
-                observers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
-                    self?.place()
-                })
-            }
+            observers.append(NotificationCenter.default.addObserver(
+                forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { [weak self] _ in
+                self?.place()
+            })
+            // The Settings switch (UserDefaults tells of every change; only this one matters).
+            observers.append(NotificationCenter.default.addObserver(
+                forName: UserDefaults.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+                self?.autoHideMayHaveChanged()
+            })
+        }
+        startWatching()
+        // The switch is also looked at twice a second: a change made outside the app (defaults write, a synced
+        // preference) sends no notification.
+        if settingTimer == nil {
+            let t = Timer(timeInterval: 0.5, repeats: true) { [weak self] _ in self?.autoHideMayHaveChanged() }
+            RunLoop.main.add(t, forMode: .common)
+            settingTimer = t
         }
     }
 
     func hide() {
+        timer?.invalidate()
+        timer = nil
+        settingTimer?.invalidate()
+        settingTimer = nil
         panel?.orderOut(nil)
         WindowFitter.shared.stop()
         TaskbarLabel.shared.hover(nil, over: nil)
@@ -45,11 +87,91 @@ final class Taskbar {
         WindowPreviewController.shared.hideNow()
     }
 
-    /// Full width along the bottom of the screen with the menu bar.
+    /// Full width along the bottom of the screen with the menu bar (below it, while slid away).
     private func place() {
-        guard let screen = NSScreen.screens.first, let panel else { return }
-        panel.setFrame(NSRect(x: screen.frame.minX, y: screen.frame.minY, width: screen.frame.width, height: Self.height),
-                       display: true)
+        guard let panel, let up = upFrame else { return }
+        panel.setFrame(isAway ? up.offsetBy(dx: 0, dy: -up.height) : up, display: true)
+    }
+
+    private func autoHideMayHaveChanged() {
+        let now = Self.autoHides
+        guard now != lastAutoHide, panel?.isVisible == true else { return }
+        lastAutoHide = now
+        if now { startWatching() } else { reveal(animated: true) }
+        // Windows that were kept above the taskbar are fitted again, or may now use the whole screen.
+        WindowFitter.shared.refit()
+    }
+
+    // MARK: Sliding away and back
+
+    /// Looks at the pointer 20 times a second while the taskbar is on and may slide away (no permission needed).
+    private func startWatching() {
+        timer?.invalidate()
+        timer = nil
+        guard Self.autoHides else { return }
+        let timer = Timer(timeInterval: 0.05, repeats: true) { [weak self] _ in self?.tick() }
+        RunLoop.main.add(timer, forMode: .common)
+        self.timer = timer
+    }
+
+    /// Anything of the taskbar's own that is open keeps it up, as the Start menu does on Windows.
+    private var keepsUp: Bool {
+        PanelController.shared.isVisible || TaskbarFlyout.shared.isOpen || WindowPreviewController.shared.isShowing
+            || TaskbarDrag.shared.item != nil
+            // A menu or a drag runs the loop in this mode.
+            || RunLoop.main.currentMode == .eventTracking
+    }
+
+    private func tick() {
+        guard Self.autoHides, let up = frame else { return }
+        let pointer = NSEvent.mouseLocation
+        let now = Date()
+        if isAway {
+            // The bottom edge, away from a bottom hot corner (which opens HomePad itself).
+            var edge = pointer.y <= up.minY + 1 && pointer.x >= up.minX && pointer.x <= up.maxX
+            let corners = HotCornerMonitor.chosen
+            if edge, corners.contains(.bottomLeft), pointer.x < up.minX + 12 { edge = false }
+            if edge, corners.contains(.bottomRight), pointer.x > up.maxX - 12 { edge = false }
+            if edge || keepsUp {
+                edgeSince = edgeSince ?? now
+                if keepsUp || now.timeIntervalSince(edgeSince!) >= 0.12 { reveal(animated: true) }
+            } else {
+                edgeSince = nil
+            }
+        } else {
+            let over = up.insetBy(dx: 0, dy: -2).contains(pointer)
+            if over || keepsUp {
+                leftSince = nil
+            } else {
+                leftSince = leftSince ?? now
+                if now.timeIntervalSince(leftSince!) >= 0.4 { conceal(animated: true) }
+            }
+        }
+    }
+
+    private func reveal(animated: Bool) {
+        edgeSince = nil
+        leftSince = nil
+        guard isAway, let panel, let up = frame else { isAway = false; return }
+        isAway = false
+        move(panel, to: up, animated: animated)
+    }
+
+    private func conceal(animated: Bool) {
+        guard !isAway, let panel, let away = awayFrame else { return }
+        isAway = true
+        leftSince = nil
+        TaskbarLabel.shared.hover(nil, over: nil)
+        move(panel, to: away, animated: animated)
+    }
+
+    private func move(_ panel: NSPanel, to frame: NSRect, animated: Bool) {
+        guard animated else { panel.setFrame(frame, display: true); return }
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.18
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            panel.animator().setFrame(frame, display: true)
+        }
     }
 
     private func build() {
@@ -71,7 +193,7 @@ final class Taskbar {
 
     /// An icon's frame on screen, from its frame in the taskbar's content (top-left origin).
     func screenRect(_ rect: CGRect) -> NSRect? {
-        guard let window = panel?.frame else { return nil }
+        guard let window = frame else { return nil }
         return NSRect(x: window.minX + rect.minX, y: window.maxY - rect.maxY, width: rect.width, height: rect.height)
     }
 }

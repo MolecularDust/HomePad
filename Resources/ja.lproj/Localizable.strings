@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。“アクセス権”タブで許可してください。";
 "These settings are for Taskbar mode." = "これらの設定はタスクバーモード用です。";
 "Use Taskbar Mode" = "タスクバーモードを使う";
+"Automatically hide the taskbar" = "タスクバーを自動的に隠す";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "画面の下端にポインタを置くまで、タスクバーは画面外にスライドします。HomePadやそのポップアップが開いている間は表示されたままで、ウインドウは画面全体を使えます。";
 "Open HomePad only from the Start button" = "スタートボタンからのみHomePadを開く";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "オフの場合は、ショートカット、ダブルタップ、ホットコーナーでも開きます（タスクバーの上、ホットコーナーではその隅に）。メニューバーのアイコンではいつでも開きます。";
 "Layout" = "レイアウト";

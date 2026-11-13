@@ -126,6 +126,7 @@ private struct GeneralSettings: View {
         d.set(true, forKey: MinimisedWindows.settingKey)
         showMenuBarIcon = true
         d.set(false, forKey: HomePadMode.startButtonOnlyKey)
+        d.set(false, forKey: Taskbar.autoHideKey)
         d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.iconsAlignmentKey)
         d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.startAlignmentKey)
         for key in [TaskbarTray.networkKey, TaskbarTray.volumeKey, TaskbarTray.batteryKey, TaskbarTray.clockKey] {
@@ -219,6 +220,7 @@ private struct ModeSettings: View {
 private struct TaskbarSettings: View {
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
+    @AppStorage(Taskbar.autoHideKey) private var autoHide = false
     @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
     @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
     @AppStorage(TaskbarTray.networkKey) private var trayNetwork = true
@@ -240,6 +242,10 @@ private struct TaskbarSettings: View {
                 }
             }
             Group {
+                Section {
+                    Toggle("Automatically hide the taskbar", isOn: $autoHide)
+                    Caption(L("The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen."))
+                }
                 Section {
                     Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)
                     Caption(L("When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it."))

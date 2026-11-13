@@ -303,5 +303,7 @@
  "Sound": "Sound",
  "⟦Sound⟧ Settings…": "Mga Setting ng “⟦Sound⟧”…",
  "Pin to HomePad": "I-pin sa HomePad",
- "Unpin from HomePad": "I-unpin sa HomePad"
+ "Unpin from HomePad": "I-unpin sa HomePad",
+ "Automatically hide the taskbar": "Awtomatikong itago ang taskbar",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Dumudulas palayo ang taskbar hanggang ipahinga mo ang pointer sa ibabang gilid ng screen. Nananatili ito habang bukas ang HomePad o isa sa mga pop-up nito, at magagamit na ng mga window ang buong screen."
 }

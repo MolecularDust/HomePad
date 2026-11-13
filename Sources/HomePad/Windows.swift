@@ -554,6 +554,9 @@ final class WindowPreviewController {
     private var overPreview = false
     private var showWork: DispatchWorkItem?
     private var hideWork: DispatchWorkItem?
+
+    /// The preview is on screen (the auto-hidden taskbar stays up meanwhile).
+    var isShowing: Bool { panel?.isVisible == true }
     private var generation = 0
     private var lastTile = CGRect.zero
     private var screenTile: NSRect?

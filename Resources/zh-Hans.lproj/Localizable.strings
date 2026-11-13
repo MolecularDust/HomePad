@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在“权限”标签页中允许。";
 "These settings are for Taskbar mode." = "这些设置用于任务栏模式。";
 "Use Taskbar Mode" = "使用任务栏模式";
+"Automatically hide the taskbar" = "自动隐藏任务栏";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "任务栏会滑出屏幕，直到你把指针停在屏幕底边。HomePad 或其弹出窗口打开时它会保持显示，此时窗口可以使用整个屏幕。";
 "Open HomePad only from the Start button" = "仅从“开始”按钮打开 HomePad";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "关闭时，快捷键、连按和触发角也会打开它：在任务栏上方打开，触发角则在各自的角落打开。菜单栏图标始终可以打开它。";
 "Layout" = "布局";

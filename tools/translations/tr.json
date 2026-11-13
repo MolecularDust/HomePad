@@ -303,5 +303,7 @@
  "Sound": "Ses",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧” ayarları…",
  "Pin to HomePad": "HomePad’e sabitle",
- "Unpin from HomePad": "HomePad’den kaldır"
+ "Unpin from HomePad": "HomePad’den kaldır",
+ "Automatically hide the taskbar": "Görev çubuğunu otomatik gizle",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "İşaretçiyi ekranın alt kenarında bekletene kadar görev çubuğu kayarak çekilir. HomePad veya açılır pencerelerinden biri açıkken yerinde kalır; pencereler de ekranın tamamını kullanabilir."
 }

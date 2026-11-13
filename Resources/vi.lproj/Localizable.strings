@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”.";
 "These settings are for Taskbar mode." = "Các cài đặt này dành cho chế độ Thanh tác vụ.";
 "Use Taskbar Mode" = "Dùng chế độ Thanh tác vụ";
+"Automatically hide the taskbar" = "Tự động ẩn thanh tác vụ";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Thanh tác vụ trượt đi cho đến khi bạn đặt con trỏ ở mép dưới màn hình. Nó vẫn hiện khi HomePad hoặc một cửa sổ bật lên của nó đang mở, và cửa sổ có thể dùng toàn bộ màn hình.";
 "Open HomePad only from the Start button" = "Chỉ mở HomePad từ nút Bắt đầu";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Khi tắt, phím tắt, chạm hai lần và góc nóng cũng mở nó: phía trên thanh tác vụ, còn góc nóng thì ở góc của nó. Biểu tượng trên thanh menu luôn mở được.";
 "Layout" = "Bố cục";

@@ -303,5 +303,7 @@
  "Sound": "Âm thanh",
  "⟦Sound⟧ Settings…": "Cài đặt “⟦Sound⟧”…",
  "Pin to HomePad": "Ghim vào HomePad",
- "Unpin from HomePad": "Bỏ ghim khỏi HomePad"
+ "Unpin from HomePad": "Bỏ ghim khỏi HomePad",
+ "Automatically hide the taskbar": "Tự động ẩn thanh tác vụ",
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Thanh tác vụ trượt đi cho đến khi bạn đặt con trỏ ở mép dưới màn hình. Nó vẫn hiện khi HomePad hoặc một cửa sổ bật lên của nó đang mở, và cửa sổ có thể dùng toàn bộ màn hình."
 }

@@ -187,6 +187,8 @@
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”";
 "These settings are for Taskbar mode." = "การตั้งค่าเหล่านี้ใช้กับโหมดแถบงาน";
 "Use Taskbar Mode" = "ใช้โหมดแถบงาน";
+"Automatically hide the taskbar" = "ซ่อนแถบงานอัตโนมัติ";
+"The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "แถบงานจะเลื่อนหายไปจนกว่าคุณจะวางตัวชี้ไว้ที่ขอบล่างของหน้าจอ แถบจะอยู่ต่อเมื่อ HomePad หรือป๊อปอัปของมันเปิดอยู่ และหน้าต่างสามารถใช้หน้าจอทั้งหมดได้";
 "Open HomePad only from the Start button" = "เปิด HomePad จากปุ่มเริ่มเท่านั้น";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "เมื่อปิด ปุ่มลัด การแตะสองครั้ง และมุมร้อนก็จะเปิดได้ด้วย โดยเปิดเหนือแถบงาน ส่วนมุมร้อนจะเปิดที่มุมของมัน ไอคอนในแถบเมนูเปิดได้เสมอ";
 "Layout" = "เค้าโครง";
