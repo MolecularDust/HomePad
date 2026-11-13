@@ -4,7 +4,7 @@
 categories, tuck them into folders, pin your favorites, search it all instantly and keep your running apps in view,
 with an optional Windows-style taskbar if you want one.
 
-A Windows 11–style launcher: press a shortcut and a panel pops up in the middle of the screen with a
+A Windows–style launcher: press a shortcut and a panel pops up in the middle of the screen with a
 search bar on top (searching the same index Spotlight uses) and a grid of pinned apps below.
 
 HomePad works in three modes. Pick the one that suits you in Settings → Mode.
