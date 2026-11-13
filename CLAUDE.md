@@ -1,6 +1,6 @@
 # HomePad for macOS
 
-A Windows 11–style launcher for macOS, built as a Swift Package. A global shortcut (default
+A Windows–style launcher for macOS, built as a Swift Package. A global shortcut (default
 Option-Space) pops up a centered panel with a search bar (backed by the Spotlight index) above a grid
 of pinned apps. The grid is meant to replace the Dock: apps live in user-defined categories (Essentials first, seeded from the
 Dock on first launch, plus custom ones), with a read-only Running section. See [README.md](README.md) for user-facing behavior.

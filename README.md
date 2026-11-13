@@ -134,7 +134,7 @@ and **Permissions**. It reopens on the tab you used last.
     whether you click the icon or use the shortcut or double-tap; clicking the icon again closes it. Hot corners still
     open it in their corner. Settings says why it falls back to the middle when HomePad isn't in the Dock, the Dock is
     hidden, or the Accessibility permission is missing.
-  - **Taskbar**: a Windows 11–style taskbar along the bottom of the main screen: a Start button (HomePad's icon),
+  - **Taskbar**: a Windows–style taskbar along the bottom of the main screen: a Start button (HomePad's icon),
     then what you pinned to it and the running apps, centred. The running apps then leave the panel. Pin apps, files
     and folders by right-clicking the taskbar's blank space (**Add App…**, **Add File or Folder…**) or a tile
     (**Pin to Taskbar**; in HomePad's panel too). A taskbar icon's menu also has **Pin to HomePad** (or Unpin from
