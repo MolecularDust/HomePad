@@ -18,6 +18,8 @@ final class Taskbar {
     static let shared = Taskbar()
     static let height: CGFloat = 48
     static let autoHideKey = "taskbarAutoHide"
+    /// How long the pointer must rest on the bottom edge before the taskbar comes back (a pass along it doesn't count).
+    private static let revealDelay: TimeInterval = 0.3
 
     private var panel: TaskbarPanel?
     private var observers: [NSObjectProtocol] = []
@@ -134,7 +136,7 @@ final class Taskbar {
             if edge, corners.contains(.bottomRight), pointer.x > up.maxX - 12 { edge = false }
             if edge || keepsUp {
                 edgeSince = edgeSince ?? now
-                if keepsUp || now.timeIntervalSince(edgeSince!) >= 0.12 { reveal(animated: true) }
+                if keepsUp || now.timeIntervalSince(edgeSince!) >= Self.revealDelay { reveal(animated: true) }
             } else {
                 edgeSince = nil
             }
