@@ -13,7 +13,7 @@ HomePad works in three modes. Pick the one that suits you in Settings → Mode.
 right at home.
 
 **Dock + HomePad.** For those who want to keep the macOS Dock but need a Start-menu-style launcher. macOS has the Apps
-app, but it's uninspiring: it sorts your apps into categories automatically, and you can't choose them, group apps into
+launcher, but it's uninspiring: it sorts your apps into categories automatically, and you can't choose them, group apps into
 folders, pin your favorites, or arrange it your way. HomePad solves all of that.
 
 **Standalone.** For minimalists who want to maximize screen space, with no Dock or taskbar cluttering the screen. You
