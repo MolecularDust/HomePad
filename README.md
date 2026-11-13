@@ -1,5 +1,12 @@
 # HomePad for macOS
 
+**Everything you use, one keystroke away.** HomePad is the launcher your Mac was missing: sort your apps into
+categories, tuck them into folders, pin your favorites, search it all instantly and keep your running apps in view,
+with an optional Windows-style taskbar if you want one.
+
+A Windows 11–style launcher: press a shortcut and a panel pops up in the middle of the screen with a
+search bar on top (searching the same index Spotlight uses) and a grid of pinned apps below.
+
 HomePad works in three modes. Pick the one that suits you in Settings → Mode.
 
 **Taskbar.** Emulates the Windows taskbar and Start menu. If you miss the Windows experience on macOS, you'll feel
@@ -14,9 +21,6 @@ summon HomePad with a shortcut key, a double tap or a flick of the mouse into a 
 up in the center, and you have total control over your favorite apps, files and folders, search, and your running apps
 and their windows. You don't need the Dock, and you don't need Spotlight: you control your Mac from one place. It might
 feel strange at first, but it becomes ridiculously powerful once you get used to it.
-
-In every mode the launcher itself is a Windows 11–style panel: a search bar on top (searching the same index Spotlight
-uses) and a grid of your pinned apps below.
 
 ## Build and run
 
