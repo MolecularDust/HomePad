@@ -189,6 +189,7 @@
 "Use Taskbar Mode" = "Usa la modalità Barra delle applicazioni";
 "Automatically hide the taskbar" = "Nascondi automaticamente la barra delle applicazioni";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "La barra delle applicazioni scorre via finché non fermi il puntatore sul bordo inferiore dello schermo. Resta mentre HomePad o uno dei suoi pop-up è aperto, e le finestre possono usare l’intero schermo.";
+"Delay before showing" = "Ritardo prima di mostrarla";
 "Open HomePad only from the Start button" = "Apri HomePad solo dal pulsante Start";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Se disattivato, lo aprono anche l’abbreviazione, il doppio tocco e gli angoli attivi: sopra la barra delle applicazioni, e gli angoli attivi nel loro angolo. L’icona nella barra dei menu lo apre sempre.";
 "Layout" = "Disposizione";

@@ -305,5 +305,6 @@
  "Pin to HomePad": "ปักหมุดที่ HomePad",
  "Unpin from HomePad": "เลิกปักหมุดจาก HomePad",
  "Automatically hide the taskbar": "ซ่อนแถบงานอัตโนมัติ",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "แถบงานจะเลื่อนหายไปจนกว่าคุณจะวางตัวชี้ไว้ที่ขอบล่างของหน้าจอ แถบจะอยู่ต่อเมื่อ HomePad หรือป๊อปอัปของมันเปิดอยู่ และหน้าต่างสามารถใช้หน้าจอทั้งหมดได้"
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "แถบงานจะเลื่อนหายไปจนกว่าคุณจะวางตัวชี้ไว้ที่ขอบล่างของหน้าจอ แถบจะอยู่ต่อเมื่อ HomePad หรือป๊อปอัปของมันเปิดอยู่ และหน้าต่างสามารถใช้หน้าจอทั้งหมดได้",
+ "Delay before showing": "หน่วงเวลาก่อนแสดง"
 }

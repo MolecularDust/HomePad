@@ -189,6 +189,7 @@
 "Use Taskbar Mode" = "استفاده از حالت نوار وظیفه";
 "Automatically hide the taskbar" = "پنهان‌سازی خودکار نوار وظیفه";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "نوار وظیفه کنار می‌رود تا وقتی که اشاره‌گر را روی لبه پایین صفحه نگه دارید. تا وقتی HomePad یا یکی از پنجره‌های بازشوی آن باز است می‌ماند و پنجره‌ها می‌توانند از کل صفحه استفاده کنند.";
+"Delay before showing" = "تأخیر پیش از نمایش";
 "Open HomePad only from the Start button" = "باز کردن HomePad فقط از دکمه شروع";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "وقتی خاموش است، میان‌بر، دوبار زدن و گوشه‌های فعال هم آن را باز می‌کنند: بالای نوار وظیفه، و گوشه‌های فعال در گوشه خودشان. نماد نوار منو همیشه آن را باز می‌کند.";
 "Layout" = "چیدمان";

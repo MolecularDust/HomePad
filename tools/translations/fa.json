@@ -305,5 +305,6 @@
  "Pin to HomePad": "سنجاق به HomePad",
  "Unpin from HomePad": "برداشتن از HomePad",
  "Automatically hide the taskbar": "پنهان‌سازی خودکار نوار وظیفه",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "نوار وظیفه کنار می‌رود تا وقتی که اشاره‌گر را روی لبه پایین صفحه نگه دارید. تا وقتی HomePad یا یکی از پنجره‌های بازشوی آن باز است می‌ماند و پنجره‌ها می‌توانند از کل صفحه استفاده کنند."
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "نوار وظیفه کنار می‌رود تا وقتی که اشاره‌گر را روی لبه پایین صفحه نگه دارید. تا وقتی HomePad یا یکی از پنجره‌های بازشوی آن باز است می‌ماند و پنجره‌ها می‌توانند از کل صفحه استفاده کنند.",
+ "Delay before showing": "تأخیر پیش از نمایش"
 }

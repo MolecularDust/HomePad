@@ -305,5 +305,6 @@
  "Pin to HomePad": "HomePad पर पिन करें",
  "Unpin from HomePad": "HomePad से अनपिन करें",
  "Automatically hide the taskbar": "टास्कबार अपने आप छिपाएँ",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "टास्कबार तब तक खिसककर हटा रहता है जब तक आप पॉइंटर को स्क्रीन के निचले किनारे पर नहीं रोकते। HomePad या उसका कोई पॉप-अप खुला होने पर यह बना रहता है, और विंडो पूरी स्क्रीन इस्तेमाल कर सकती हैं।"
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "टास्कबार तब तक खिसककर हटा रहता है जब तक आप पॉइंटर को स्क्रीन के निचले किनारे पर नहीं रोकते। HomePad या उसका कोई पॉप-अप खुला होने पर यह बना रहता है, और विंडो पूरी स्क्रीन इस्तेमाल कर सकती हैं।",
+ "Delay before showing": "दिखाने से पहले की देरी"
 }

@@ -305,5 +305,6 @@
  "Pin to HomePad": "Sematkan ke HomePad",
  "Unpin from HomePad": "Lepas Sematan dari HomePad",
  "Automatically hide the taskbar": "Sembunyikan bilah tugas secara otomatis",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Bilah tugas bergeser pergi sampai Anda mendiamkan penunjuk di tepi bawah layar. Bilah tetap terlihat selama HomePad atau salah satu pop-up-nya terbuka, dan jendela dapat memakai seluruh layar."
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Bilah tugas bergeser pergi sampai Anda mendiamkan penunjuk di tepi bawah layar. Bilah tetap terlihat selama HomePad atau salah satu pop-up-nya terbuka, dan jendela dapat memakai seluruh layar.",
+ "Delay before showing": "Jeda sebelum ditampilkan"
 }

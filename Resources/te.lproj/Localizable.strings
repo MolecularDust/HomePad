@@ -189,6 +189,7 @@
 "Use Taskbar Mode" = "టాస్క్‌బార్ మోడ్ ఉపయోగించండి";
 "Automatically hide the taskbar" = "టాస్క్‌బార్‌ను ఆటోమేటిక్‌గా దాచండి";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "మీరు పాయింటర్‌ను స్క్రీన్ దిగువ అంచున ఉంచే వరకు టాస్క్‌బార్ జారి వెళ్లిపోతుంది. HomePad లేదా దాని పాప్-అప్ తెరిచి ఉన్నంత సేపు ఇది ఉంటుంది, అప్పుడు విండోలు మొత్తం స్క్రీన్‌ను ఉపయోగించగలవు.";
+"Delay before showing" = "చూపించే ముందు ఆలస్యం";
 "Open HomePad only from the Start button" = "HomePadను స్టార్ట్ బటన్ నుండి మాత్రమే తెరవండి";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "ఆఫ్‌లో ఉన్నప్పుడు షార్ట్‌కట్, డబుల్-ట్యాప్, హాట్ కార్నర్‌లు కూడా దీన్ని తెరుస్తాయి: టాస్క్‌బార్ పైన, హాట్ కార్నర్‌లు తమ మూలలో. మెనూ బార్ ఐకాన్ ఎల్లప్పుడూ దీన్ని తెరుస్తుంది.";
 "Layout" = "లేఅవుట్";

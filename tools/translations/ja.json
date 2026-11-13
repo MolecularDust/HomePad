@@ -305,5 +305,6 @@
  "Pin to HomePad": "HomePadにピン留め",
  "Unpin from HomePad": "HomePadからピン留めを外す",
  "Automatically hide the taskbar": "タスクバーを自動的に隠す",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "画面の下端にポインタを置くまで、タスクバーは画面外にスライドします。HomePadやそのポップアップが開いている間は表示されたままで、ウインドウは画面全体を使えます。"
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "画面の下端にポインタを置くまで、タスクバーは画面外にスライドします。HomePadやそのポップアップが開いている間は表示されたままで、ウインドウは画面全体を使えます。",
+ "Delay before showing": "表示までの遅延"
 }

@@ -127,6 +127,7 @@ private struct GeneralSettings: View {
         showMenuBarIcon = true
         d.set(false, forKey: HomePadMode.startButtonOnlyKey)
         d.set(false, forKey: Taskbar.autoHideKey)
+        d.set(Taskbar.standardRevealDelay, forKey: Taskbar.revealDelayKey)
         d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.iconsAlignmentKey)
         d.set(Taskbar.Alignment.center.rawValue, forKey: Taskbar.startAlignmentKey)
         for key in [TaskbarTray.networkKey, TaskbarTray.volumeKey, TaskbarTray.batteryKey, TaskbarTray.clockKey] {
@@ -221,6 +222,7 @@ private struct TaskbarSettings: View {
     @AppStorage(HomePadMode.key) private var mode = HomePadMode.standalone.rawValue
     @AppStorage(HomePadMode.startButtonOnlyKey) private var startButtonOnly = false
     @AppStorage(Taskbar.autoHideKey) private var autoHide = false
+    @AppStorage(Taskbar.revealDelayKey) private var revealDelay = Taskbar.standardRevealDelay
     @AppStorage(Taskbar.iconsAlignmentKey) private var iconsAlignment = Taskbar.Alignment.center
     @AppStorage(Taskbar.startAlignmentKey) private var startAlignment = Taskbar.Alignment.center
     @AppStorage(TaskbarTray.networkKey) private var trayNetwork = true
@@ -245,6 +247,9 @@ private struct TaskbarSettings: View {
                 Section {
                     Toggle("Automatically hide the taskbar", isOn: $autoHide)
                     Caption(L("The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen."))
+                    NumberSetting(title: L("Delay before showing"), value: $revealDelay, range: Taskbar.revealDelayRange,
+                                  step: 50, unit: "ms")
+                        .disabled(!autoHide)
                 }
                 Section {
                     Toggle("Open HomePad only from the Start button", isOn: $startButtonOnly)

@@ -189,6 +189,7 @@
 "Use Taskbar Mode" = "টাস্কবার মোড ব্যবহার করুন";
 "Automatically hide the taskbar" = "টাস্কবার স্বয়ংক্রিয়ভাবে লুকান";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "পয়েন্টার স্ক্রিনের নিচের কিনারায় না রাখা পর্যন্ত টাস্কবার সরে থাকে। HomePad বা তার কোনো পপ-আপ খোলা থাকলে এটি থেকে যায়, আর উইন্ডো তখন পুরো স্ক্রিন ব্যবহার করতে পারে।";
+"Delay before showing" = "দেখানোর আগের বিলম্ব";
 "Open HomePad only from the Start button" = "HomePad শুধু স্টার্ট বোতাম থেকে খুলুন";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "বন্ধ থাকলে শর্টকাট, ডাবল-ট্যাপ ও হট কর্নারও এটি খোলে: টাস্কবারের ওপরে, আর হট কর্নার নিজের কোণে। মেনু বারের আইকন সব সময় এটি খোলে।";
 "Layout" = "লেআউট";

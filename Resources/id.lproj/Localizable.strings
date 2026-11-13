@@ -189,6 +189,7 @@
 "Use Taskbar Mode" = "Gunakan Mode Bilah Tugas";
 "Automatically hide the taskbar" = "Sembunyikan bilah tugas secara otomatis";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Bilah tugas bergeser pergi sampai Anda mendiamkan penunjuk di tepi bawah layar. Bilah tetap terlihat selama HomePad atau salah satu pop-up-nya terbuka, dan jendela dapat memakai seluruh layar.";
+"Delay before showing" = "Jeda sebelum ditampilkan";
 "Open HomePad only from the Start button" = "Buka HomePad hanya dari tombol Mulai";
 "When off, the shortcut, double-tap and hot corners open it too: above the taskbar, and hot corners in their corner. The menu-bar icon always opens it." = "Jika mati, pintasan, ketuk dua kali, dan sudut aktif juga membukanya: di atas bilah tugas, dan sudut aktif di sudutnya. Ikon bar menu selalu membukanya.";
 "Layout" = "Tata Letak";

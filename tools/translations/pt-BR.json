@@ -305,5 +305,6 @@
  "Pin to HomePad": "Fixar no HomePad",
  "Unpin from HomePad": "Desafixar do HomePad",
  "Automatically hide the taskbar": "Ocultar automaticamente a barra de tarefas",
- "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "A barra de tarefas desliza para fora até você parar o ponteiro na borda inferior da tela. Ela fica enquanto o HomePad ou um de seus pop-ups estiver aberto, e as janelas podem usar a tela toda."
+ "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "A barra de tarefas desliza para fora até você parar o ponteiro na borda inferior da tela. Ela fica enquanto o HomePad ou um de seus pop-ups estiver aberto, e as janelas podem usar a tela toda.",
+ "Delay before showing": "Atraso antes de mostrar"
 }

@@ -18,8 +18,15 @@ final class Taskbar {
     static let shared = Taskbar()
     static let height: CGFloat = 48
     static let autoHideKey = "taskbarAutoHide"
-    /// How long the pointer must rest on the bottom edge before the taskbar comes back (a pass along it doesn't count).
-    private static let revealDelay: TimeInterval = 0.3
+    /// How long the pointer must rest on the bottom edge before the taskbar comes back (a pass along it doesn't count),
+    /// in milliseconds: Settings → Taskbar → Delay before showing.
+    static let revealDelayKey = "taskbarRevealDelay"
+    static let revealDelayRange = 0...1000
+    static let standardRevealDelay = 300
+    private static var revealDelay: TimeInterval {
+        let ms = UserDefaults.standard.object(forKey: revealDelayKey) as? Int ?? standardRevealDelay
+        return TimeInterval(min(max(ms, revealDelayRange.lowerBound), revealDelayRange.upperBound)) / 1000
+    }
 
     private var panel: TaskbarPanel?
     private var observers: [NSObjectProtocol] = []

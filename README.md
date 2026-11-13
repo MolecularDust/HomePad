@@ -135,7 +135,8 @@ and **Permissions**. It reopens on the tab you used last.
     of the screen, so with Accessibility HomePad makes a window shorter when it's opened, resized, maximized or tiled
     so that it reaches under the taskbar (moved up instead if it would get too short). A window only dragged there is
     left alone, as on Windows. (Keeping the real Dock under the taskbar didn't work: it shows its name labels wherever
-    the pointer passes over its icons.) **Automatically hide the taskbar** slides it off the bottom of the screen until the pointer rests on the bottom edge;
+    the pointer passes over its icons.) **Automatically hide the taskbar** slides it off the bottom of the screen until the pointer rests on the bottom edge for **Delay before showing**
+    (0–1000 ms, 300 by default, so a quick pass along the edge doesn't show it);
     it stays up while HomePad's panel, a pop-up, a window preview or a menu is open, and windows then use the whole
     screen. **Open HomePad only from the Start button** turns off the shortcut, double-tap and hot corners
     (the menu-bar icon still works).
