@@ -12,15 +12,21 @@ HomePad works in three modes. Pick the one that suits you in Settings → Mode.
 **Taskbar.** Emulates the Windows taskbar and Start menu. If you miss the Windows experience on macOS, you'll feel
 right at home.
 
+![Taskbar mode: a Windows-style taskbar with a Start button, running apps and a tray, and HomePad's panel above it](docs/images/mode-taskbar.webp)
+
 **Dock + HomePad.** For those who want to keep the macOS Dock but need a Start-menu-style launcher. macOS has the Apps
 launcher, but it's uninspiring: it sorts your apps into categories automatically, and you can't choose them, group apps into
 folders, pin your favorites, or arrange it your way. HomePad solves all of that.
+
+![Dock + HomePad mode: the macOS Dock, with HomePad's panel opening above its icon](docs/images/mode-dock.webp)
 
 **Standalone.** For minimalists who want to maximize screen space, with no Dock or taskbar cluttering the screen. You
 summon HomePad with a shortcut key, a double tap or a flick of the mouse into a hot corner whenever you need it. It pops
 up in the center, and you have total control over your favorite apps, files and folders, search, and your running apps
 and their windows. You don't need the Dock, and you don't need Spotlight: you control your Mac from one place. It might
 feel strange at first, but it becomes ridiculously powerful once you get used to it.
+
+![Standalone mode: no Dock or taskbar, HomePad's panel in the middle of the screen](docs/images/mode-standalone.webp)
 
 ## Build and run
 
