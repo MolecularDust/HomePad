@@ -88,12 +88,16 @@ optional, but HomePad works best with all three.
   Settings**, turn on the switch next to **HomePad**, then click **Quit & Reopen**. HomePad restarts by itself and the
   Welcome window comes back. macOS may also ask once more to let HomePad access your screen directly: click **Allow**.
 
-<table align="center"><tr>
-<td align="center" valign="top"><img src="docs/images/install/12-screen-recording-prompt.webp" width="420" alt="macOS: “HomePad” would like to record this computer’s screen and audio, with Open System Settings"></td>
-<td align="center" valign="top"><img src="docs/images/install/13-screen-recording-settings.webp" width="360" alt="System Settings, Screen & System Audio Recording, with the Quit & Reopen message"></td>
-</tr></table>
-
-<p align="center"><img src="docs/images/install/16-window-picker-prompt.webp" width="300" alt="macOS: HomePad is requesting to bypass the system private window picker and directly access your screen and audio"></p>
+<table align="center">
+<tr>
+<td align="center" valign="top"><img src="docs/images/install/12-screen-recording-prompt.webp" width="400" alt="macOS: “HomePad” would like to record this computer’s screen and audio, with Open System Settings"></td>
+<td align="center" valign="top"><img src="docs/images/install/12a-screen-recording-off.webp" width="400" alt="System Settings, Screen & System Audio Recording: the switch next to HomePad, still off"></td>
+</tr>
+<tr>
+<td align="center" valign="top"><img src="docs/images/install/13-screen-recording-settings.webp" width="390" alt="System Settings, Screen & System Audio Recording, with the Quit & Reopen message"></td>
+<td align="center" valign="top"><img src="docs/images/install/16-window-picker-prompt.webp" width="340" alt="macOS: HomePad is requesting to bypass the system private window picker and directly access your screen and audio"></td>
+</tr>
+</table>
 
 - **Accessibility** (jumping to the window you pick, and the double-tap shortcut). Click **Allow…**, then **Open System
   Settings** in the message, and turn on the switch next to **HomePad** (enter your password if asked). On recent
