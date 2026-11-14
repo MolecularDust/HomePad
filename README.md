@@ -28,6 +28,88 @@ feel strange at first, but it becomes ridiculously powerful once you get used to
 
 ![Standalone mode: no Dock or taskbar, HomePad's panel in the middle of the screen](docs/images/mode-standalone.webp)
 
+## Installation
+
+HomePad is free and isn't signed by Apple, so macOS stops it once and asks you to confirm that it's OK. It takes
+about five minutes, once. You need macOS 13 (Ventura) or later; Apple silicon and Intel Macs both work.
+([INSTALL.md](INSTALL.md) has the same steps in words, also for the zip and the plain disk image.)
+
+**1. Open the installer disk image.** Double-click `HomePad-Installer.dmg` (from whoever shared HomePad with you,
+or build it yourself: `tools/make_installer_dmg.sh`, see [Build and run](#build-and-run)). Its window lists the steps.
+
+<p align="center"><img src="docs/images/install/01-disk-image.webp" width="520" alt="The installer disk image's window with the four numbered steps"></p>
+
+**2. Double-click Install HomePad.pkg.** Your Mac says it can't open it. Click **Done**, not Move to Trash.
+
+<p align="center"><img src="docs/images/install/02-not-opened.webp" width="340" alt="macOS says “Install HomePad.pkg” Not Opened"></p>
+
+**3. Allow it in Privacy & Security.** Double-click the blue **Open Privacy & Security** tile in the disk image
+window (or open System Settings → Privacy & Security yourself), scroll down to **Security**, and click **Open Anyway**
+next to the message about the installer.
+
+<p align="center"><img src="docs/images/install/03-privacy-security.webp" width="480" alt="System Settings, Privacy and Security: “Install HomePad.pkg” was blocked, with the Open Anyway button"></p>
+
+**4. Confirm.** Click **Open Anyway** in the message that follows, then use Touch ID or enter your Mac password.
+
+<table align="center"><tr>
+<td align="center"><img src="docs/images/install/04-open-anyway.webp" width="300" alt="macOS asks whether to open “Install HomePad.pkg”: Open Anyway"></td>
+<td align="center"><img src="docs/images/install/05-password.webp" width="300" alt="macOS asks for Touch ID or an administrator password"></td>
+</tr></table>
+
+> On macOS 13 Ventura and 14 Sonoma there's a shortcut: right-click the installer, choose **Open**, then **Open** again.
+
+**5. Click through the installer.** **Continue** through the introduction, what to expect, and the destination (for all
+users of this computer), then **Install**. Your Mac asks for your password once. HomePad is in your Applications folder
+when it says so; click **Close**.
+
+<table align="center">
+<tr>
+<td align="center"><img src="docs/images/install/06-installer-welcome.webp" width="380" alt="Installer: Welcome to HomePad"></td>
+<td align="center"><img src="docs/images/install/07-installer-what-to-expect.webp" width="380" alt="Installer: What to expect, the permissions HomePad will ask for"></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/images/install/08-installer-destination.webp" width="380" alt="Installer: Select a Destination, install for all users of this computer"></td>
+<td align="center"><img src="docs/images/install/09-installer-install.webp" width="380" alt="Installer: Standard Install, with the Install button"></td>
+</tr>
+<tr>
+<td align="center" colspan="2"><img src="docs/images/install/10-installer-summary.webp" width="380" alt="Installer: HomePad is installed"></td>
+</tr>
+</table>
+
+**6. The Setup Guide.** HomePad opens by itself with a welcome window. Allow the three permissions, choose how you
+want to open HomePad (a keyboard shortcut, a double-tap, hot corners), and click **Get started**. Each permission is
+optional, but HomePad works best with all three.
+
+<p align="center"><img src="docs/images/install/11-setup-guide.webp" width="440" alt="HomePad's Welcome window: three permissions to allow, and how to open HomePad"></p>
+
+**7. The permissions.** Click **Allow…** next to each one, from top to bottom.
+
+- **Screen Recording** (previews of a running app's windows). A message with a padlock appears: click **Open System
+  Settings**, turn on the switch next to **HomePad**, then click **Quit & Reopen**. HomePad restarts by itself and the
+  Welcome window comes back. macOS may also ask once more to let HomePad access your screen directly: click **Allow**.
+
+<table align="center"><tr>
+<td align="center" valign="top"><img src="docs/images/install/12-screen-recording-prompt.webp" width="420" alt="macOS: “HomePad” would like to record this computer’s screen and audio, with Open System Settings"></td>
+<td align="center" valign="top"><img src="docs/images/install/13-screen-recording-settings.webp" width="360" alt="System Settings, Screen & System Audio Recording, with the Quit & Reopen message"></td>
+</tr></table>
+
+<p align="center"><img src="docs/images/install/16-window-picker-prompt.webp" width="300" alt="macOS: HomePad is requesting to bypass the system private window picker and directly access your screen and audio"></p>
+
+- **Accessibility** (jumping to the window you pick, and the double-tap shortcut). Click **Allow…**, then **Open System
+  Settings** in the message, and turn on the switch next to **HomePad** (enter your password if asked). On recent
+  macOS this page is called **Device Control and Data Access**.
+
+<p align="center"><img src="docs/images/install/14-accessibility-settings.webp" width="480" alt="System Settings, Device Control and Data Access: the switch next to HomePad"></p>
+
+- **Full Disk Access** (finding files in Documents, Desktop and Downloads). Click **Allow…**; System Settings opens with a
+  small HomePad window beside it. Turn on the switch next to **HomePad**. If it isn't in the list, drag its icon from the
+  small window into the list.
+
+<p align="center"><img src="docs/images/install/15-full-disk-access-settings.webp" width="480" alt="System Settings, Full Disk Access: the switch next to HomePad"></p>
+
+**8. Use it.** Press **Option-Space** (or the shortcut you chose). Everything else, including the three modes above, is in
+Settings: right-click the grid icon in the menu bar, then **Settings…**.
+
 ## Build and run
 
 Requires macOS 13 or later and Xcode or the Command Line Tools (`xcode-select --install`).
@@ -113,8 +195,8 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
 
 ## First run
 
-A welcome window asks you to allow Screen Recording and Accessibility and to choose your shortcut. Reopen it
-any time from the menu-bar icon → Setup Guide…
+A welcome window asks you to allow Screen Recording, Accessibility and Full Disk Access and to choose how to open
+HomePad (see [Installation](#installation)). Reopen it any time from the menu-bar icon → Setup Guide…
 
 ## Settings
 
@@ -211,7 +293,7 @@ a restart: when System Settings offers **Quit & Reopen**, HomePad quits, starts 
 you were in.
 
 The Setup Guide shows on first launch only if a permission is missing. To go through it again from scratch, use
-**Settings → Reset → Start Over…**: macOS takes back HomePad's permissions, the guide shows again and HomePad restarts
+**Settings → General → Start Over…**: macOS takes back HomePad's permissions, the guide shows again and HomePad restarts
 (tick the box to also forget your categories and settings, as on a fresh install).
 
 ## App icon
