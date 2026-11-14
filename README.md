@@ -118,8 +118,8 @@ any time from the menu-bar icon → Setup Guide…
 
 ## Settings
 
-Settings has six tabs along its toolbar: **General** (language, menu-bar icon, launch at login, Reset to Defaults,
-Start Over), **Mode**, **Taskbar**, **Opening** (shortcut, double-tap, hot corners), **Panel** (layout, window, items)
+Settings has six tabs along its toolbar: **Mode**, **General** (language, menu-bar icon, launch at login, Reset to
+Defaults, Start Over), **Taskbar**, **Opening** (shortcut, double-tap, hot corners), **Panel** (layout, window, items)
 and **Permissions**. It reopens on the tab you used last.
 
 - **Shortcut**: click the button and press a new combination. To use ⌘Space, first turn off

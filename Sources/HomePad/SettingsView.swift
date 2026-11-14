@@ -7,7 +7,7 @@ import Carbon.HIToolbox
 /// Settings, in tabs along the window's toolbar (SettingsTabs). Each tab is a view of its own; what they share is in
 /// UserDefaults, so a change in one tab shows in another.
 enum SettingsTab: String, CaseIterable {
-    case general, mode, taskbar, opening, panel, permissions
+    case mode, general, taskbar, opening, panel, permissions
 
     var title: String {
         switch self {
@@ -439,7 +439,7 @@ final class SettingsTabs: NSTabViewController {
             item.image = NSImage(systemSymbolName: tab.symbol, accessibilityDescription: tab.title)
             addTabViewItem(item)
         }
-        let last = UserDefaults.standard.string(forKey: Self.lastTabKey).flatMap(SettingsTab.init(rawValue:)) ?? .general
+        let last = UserDefaults.standard.string(forKey: Self.lastTabKey).flatMap(SettingsTab.init(rawValue:)) ?? .mode
         selectedTabViewItemIndex = SettingsTab.allCases.firstIndex(of: last) ?? 0
     }
 
