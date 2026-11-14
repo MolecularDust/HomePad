@@ -304,3 +304,7 @@ The Setup Guide shows on first launch only if a permission is missing. To go thr
 
 The icon is `Resources/AppIcon.svg`. After changing it, run `./tools/make_icon.sh` to rebuild `Resources/AppIcon.icns`
 (all the sizes macOS uses, with a transparent background), then `./build_app.sh`.
+
+## License
+
+[MIT](LICENSE).
