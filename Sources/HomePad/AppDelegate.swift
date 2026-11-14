@@ -1,4 +1,5 @@
 import AppKit
+import os
 import ServiceManagement
 import SwiftUI
 
@@ -32,6 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         ShortcutStore.shared.registerCurrent(report: true)
         DoubleTapMonitor.shared.apply(ask: false)
         HotCornerMonitor.shared.apply()
+        DockClickWatcher.shared.start()
         HomePadMode.applyAtLaunch()
 
         setUpStatusItem()
@@ -66,16 +68,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// A permission was just switched on in System Settings: HomePad comes back to the front, in the window that
     /// asked for it (the Setup Guide or Settings), or with its panel.
+    private static let dockLog = Logger(subsystem: "local.mike.HomePad", category: "dock-click")
+
     private func bringBack() {
         if Onboarding.isOpen {
             Onboarding.show()
         } else if settingsWindow?.isVisible == true {
             activateSelf()
             settingsWindow?.makeKeyAndOrderFront(nil)
-        } else if DockIcon.isOn, Date().timeIntervalSince(PanelController.shared.hiddenAt) < 0.3 {
-            // A click on HomePad's Dock icon while the panel is open: the click took focus, which closed the panel
-            // just before; it counts as "close", not "open again" (as for the menu-bar icon).
+        } else if DockIcon.isOn, PanelController.shared.isVisible {
+            // A click on HomePad's Dock icon while the panel is open closes it (it hasn't lost focus: the Dock doesn't
+            // take it on a press, so "open" would do nothing).
+            Self.dockLog.notice("Dock click: panel open, closing it")
+            PanelController.shared.dockPressWhileOpen = .distantPast
+            PanelController.shared.hide(restoreFocus: true)
+        } else if DockIcon.isOn, Date().timeIntervalSince(PanelController.shared.hiddenAt) < 0.3
+                    || Date().timeIntervalSince(PanelController.shared.dockPressWhileOpen) < 1 {
+            // The press on the Dock icon took focus and closed the panel just before (or the click was slow: the press
+            // was noted while it was open); it counts as "close", not "open again" (as for the menu-bar icon).
+            Self.dockLog.notice("Dock click: the panel had just closed, leaving it closed")
+            PanelController.shared.dockPressWhileOpen = .distantPast      // used up: the next click opens again
         } else {
+            Self.dockLog.notice("Dock click: opening the panel")
             PanelController.shared.show()
         }
     }

@@ -351,6 +351,14 @@ final class PanelController: NSObject, NSWindowDelegate {
     /// When the panel last closed. A click on the menu-bar icon takes focus from the panel, which closes it just
     /// before the click arrives; the click then counts as "close", not "open again".
     private(set) var hiddenAt = Date.distantPast
+
+    // HomePad + Dock mode: a click on HomePad's own Dock icon while the panel is open closes it. The Dock tells HomePad
+    // about the click only when the button comes up (a "reopen"), and by then the panel may or may not have closed
+    // already, so the press itself is noted (DockClickWatcher).
+    /// Where HomePad's Dock icon was when the panel last opened by it.
+    var dockIconFrame: NSRect?
+    /// When the mouse went down on that icon while the panel was open (or had only just closed).
+    var dockPressWhileOpen = Date.distantPast
     var frame: NSRect { panel.frame }
 
     func toggle() { isVisible ? hide(restoreFocus: true) : show() }
@@ -377,7 +385,10 @@ final class PanelController: NSObject, NSWindowDelegate {
             if NSScreen.screens.contains(where: { $0.visibleFrame.intersects(remembered) }) { frame = remembered }
         }
         // Settings → Dock → "Open above the HomePad icon in the Dock": by the icon, when it can be found.
-        if given == nil, DockIcon.isOn, let icon = DockIcon.frame() { frame = DockIcon.panelFrame(size: size, near: icon) }
+        if given == nil, DockIcon.isOn, let icon = DockIcon.frame() {
+            frame = DockIcon.panelFrame(size: size, near: icon)
+            dockIconFrame = icon
+        }
         // Taskbar mode: like the Windows 11 Start menu, just above the taskbar, centred, or at the left edge when
         // HomePad's icon is on the left (the right edge in Arabic and Persian, where the taskbar is mirrored).
         if given == nil, HomePadMode.current == .taskbar, let bar = Taskbar.shared.frame {
@@ -703,5 +714,23 @@ final class RowDrag: ObservableObject {
         carried = nil
         target = nil
         offset = 0
+    }
+}
+
+/// Notes a mouse press on HomePad's Dock icon while the panel is open (HomePad + Dock mode). Mouse events in other
+/// apps, the Dock here, need no permission to watch.
+final class DockClickWatcher {
+    static let shared = DockClickWatcher()
+    private var monitor: Any?
+
+    func start() {
+        guard monitor == nil else { return }
+        monitor = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown) { _ in
+            let panel = PanelController.shared
+            guard DockIcon.isOn, let icon = panel.dockIconFrame,
+                  panel.isVisible || Date().timeIntervalSince(panel.hiddenAt) < 0.3,
+                  icon.insetBy(dx: -4, dy: -8).contains(NSEvent.mouseLocation) else { return }
+            panel.dockPressWhileOpen = Date()
+        }
     }
 }
