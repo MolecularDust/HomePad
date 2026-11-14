@@ -1,3 +1,46 @@
+<!-- languages:start -->
+<div align="center">
+
+<details>
+<summary><b>🌐 Language · Idioma · Langue · Sprache · Язык · 语言 · 言語 · 언어 · भाषा · لغة</b></summary>
+<br>
+
+<table>
+  <tr>
+    <td align="center"><b>English</b></td>
+    <td align="center"><a href="docs/i18n/README.ar.md">العربية</a></td>
+    <td align="center"><a href="docs/i18n/README.bn.md">বাংলা</a></td>
+    <td align="center"><a href="docs/i18n/README.zh-Hans.md">简体中文</a></td>
+    <td align="center"><a href="docs/i18n/README.fil.md">Filipino</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/i18n/README.fr.md">Français</a></td>
+    <td align="center"><a href="docs/i18n/README.de.md">Deutsch</a></td>
+    <td align="center"><a href="docs/i18n/README.hi.md">हिन्दी</a></td>
+    <td align="center"><a href="docs/i18n/README.id.md">Bahasa Indonesia</a></td>
+    <td align="center"><a href="docs/i18n/README.it.md">Italiano</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/i18n/README.ja.md">日本語</a></td>
+    <td align="center"><a href="docs/i18n/README.ko.md">한국어</a></td>
+    <td align="center"><a href="docs/i18n/README.fa.md">فارسی</a></td>
+    <td align="center"><a href="docs/i18n/README.pt-BR.md">Português (Brasil)</a></td>
+    <td align="center"><a href="docs/i18n/README.ru.md">Русский</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/i18n/README.es.md">Español</a></td>
+    <td align="center"><a href="docs/i18n/README.te.md">తెలుగు</a></td>
+    <td align="center"><a href="docs/i18n/README.th.md">ไทย</a></td>
+    <td align="center"><a href="docs/i18n/README.tr.md">Türkçe</a></td>
+    <td align="center"><a href="docs/i18n/README.vi.md">Tiếng Việt</a></td>
+  </tr>
+</table>
+
+</details>
+
+</div>
+<!-- languages:end -->
+
 # HomePad for macOS
 
 **Everything you use, one keystroke away.** HomePad is the launcher your Mac was missing: sort your apps into
@@ -114,38 +157,11 @@ optional, but HomePad works best with all three.
 **8. Use it.** Press **Option-Space** (or the shortcut you chose). Everything else, including the three modes above, is in
 Settings: right-click the grid icon in the menu bar, then **Settings…**.
 
-## Build and run
-
-Requires macOS 13 or later and Xcode or the Command Line Tools (`xcode-select --install`).
-
-```
-chmod +x build_app.sh
-./build_app.sh
-```
-
-This creates `build/HomePad.app`. Move it to **/Applications** and open it. Because it's signed
-locally rather than by a registered developer, the first launch may need right-click → Open.
-
-It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own. Click the icon to open or close the panel; right-click (or Control-click) it for Settings, the Setup Guide, Uninstall HomePad… and Quit. Uninstalling brings the Dock back if HomePad hid it, takes back its permissions, erases its settings and categories, moves the app to the Trash and forgets the installer's record (asking for an administrator password only when the installer put the app there). The same steps are in `Resources/uninstall.sh`, which also runs on its own (`bash Resources/uninstall.sh --dry-run` shows what it would do).
-
-**Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
-with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's
-block on apps that aren't registered with Apple, and through the Setup Guide. `tools/make_dmg.sh` makes
-`dist/HomePad.dmg` instead: a disk image with the app, a shortcut to Applications to drag it onto, and the same guide
-as "READ ME FIRST - How to install HomePad.txt". `tools/make_pkg.sh` makes `dist/HomePad.pkg`, an installer wizard
-(Welcome, What to expect, Install, Done) that puts the app in Applications and opens it, so nothing has to be read or
-dragged. It isn't signed, so macOS blocks the package once (System Settings → Privacy & Security → Open Anyway); an app
-installed by Installer is not marked "downloaded from the internet", so HomePad itself opens without a block.
-`tools/make_installer_dmg.sh` wraps that package in `dist/HomePad-Installer.dmg` (or `tools/make_installer_dmg.sh ru` for a Russian one in `dist/ru/`, `all` for every language), whose window shows the Open Anyway
-steps as a picture beside the installer, so they are on screen before the block (opening a disk image isn't blocked; a
-script would be). This is the one to send.
-To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
-
 ## Using it
 
 - **Option-Space** opens and closes the panel (change it in Settings), or double-tap Control, Option
-  or Command (Settings → Shortcut; needs the Accessibility permission).
-- **Hot corners**: Settings → Shortcut → hot corners. Click any of the four corners of the little screen (one, several or
+  or Command (Settings → Opening; needs the Accessibility permission).
+- **Hot corners**: Settings → Opening → hot corners. Click any of the four corners of the little screen (one, several or
   all). Rest the pointer in a chosen corner for a moment and the panel opens in that corner; do it again to close it.
   A quick brush past the corner, or a drag with the mouse button held, does nothing. The shortcut and double-tap
   still open it in the middle. Also in the Setup Guide's second step. If macOS uses the same corner for one of its
@@ -183,13 +199,13 @@ To work on the code in Xcode instead, open `Package.swift` in Xcode and press Ru
   around, including between categories.
 - **Running apps**: a red bar right under an icon (above its name) means the app is running. Hover a running app to see a thumbnail
   of each of its windows (a minimized one has a minus beside its close cross), on every desktop (Space), listed in Mission Control order with a "Space N" title when an app has windows on more than one and click one to jump straight to it (switching desktops if needed), or click the cross in its corner to close just that window (also works for windows on other desktops) (needs Screen Recording and Accessibility;
-  without Screen Recording you get a plain list). Clicking a running app puts the current desktop first: a window showing there brings the app forward; if its windows there are all minimised, the most recent one comes back; only with no window there at all does it take you to another desktop where it has windows. The **Running** section lists every app that is running (pinned or not, like the Dock's running indicators); nothing can be added to or removed from it, but its tiles can be **dragged around within it to reorder them** (alphabetical until you move one; the order is remembered, also for an app that quits and starts again; a tile can't be dropped anywhere else, and Esc or letting go elsewhere puts it back; right-click Running → **Sort Alphabetically** forgets your order), and the section itself can't be renamed but can be dragged by its title (or moved with **Move Up** / **Move Down** in its right-click menu) to any place among the categories, and it can be hidden (right-click it → Hide Running; bring it back with Settings → Layout → Show the Running section). Each running app's **minimized windows** can follow its tile there, as tiles of their own: a picture of the window with the app's icon in the corner and the window's title (as the Dock shows them). Click one to bring that window back; right-click for Restore or Close Window. They're off by default: turn on Settings → Layout → Show minimized windows in Running, or right-click Running → Show Minimized Windows. They're gathered each time the panel opens (needs Accessibility; the pictures need Screen Recording).
+  without Screen Recording you get a plain list). Clicking a running app puts the current desktop first: a window showing there brings the app forward; if its windows there are all minimised, the most recent one comes back; only with no window there at all does it take you to another desktop where it has windows. The **Running** section lists every app that is running (pinned or not, like the Dock's running indicators); nothing can be added to or removed from it, but its tiles can be **dragged around within it to reorder them** (alphabetical until you move one; the order is remembered, also for an app that quits and starts again; a tile can't be dropped anywhere else, and Esc or letting go elsewhere puts it back; right-click Running → **Sort Alphabetically** forgets your order), and the section itself can't be renamed but can be dragged by its title (or moved with **Move Up** / **Move Down** in its right-click menu) to any place among the categories, and it can be hidden (right-click it → Hide Running; bring it back with Settings → Panel → Show the Running section). Each running app's **minimized windows** can follow its tile there, as tiles of their own: a picture of the window with the app's icon in the corner and the window's title (as the Dock shows them). Click one to bring that window back; right-click for Restore or Close Window. They're off by default: turn on Settings → Panel → Show minimized windows in Running, or right-click Running → Show Minimized Windows. They're gathered each time the panel opens (needs Accessibility; the pictures need Screen Recording).
 - **Running app menu**: right-click a running app for a menu like the Dock's: its windows (the one in front checked; choose one to bring it forward), the "New …" commands from its File menu (New Tab, New Window, New Private Window in a browser), then **Close Windows** (only if it has a window open), **Hide** and **Quit** (hold Option to force quit; an app still running a few seconds after Quit gets **Force Quit** in its place; Finder has no Quit, as in the Dock, since quitting it removes the desktop icons). Windows and commands are read through Accessibility when the pointer reaches the tile.
 - **Finding files**: files in Documents, Desktop and Downloads only appear in search once HomePad has
   **Full Disk Access** (System Settings → Privacy & Security). Until then, results show a notice with a link to the switch.
 - **Calculator**: type a sum such as `7+3`, `(2+3)*4`, `2^10` or `15%` and the answer appears first. ↩ or the copy button copies it.
 - **Window**: drag any edge or corner of the panel to resize it (the edges have wide grab strips and show resize
-  cursors), or drag any empty part to move it (not the tile grid itself, where dragging rearranges tiles). The search field has the focus whenever the panel opens, so you can type at once; after you click elsewhere, the next key you type goes back into it. Settings → Window has **Remember window size** (on by default) and
+  cursors), or drag any empty part to move it (not the tile grid itself, where dragging rearranges tiles). The search field has the focus whenever the panel opens, so you can type at once; after you click elsewhere, the next key you type goes back into it. Settings → Panel has **Remember window size** (on by default) and
   **Remember window position** (off by default). The ↺ button beside the settings cogwheel puts the panel back to the
   standard size, centred. The Add App and Add File or Folder windows can be resized too (they always open at their
   standard size).
@@ -217,7 +233,7 @@ and **Permissions**. It reopens on the tab you used last.
 - **Icons per row** (8 by default, 4–10) and **row height** (the distance between rows of icons, 101 pt by default,
   85–125) and **icon spacing** (the horizontal gap between icons, 10 pt by default, 0–40; when the panel is
   too narrow for the gap, the gap shrinks first, then the icons): type a number or click − / +, **show running apps**, **re-import from Dock**.
-- **Mode** (top of Settings):
+- **Mode** (the first tab):
   - **Standalone** (default): the floating panel, opened by the shortcut, double-tap, hot corners or the menu-bar icon.
     Switching to it hides the Dock; **Hide the Dock** below brings it back.
   - **HomePad + Dock**: a Windows Start-menu workflow with the Dock as the taskbar. Choosing it always shows the Dock (it
@@ -238,7 +254,7 @@ and **Permissions**. It reopens on the tab you used last.
     left edge above the taskbar. On the right are the **network**, **volume**, **battery** and **clock**, each with a switch:
     the network and battery open their pages in System Settings (macOS's own status menus can't be opened from
     outside on recent macOS), the volume opens a slider (scroll over it to change the volume), the clock a calendar. Click an item to open it or bring it forward (or hide
-    it if it's already in front); point at a running app for its windows; right-click for its menu. Settings → Mode → **Running apps** (collapsed at first)
+    it if it's already in front); point at a running app for its windows; right-click for its menu. Settings → Taskbar → **Running apps** (collapsed at first)
     lists every running app with a **Show in taskbar** switch; an app switched off stays off the taskbar while it runs
     (also **Hide from Taskbar** in its menu). Pinned items are always shown. Hiding an app (Cmd-H) doesn't change the
     taskbar. The
@@ -260,7 +276,47 @@ and **Permissions**. It reopens on the tab you used last.
   alphabetically in the current language. HomePad restarts in the new one; Arabic and Persian lay out right to left.
   Names of apps, folders and System Settings sections stay as the Mac shows them.
 
-## Translations
+## Setting up permissions
+
+When you allow a permission (in the Setup Guide, Settings or a window preview), HomePad watches for it to be switched
+on in System Settings and comes back to the front as soon as it is. Screen Recording and Full Disk Access usually need
+a restart: when System Settings offers **Quit & Reopen**, HomePad quits, starts again on its own and reopens the window
+you were in.
+
+The Setup Guide shows on first launch only if a permission is missing. To go through it again from scratch, use
+**Settings → General → Start Over…**: macOS takes back HomePad's permissions, the guide shows again and HomePad restarts
+(tick the box to also forget your categories and settings, as on a fresh install).
+
+## Development
+
+### Build and run
+
+Requires macOS 13 or later and Xcode or the Command Line Tools (`xcode-select --install`).
+
+```
+chmod +x build_app.sh
+./build_app.sh
+```
+
+This creates `build/HomePad.app`. Move it to **/Applications** and open it. Because it's signed
+locally rather than by a registered developer, the first launch may need right-click → Open.
+
+It runs as a menu-bar app (grid icon in the menu bar), with no Dock icon of its own. Click the icon to open or close the panel; right-click (or Control-click) it for Settings, the Setup Guide, Uninstall HomePad… and Quit. Uninstalling brings the Dock back if HomePad hid it, takes back its permissions, erases its settings and categories, moves the app to the Trash and forgets the installer's record (asking for an administrator password only when the installer put the app there). The same steps are in `Resources/uninstall.sh`, which also runs on its own (`bash Resources/uninstall.sh --dry-run` shows what it would do).
+
+**Sharing it with friends:** `tools/make_release.sh` makes `dist/HomePad.zip` (for Apple silicon and Intel Macs)
+with [INSTALL.md](INSTALL.md) inside as "How to install HomePad.txt", a step-by-step guide for getting past macOS's
+block on apps that aren't registered with Apple, and through the Setup Guide. `tools/make_dmg.sh` makes
+`dist/HomePad.dmg` instead: a disk image with the app, a shortcut to Applications to drag it onto, and the same guide
+as "READ ME FIRST - How to install HomePad.txt". `tools/make_pkg.sh` makes `dist/HomePad.pkg`, an installer wizard
+(Welcome, What to expect, Install, Done) that puts the app in Applications and opens it, so nothing has to be read or
+dragged. It isn't signed, so macOS blocks the package once (System Settings → Privacy & Security → Open Anyway); an app
+installed by Installer is not marked "downloaded from the internet", so HomePad itself opens without a block.
+`tools/make_installer_dmg.sh` wraps that package in `dist/HomePad-Installer.dmg` (or `tools/make_installer_dmg.sh ru` for a Russian one in `dist/ru/`, `all` for every language), whose window shows the Open Anyway
+steps as a picture beside the installer, so they are on screen before the block (opening a disk image isn't blocked; a
+script would be). This is the one to send.
+To work on the code in Xcode instead, open `Package.swift` in Xcode and press Run.
+
+### Translations
 
 How the translation system works, how to add a language, and how to reuse it in another project:
 [LOCALIZATION.md](LOCALIZATION.md).
@@ -273,7 +329,13 @@ changing or adding text in the code, run `tools/localize.py check`: it lists eve
 translations whose `%@` placeholders don't match. `tools/snapshot.sh <code>` saves pictures of Settings, the panel and
 the Setup Guide in that language to `build/snapshots/<code>`, to check that nothing is cut off.
 
-## Files
+This README is translated too, into the same 19 languages: `docs/i18n/README.<code>.md`, with the language chooser at
+the top of every file. Everything up to this Development section and the License section is translated; this part
+stays in English. After changing the English text, update the translations, then run `tools/readme_languages.py`
+(rewrites the choosers) and `tools/readme_languages.py --check` (compares each translation with the English: code
+text, links, headings, bullets, steps and image paths). To add a language, add a row to `LANGUAGES` in the script.
+
+### Files
 
 | File | What it does |
 |---|---|
@@ -289,18 +351,7 @@ the Setup Guide in that language to `build/snapshots/<code>`, to check that noth
 | `SettingsView.swift` | Settings and the shortcut recorder |
 | `Localization.swift` | The language list and choice (Settings and the menu-bar menu) |
 
-## Setting up permissions
-
-When you allow a permission (in the Setup Guide, Settings or a window preview), HomePad watches for it to be switched
-on in System Settings and comes back to the front as soon as it is. Screen Recording and Full Disk Access usually need
-a restart: when System Settings offers **Quit & Reopen**, HomePad quits, starts again on its own and reopens the window
-you were in.
-
-The Setup Guide shows on first launch only if a permission is missing. To go through it again from scratch, use
-**Settings → General → Start Over…**: macOS takes back HomePad's permissions, the guide shows again and HomePad restarts
-(tick the box to also forget your categories and settings, as on a fresh install).
-
-## App icon
+### App icon
 
 The icon is `Resources/AppIcon.svg`. After changing it, run `./tools/make_icon.sh` to rebuild `Resources/AppIcon.icns`
 (all the sizes macOS uses, with a transparent background), then `./build_app.sh`.
