@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Dois passos rápidos e pronto. Você pode mudar tudo depois nos Ajustes.",
  "1. Allow access": "1. Permitir o acesso",
  "Screen Recording": "Gravação de Tela",
- "Shows a preview of each window when you hover a running app.": "Mostra uma prévia de cada janela quando você passa o ponteiro sobre um app aberto.",
  "Accessibility": "Acessibilidade",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Vai para a janela que você escolher e possibilita o toque duplo.",
  "Full Disk Access": "Acesso Total ao Disco",
@@ -166,7 +165,6 @@
  "Items": "Itens",
  "Permissions": "Permissões",
  "Jump to a specific window and double-tap a modifier key.": "Ir para uma janela específica e tocar duas vezes em uma tecla modificadora.",
- "Window previews when you hover a running app.": "Prévias das janelas quando você passa o ponteiro sobre um app aberto.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Encontrar arquivos em “⟦Documents⟧”, “⟦Desktop⟧” e “⟦Downloads⟧”. Ative o HomePad na lista que se abre.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Ocultar o “⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Abertura",
  "Panel": "Painel",
- "These settings are for Taskbar mode.": "Estes ajustes são para o modo Barra de tarefas.",
- "Use Taskbar Mode": "Usar modo Barra de tarefas",
+ "These settings are for HomePad + Taskbar mode.": "Estes ajustes são para o modo HomePad + Barra de tarefas.",
+ "Use HomePad + Taskbar": "Usar HomePad + Barra de tarefas",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Encontrar o ícone precisa da permissão “⟦Accessibility⟧”, então por enquanto o painel abre no centro. Permita na aba “Permissões”.",
  "Sound": "Som",
  "⟦Sound⟧ Settings…": "Ajustes de “⟦Sound⟧”…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "Desafixar do HomePad",
  "Automatically hide the taskbar": "Ocultar automaticamente a barra de tarefas",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "A barra de tarefas desliza para fora até você parar o ponteiro na borda inferior da tela. Ela fica enquanto o HomePad ou um de seus pop-ups estiver aberto, e as janelas podem usar a tela toda.",
- "Delay before showing": "Atraso antes de mostrar"
+ "Delay before showing": "Atraso antes de mostrar",
+ "HomePad + Taskbar": "HomePad + Barra de tarefas",
+ "Show desktop": "Mostrar área de trabalho",
+ "Window previews and showing or minimizing all windows together.": "Pré-visualizações de janelas e exibição ou minimização de todas as janelas ao mesmo tempo."
 }

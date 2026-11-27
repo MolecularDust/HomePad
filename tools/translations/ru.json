@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Два быстрых шага — и всё готово. Всё можно изменить позже в Настройках.",
  "1. Allow access": "1. Разрешите доступ",
  "Screen Recording": "Запись экрана",
- "Shows a preview of each window when you hover a running app.": "Показывает миниатюру каждого окна, когда вы наводите указатель на запущенное приложение.",
  "Accessibility": "Универсальный доступ",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Переключает на выбранное окно и включает двойное нажатие.",
  "Full Disk Access": "Полный доступ к диску",
@@ -166,7 +165,6 @@
  "Items": "Объекты",
  "Permissions": "Разрешения",
  "Jump to a specific window and double-tap a modifier key.": "Переключение на нужное окно и двойное нажатие клавиши-модификатора.",
- "Window previews when you hover a running app.": "Миниатюры окон при наведении на запущенное приложение.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Поиск файлов в папках «⟦Documents⟧», «⟦Desktop⟧» и «⟦Downloads⟧». Включите HomePad в открывшемся списке.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Скрыть «⟦Dock⟧»",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Открытие",
  "Panel": "Панель",
- "These settings are for Taskbar mode.": "Эти настройки действуют в режиме панели задач.",
- "Use Taskbar Mode": "Включить режим панели задач",
+ "These settings are for HomePad + Taskbar mode.": "Эти настройки действуют в режиме HomePad + Панель задач.",
+ "Use HomePad + Taskbar": "Включить HomePad + Панель задач",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения».",
  "Sound": "Звук",
  "⟦Sound⟧ Settings…": "Настройки «⟦Sound⟧»…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "Открепить от HomePad",
  "Automatically hide the taskbar": "Автоматически скрывать панель задач",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Панель задач уезжает, пока вы не задержите указатель у нижнего края экрана. Она остаётся, пока открыт HomePad или одно из его всплывающих окон, а окна могут занимать весь экран.",
- "Delay before showing": "Задержка перед показом"
+ "Delay before showing": "Задержка перед показом",
+ "HomePad + Taskbar": "HomePad + Панель задач",
+ "Show desktop": "Показать рабочий стол",
+ "Window previews and showing or minimizing all windows together.": "Предпросмотр окон и одновременный показ или сворачивание всех окон."
 }

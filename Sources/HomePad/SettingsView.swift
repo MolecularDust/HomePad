@@ -155,7 +155,7 @@ private struct ModeSettings: View {
                 })) {
                     Text("Standalone").tag(HomePadMode.standalone)
                     Text(L("HomePad + ⟦Dock⟧")).tag(HomePadMode.dock)
-                    Text("Taskbar").tag(HomePadMode.taskbar)
+                    Text("HomePad + Taskbar").tag(HomePadMode.taskbar)
                 }
                 .pickerStyle(.radioGroup)
                 .labelsHidden()
@@ -237,9 +237,9 @@ private struct TaskbarSettings: View {
             if !isOn {
                 Section {
                     HStack {
-                        Text("These settings are for Taskbar mode.")
+                        Text("These settings are for HomePad + Taskbar mode.")
                         Spacer()
-                        Button("Use Taskbar Mode") { HomePadMode.choose(.taskbar) }
+                        Button("Use HomePad + Taskbar") { HomePadMode.choose(.taskbar) }
                     }
                 }
             }
@@ -394,7 +394,7 @@ private struct PermissionsSettings: View {
                     Permissions.requestAccessibility()
                 }
                 permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: L("Window previews when you hover a running app.")) {
+                              detail: L("Window previews and showing or minimizing all windows together.")) {
                     Permissions.requestScreenRecording()
                 }
                 permissionRow(Mac("Full Disk Access"), pane: "Privacy_AllFiles", granted: permissions.fullDiskAccess,

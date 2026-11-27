@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Dua langkah singkat dan Anda siap. Anda dapat mengubah semuanya nanti di Pengaturan.";
 "1. Allow access" = "1. Izinkan akses";
 "Screen Recording" = "Perekaman Layar";
-"Shows a preview of each window when you hover a running app." = "Menampilkan pratinjau setiap jendela saat Anda mengarahkan penunjuk ke app yang berjalan.";
+"Window previews and showing or minimizing all windows together." = "Pratinjau jendela serta menampilkan atau meminimalkan semua jendela sekaligus.";
 "Accessibility" = "Aksesibilitas";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Beralih ke jendela yang Anda pilih, dan menjalankan pintasan ketuk dua kali.";
 "Full Disk Access" = "Akses Disk Penuh";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ini mengembalikan pintasan (⌥Spasi), mematikan ketuk dua kali dan sudut aktif, mengatur 8 ikon per baris serta tinggi baris dan jarak ikon standar, menampilkan bagian Berjalan (jendela yang dikecilkan disembunyikan), menampilkan ikon bar menu dan “⟦Dock⟧” lagi, serta mematikan buka saat masuk. App dan kategori Anda tetap disimpan.";
 "Standalone" = "Mandiri";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + Bilah tugas";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Sembunyikan “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Menyalakan sembunyi otomatis dengan jeda sangat lama, sehingga “⟦Dock⟧” tidak pernah muncul. Cmd-Tab dan “⟦Mission Control⟧” tetap berfungsi.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Seperti Windows: bilah tugas di bagian bawah layar dengan tombol Mulai dan app yang berjalan, yang lalu keluar dari panel HomePad. Selama itu “⟦Dock⟧” disembunyikan, dan jendela yang menjangkau ke bawah bilah tugas dipendekkan agar muat di atasnya (memerlukan “⟦Accessibility⟧”).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad belum ada di “⟦Dock⟧”. Seret ikonnya dari “⟦Applications⟧” ke “⟦Dock⟧”; sampai saat itu panel terbuka di tengah.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Menemukan ikon memerlukan izin “⟦Accessibility⟧”, jadi untuk sementara panel terbuka di tengah. Izinkan di tab “Izin”.";
-"These settings are for Taskbar mode." = "Pengaturan ini untuk mode Bilah tugas.";
-"Use Taskbar Mode" = "Gunakan Mode Bilah Tugas";
+"These settings are for HomePad + Taskbar mode." = "Pengaturan ini untuk mode HomePad + Bilah tugas.";
+"Use HomePad + Taskbar" = "Gunakan HomePad + Bilah tugas";
 "Automatically hide the taskbar" = "Sembunyikan bilah tugas secara otomatis";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Bilah tugas bergeser pergi sampai Anda mendiamkan penunjuk di tepi bawah layar. Bilah tetap terlihat selama HomePad atau salah satu pop-up-nya terbuka, dan jendela dapat memakai seluruh layar.";
 "Delay before showing" = "Jeda sebelum ditampilkan";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Daftar Utama Anda saat ini dan urutannya akan diganti. Kategori lain tetap disimpan.";
 "Replace" = "Ganti";
 "Jump to a specific window and double-tap a modifier key." = "Beralih ke jendela tertentu dan mengetuk dua kali tombol pengubah.";
-"Window previews when you hover a running app." = "Pratinjau jendela saat Anda mengarahkan penunjuk ke app yang berjalan.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Menemukan file di “⟦Documents⟧”, “⟦Desktop⟧”, dan “⟦Downloads⟧”. Nyalakan HomePad di daftar yang terbuka.";
 "Press keys…" = "Tekan tombol…";
 "None" = "Tidak Ada";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ mungkin sudah digunakan";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Tekanan uji pintasan ini tidak sampai ke HomePad, jadi app lain menanganinya lebih dulu, tetapi macOS tidak memberi tahu app yang mana. Periksa pengaturan pintasan app peluncur atau asisten yang Anda jalankan, atau pilih pintasan lain di sini.";
 "Choose Another Shortcut" = "Pilih Pintasan Lain";
+"Show desktop" = "Tampilkan desktop";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: terhubung";
 "Ethernet: connected" = "Ethernet: terhubung";
 "Connected to the internet" = "Terhubung ke internet";

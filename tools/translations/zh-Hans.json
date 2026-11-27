@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "只需两个快速步骤即可完成。以后可以在“设置”中更改所有内容。",
  "1. Allow access": "1. 允许访问",
  "Screen Recording": "录屏",
- "Shows a preview of each window when you hover a running app.": "指针悬停在正在运行的 App 上时，显示每个窗口的预览。",
  "Accessibility": "辅助功能",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "跳到你选取的窗口，并支持连按快捷方式。",
  "Full Disk Access": "完全磁盘访问权限",
@@ -166,7 +165,6 @@
  "Items": "项目",
  "Permissions": "权限",
  "Jump to a specific window and double-tap a modifier key.": "跳到特定窗口，以及连按修饰键。",
- "Window previews when you hover a running app.": "指针悬停在正在运行的 App 上时显示窗口预览。",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "查找“⟦Documents⟧”“⟦Desktop⟧”和“⟦Downloads⟧”中的文件。在打开的列表中打开 HomePad。",
  "Dock": "程序坞",
  "Hide the ⟦Dock⟧": "隐藏“⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "无线局域网",
  "Opening": "打开方式",
  "Panel": "面板",
- "These settings are for Taskbar mode.": "这些设置用于任务栏模式。",
- "Use Taskbar Mode": "使用任务栏模式",
+ "These settings are for HomePad + Taskbar mode.": "这些设置用于 HomePad + 任务栏模式。",
+ "Use HomePad + Taskbar": "使用 HomePad + 任务栏",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在“权限”标签页中允许。",
  "Sound": "声音",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧”设置…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "从 HomePad 取消固定",
  "Automatically hide the taskbar": "自动隐藏任务栏",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "任务栏会滑出屏幕，直到你把指针停在屏幕底边。HomePad 或其弹出窗口打开时它会保持显示，此时窗口可以使用整个屏幕。",
- "Delay before showing": "显示前的延迟"
+ "Delay before showing": "显示前的延迟",
+ "HomePad + Taskbar": "HomePad + 任务栏",
+ "Show desktop": "显示桌面",
+ "Window previews and showing or minimizing all windows together.": "窗口预览，以及同时显示或最小化所有窗口。"
 }

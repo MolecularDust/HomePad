@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "簡単な2ステップで準備完了です。あとから設定ですべて変更できます。",
  "1. Allow access": "1. アクセスを許可",
  "Screen Recording": "画面収録",
- "Shows a preview of each window when you hover a running app.": "実行中のアプリにポインタを置くと、各ウインドウのプレビューを表示します。",
  "Accessibility": "アクセシビリティ",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "選んだウインドウに移動し、ダブルタップのショートカットを使えるようにします。",
  "Full Disk Access": "フルディスクアクセス",
@@ -166,7 +165,6 @@
  "Items": "項目",
  "Permissions": "アクセス権",
  "Jump to a specific window and double-tap a modifier key.": "特定のウインドウへの移動と、修飾キーのダブルタップ。",
- "Window previews when you hover a running app.": "実行中のアプリにポインタを置いたときのウインドウプレビュー。",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "“⟦Documents⟧”、“⟦Desktop⟧”、“⟦Downloads⟧”のファイルを検索。開いたリストでHomePadをオンにしてください。",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧”を隠す",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "開き方",
  "Panel": "パネル",
- "These settings are for Taskbar mode.": "これらの設定はタスクバーモード用です。",
- "Use Taskbar Mode": "タスクバーモードを使う",
+ "These settings are for HomePad + Taskbar mode.": "これらの設定はHomePad + タスクバーモード用です。",
+ "Use HomePad + Taskbar": "HomePad + タスクバーを使う",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。“アクセス権”タブで許可してください。",
  "Sound": "サウンド",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧”設定…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "HomePadからピン留めを外す",
  "Automatically hide the taskbar": "タスクバーを自動的に隠す",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "画面の下端にポインタを置くまで、タスクバーは画面外にスライドします。HomePadやそのポップアップが開いている間は表示されたままで、ウインドウは画面全体を使えます。",
- "Delay before showing": "表示までの遅延"
+ "Delay before showing": "表示までの遅延",
+ "HomePad + Taskbar": "HomePad + タスクバー",
+ "Show desktop": "デスクトップを表示",
+ "Window previews and showing or minimizing all windows together.": "ウインドウのプレビューと、すべてのウインドウの一括表示・最小化。"
 }

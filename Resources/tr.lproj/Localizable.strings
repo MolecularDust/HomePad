@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "İki hızlı adım ve hazırsınız. Her şeyi daha sonra Ayarlar’dan değiştirebilirsiniz.";
 "1. Allow access" = "1. Erişime izin verin";
 "Screen Recording" = "Ekran Kaydı";
-"Shows a preview of each window when you hover a running app." = "Çalışan bir uygulamanın üzerine geldiğinizde her pencerenin önizlemesini gösterir.";
+"Window previews and showing or minimizing all windows together." = "Pencere önizlemeleri ve tüm pencereleri aynı anda gösterme veya simge durumuna küçültme.";
 "Accessibility" = "Erişilebilirlik";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Seçtiğiniz pencereye geçer ve çift dokunma kısayolunu çalıştırır.";
 "Full Disk Access" = "Tam Disk Erişimi";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Bu, kısayolu (⌥Boşluk) geri yükler, çift dokunmayı ve etkin köşeleri kapatır, satır başına 8 simge ile standart satır yüksekliği ve simge aralığını ayarlar, Çalışanlar bölümünü (küçültülmüş pencereler gizli) gösterir, menü çubuğu simgesini ve “⟦Dock⟧” öğesini yeniden gösterir ve oturum açılışında başlatmayı kapatır. Uygulamalarınız ve kategorileriniz korunur.";
 "Standalone" = "Bağımsız";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + Görev Çubuğu";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” öğesini gizle";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Otomatik gizlemeyi çok uzun bir gecikmeyle açar, böylece “⟦Dock⟧” hiç belirmez. Cmd-Tab ve “⟦Mission Control⟧” çalışmaya devam eder.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Windows gibi: ekranın altında Başlat düğmesi ve çalışan uygulamalarınızla bir görev çubuğu; bu uygulamalar HomePad panelinden çıkar. Bu sırada “⟦Dock⟧” gizlenir ve görev çubuğunun altına uzanan pencereler üstüne sığacak şekilde kısaltılır (“⟦Accessibility⟧” gerekir).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad henüz “⟦Dock⟧” içinde değil. Simgesini “⟦Applications⟧” klasöründen “⟦Dock⟧” içine sürükleyin; o zamana kadar panel ortada açılır.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. “İzinler” sekmesinden izin verin.";
-"These settings are for Taskbar mode." = "Bu ayarlar Görev çubuğu modu içindir.";
-"Use Taskbar Mode" = "Görev çubuğu modunu kullan";
+"These settings are for HomePad + Taskbar mode." = "Bu ayarlar HomePad + Görev Çubuğu modu içindir.";
+"Use HomePad + Taskbar" = "HomePad + Görev Çubuğu kullan";
 "Automatically hide the taskbar" = "Görev çubuğunu otomatik gizle";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "İşaretçiyi ekranın alt kenarında bekletene kadar görev çubuğu kayarak çekilir. HomePad veya açılır pencerelerinden biri açıkken yerinde kalır; pencereler de ekranın tamamını kullanabilir.";
 "Delay before showing" = "Gösterilmeden önceki gecikme";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Mevcut Temel listeniz ve sırası değiştirilecek. Diğer kategoriler korunur.";
 "Replace" = "Değiştir";
 "Jump to a specific window and double-tap a modifier key." = "Belirli bir pencereye geçin ve bir değiştirici tuşa çift dokunun.";
-"Window previews when you hover a running app." = "Çalışan bir uygulamanın üzerine geldiğinizde pencere önizlemeleri.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "“⟦Documents⟧”, “⟦Desktop⟧” ve “⟦Downloads⟧” içindeki dosyaları bulun. Açılan listede HomePad’i açın.";
 "Press keys…" = "Tuşlara basın…";
 "None" = "Yok";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ zaten kullanılıyor olabilir";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Bu kısayol için yapılan deneme basışı HomePad’e ulaşmadı; başka bir uygulama onu önce alıyor, ama macOS hangisi olduğunu söylemiyor. Kullandığınız başlatıcı veya asistan uygulamalarının kısayol ayarlarını kontrol edin ya da burada başka bir kısayol seçin.";
 "Choose Another Shortcut" = "Başka Bir Kısayol Seç";
+"Show desktop" = "Masaüstünü göster";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: bağlı";
 "Ethernet: connected" = "Ethernet: bağlı";
 "Connected to the internet" = "İnternete bağlı";

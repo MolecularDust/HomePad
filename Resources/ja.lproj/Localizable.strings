@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "簡単な2ステップで準備完了です。あとから設定ですべて変更できます。";
 "1. Allow access" = "1. アクセスを許可";
 "Screen Recording" = "画面収録";
-"Shows a preview of each window when you hover a running app." = "実行中のアプリにポインタを置くと、各ウインドウのプレビューを表示します。";
+"Window previews and showing or minimizing all windows together." = "ウインドウのプレビューと、すべてのウインドウの一括表示・最小化。";
 "Accessibility" = "アクセシビリティ";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "選んだウインドウに移動し、ダブルタップのショートカットを使えるようにします。";
 "Full Disk Access" = "フルディスクアクセス";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "ショートカット（⌥スペース）を戻し、ダブルタップとホットコーナーをオフにし、1行8アイコンと標準の行の高さとアイコン間隔にし、“実行中”セクションを表示し（しまわれたウインドウは非表示）、メニューバーアイコンと“⟦Dock⟧”を再び表示し、ログイン時に開く設定をオフにします。アプリとカテゴリはそのままです。";
 "Standalone" = "スタンドアロン";
 "HomePad + ⟦Dock⟧" = "HomePad＋“⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + タスクバー";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧”を隠す";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "非常に長い遅延で自動的に隠す設定をオンにし、“⟦Dock⟧”が表示されないようにします。Cmd-Tabと“⟦Mission Control⟧”は引き続き使えます。";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Windowsのように、画面下部にスタートボタンと実行中のアプリが並ぶタスクバーを表示し、それらのアプリはHomePadのパネルから外れます。その間“⟦Dock⟧”は隠され、タスクバーの下まで届くウインドウはその上に収まるよう短くされます（“⟦Accessibility⟧”が必要）。";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePadはまだ“⟦Dock⟧”にありません。そのアイコンを“⟦Applications⟧”から“⟦Dock⟧”にドラッグしてください。それまではパネルは中央に開きます。";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "アイコンを見つけるには“⟦Accessibility⟧”の権限が必要なため、今のところパネルは中央に開きます。“アクセス権”タブで許可してください。";
-"These settings are for Taskbar mode." = "これらの設定はタスクバーモード用です。";
-"Use Taskbar Mode" = "タスクバーモードを使う";
+"These settings are for HomePad + Taskbar mode." = "これらの設定はHomePad + タスクバーモード用です。";
+"Use HomePad + Taskbar" = "HomePad + タスクバーを使う";
 "Automatically hide the taskbar" = "タスクバーを自動的に隠す";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "画面の下端にポインタを置くまで、タスクバーは画面外にスライドします。HomePadやそのポップアップが開いている間は表示されたままで、ウインドウは画面全体を使えます。";
 "Delay before showing" = "表示までの遅延";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "現在の“よく使う項目”とその並び順が置き換えられます。ほかのカテゴリはそのままです。";
 "Replace" = "置き換える";
 "Jump to a specific window and double-tap a modifier key." = "特定のウインドウへの移動と、修飾キーのダブルタップ。";
-"Window previews when you hover a running app." = "実行中のアプリにポインタを置いたときのウインドウプレビュー。";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "“⟦Documents⟧”、“⟦Desktop⟧”、“⟦Downloads⟧”のファイルを検索。開いたリストでHomePadをオンにしてください。";
 "Press keys…" = "キーを押してください…";
 "None" = "なし";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@はすでに使われている可能性があります";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "このショートカットのテスト入力がHomePadに届かなかったため、別のアプリが先に受け取っていますが、macOSはどのアプリかを教えてくれません。使っているランチャーやアシスタントのアプリのショートカット設定を確認するか、ここで別のショートカットを選んでください。";
 "Choose Another Shortcut" = "別のショートカットを選ぶ";
+"Show desktop" = "デスクトップを表示";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧：接続済み";
 "Ethernet: connected" = "Ethernet：接続済み";
 "Connected to the internet" = "インターネットに接続済み";

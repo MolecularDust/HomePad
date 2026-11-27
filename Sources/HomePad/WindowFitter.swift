@@ -69,6 +69,7 @@ final class WindowFitter {
     }
 
     private func changed(_ element: AXUIElement, _ notification: String) {
+        guard !ShowDesktop.shared.isBusy else { return }
         // A new window: fit once it has settled into its size (apps often size it right after creating it).
         if notification == kAXWindowCreatedNotification as String {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in self?.fit(element) }
@@ -117,7 +118,7 @@ final class WindowFitter {
     }
 
     private func fit(_ window: AXUIElement) {
-        guard let limit, let main = NSScreen.screens.first,
+        guard !ShowDesktop.shared.isBusy, let limit, let main = NSScreen.screens.first,
               attribute(window, kAXSubroleAttribute) as? String == kAXStandardWindowSubrole as String,
               attribute(window, "AXFullScreen") as? Bool != true,
               attribute(window, kAXMinimizedAttribute) as? Bool != true,

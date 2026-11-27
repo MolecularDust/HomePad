@@ -31,6 +31,20 @@ enum SkyLight {
         return function(connection)
     }
 
+    /// All desktops currently visible, independent of which display's app has keyboard focus. Hiding an app can
+    /// change activeSpace without changing any visible desktop, so that value alone cannot key a restore batch.
+    static var visibleSpaces: [Int] {
+        guard let connection, let function = symbol("CGSCopyManagedDisplaySpaces", as: CopyManagedDisplaySpaces.self),
+              let displays = function(connection)?.takeRetainedValue() as? [[String: Any]] else {
+            return activeSpace.map { [$0] } ?? []
+        }
+        let spaces = displays.compactMap { display -> Int? in
+            guard let current = display["Current Space"] as? [String: Any] else { return nil }
+            return current["ManagedSpaceID"] as? Int ?? current["id64"] as? Int
+        }
+        return spaces.isEmpty ? activeSpace.map { [$0] } ?? [] : Array(Set(spaces)).sorted()
+    }
+
     /// Space id -> its number (1, 2, 3 ...) in Mission Control's order, per display.
     static func spaceNumbers() -> [Int: Int] {
         guard let connection, let function = symbol("CGSCopyManagedDisplaySpaces", as: CopyManagedDisplaySpaces.self),
@@ -65,24 +79,39 @@ enum SkyLight {
     /// Brings one specific window to the front, switching to its Space if it's on another one.
     @discardableResult
     static func focus(window: CGWindowID, pid: pid_t) -> Bool {
+        setFrontWindow(window, pid: pid, mode: 0x200)
+    }
+
+    /// Activates without raising the app's other windows, then makes only the requested window key.
+    @discardableResult
+    static func raisePreservingOthers(window: CGWindowID, pid: pid_t) -> Bool {
+        setFrontWindow(window, pid: pid, mode: 0x400)
+    }
+
+    /// Restores app activation without moving any window, including when the desktop originally had focus.
+    @discardableResult
+    static func activatePreservingWindowOrder(pid: pid_t) -> Bool {
+        setFrontWindow(nil, pid: pid, mode: 0x400)
+    }
+
+    private static func setFrontWindow(_ window: CGWindowID?, pid: pid_t, mode: UInt32) -> Bool {
         guard let processForPID = symbol("GetProcessForPID", as: ProcessForPID.self),
               let setFront = symbol("_SLPSSetFrontProcessWithOptions", as: SetFrontProcess.self),
               let postEvent = symbol("SLPSPostEventRecordTo", as: PostEvent.self) else { return false }
         var psn: (UInt32, UInt32) = (0, 0)
         return withUnsafeMutablePointer(to: &psn) { pointer -> Bool in
             let psn = UnsafeMutableRawPointer(pointer)
-            guard processForPID(pid, psn) == 0, setFront(psn, window, 0x200) == 0 else { return false }
-            // Two event records tell the window server to make that window the key window.
+            guard processForPID(pid, psn) == 0, setFront(psn, window ?? 0, mode) == 0 else { return false }
+            guard let window else { return true }
             var bytes = [UInt8](repeating: 0, count: 0xf8)
             bytes[0x04] = 0xf8
             bytes[0x3a] = 0x10
             withUnsafeBytes(of: window.littleEndian) { for (i, b) in $0.enumerated() { bytes[0x3c + i] = b } }
             for i in 0x20..<0x30 { bytes[i] = 0xff }
             bytes[0x08] = 0x01
-            _ = postEvent(psn, &bytes)
+            guard postEvent(psn, &bytes) == 0 else { return false }
             bytes[0x08] = 0x02
-            _ = postEvent(psn, &bytes)
-            return true
+            return postEvent(psn, &bytes) == 0
         }
     }
 }

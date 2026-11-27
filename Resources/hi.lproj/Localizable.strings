@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "दो छोटे चरण और आप तैयार हैं। आप बाद में सेटिंग्ज़ में सब कुछ बदल सकते हैं।";
 "1. Allow access" = "1. ऐक्सेस की अनुमति दें";
 "Screen Recording" = "स्क्रीन रिकॉर्डिंग";
-"Shows a preview of each window when you hover a running app." = "किसी चल रही ऐप पर पॉइंटर ले जाने पर हर विंडो की झलक दिखाता है।";
+"Window previews and showing or minimizing all windows together." = "विंडो के प्रीव्यू और सभी विंडो को एक साथ दिखाना या छोटा करना।";
 "Accessibility" = "ऐक्सेसिबिलिटी";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "आपकी चुनी विंडो पर ले जाता है, और डबल-टैप शॉर्टकट चलाता है।";
 "Full Disk Access" = "फ़ुल डिस्क ऐक्सेस";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "इससे शॉर्टकट (⌥Space) वापस आता है, डबल-टैप और हॉट कॉर्नर बंद होते हैं, प्रति पंक्ति 8 आइकॉन और मानक पंक्ति ऊँचाई व आइकॉन दूरी सेट होती है, चल रही ऐप्स सेक्शन (छोटी की गई विंडो छिपी) दिखता है, मेनू बार आइकॉन और “⟦Dock⟧” फिर से दिखते हैं और लॉगिन पर खोलना बंद होता है। आपकी ऐप्स और श्रेणियाँ बनी रहती हैं।";
 "Standalone" = "अलग";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + टास्कबार";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” छिपाएँ";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "बहुत लंबी देरी के साथ ऑटो-हाइड चालू करता है, ताकि “⟦Dock⟧” कभी न दिखे। Cmd-Tab और “⟦Mission Control⟧” काम करते रहते हैं।";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Windows की तरह: स्क्रीन के नीचे एक टास्कबार, जिसमें स्टार्ट बटन और आपकी चल रही ऐप्स होती हैं, जो तब HomePad के पैनल से हट जाती हैं। इस दौरान “⟦Dock⟧” छिपा रहता है, और टास्कबार के नीचे तक जाने वाली विंडो छोटी कर दी जाती हैं ताकि उसके ऊपर आ जाएँ (“⟦Accessibility⟧” ज़रूरी)।";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad अभी “⟦Dock⟧” में नहीं है। इसका आइकॉन “⟦Applications⟧” से “⟦Dock⟧” में ड्रैग करें; तब तक पैनल बीच में खुलता है।";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "आइकॉन ढूँढने के लिए “⟦Accessibility⟧” अनुमति चाहिए, इसलिए अभी पैनल बीच में खुलता है। इसे “अनुमतियाँ” टैब में अनुमति दें।";
-"These settings are for Taskbar mode." = "ये सेटिंग्स टास्कबार मोड के लिए हैं।";
-"Use Taskbar Mode" = "टास्कबार मोड इस्तेमाल करें";
+"These settings are for HomePad + Taskbar mode." = "ये सेटिंग्स HomePad + टास्कबार मोड के लिए हैं।";
+"Use HomePad + Taskbar" = "HomePad + टास्कबार इस्तेमाल करें";
 "Automatically hide the taskbar" = "टास्कबार अपने आप छिपाएँ";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "टास्कबार तब तक खिसककर हटा रहता है जब तक आप पॉइंटर को स्क्रीन के निचले किनारे पर नहीं रोकते। HomePad या उसका कोई पॉप-अप खुला होने पर यह बना रहता है, और विंडो पूरी स्क्रीन इस्तेमाल कर सकती हैं।";
 "Delay before showing" = "दिखाने से पहले की देरी";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "आपकी मौजूदा ज़रूरी सूची और उसका क्रम बदल दिया जाएगा। बाकी श्रेणियाँ बनी रहेंगी।";
 "Replace" = "बदलें";
 "Jump to a specific window and double-tap a modifier key." = "किसी खास विंडो पर जाएँ और मॉडिफ़ायर की डबल-टैप करें।";
-"Window previews when you hover a running app." = "चल रही ऐप पर पॉइंटर ले जाने पर विंडो की झलक।";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "“⟦Documents⟧”, “⟦Desktop⟧” और “⟦Downloads⟧” में फ़ाइलें ढूँढें। खुलने वाली सूची में HomePad चालू करें।";
 "Press keys…" = "की दबाएँ…";
 "None" = "कोई नहीं";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ शायद पहले से इस्तेमाल में है";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "इस शॉर्टकट का टेस्ट प्रेस HomePad तक नहीं पहुँचा, यानी कोई और ऐप उसे पहले पकड़ लेती है, पर macOS यह नहीं बताता कि कौन-सी। अपनी लॉन्चर या असिस्टेंट ऐप्स की शॉर्टकट सेटिंग्ज़ देखें, या यहाँ कोई और शॉर्टकट चुनें।";
 "Choose Another Shortcut" = "कोई और शॉर्टकट चुनें";
+"Show desktop" = "डेस्कटॉप दिखाएँ";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: कनेक्टेड";
 "Ethernet: connected" = "ईथरनेट: कनेक्टेड";
 "Connected to the internet" = "इंटरनेट से कनेक्टेड";

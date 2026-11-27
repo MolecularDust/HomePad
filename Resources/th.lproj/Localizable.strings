@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "เพียงสองขั้นตอนสั้นๆ ก็พร้อมใช้ คุณเปลี่ยนทุกอย่างได้ภายหลังในการตั้งค่า";
 "1. Allow access" = "1. อนุญาตการเข้าถึง";
 "Screen Recording" = "การบันทึกหน้าจอ";
-"Shows a preview of each window when you hover a running app." = "แสดงภาพตัวอย่างของแต่ละหน้าต่างเมื่อคุณวางตัวชี้บนแอปที่กำลังทำงาน";
+"Window previews and showing or minimizing all windows together." = "แสดงตัวอย่างหน้าต่าง และแสดงหรือย่อหน้าต่างทั้งหมดพร้อมกัน";
 "Accessibility" = "การช่วยการเข้าถึง";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "ไปยังหน้าต่างที่คุณเลือก และทำให้ใช้ปุ่มลัดแตะสองครั้งได้";
 "Full Disk Access" = "การเข้าถึงดิสก์เต็มรูปแบบ";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "การทำเช่นนี้จะคืนค่าปุ่มลัด (⌥Space) ปิดการแตะสองครั้งและมุมร้อน ตั้งไอคอน 8 อันต่อแถวพร้อมความสูงของแถวและระยะห่างไอคอนมาตรฐาน แสดงส่วนกำลังทำงาน (ซ่อนหน้าต่างที่ย่อ) แสดงไอคอนแถบเมนูและ “⟦Dock⟧” อีกครั้ง และปิดการเปิดเมื่อเข้าสู่ระบบ แอปและหมวดหมู่ของคุณยังคงอยู่";
 "Standalone" = "แบบแยก";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + แถบงาน";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "ซ่อน “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "เปิดการซ่อนอัตโนมัติพร้อมการหน่วงเวลานานมาก เพื่อให้ “⟦Dock⟧” ไม่แสดงขึ้นมา Cmd-Tab และ “⟦Mission Control⟧” ยังใช้งานได้";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "เหมือน Windows: มีแถบงานตลอดขอบล่างของหน้าจอพร้อมปุ่มเริ่มและแอปที่กำลังทำงาน ซึ่งจะย้ายออกจากแผงของ HomePad ระหว่างนี้ “⟦Dock⟧” จะถูกซ่อน และหน้าต่างที่ยื่นลงไปใต้แถบงานจะถูกทำให้สั้นลงเพื่อให้พอดีเหนือแถบงาน (ต้องใช้ “⟦Accessibility⟧”)";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ยังไม่อยู่ใน “⟦Dock⟧” ลากไอคอนของมันจาก “⟦Applications⟧” ไปที่ “⟦Dock⟧” จนกว่าจะถึงตอนนั้นแผงจะเปิดตรงกลาง";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”";
-"These settings are for Taskbar mode." = "การตั้งค่าเหล่านี้ใช้กับโหมดแถบงาน";
-"Use Taskbar Mode" = "ใช้โหมดแถบงาน";
+"These settings are for HomePad + Taskbar mode." = "การตั้งค่าเหล่านี้ใช้กับโหมด HomePad + แถบงาน";
+"Use HomePad + Taskbar" = "ใช้ HomePad + แถบงาน";
 "Automatically hide the taskbar" = "ซ่อนแถบงานอัตโนมัติ";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "แถบงานจะเลื่อนหายไปจนกว่าคุณจะวางตัวชี้ไว้ที่ขอบล่างของหน้าจอ แถบจะอยู่ต่อเมื่อ HomePad หรือป๊อปอัปของมันเปิดอยู่ และหน้าต่างสามารถใช้หน้าจอทั้งหมดได้";
 "Delay before showing" = "หน่วงเวลาก่อนแสดง";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "รายการหลักปัจจุบันและลำดับของมันจะถูกแทนที่ หมวดหมู่อื่นยังคงอยู่";
 "Replace" = "แทนที่";
 "Jump to a specific window and double-tap a modifier key." = "ไปยังหน้าต่างที่ต้องการ และแตะปุ่มปรับค่าสองครั้ง";
-"Window previews when you hover a running app." = "ภาพตัวอย่างหน้าต่างเมื่อคุณวางตัวชี้บนแอปที่กำลังทำงาน";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "ค้นหาไฟล์ใน “⟦Documents⟧” “⟦Desktop⟧” และ “⟦Downloads⟧” เปิด HomePad ในรายการที่เปิดขึ้นมา";
 "Press keys…" = "กดปุ่ม…";
 "None" = "ไม่มี";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ อาจถูกใช้งานอยู่แล้ว";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "การกดทดสอบปุ่มลัดนี้ไม่ถึง HomePad แสดงว่าแอปอื่นรับไปก่อน แต่ macOS ไม่บอกว่าเป็นแอปใด ตรวจสอบการตั้งค่าปุ่มลัดของแอปตัวเรียกใช้หรือผู้ช่วยที่คุณใช้ หรือเลือกปุ่มลัดอื่นที่นี่";
 "Choose Another Shortcut" = "เลือกปุ่มลัดอื่น";
+"Show desktop" = "แสดงเดสก์ท็อป";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: เชื่อมต่อแล้ว";
 "Ethernet: connected" = "อีเทอร์เน็ต: เชื่อมต่อแล้ว";
 "Connected to the internet" = "เชื่อมต่ออินเทอร์เน็ตแล้ว";

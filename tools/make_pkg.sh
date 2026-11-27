@@ -30,7 +30,7 @@ plistlib.dump(components, open(p, "wb"))
 PY
 
 pkgbuild --root "$WORK/root" --component-plist "$WORK/components.plist" --install-location /Applications \
-         --identifier local.mike.HomePad --version 1.0 --ownership recommended \
+         --identifier local.mike.HomePad --version 1.1 --ownership recommended \
          --scripts tools/pkg/scripts "$WORK/HomePad-component.pkg" >/dev/null
 
 # The wizard's pages in every language (tools/pkg/text/<code>.json), each with style.css written into it: productbuild

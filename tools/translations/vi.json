@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Hai bước nhanh là xong. Bạn có thể thay đổi mọi thứ sau trong Cài đặt.",
  "1. Allow access": "1. Cho phép truy cập",
  "Screen Recording": "Ghi màn hình",
- "Shows a preview of each window when you hover a running app.": "Hiển thị bản xem trước của từng cửa sổ khi bạn di con trỏ lên một ứng dụng đang chạy.",
  "Accessibility": "Trợ năng",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Chuyển tới cửa sổ bạn chọn và giúp phím tắt chạm hai lần hoạt động.",
  "Full Disk Access": "Truy cập toàn bộ ổ đĩa",
@@ -166,7 +165,6 @@
  "Items": "Mục",
  "Permissions": "Quyền",
  "Jump to a specific window and double-tap a modifier key.": "Chuyển tới một cửa sổ cụ thể và chạm hai lần phím bổ trợ.",
- "Window previews when you hover a running app.": "Xem trước cửa sổ khi bạn di con trỏ lên ứng dụng đang chạy.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Tìm tệp trong “⟦Documents⟧”, “⟦Desktop⟧” và “⟦Downloads⟧”. Bật HomePad trong danh sách mở ra.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Ẩn “⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Mở",
  "Panel": "Bảng",
- "These settings are for Taskbar mode.": "Các cài đặt này dành cho chế độ Thanh tác vụ.",
- "Use Taskbar Mode": "Dùng chế độ Thanh tác vụ",
+ "These settings are for HomePad + Taskbar mode.": "Các cài đặt này dành cho chế độ HomePad + Thanh tác vụ.",
+ "Use HomePad + Taskbar": "Dùng HomePad + Thanh tác vụ",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”.",
  "Sound": "Âm thanh",
  "⟦Sound⟧ Settings…": "Cài đặt “⟦Sound⟧”…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "Bỏ ghim khỏi HomePad",
  "Automatically hide the taskbar": "Tự động ẩn thanh tác vụ",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Thanh tác vụ trượt đi cho đến khi bạn đặt con trỏ ở mép dưới màn hình. Nó vẫn hiện khi HomePad hoặc một cửa sổ bật lên của nó đang mở, và cửa sổ có thể dùng toàn bộ màn hình.",
- "Delay before showing": "Độ trễ trước khi hiện"
+ "Delay before showing": "Độ trễ trước khi hiện",
+ "HomePad + Taskbar": "HomePad + Thanh tác vụ",
+ "Show desktop": "Hiển thị màn hình nền",
+ "Window previews and showing or minimizing all windows together.": "Xem trước cửa sổ và hiển thị hoặc thu nhỏ tất cả cửa sổ cùng lúc."
 }

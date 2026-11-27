@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "خطوتان سريعتان وتكون جاهزًا. يمكنك تغيير كل شيء لاحقًا في الإعدادات.",
  "1. Allow access": "١. السماح بالوصول",
  "Screen Recording": "تسجيل الشاشة",
- "Shows a preview of each window when you hover a running app.": "يعرض معاينة لكل نافذة عند وضع المؤشر على تطبيق قيد التشغيل.",
  "Accessibility": "تسهيلات الاستخدام",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "ينتقل إلى النافذة التي تختارها، ويُشغّل اختصار النقر المزدوج.",
  "Full Disk Access": "الوصول الكامل إلى القرص",
@@ -166,7 +165,6 @@
  "Items": "العناصر",
  "Permissions": "الأذونات",
  "Jump to a specific window and double-tap a modifier key.": "الانتقال إلى نافذة معينة والنقر مرتين على مفتاح تعديل.",
- "Window previews when you hover a running app.": "معاينات النوافذ عند وضع المؤشر على تطبيق قيد التشغيل.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "العثور على الملفات في ”⟦Documents⟧“ و”⟦Desktop⟧“ و”⟦Downloads⟧“. شغّل HomePad في القائمة التي تُفتح.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "إخفاء ”⟦Dock⟧“",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "الفتح",
  "Panel": "اللوحة",
- "These settings are for Taskbar mode.": "هذه الإعدادات خاصة بوضع شريط المهام.",
- "Use Taskbar Mode": "استخدام وضع شريط المهام",
+ "These settings are for HomePad + Taskbar mode.": "هذه الإعدادات خاصة بوضع HomePad + شريط المهام.",
+ "Use HomePad + Taskbar": "استخدام HomePad + شريط المهام",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“.",
  "Sound": "الصوت",
  "⟦Sound⟧ Settings…": "إعدادات ”⟦Sound⟧“…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "إلغاء التثبيت من HomePad",
  "Automatically hide the taskbar": "إخفاء شريط المهام تلقائيًا",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "ينزلق شريط المهام بعيدًا حتى تترك المؤشر عند الحافة السفلية للشاشة. ويبقى ظاهرًا ما دام HomePad أو إحدى نوافذه المنبثقة مفتوحًا، وتستطيع النوافذ حينها استخدام الشاشة كلها.",
- "Delay before showing": "التأخير قبل الإظهار"
+ "Delay before showing": "التأخير قبل الإظهار",
+ "HomePad + Taskbar": "HomePad + شريط المهام",
+ "Show desktop": "إظهار سطح المكتب",
+ "Window previews and showing or minimizing all windows together.": "معاينات النوافذ وإظهار جميع النوافذ أو تصغيرها معًا."
 }

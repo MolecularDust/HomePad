@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "دو قدم کوتاه و همه‌چیز آماده است. بعداً می‌توانید همه‌چیز را در تنظیمات تغییر دهید.",
  "1. Allow access": "۱. اجازه دسترسی",
  "Screen Recording": "ضبط صفحه",
- "Shows a preview of each window when you hover a running app.": "وقتی اشاره‌گر را روی یک برنامه در حال اجرا می‌برید، پیش‌نمایش هر پنجره را نشان می‌دهد.",
  "Accessibility": "دسترس‌پذیری",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "به پنجره‌ای که انتخاب می‌کنید می‌رود و میان‌بر دوبار زدن را ممکن می‌کند.",
  "Full Disk Access": "دسترسی کامل به دیسک",
@@ -166,7 +165,6 @@
  "Items": "موارد",
  "Permissions": "مجوزها",
  "Jump to a specific window and double-tap a modifier key.": "رفتن به یک پنجره مشخص و دوبار زدن یک کلید اصلاح‌گر.",
- "Window previews when you hover a running app.": "پیش‌نمایش پنجره‌ها وقتی اشاره‌گر را روی برنامه در حال اجرا می‌برید.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "پیدا کردن فایل‌های «⟦Documents⟧»، «⟦Desktop⟧» و «⟦Downloads⟧». HomePad را در فهرستی که باز می‌شود روشن کنید.",
  "Dock": "داک",
  "Hide the ⟦Dock⟧": "پنهان کردن «⟦Dock⟧»",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "باز کردن",
  "Panel": "پنل",
- "These settings are for Taskbar mode.": "این تنظیمات برای حالت نوار وظیفه است.",
- "Use Taskbar Mode": "استفاده از حالت نوار وظیفه",
+ "These settings are for HomePad + Taskbar mode.": "این تنظیمات برای حالت HomePad + نوار وظیفه است.",
+ "Use HomePad + Taskbar": "استفاده از HomePad + نوار وظیفه",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "پیدا کردن نماد به مجوز «⟦Accessibility⟧» نیاز دارد، پس فعلاً پنل در وسط باز می‌شود. در زبانه «مجوزها» اجازه دهید.",
  "Sound": "Sound",
  "⟦Sound⟧ Settings…": "تنظیمات «⟦Sound⟧»…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "برداشتن از HomePad",
  "Automatically hide the taskbar": "پنهان‌سازی خودکار نوار وظیفه",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "نوار وظیفه کنار می‌رود تا وقتی که اشاره‌گر را روی لبه پایین صفحه نگه دارید. تا وقتی HomePad یا یکی از پنجره‌های بازشوی آن باز است می‌ماند و پنجره‌ها می‌توانند از کل صفحه استفاده کنند.",
- "Delay before showing": "تأخیر پیش از نمایش"
+ "Delay before showing": "تأخیر پیش از نمایش",
+ "HomePad + Taskbar": "HomePad + نوار وظیفه",
+ "Show desktop": "نمایش دسکتاپ",
+ "Window previews and showing or minimizing all windows together.": "پیش‌نمایش پنجره‌ها و نمایش یا کوچک‌کردن همهٔ پنجره‌ها به‌صورت هم‌زمان."
 }

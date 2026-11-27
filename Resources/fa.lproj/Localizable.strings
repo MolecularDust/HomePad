@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "دو قدم کوتاه و همه‌چیز آماده است. بعداً می‌توانید همه‌چیز را در تنظیمات تغییر دهید.";
 "1. Allow access" = "۱. اجازه دسترسی";
 "Screen Recording" = "ضبط صفحه";
-"Shows a preview of each window when you hover a running app." = "وقتی اشاره‌گر را روی یک برنامه در حال اجرا می‌برید، پیش‌نمایش هر پنجره را نشان می‌دهد.";
+"Window previews and showing or minimizing all windows together." = "پیش‌نمایش پنجره‌ها و نمایش یا کوچک‌کردن همهٔ پنجره‌ها به‌صورت هم‌زمان.";
 "Accessibility" = "دسترس‌پذیری";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "به پنجره‌ای که انتخاب می‌کنید می‌رود و میان‌بر دوبار زدن را ممکن می‌کند.";
 "Full Disk Access" = "دسترسی کامل به دیسک";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "این کار میان‌بر (⌥فاصله) را برمی‌گرداند، دوبار زدن و گوشه‌های فعال را خاموش می‌کند، ۸ نماد در هر ردیف و ارتفاع ردیف و فاصله نماد استاندارد را تنظیم می‌کند، بخش «در حال اجرا» را (با پنجره‌های کوچک‌شده پنهان) نشان می‌دهد، نماد نوار منو و «⟦Dock⟧» را دوباره نشان می‌دهد و باز شدن هنگام ورود را خاموش می‌کند. برنامه‌ها و دسته‌های شما می‌مانند.";
 "Standalone" = "مستقل";
 "HomePad + ⟦Dock⟧" = "HomePad + «⟦Dock⟧»";
+"HomePad + Taskbar" = "HomePad + نوار وظیفه";
 "Dock" = "داک";
 "Hide the ⟦Dock⟧" = "پنهان کردن «⟦Dock⟧»";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "پنهان‌سازی خودکار را با تأخیری بسیار طولانی روشن می‌کند تا «⟦Dock⟧» هرگز ظاهر نشود. Cmd-Tab و «⟦Mission Control⟧» همچنان کار می‌کنند.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "مانند ویندوز: نوار وظیفه‌ای در پایین صفحه با دکمه شروع و برنامه‌های در حال اجرا، که از پنل HomePad بیرون می‌روند. در این مدت «⟦Dock⟧» پنهان است و پنجره‌هایی که تا زیر نوار وظیفه می‌رسند کوتاه‌تر می‌شوند تا بالای آن جا شوند (به «⟦Accessibility⟧» نیاز دارد).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad هنوز در «⟦Dock⟧» نیست. نمادش را از «⟦Applications⟧» به «⟦Dock⟧» بکشید؛ تا آن موقع پنل در وسط باز می‌شود.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "پیدا کردن نماد به مجوز «⟦Accessibility⟧» نیاز دارد، پس فعلاً پنل در وسط باز می‌شود. در زبانه «مجوزها» اجازه دهید.";
-"These settings are for Taskbar mode." = "این تنظیمات برای حالت نوار وظیفه است.";
-"Use Taskbar Mode" = "استفاده از حالت نوار وظیفه";
+"These settings are for HomePad + Taskbar mode." = "این تنظیمات برای حالت HomePad + نوار وظیفه است.";
+"Use HomePad + Taskbar" = "استفاده از HomePad + نوار وظیفه";
 "Automatically hide the taskbar" = "پنهان‌سازی خودکار نوار وظیفه";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "نوار وظیفه کنار می‌رود تا وقتی که اشاره‌گر را روی لبه پایین صفحه نگه دارید. تا وقتی HomePad یا یکی از پنجره‌های بازشوی آن باز است می‌ماند و پنجره‌ها می‌توانند از کل صفحه استفاده کنند.";
 "Delay before showing" = "تأخیر پیش از نمایش";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "فهرست فعلی «اصلی» و ترتیب آن جایگزین می‌شود. دسته‌های دیگر می‌مانند.";
 "Replace" = "جایگزینی";
 "Jump to a specific window and double-tap a modifier key." = "رفتن به یک پنجره مشخص و دوبار زدن یک کلید اصلاح‌گر.";
-"Window previews when you hover a running app." = "پیش‌نمایش پنجره‌ها وقتی اشاره‌گر را روی برنامه در حال اجرا می‌برید.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "پیدا کردن فایل‌های «⟦Documents⟧»، «⟦Desktop⟧» و «⟦Downloads⟧». HomePad را در فهرستی که باز می‌شود روشن کنید.";
 "Press keys…" = "کلیدها را فشار دهید…";
 "None" = "هیچ";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "شاید %@ از قبل در حال استفاده باشد";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "یک فشار آزمایشی این میان‌بر به HomePad نرسید، پس برنامه دیگری زودتر آن را می‌گیرد، اما macOS نمی‌گوید کدام. تنظیمات میان‌بر برنامه‌های اجراکننده یا دستیاری را که استفاده می‌کنید بررسی کنید، یا اینجا میان‌بر دیگری انتخاب کنید.";
 "Choose Another Shortcut" = "انتخاب میان‌بر دیگر";
+"Show desktop" = "نمایش دسکتاپ";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: متصل";
 "Ethernet: connected" = "اترنت: متصل";
 "Connected to the internet" = "متصل به اینترنت";

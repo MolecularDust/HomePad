@@ -69,7 +69,7 @@ struct OnboardingView: View {
 
             step(L("1. Allow access")) {
                 permissionRow(Mac("Screen Recording"), pane: "Privacy_ScreenCapture", granted: permissions.screenRecording,
-                              detail: L("Shows a preview of each window when you hover a running app.")) {
+                              detail: L("Window previews and showing or minimizing all windows together.")) {
                     Permissions.requestScreenRecording()
                 }
                 permissionRow(Mac("Accessibility"), pane: "Privacy_Accessibility", granted: permissions.accessibility,

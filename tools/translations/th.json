@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "เพียงสองขั้นตอนสั้นๆ ก็พร้อมใช้ คุณเปลี่ยนทุกอย่างได้ภายหลังในการตั้งค่า",
  "1. Allow access": "1. อนุญาตการเข้าถึง",
  "Screen Recording": "การบันทึกหน้าจอ",
- "Shows a preview of each window when you hover a running app.": "แสดงภาพตัวอย่างของแต่ละหน้าต่างเมื่อคุณวางตัวชี้บนแอปที่กำลังทำงาน",
  "Accessibility": "การช่วยการเข้าถึง",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "ไปยังหน้าต่างที่คุณเลือก และทำให้ใช้ปุ่มลัดแตะสองครั้งได้",
  "Full Disk Access": "การเข้าถึงดิสก์เต็มรูปแบบ",
@@ -166,7 +165,6 @@
  "Items": "รายการ",
  "Permissions": "สิทธิ์",
  "Jump to a specific window and double-tap a modifier key.": "ไปยังหน้าต่างที่ต้องการ และแตะปุ่มปรับค่าสองครั้ง",
- "Window previews when you hover a running app.": "ภาพตัวอย่างหน้าต่างเมื่อคุณวางตัวชี้บนแอปที่กำลังทำงาน",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "ค้นหาไฟล์ใน “⟦Documents⟧” “⟦Desktop⟧” และ “⟦Downloads⟧” เปิด HomePad ในรายการที่เปิดขึ้นมา",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "ซ่อน “⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "การเปิด",
  "Panel": "แผง",
- "These settings are for Taskbar mode.": "การตั้งค่าเหล่านี้ใช้กับโหมดแถบงาน",
- "Use Taskbar Mode": "ใช้โหมดแถบงาน",
+ "These settings are for HomePad + Taskbar mode.": "การตั้งค่าเหล่านี้ใช้กับโหมด HomePad + แถบงาน",
+ "Use HomePad + Taskbar": "ใช้ HomePad + แถบงาน",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "การหาไอคอนต้องใช้สิทธิ์ “⟦Accessibility⟧” ตอนนี้แผงจึงเปิดตรงกลาง อนุญาตได้ในแถบ “สิทธิ์”",
  "Sound": "เสียง",
  "⟦Sound⟧ Settings…": "การตั้งค่า “⟦Sound⟧”…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "เลิกปักหมุดจาก HomePad",
  "Automatically hide the taskbar": "ซ่อนแถบงานอัตโนมัติ",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "แถบงานจะเลื่อนหายไปจนกว่าคุณจะวางตัวชี้ไว้ที่ขอบล่างของหน้าจอ แถบจะอยู่ต่อเมื่อ HomePad หรือป๊อปอัปของมันเปิดอยู่ และหน้าต่างสามารถใช้หน้าจอทั้งหมดได้",
- "Delay before showing": "หน่วงเวลาก่อนแสดง"
+ "Delay before showing": "หน่วงเวลาก่อนแสดง",
+ "HomePad + Taskbar": "HomePad + แถบงาน",
+ "Show desktop": "แสดงเดสก์ท็อป",
+ "Window previews and showing or minimizing all windows together.": "แสดงตัวอย่างหน้าต่าง และแสดงหรือย่อหน้าต่างทั้งหมดพร้อมกัน"
 }

@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "只需两个快速步骤即可完成。以后可以在“设置”中更改所有内容。";
 "1. Allow access" = "1. 允许访问";
 "Screen Recording" = "录屏";
-"Shows a preview of each window when you hover a running app." = "指针悬停在正在运行的 App 上时，显示每个窗口的预览。";
+"Window previews and showing or minimizing all windows together." = "窗口预览，以及同时显示或最小化所有窗口。";
 "Accessibility" = "辅助功能";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "跳到你选取的窗口，并支持连按快捷方式。";
 "Full Disk Access" = "完全磁盘访问权限";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "这会恢复快捷键（⌥空格键），关闭连按和触发角，设为每行 8 个图标及标准行高和图标间距，显示“正在运行”部分（隐藏最小化的窗口），显示菜单栏图标并重新显示“⟦Dock⟧”，并关闭登录时打开。你的 App 和类别会保留。";
 "Standalone" = "独立";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + 任务栏";
 "Dock" = "程序坞";
 "Hide the ⟦Dock⟧" = "隐藏“⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "以很长的延迟打开自动隐藏，使“⟦Dock⟧”永不弹出。Cmd-Tab 和“⟦Mission Control⟧”照常工作。";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "像 Windows 一样：屏幕底部有一条带“开始”按钮和正在运行的 App 的任务栏，这些 App 不再出现在 HomePad 面板中。期间“⟦Dock⟧”会被隐藏，延伸到任务栏下方的窗口会被缩短，以显示在任务栏上方（需要“⟦Accessibility⟧”权限）。";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad 还不在“⟦Dock⟧”中。请将它的图标从“⟦Applications⟧”拖到“⟦Dock⟧”中；在此之前，面板会在中间打开。";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "查找图标需要“⟦Accessibility⟧”权限，因此目前面板会在中间打开。请在“权限”标签页中允许。";
-"These settings are for Taskbar mode." = "这些设置用于任务栏模式。";
-"Use Taskbar Mode" = "使用任务栏模式";
+"These settings are for HomePad + Taskbar mode." = "这些设置用于 HomePad + 任务栏模式。";
+"Use HomePad + Taskbar" = "使用 HomePad + 任务栏";
 "Automatically hide the taskbar" = "自动隐藏任务栏";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "任务栏会滑出屏幕，直到你把指针停在屏幕底边。HomePad 或其弹出窗口打开时它会保持显示，此时窗口可以使用整个屏幕。";
 "Delay before showing" = "显示前的延迟";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "当前的“常用”列表及其顺序将被替换。其他类别会保留。";
 "Replace" = "替换";
 "Jump to a specific window and double-tap a modifier key." = "跳到特定窗口，以及连按修饰键。";
-"Window previews when you hover a running app." = "指针悬停在正在运行的 App 上时显示窗口预览。";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "查找“⟦Documents⟧”“⟦Desktop⟧”和“⟦Downloads⟧”中的文件。在打开的列表中打开 HomePad。";
 "Press keys…" = "请按键…";
 "None" = "无";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ 可能已被使用";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "测试按下此快捷键时没有到达 HomePad，说明另一个 App 先接收了它，但 macOS 不会说明是哪一个。请检查你使用的启动器或助手类 App 的快捷键设置，或在这里选择其他快捷键。";
 "Choose Another Shortcut" = "选择其他快捷键";
+"Show desktop" = "显示桌面";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧：已连接";
 "Ethernet: connected" = "以太网：已连接";
 "Connected to the internet" = "已连接到互联网";

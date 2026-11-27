@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "İki hızlı adım ve hazırsınız. Her şeyi daha sonra Ayarlar’dan değiştirebilirsiniz.",
  "1. Allow access": "1. Erişime izin verin",
  "Screen Recording": "Ekran Kaydı",
- "Shows a preview of each window when you hover a running app.": "Çalışan bir uygulamanın üzerine geldiğinizde her pencerenin önizlemesini gösterir.",
  "Accessibility": "Erişilebilirlik",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Seçtiğiniz pencereye geçer ve çift dokunma kısayolunu çalıştırır.",
  "Full Disk Access": "Tam Disk Erişimi",
@@ -166,7 +165,6 @@
  "Items": "Öğeler",
  "Permissions": "İzinler",
  "Jump to a specific window and double-tap a modifier key.": "Belirli bir pencereye geçin ve bir değiştirici tuşa çift dokunun.",
- "Window previews when you hover a running app.": "Çalışan bir uygulamanın üzerine geldiğinizde pencere önizlemeleri.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "“⟦Documents⟧”, “⟦Desktop⟧” ve “⟦Downloads⟧” içindeki dosyaları bulun. Açılan listede HomePad’i açın.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧” öğesini gizle",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Açılış",
  "Panel": "Panel",
- "These settings are for Taskbar mode.": "Bu ayarlar Görev çubuğu modu içindir.",
- "Use Taskbar Mode": "Görev çubuğu modunu kullan",
+ "These settings are for HomePad + Taskbar mode.": "Bu ayarlar HomePad + Görev Çubuğu modu içindir.",
+ "Use HomePad + Taskbar": "HomePad + Görev Çubuğu kullan",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Simgeyi bulmak için “⟦Accessibility⟧” izni gerekir, bu yüzden şimdilik panel ortada açılır. “İzinler” sekmesinden izin verin.",
  "Sound": "Ses",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧” ayarları…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "HomePad’den kaldır",
  "Automatically hide the taskbar": "Görev çubuğunu otomatik gizle",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "İşaretçiyi ekranın alt kenarında bekletene kadar görev çubuğu kayarak çekilir. HomePad veya açılır pencerelerinden biri açıkken yerinde kalır; pencereler de ekranın tamamını kullanabilir.",
- "Delay before showing": "Gösterilmeden önceki gecikme"
+ "Delay before showing": "Gösterilmeden önceki gecikme",
+ "HomePad + Taskbar": "HomePad + Görev Çubuğu",
+ "Show desktop": "Masaüstünü göster",
+ "Window previews and showing or minimizing all windows together.": "Pencere önizlemeleri ve tüm pencereleri aynı anda gösterme veya simge durumuna küçültme."
 }

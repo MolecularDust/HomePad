@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "خطوتان سريعتان وتكون جاهزًا. يمكنك تغيير كل شيء لاحقًا في الإعدادات.";
 "1. Allow access" = "١. السماح بالوصول";
 "Screen Recording" = "تسجيل الشاشة";
-"Shows a preview of each window when you hover a running app." = "يعرض معاينة لكل نافذة عند وضع المؤشر على تطبيق قيد التشغيل.";
+"Window previews and showing or minimizing all windows together." = "معاينات النوافذ وإظهار جميع النوافذ أو تصغيرها معًا.";
 "Accessibility" = "تسهيلات الاستخدام";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "ينتقل إلى النافذة التي تختارها، ويُشغّل اختصار النقر المزدوج.";
 "Full Disk Access" = "الوصول الكامل إلى القرص";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "يستعيد هذا الاختصار (⌥مسافة)، ويوقف النقر المزدوج والزوايا النشطة، ويضبط ٨ أيقونات في كل صف مع ارتفاع الصف والمسافة القياسيين، ويُظهر قسم ”قيد التشغيل“ (مع إخفاء النوافذ المصغرة)، ويُظهر أيقونة شريط القائمة و”⟦Dock⟧“ مجددًا، ويوقف الفتح عند تسجيل الدخول. تبقى تطبيقاتك وفئاتك.";
 "Standalone" = "مستقل";
 "HomePad + ⟦Dock⟧" = "HomePad + ”⟦Dock⟧“";
+"HomePad + Taskbar" = "HomePad + شريط المهام";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "إخفاء ”⟦Dock⟧“";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "يشغّل الإخفاء التلقائي مع تأخير طويل جدًا، فلا يظهر ”⟦Dock⟧“ أبدًا. يبقى Cmd-Tab و”⟦Mission Control⟧“ يعملان.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "مثل Windows: شريط مهام على طول أسفل الشاشة فيه زر ابدأ وتطبيقاتك قيد التشغيل، التي تخرج حينها من لوحة HomePad. يُخفى ”⟦Dock⟧“ خلال ذلك، وتُقصَّر النوافذ التي تمتد تحت شريط المهام لتتسع فوقه (يتطلب ”⟦Accessibility⟧“).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ليس في ”⟦Dock⟧“ بعد. اسحب أيقونته من ”⟦Applications⟧“ إلى ”⟦Dock⟧“؛ وحتى ذلك الحين تُفتح اللوحة في المنتصف.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "العثور على الأيقونة يحتاج إلى إذن ”⟦Accessibility⟧“، لذا تُفتح اللوحة في المنتصف الآن. اسمح به في علامة التبويب ”الأذونات“.";
-"These settings are for Taskbar mode." = "هذه الإعدادات خاصة بوضع شريط المهام.";
-"Use Taskbar Mode" = "استخدام وضع شريط المهام";
+"These settings are for HomePad + Taskbar mode." = "هذه الإعدادات خاصة بوضع HomePad + شريط المهام.";
+"Use HomePad + Taskbar" = "استخدام HomePad + شريط المهام";
 "Automatically hide the taskbar" = "إخفاء شريط المهام تلقائيًا";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "ينزلق شريط المهام بعيدًا حتى تترك المؤشر عند الحافة السفلية للشاشة. ويبقى ظاهرًا ما دام HomePad أو إحدى نوافذه المنبثقة مفتوحًا، وتستطيع النوافذ حينها استخدام الشاشة كلها.";
 "Delay before showing" = "التأخير قبل الإظهار";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "ستُستبدل قائمة ”الأساسيات“ الحالية وترتيبها. تبقى الفئات الأخرى.";
 "Replace" = "استبدال";
 "Jump to a specific window and double-tap a modifier key." = "الانتقال إلى نافذة معينة والنقر مرتين على مفتاح تعديل.";
-"Window previews when you hover a running app." = "معاينات النوافذ عند وضع المؤشر على تطبيق قيد التشغيل.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "العثور على الملفات في ”⟦Documents⟧“ و”⟦Desktop⟧“ و”⟦Downloads⟧“. شغّل HomePad في القائمة التي تُفتح.";
 "Press keys…" = "اضغط على المفاتيح…";
 "None" = "لا شيء";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "قد يكون %@ مستخدمًا بالفعل";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "لم تصل ضغطة اختبار لهذا الاختصار إلى HomePad، أي أن تطبيقًا آخر يستقبلها أولًا، لكن macOS لا يخبر بأي تطبيق. تحقق من إعدادات الاختصارات في تطبيقات التشغيل السريع أو المساعدات التي تستخدمها، أو اختر اختصارًا آخر هنا.";
 "Choose Another Shortcut" = "اختيار اختصار آخر";
+"Show desktop" = "إظهار سطح المكتب";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: متصل";
 "Ethernet: connected" = "إيثرنت: متصل";
 "Connected to the internet" = "متصل بالإنترنت";

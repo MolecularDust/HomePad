@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "간단한 두 단계면 준비가 끝납니다. 나중에 설정에서 모두 변경할 수 있습니다.",
  "1. Allow access": "1. 접근 허용",
  "Screen Recording": "화면 기록",
- "Shows a preview of each window when you hover a running app.": "실행 중인 앱 위에 포인터를 올리면 각 윈도우의 미리보기를 보여줍니다.",
  "Accessibility": "손쉬운 사용",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "선택한 윈도우로 이동하고 이중 탭 단축키를 사용할 수 있게 합니다.",
  "Full Disk Access": "전체 디스크 접근 권한",
@@ -166,7 +165,6 @@
  "Items": "항목",
  "Permissions": "권한",
  "Jump to a specific window and double-tap a modifier key.": "특정 윈도우로 이동하고 보조 키를 이중 탭합니다.",
- "Window previews when you hover a running app.": "실행 중인 앱 위에 포인터를 올리면 윈도우 미리보기를 보여줍니다.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "‘⟦Documents⟧’, ‘⟦Desktop⟧’ 및 ‘⟦Downloads⟧’의 파일을 찾습니다. 열리는 목록에서 HomePad를 켜십시오.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "‘⟦Dock⟧’ 가리기",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "열기",
  "Panel": "패널",
- "These settings are for Taskbar mode.": "이 설정은 작업 표시줄 모드에 적용됩니다.",
- "Use Taskbar Mode": "작업 표시줄 모드 사용",
+ "These settings are for HomePad + Taskbar mode.": "이 설정은 HomePad + 작업 표시줄 모드에 적용됩니다.",
+ "Use HomePad + Taskbar": "HomePad + 작업 표시줄 사용",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "아이콘을 찾으려면 ‘⟦Accessibility⟧’ 권한이 필요하므로 지금은 패널이 가운데에 열립니다. ‘권한’ 탭에서 허용하십시오.",
  "Sound": "사운드",
  "⟦Sound⟧ Settings…": "‘⟦Sound⟧’ 설정…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "HomePad에서 고정 해제",
  "Automatically hide the taskbar": "작업 표시줄 자동으로 가리기",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "화면 아래쪽 가장자리에 포인터를 두기 전까지 작업 표시줄이 밀려 나가 있습니다. HomePad나 그 팝업이 열려 있는 동안에는 그대로 있으며, 윈도우는 화면 전체를 사용할 수 있습니다.",
- "Delay before showing": "표시 전 지연 시간"
+ "Delay before showing": "표시 전 지연 시간",
+ "HomePad + Taskbar": "HomePad + 작업 표시줄",
+ "Show desktop": "데스크탑 보기",
+ "Window previews and showing or minimizing all windows together.": "윈도우 미리보기 및 모든 윈도우를 한 번에 표시하거나 최소화합니다."
 }

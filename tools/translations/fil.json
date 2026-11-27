@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Dalawang mabilis na hakbang at handa ka na. Mababago mo ang lahat mamaya sa Mga Setting.",
  "1. Allow access": "1. Payagan ang access",
  "Screen Recording": "Screen Recording",
- "Shows a preview of each window when you hover a running app.": "Nagpapakita ng preview ng bawat window kapag itinapat mo ang pointer sa isang tumatakbong app.",
  "Accessibility": "Accessibility",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Lumilipat sa window na pipiliin mo, at pinapagana ang shortcut na double-tap.",
  "Full Disk Access": "Full Disk Access",
@@ -166,7 +165,6 @@
  "Items": "Mga Item",
  "Permissions": "Mga Pahintulot",
  "Jump to a specific window and double-tap a modifier key.": "Lumipat sa isang partikular na window at i-double tap ang isang modifier key.",
- "Window previews when you hover a running app.": "Mga preview ng window kapag itinapat mo ang pointer sa tumatakbong app.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Maghanap ng mga file sa “⟦Documents⟧”, “⟦Desktop⟧” at “⟦Downloads⟧”. I-on ang HomePad sa listahang bubukas.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Itago ang “⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Pagbubukas",
  "Panel": "Panel",
- "These settings are for Taskbar mode.": "Para sa Taskbar mode ang mga setting na ito.",
- "Use Taskbar Mode": "Gamitin ang Taskbar Mode",
+ "These settings are for HomePad + Taskbar mode.": "Para sa HomePad + Taskbar mode ang mga setting na ito.",
+ "Use HomePad + Taskbar": "Gamitin ang HomePad + Taskbar",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa tab na “Mga Pahintulot”.",
  "Sound": "Sound",
  "⟦Sound⟧ Settings…": "Mga Setting ng “⟦Sound⟧”…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "I-unpin sa HomePad",
  "Automatically hide the taskbar": "Awtomatikong itago ang taskbar",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Dumudulas palayo ang taskbar hanggang ipahinga mo ang pointer sa ibabang gilid ng screen. Nananatili ito habang bukas ang HomePad o isa sa mga pop-up nito, at magagamit na ng mga window ang buong screen.",
- "Delay before showing": "Antala bago ipakita"
+ "Delay before showing": "Antala bago ipakita",
+ "HomePad + Taskbar": "HomePad + Taskbar",
+ "Show desktop": "Ipakita ang desktop",
+ "Window previews and showing or minimizing all windows together.": "Mga preview ng window at sabay-sabay na pagpapakita o pag-minimize ng lahat ng window."
 }

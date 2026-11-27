@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Dalawang mabilis na hakbang at handa ka na. Mababago mo ang lahat mamaya sa Mga Setting.";
 "1. Allow access" = "1. Payagan ang access";
 "Screen Recording" = "Screen Recording";
-"Shows a preview of each window when you hover a running app." = "Nagpapakita ng preview ng bawat window kapag itinapat mo ang pointer sa isang tumatakbong app.";
+"Window previews and showing or minimizing all windows together." = "Mga preview ng window at sabay-sabay na pagpapakita o pag-minimize ng lahat ng window.";
 "Accessibility" = "Accessibility";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Lumilipat sa window na pipiliin mo, at pinapagana ang shortcut na double-tap.";
 "Full Disk Access" = "Full Disk Access";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ibinabalik nito ang shortcut (⌥Space), ino-off ang double-tap at hot corners, nagse-set ng 8 icon bawat hanay at ng karaniwang taas ng hanay at pagitan ng icon, ipinapakita ang seksyong Tumatakbo (nakatago ang mga naka-minimize na window), ipinapakita muli ang icon sa menu bar at ang “⟦Dock⟧”, at ino-off ang pagbukas sa pag-login. Mananatili ang mga app at kategorya mo.";
 "Standalone" = "Hiwalay";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + Taskbar";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Itago ang “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Ino-on ang auto-hide na may napakatagal na delay, kaya hindi kailanman lilitaw ang “⟦Dock⟧”. Gumagana pa rin ang Cmd-Tab at “⟦Mission Control⟧”.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Tulad ng Windows: isang taskbar sa ibaba ng screen na may Start button at ang mga tumatakbong app mo, na aalis noon sa panel ng HomePad. Nakatago ang “⟦Dock⟧” habang ganito, at pinaiikli ang mga window na umaabot sa ilalim ng taskbar para magkasya sa itaas nito (kailangan ng “⟦Accessibility⟧”).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "Wala pa ang HomePad sa “⟦Dock⟧”. I-drag ang icon nito mula sa “⟦Applications⟧” papunta sa “⟦Dock⟧”; hanggang noon, bubukas ang panel sa gitna.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Kailangan ng pahintulot na “⟦Accessibility⟧” para mahanap ang icon, kaya sa ngayon ay bubukas ang panel sa gitna. Payagan ito sa tab na “Mga Pahintulot”.";
-"These settings are for Taskbar mode." = "Para sa Taskbar mode ang mga setting na ito.";
-"Use Taskbar Mode" = "Gamitin ang Taskbar Mode";
+"These settings are for HomePad + Taskbar mode." = "Para sa HomePad + Taskbar mode ang mga setting na ito.";
+"Use HomePad + Taskbar" = "Gamitin ang HomePad + Taskbar";
 "Automatically hide the taskbar" = "Awtomatikong itago ang taskbar";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Dumudulas palayo ang taskbar hanggang ipahinga mo ang pointer sa ibabang gilid ng screen. Nananatili ito habang bukas ang HomePad o isa sa mga pop-up nito, at magagamit na ng mga window ang buong screen.";
 "Delay before showing" = "Antala bago ipakita";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Papalitan ang kasalukuyang listahan ng Mahahalaga at ang pagkakasunod-sunod nito. Mananatili ang ibang kategorya.";
 "Replace" = "Palitan";
 "Jump to a specific window and double-tap a modifier key." = "Lumipat sa isang partikular na window at i-double tap ang isang modifier key.";
-"Window previews when you hover a running app." = "Mga preview ng window kapag itinapat mo ang pointer sa tumatakbong app.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Maghanap ng mga file sa “⟦Documents⟧”, “⟦Desktop⟧” at “⟦Downloads⟧”. I-on ang HomePad sa listahang bubukas.";
 "Press keys…" = "Pindutin ang mga key…";
 "None" = "Wala";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "Maaaring ginagamit na ang %@";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Hindi umabot sa HomePad ang test press ng shortcut na ito, kaya ibang app ang unang tumatanggap nito, pero hindi sinasabi ng macOS kung alin. Tingnan ang mga shortcut setting ng mga launcher o assistant app na ginagamit mo, o pumili ng ibang shortcut dito.";
 "Choose Another Shortcut" = "Pumili ng Ibang Shortcut";
+"Show desktop" = "Ipakita ang desktop";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: nakakonekta";
 "Ethernet: connected" = "Ethernet: nakakonekta";
 "Connected to the internet" = "Nakakonekta sa internet";

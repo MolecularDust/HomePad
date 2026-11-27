@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Dua langkah singkat dan Anda siap. Anda dapat mengubah semuanya nanti di Pengaturan.",
  "1. Allow access": "1. Izinkan akses",
  "Screen Recording": "Perekaman Layar",
- "Shows a preview of each window when you hover a running app.": "Menampilkan pratinjau setiap jendela saat Anda mengarahkan penunjuk ke app yang berjalan.",
  "Accessibility": "Aksesibilitas",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Beralih ke jendela yang Anda pilih, dan menjalankan pintasan ketuk dua kali.",
  "Full Disk Access": "Akses Disk Penuh",
@@ -166,7 +165,6 @@
  "Items": "Item",
  "Permissions": "Izin",
  "Jump to a specific window and double-tap a modifier key.": "Beralih ke jendela tertentu dan mengetuk dua kali tombol pengubah.",
- "Window previews when you hover a running app.": "Pratinjau jendela saat Anda mengarahkan penunjuk ke app yang berjalan.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Menemukan file di “⟦Documents⟧”, “⟦Desktop⟧”, dan “⟦Downloads⟧”. Nyalakan HomePad di daftar yang terbuka.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "Sembunyikan “⟦Dock⟧”",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "Membuka",
  "Panel": "Panel",
- "These settings are for Taskbar mode.": "Pengaturan ini untuk mode Bilah tugas.",
- "Use Taskbar Mode": "Gunakan Mode Bilah Tugas",
+ "These settings are for HomePad + Taskbar mode.": "Pengaturan ini untuk mode HomePad + Bilah tugas.",
+ "Use HomePad + Taskbar": "Gunakan HomePad + Bilah tugas",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Menemukan ikon memerlukan izin “⟦Accessibility⟧”, jadi untuk sementara panel terbuka di tengah. Izinkan di tab “Izin”.",
  "Sound": "Suara",
  "⟦Sound⟧ Settings…": "Pengaturan “⟦Sound⟧”…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "Lepas Sematan dari HomePad",
  "Automatically hide the taskbar": "Sembunyikan bilah tugas secara otomatis",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Bilah tugas bergeser pergi sampai Anda mendiamkan penunjuk di tepi bawah layar. Bilah tetap terlihat selama HomePad atau salah satu pop-up-nya terbuka, dan jendela dapat memakai seluruh layar.",
- "Delay before showing": "Jeda sebelum ditampilkan"
+ "Delay before showing": "Jeda sebelum ditampilkan",
+ "HomePad + Taskbar": "HomePad + Bilah tugas",
+ "Show desktop": "Tampilkan desktop",
+ "Window previews and showing or minimizing all windows together.": "Pratinjau jendela serta menampilkan atau meminimalkan semua jendela sekaligus."
 }

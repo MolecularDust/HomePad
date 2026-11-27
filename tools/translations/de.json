@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "Zwei kurze Schritte, und alles ist bereit. Später kannst du alles in den Einstellungen ändern.",
  "1. Allow access": "1. Zugriff erlauben",
  "Screen Recording": "Bildschirmaufnahme",
- "Shows a preview of each window when you hover a running app.": "Zeigt eine Vorschau jedes Fensters, wenn du auf eine laufende App zeigst.",
  "Accessibility": "Bedienungshilfen",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "Springt zum gewählten Fenster und ermöglicht das Doppeltippen.",
  "Full Disk Access": "Festplattenvollzugriff",
@@ -166,7 +165,6 @@
  "Items": "Objekte",
  "Permissions": "Berechtigungen",
  "Jump to a specific window and double-tap a modifier key.": "Zu einem bestimmten Fenster springen und eine Sondertaste doppelt tippen.",
- "Window previews when you hover a running app.": "Fenstervorschau, wenn du auf eine laufende App zeigst.",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "Dateien in „⟦Documents⟧“, „⟦Desktop⟧“ und „⟦Downloads⟧“ finden. Schalte HomePad in der Liste ein, die sich öffnet.",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "„⟦Dock⟧“ ausblenden",
@@ -297,8 +295,8 @@
  "Wi-Fi": "WLAN",
  "Opening": "Öffnen",
  "Panel": "Feld",
- "These settings are for Taskbar mode.": "Diese Einstellungen gelten im Taskleisten-Modus.",
- "Use Taskbar Mode": "Taskleisten-Modus verwenden",
+ "These settings are for HomePad + Taskbar mode.": "Diese Einstellungen gelten im Modus HomePad + Taskleiste.",
+ "Use HomePad + Taskbar": "HomePad + Taskleiste verwenden",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "Um das Symbol zu finden, braucht HomePad die Berechtigung „⟦Accessibility⟧“, daher öffnet sich das Feld vorerst in der Mitte. Erlaube sie im Tab „Berechtigungen“.",
  "Sound": "Ton",
  "⟦Sound⟧ Settings…": "Einstellungen für „⟦Sound⟧“ …",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "Von HomePad lösen",
  "Automatically hide the taskbar": "Taskleiste automatisch ausblenden",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "Die Taskleiste fährt weg, bis du den Zeiger am unteren Bildschirmrand ruhen lässt. Sie bleibt, solange HomePad oder eines seiner Pop-ups geöffnet ist, und Fenster können dann den ganzen Bildschirm nutzen.",
- "Delay before showing": "Verzögerung bis zum Einblenden"
+ "Delay before showing": "Verzögerung bis zum Einblenden",
+ "HomePad + Taskbar": "HomePad + Taskleiste",
+ "Show desktop": "Desktop anzeigen",
+ "Window previews and showing or minimizing all windows together.": "Fenstervorschauen und alle Fenster gemeinsam anzeigen oder minimieren."
 }

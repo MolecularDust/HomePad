@@ -36,8 +36,41 @@ struct TaskbarTrayView: View {
             if showsVolume { VolumeItem() }
             if showsBattery && battery.present { BatteryItem() }
             if showsClock { ClockItem() }
+            ShowDesktopButton()
         }
-        .padding(.trailing, 8)
+    }
+}
+
+/// Windows' small strip at the outer edge of the tray. It keeps its hit area even when every tray item is off,
+/// and mirrors with the rest of the taskbar in right-to-left languages.
+private struct ShowDesktopButton: View {
+    @ObservedObject private var desktop = ShowDesktop.shared
+    @ObservedObject private var drag = TaskbarDrag.shared
+    @State private var hovering = false
+    @State private var frame = CGRect.zero
+
+    var body: some View {
+        Button(action: {
+            TaskbarLabel.shared.hover(nil, over: nil)
+            ShowDesktop.shared.toggle()
+        }) {
+            Rectangle()
+                .fill(Color.primary.opacity(hovering && drag.item == nil ? 0.3 : 0))
+                .frame(width: 2, height: 32)
+                .frame(width: 12, height: Taskbar.height)
+                .background(Color.primary.opacity(hovering && drag.item == nil ? 0.08 : 0))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(desktop.isBusy || drag.item != nil)
+        .accessibilityLabel(Text("Show desktop"))
+        .accessibilityIdentifier("show-desktop")
+        .background(FrameReader(frame: $frame))
+        .onHover { inside in
+            hovering = inside
+            if inside { WindowPreviewController.shared.hideNow() }
+            TaskbarLabel.shared.hover(inside ? L("Show desktop") : nil, over: Taskbar.shared.screenRect(frame))
+        }
     }
 }
 

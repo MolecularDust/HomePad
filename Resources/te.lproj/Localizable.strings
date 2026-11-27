@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "రెండు చిన్న దశలు, ఆపై సిద్ధం. తర్వాత సెట్టింగ్‌లలో అన్నీ మార్చవచ్చు.";
 "1. Allow access" = "1. యాక్సెస్ అనుమతించండి";
 "Screen Recording" = "స్క్రీన్ రికార్డింగ్";
-"Shows a preview of each window when you hover a running app." = "నడుస్తున్న యాప్‌పై పాయింటర్ ఉంచినప్పుడు ప్రతి విండో ప్రివ్యూ చూపుతుంది.";
+"Window previews and showing or minimizing all windows together." = "విండోల ప్రివ్యూలు మరియు అన్ని విండోలను ఒకేసారి చూపించడం లేదా కనిష్టీకరించడం.";
 "Accessibility" = "యాక్సెసిబిలిటీ";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "మీరు ఎంచుకున్న విండోకు తీసుకెళ్తుంది, డబుల్-ట్యాప్ షార్ట్‌కట్‌ను పనిచేయిస్తుంది.";
 "Full Disk Access" = "పూర్తి డిస్క్ యాక్సెస్";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "ఇది షార్ట్‌కట్‌ను (⌥Space) పునరుద్ధరిస్తుంది, డబుల్-ట్యాప్, హాట్ కార్నర్‌లను ఆఫ్ చేస్తుంది, ప్రతి వరుసకు 8 ఐకాన్‌లు, ప్రామాణిక వరుస ఎత్తు, ఐకాన్ దూరం సెట్ చేస్తుంది, నడుస్తున్నవి విభాగాన్ని (కనిష్టీకరించిన విండోలు దాచి) చూపుతుంది, మెనూ బార్ ఐకాన్, “⟦Dock⟧” మళ్లీ చూపుతుంది, లాగిన్‌లో తెరవడం ఆఫ్ చేస్తుంది. మీ యాప్‌లు, వర్గాలు అలాగే ఉంటాయి.";
 "Standalone" = "స్వతంత్రం";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + టాస్క్‌బార్";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "“⟦Dock⟧” దాచండి";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "చాలా ఎక్కువ ఆలస్యంతో ఆటో-హైడ్ ఆన్ చేస్తుంది, కాబట్టి “⟦Dock⟧” ఎప్పుడూ కనిపించదు. Cmd-Tab, “⟦Mission Control⟧” పనిచేస్తూనే ఉంటాయి.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Windows లాగా: స్క్రీన్ కింద స్టార్ట్ బటన్, నడుస్తున్న యాప్‌లతో ఒక టాస్క్‌బార్; ఆ యాప్‌లు అప్పుడు HomePad ప్యానెల్ నుండి వెళ్లిపోతాయి. ఆ సమయంలో “⟦Dock⟧” దాచబడుతుంది, టాస్క్‌బార్ కిందికి వెళ్లే విండోలు దాని పైన సరిపోయేలా చిన్నవి చేయబడతాయి (“⟦Accessibility⟧” అవసరం).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ఇంకా “⟦Dock⟧”లో లేదు. దాని ఐకాన్‌ను “⟦Applications⟧” నుండి “⟦Dock⟧”లోకి లాగండి; అప్పటి వరకు ప్యానెల్ మధ్యలో తెరుచుకుంటుంది.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "ఐకాన్ కనుగొనడానికి “⟦Accessibility⟧” అనుమతి అవసరం, కాబట్టి ప్రస్తుతం ప్యానెల్ మధ్యలో తెరుచుకుంటుంది. “అనుమతులు” ట్యాబ్‌లో దీన్ని అనుమతించండి.";
-"These settings are for Taskbar mode." = "ఈ సెట్టింగ్‌లు టాస్క్‌బార్ మోడ్ కోసం.";
-"Use Taskbar Mode" = "టాస్క్‌బార్ మోడ్ ఉపయోగించండి";
+"These settings are for HomePad + Taskbar mode." = "ఈ సెట్టింగ్‌లు HomePad + టాస్క్‌బార్ మోడ్ కోసం.";
+"Use HomePad + Taskbar" = "HomePad + టాస్క్‌బార్ ఉపయోగించండి";
 "Automatically hide the taskbar" = "టాస్క్‌బార్‌ను ఆటోమేటిక్‌గా దాచండి";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "మీరు పాయింటర్‌ను స్క్రీన్ దిగువ అంచున ఉంచే వరకు టాస్క్‌బార్ జారి వెళ్లిపోతుంది. HomePad లేదా దాని పాప్-అప్ తెరిచి ఉన్నంత సేపు ఇది ఉంటుంది, అప్పుడు విండోలు మొత్తం స్క్రీన్‌ను ఉపయోగించగలవు.";
 "Delay before showing" = "చూపించే ముందు ఆలస్యం";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "మీ ప్రస్తుత ముఖ్యమైనవి జాబితా, దాని క్రమం భర్తీ చేయబడతాయి. ఇతర వర్గాలు అలాగే ఉంటాయి.";
 "Replace" = "భర్తీ చేయండి";
 "Jump to a specific window and double-tap a modifier key." = "నిర్దిష్ట విండోకు వెళ్లడం, మాడిఫైయర్ కీని డబుల్-ట్యాప్ చేయడం.";
-"Window previews when you hover a running app." = "నడుస్తున్న యాప్‌పై పాయింటర్ ఉంచినప్పుడు విండో ప్రివ్యూలు.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "“⟦Documents⟧”, “⟦Desktop⟧”, “⟦Downloads⟧”లలో ఫైల్‌లు కనుగొనండి. తెరుచుకునే జాబితాలో HomePad ఆన్ చేయండి.";
 "Press keys…" = "కీలు నొక్కండి…";
 "None" = "ఏదీ కాదు";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ ఇప్పటికే ఉపయోగంలో ఉండవచ్చు";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "ఈ షార్ట్‌కట్ పరీక్ష నొక్కడం HomePadకు చేరలేదు, కాబట్టి మరో యాప్ దాన్ని ముందుగా అందుకుంటోంది, కానీ ఏ యాప్‌నో macOS చెప్పదు. మీరు ఉపయోగించే లాంచర్ లేదా అసిస్టెంట్ యాప్‌ల షార్ట్‌కట్ సెట్టింగ్‌లు చూడండి, లేదా ఇక్కడ వేరే షార్ట్‌కట్ ఎంచుకోండి.";
 "Choose Another Shortcut" = "వేరే షార్ట్‌కట్ ఎంచుకోండి";
+"Show desktop" = "డెస్క్‌టాప్‌ను చూపించు";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: కనెక్ట్ అయింది";
 "Ethernet: connected" = "ఈథర్నెట్: కనెక్ట్ అయింది";
 "Connected to the internet" = "ఇంటర్నెట్‌కు కనెక్ట్ అయింది";

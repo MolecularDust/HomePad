@@ -130,7 +130,6 @@
  "Two quick steps and you're set. You can change everything later in Settings.": "দুটি ছোট ধাপ, তারপরই প্রস্তুত। পরে সেটিংসে সবকিছু বদলাতে পারবেন।",
  "1. Allow access": "১. অ্যাক্সেসের অনুমতি দিন",
  "Screen Recording": "স্ক্রিন রেকর্ডিং",
- "Shows a preview of each window when you hover a running app.": "চলমান কোনো অ্যাপের ওপর পয়েন্টার রাখলে প্রতিটি উইন্ডোর প্রিভিউ দেখায়।",
  "Accessibility": "অ্যাক্সেসিবিলিটি",
  "Jumps to the window you pick, and powers the double-tap shortcut.": "আপনার বেছে নেওয়া উইন্ডোতে নিয়ে যায়, আর ডাবল-ট্যাপ শর্টকাট চালায়।",
  "Full Disk Access": "ফুল ডিস্ক অ্যাক্সেস",
@@ -166,7 +165,6 @@
  "Items": "আইটেম",
  "Permissions": "অনুমতি",
  "Jump to a specific window and double-tap a modifier key.": "নির্দিষ্ট উইন্ডোতে যান এবং একটি মডিফায়ার কী ডাবল-ট্যাপ করুন।",
- "Window previews when you hover a running app.": "চলমান অ্যাপের ওপর পয়েন্টার রাখলে উইন্ডোর প্রিভিউ।",
  "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.": "“⟦Documents⟧”, “⟦Desktop⟧” ও “⟦Downloads⟧”-এ ফাইল খুঁজুন। যে তালিকা খুলবে, সেখানে HomePad চালু করুন।",
  "Dock": "Dock",
  "Hide the ⟦Dock⟧": "“⟦Dock⟧” লুকান",
@@ -297,8 +295,8 @@
  "Wi-Fi": "Wi-Fi",
  "Opening": "খোলা",
  "Panel": "প্যানেল",
- "These settings are for Taskbar mode.": "এই সেটিংস টাস্কবার মোডের জন্য।",
- "Use Taskbar Mode": "টাস্কবার মোড ব্যবহার করুন",
+ "These settings are for HomePad + Taskbar mode.": "এই সেটিংস HomePad + টাস্কবার মোডের জন্য।",
+ "Use HomePad + Taskbar": "HomePad + টাস্কবার ব্যবহার করুন",
  "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.": "আইকন খুঁজতে “⟦Accessibility⟧” অনুমতি লাগে, তাই আপাতত প্যানেল মাঝখানে খোলে। “অনুমতি” ট্যাবে এটি অনুমতি দিন।",
  "Sound": "Sound",
  "⟦Sound⟧ Settings…": "“⟦Sound⟧” সেটিংস…",
@@ -306,5 +304,8 @@
  "Unpin from HomePad": "HomePad থেকে আনপিন করুন",
  "Automatically hide the taskbar": "টাস্কবার স্বয়ংক্রিয়ভাবে লুকান",
  "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.": "পয়েন্টার স্ক্রিনের নিচের কিনারায় না রাখা পর্যন্ত টাস্কবার সরে থাকে। HomePad বা তার কোনো পপ-আপ খোলা থাকলে এটি থেকে যায়, আর উইন্ডো তখন পুরো স্ক্রিন ব্যবহার করতে পারে।",
- "Delay before showing": "দেখানোর আগের বিলম্ব"
+ "Delay before showing": "দেখানোর আগের বিলম্ব",
+ "HomePad + Taskbar": "HomePad + টাস্কবার",
+ "Show desktop": "ডেস্কটপ দেখান",
+ "Window previews and showing or minimizing all windows together.": "উইন্ডোর পূর্বরূপ এবং সব উইন্ডো একসঙ্গে দেখানো বা ছোট করা।"
 }

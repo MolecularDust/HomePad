@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Hai bước nhanh là xong. Bạn có thể thay đổi mọi thứ sau trong Cài đặt.";
 "1. Allow access" = "1. Cho phép truy cập";
 "Screen Recording" = "Ghi màn hình";
-"Shows a preview of each window when you hover a running app." = "Hiển thị bản xem trước của từng cửa sổ khi bạn di con trỏ lên một ứng dụng đang chạy.";
+"Window previews and showing or minimizing all windows together." = "Xem trước cửa sổ và hiển thị hoặc thu nhỏ tất cả cửa sổ cùng lúc.";
 "Accessibility" = "Trợ năng";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Chuyển tới cửa sổ bạn chọn và giúp phím tắt chạm hai lần hoạt động.";
 "Full Disk Access" = "Truy cập toàn bộ ổ đĩa";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Thao tác này khôi phục phím tắt (⌥Phím cách), tắt chạm hai lần và góc nóng, đặt 8 biểu tượng mỗi hàng cùng chiều cao hàng và khoảng cách biểu tượng chuẩn, hiện phần Đang chạy (ẩn cửa sổ thu nhỏ), hiện biểu tượng thanh menu và “⟦Dock⟧” trở lại, đồng thời tắt mở khi đăng nhập. Ứng dụng và danh mục của bạn được giữ nguyên.";
 "Standalone" = "Độc lập";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + Thanh tác vụ";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Ẩn “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Bật tự động ẩn với độ trễ rất dài, để “⟦Dock⟧” không bao giờ hiện lên. Cmd-Tab và “⟦Mission Control⟧” vẫn hoạt động.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Giống Windows: một thanh tác vụ dọc đáy màn hình với nút Bắt đầu và các ứng dụng đang chạy, những ứng dụng này rời khỏi bảng HomePad. Trong lúc đó “⟦Dock⟧” bị ẩn, và cửa sổ tràn xuống dưới thanh tác vụ được thu ngắn để vừa phía trên nó (cần “⟦Accessibility⟧”).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad chưa có trong “⟦Dock⟧”. Kéo biểu tượng của nó từ “⟦Applications⟧” vào “⟦Dock⟧”; cho đến lúc đó bảng mở ở giữa.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Tìm biểu tượng cần quyền “⟦Accessibility⟧”, nên hiện tại bảng mở ở giữa. Hãy cho phép trong thẻ “Quyền”.";
-"These settings are for Taskbar mode." = "Các cài đặt này dành cho chế độ Thanh tác vụ.";
-"Use Taskbar Mode" = "Dùng chế độ Thanh tác vụ";
+"These settings are for HomePad + Taskbar mode." = "Các cài đặt này dành cho chế độ HomePad + Thanh tác vụ.";
+"Use HomePad + Taskbar" = "Dùng HomePad + Thanh tác vụ";
 "Automatically hide the taskbar" = "Tự động ẩn thanh tác vụ";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Thanh tác vụ trượt đi cho đến khi bạn đặt con trỏ ở mép dưới màn hình. Nó vẫn hiện khi HomePad hoặc một cửa sổ bật lên của nó đang mở, và cửa sổ có thể dùng toàn bộ màn hình.";
 "Delay before showing" = "Độ trễ trước khi hiện";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Danh sách Thiết yếu hiện tại và thứ tự của nó sẽ bị thay thế. Các danh mục khác được giữ nguyên.";
 "Replace" = "Thay thế";
 "Jump to a specific window and double-tap a modifier key." = "Chuyển tới một cửa sổ cụ thể và chạm hai lần phím bổ trợ.";
-"Window previews when you hover a running app." = "Xem trước cửa sổ khi bạn di con trỏ lên ứng dụng đang chạy.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Tìm tệp trong “⟦Documents⟧”, “⟦Desktop⟧” và “⟦Downloads⟧”. Bật HomePad trong danh sách mở ra.";
 "Press keys…" = "Nhấn phím…";
 "None" = "Không";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ có thể đã được sử dụng";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Lần nhấn thử phím tắt này không tới được HomePad, nên một ứng dụng khác nhận nó trước, nhưng macOS không cho biết là ứng dụng nào. Hãy kiểm tra cài đặt phím tắt của các ứng dụng trình khởi chạy hoặc trợ lý bạn dùng, hoặc chọn phím tắt khác ở đây.";
 "Choose Another Shortcut" = "Chọn phím tắt khác";
+"Show desktop" = "Hiển thị màn hình nền";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: đã kết nối";
 "Ethernet: connected" = "Ethernet: đã kết nối";
 "Connected to the internet" = "Đã kết nối Internet";

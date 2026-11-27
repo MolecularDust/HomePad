@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Due passaggi veloci ed è tutto pronto. Puoi cambiare tutto in seguito nelle Impostazioni.";
 "1. Allow access" = "1. Consenti l’accesso";
 "Screen Recording" = "Registrazione schermo";
-"Shows a preview of each window when you hover a running app." = "Mostra un’anteprima di ogni finestra quando passi sopra un’app aperta.";
+"Window previews and showing or minimizing all windows together." = "Anteprime delle finestre e visualizzazione o riduzione a icona di tutte le finestre insieme.";
 "Accessibility" = "Accessibilità";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Passa alla finestra che scegli e rende possibile il doppio tocco.";
 "Full Disk Access" = "Accesso completo al disco";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Ripristina l’abbreviazione (⌥Spazio), disattiva doppio tocco e angoli attivi, imposta 8 icone per riga con altezza riga e spaziatura standard, mostra la sezione “In uso” (senza finestre ridotte), mostra l’icona della barra dei menu e di nuovo “⟦Dock⟧” e disattiva l’apertura al login. Le tue app e categorie restano.";
 "Standalone" = "Autonoma";
 "HomePad + ⟦Dock⟧" = "HomePad + “⟦Dock⟧”";
+"HomePad + Taskbar" = "HomePad + Barra delle applicazioni";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Nascondi “⟦Dock⟧”";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Attiva il nascondimento automatico con un ritardo molto lungo, così “⟦Dock⟧” non compare mai. Cmd-Tab e “⟦Mission Control⟧” continuano a funzionare.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Come in Windows: una barra delle applicazioni in fondo allo schermo con un pulsante Start e le app aperte, che lasciano il pannello di HomePad. “⟦Dock⟧” resta nascosto nel frattempo, e le finestre che arrivano sotto la barra vengono accorciate per stare sopra (richiede “⟦Accessibility⟧”).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad non è ancora in “⟦Dock⟧”. Trascina la sua icona da “⟦Applications⟧” a “⟦Dock⟧”; fino ad allora il pannello si apre al centro.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Per trovare l’icona serve il permesso “⟦Accessibility⟧”, quindi per ora il pannello si apre al centro. Consentilo nella scheda “Permessi”.";
-"These settings are for Taskbar mode." = "Queste impostazioni valgono per la modalità Barra delle applicazioni.";
-"Use Taskbar Mode" = "Usa la modalità Barra delle applicazioni";
+"These settings are for HomePad + Taskbar mode." = "Queste impostazioni valgono per la modalità HomePad + Barra delle applicazioni.";
+"Use HomePad + Taskbar" = "Usa HomePad + Barra delle applicazioni";
 "Automatically hide the taskbar" = "Nascondi automaticamente la barra delle applicazioni";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "La barra delle applicazioni scorre via finché non fermi il puntatore sul bordo inferiore dello schermo. Resta mentre HomePad o uno dei suoi pop-up è aperto, e le finestre possono usare l’intero schermo.";
 "Delay before showing" = "Ritardo prima di mostrarla";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "L’elenco Essenziali attuale e il suo ordine verranno sostituiti. Le altre categorie restano.";
 "Replace" = "Sostituisci";
 "Jump to a specific window and double-tap a modifier key." = "Passa a una finestra specifica e tocca due volte un tasto modificatore.";
-"Window previews when you hover a running app." = "Anteprime delle finestre quando passi sopra un’app aperta.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Trova i file in “⟦Documents⟧”, “⟦Desktop⟧” e “⟦Downloads⟧”. Attiva HomePad nell’elenco che si apre.";
 "Press keys…" = "Premi i tasti…";
 "None" = "Nessuna";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ potrebbe essere già in uso";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Una pressione di prova di questa abbreviazione non è arrivata a HomePad, quindi un’altra app la riceve prima, ma macOS non dice quale. Controlla le abbreviazioni delle app di avvio o assistenti che usi, oppure scegli qui un’altra abbreviazione.";
 "Choose Another Shortcut" = "Scegli un’altra abbreviazione";
+"Show desktop" = "Mostra scrivania";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: connesso";
 "Ethernet: connected" = "Ethernet: connesso";
 "Connected to the internet" = "Connesso a internet";

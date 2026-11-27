@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Two quick steps and you're set. You can change everything later in Settings.";
 "1. Allow access" = "1. Allow access";
 "Screen Recording" = "Screen Recording";
-"Shows a preview of each window when you hover a running app." = "Shows a preview of each window when you hover a running app.";
+"Window previews and showing or minimizing all windows together." = "Window previews and showing or minimizing all windows together.";
 "Accessibility" = "Accessibility";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Jumps to the window you pick, and powers the double-tap shortcut.";
 "Full Disk Access" = "Full Disk Access";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept.";
 "Standalone" = "Standalone";
 "HomePad + ⟦Dock⟧" = "HomePad + ⟦Dock⟧";
+"HomePad + Taskbar" = "HomePad + Taskbar";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Hide the ⟦Dock⟧";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab.";
-"These settings are for Taskbar mode." = "These settings are for Taskbar mode.";
-"Use Taskbar Mode" = "Use Taskbar Mode";
+"These settings are for HomePad + Taskbar mode." = "These settings are for HomePad + Taskbar mode.";
+"Use HomePad + Taskbar" = "Use HomePad + Taskbar";
 "Automatically hide the taskbar" = "Automatically hide the taskbar";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen.";
 "Delay before showing" = "Delay before showing";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Your current Essentials list and its order will be replaced. Other categories are kept.";
 "Replace" = "Replace";
 "Jump to a specific window and double-tap a modifier key." = "Jump to a specific window and double-tap a modifier key.";
-"Window previews when you hover a running app." = "Window previews when you hover a running app.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens.";
 "Press keys…" = "Press keys…";
 "None" = "None";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@ may already be in use";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here.";
 "Choose Another Shortcut" = "Choose Another Shortcut";
+"Show desktop" = "Show desktop";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: connected";
 "Ethernet: connected" = "Ethernet: connected";
 "Connected to the internet" = "Connected to the internet";

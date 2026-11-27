@@ -139,7 +139,7 @@
 "Two quick steps and you're set. You can change everything later in Settings." = "Два быстрых шага — и всё готово. Всё можно изменить позже в Настройках.";
 "1. Allow access" = "1. Разрешите доступ";
 "Screen Recording" = "Запись экрана";
-"Shows a preview of each window when you hover a running app." = "Показывает миниатюру каждого окна, когда вы наводите указатель на запущенное приложение.";
+"Window previews and showing or minimizing all windows together." = "Предпросмотр окон и одновременный показ или сворачивание всех окон.";
 "Accessibility" = "Универсальный доступ";
 "Jumps to the window you pick, and powers the double-tap shortcut." = "Переключает на выбранное окно и включает двойное нажатие.";
 "Full Disk Access" = "Полный доступ к диску";
@@ -176,6 +176,7 @@
 "This restores the shortcut (⌥Space), turns double-tap and hot corners off, sets 8 icons per row and the standard row height and icon spacing, shows the Running section (minimized windows hidden), shows the menu-bar icon, shows the ⟦Dock⟧ again and turns off launch at login. Your apps and categories are kept." = "Это вернёт сочетание клавиш (⌥Пробел), выключит двойное нажатие и активные углы, установит 8 значков в ряду и стандартные высоту ряда и интервал, покажет раздел «Запущенные» (без свёрнутых окон), значок в строке меню и снова «⟦Dock⟧», а также выключит запуск при входе. Ваши приложения и категории сохраняются.";
 "Standalone" = "Отдельно";
 "HomePad + ⟦Dock⟧" = "HomePad + «⟦Dock⟧»";
+"HomePad + Taskbar" = "HomePad + Панель задач";
 "Dock" = "Dock";
 "Hide the ⟦Dock⟧" = "Скрыть «⟦Dock⟧»";
 "Turns on auto-hide with a very long delay, so the ⟦Dock⟧ never pops up. Cmd-Tab and ⟦Mission Control⟧ keep working." = "Включает автоскрытие с очень долгой задержкой, так что «⟦Dock⟧» никогда не появляется. Cmd-Tab и «⟦Mission Control⟧» продолжают работать.";
@@ -185,8 +186,8 @@
 "Like Windows: a taskbar along the bottom of the screen with a Start button and your running apps, which then leave HomePad's panel. The ⟦Dock⟧ is hidden meanwhile, and windows that reach under the taskbar are made shorter to fit above it (needs ⟦Accessibility⟧)." = "Как в Windows: панель задач внизу экрана с кнопкой «Пуск» и запущенными приложениями, которые тогда уходят из панели HomePad. «⟦Dock⟧» на это время скрыт, а окна, заходящие под панель задач, укорачиваются, чтобы поместиться над ней (нужно разрешение «⟦Accessibility⟧»).";
 "HomePad isn't in the ⟦Dock⟧ yet. Drag its icon from ⟦Applications⟧ into the ⟦Dock⟧; until then the panel opens in the middle." = "HomePad ещё нет в «⟦Dock⟧». Перетащите его значок из «⟦Applications⟧» в «⟦Dock⟧»; до тех пор панель открывается по центру.";
 "Finding the icon needs the ⟦Accessibility⟧ permission, so for now the panel opens in the middle. Allow it in the Permissions tab." = "Для поиска значка нужно разрешение «⟦Accessibility⟧», поэтому пока панель открывается по центру. Разрешите его на вкладке «Разрешения».";
-"These settings are for Taskbar mode." = "Эти настройки действуют в режиме панели задач.";
-"Use Taskbar Mode" = "Включить режим панели задач";
+"These settings are for HomePad + Taskbar mode." = "Эти настройки действуют в режиме HomePad + Панель задач.";
+"Use HomePad + Taskbar" = "Включить HomePad + Панель задач";
 "Automatically hide the taskbar" = "Автоматически скрывать панель задач";
 "The taskbar slides away until you rest the pointer on the bottom edge of the screen. It stays while HomePad or one of its pop-ups is open, and windows can then use the whole screen." = "Панель задач уезжает, пока вы не задержите указатель у нижнего края экрана. Она остаётся, пока открыт HomePad или одно из его всплывающих окон, а окна могут занимать весь экран.";
 "Delay before showing" = "Задержка перед показом";
@@ -224,7 +225,6 @@
 "Your current Essentials list and its order will be replaced. Other categories are kept." = "Текущий список «Главное» и его порядок будут заменены. Остальные категории сохранятся.";
 "Replace" = "Заменить";
 "Jump to a specific window and double-tap a modifier key." = "Переключение на нужное окно и двойное нажатие клавиши-модификатора.";
-"Window previews when you hover a running app." = "Миниатюры окон при наведении на запущенное приложение.";
 "Find files in ⟦Documents⟧, ⟦Desktop⟧ and ⟦Downloads⟧. Turn on HomePad in the list that opens." = "Поиск файлов в папках «⟦Documents⟧», «⟦Desktop⟧» и «⟦Downloads⟧». Включите HomePad в открывшемся списке.";
 "Press keys…" = "Нажмите клавиши…";
 "None" = "Нет";
@@ -265,6 +265,7 @@
 "%@ may already be in use" = "%@, возможно, уже занято";
 "A test press of this shortcut didn't reach HomePad, so another app handles it first, but macOS doesn't say which one. Check the shortcut settings of any launcher or assistant apps you run, or choose a different shortcut here." = "Пробное нажатие этого сочетания не дошло до HomePad, значит, его раньше перехватывает другое приложение, но macOS не сообщает, какое. Проверьте сочетания в лаунчерах и ассистентах, которыми пользуетесь, или выберите здесь другое сочетание.";
 "Choose Another Shortcut" = "Выбрать другое сочетание";
+"Show desktop" = "Показать рабочий стол";
 "⟦Wi-Fi⟧: connected" = "⟦Wi-Fi⟧: подключено";
 "Ethernet: connected" = "Ethernet: подключено";
 "Connected to the internet" = "Подключено к интернету";
